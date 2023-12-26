@@ -1,0 +1,31 @@
+PODS:
+  - KMPNativeCoroutinesAsync (1.0.0-ALPHA-4):
+    - KMPNativeCoroutinesCore (= 1.0.0-ALPHA-4)
+  - KMPNativeCoroutinesCore (1.0.0-ALPHA-4)
+  - libPhoneNumber-iOS (0.9.15)
+  - shared (1.0):
+    - KMPNativeCoroutinesAsync (= 1.0.0-ALPHA-4)
+    - libPhoneNumber-iOS
+
+DEPENDENCIES:
+  - shared (from `../shared`)
+
+SPEC REPOS:
+  trunk:
+    - KMPNativeCoroutinesAsync
+    - KMPNativeCoroutinesCore
+    - libPhoneNumber-iOS
+
+EXTERNAL SOURCES:
+  shared:
+    :path: "../shared"
+
+SPEC CHECKSUMS:
+  KMPNativeCoroutinesAsync: 70e9edb1cced4433bc4528876d410e21e8364d72
+  KMPNativeCoroutinesCore: 205faa08d2486ecc3ac29f88063c858a85b33de7
+  libPhoneNumber-iOS: 0a32a9525cf8744fe02c5206eb30d571e38f7d75
+  shared: 4588392ddf30deb8b62bcbd7628522328880ca6b
+
+PODFILE CHECKSUM: a8ab410e20f3e47b631f643fb62f8972df62f41c
+
+COCOAPODS: 1.12.1

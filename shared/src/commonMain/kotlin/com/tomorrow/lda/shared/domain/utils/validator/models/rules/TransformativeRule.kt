@@ -1,0 +1,5 @@
+package com.tomorrow.lda.shared.domain.utils.validator.models.rules
+
+abstract class TransformativeRule<T> : Rule() {
+    abstract fun getInstanceIfValid(value: Any?): T?
+}

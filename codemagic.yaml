@@ -1,0 +1,46 @@
+# Check out https://docs.codemagic.io/getting-started/yaml/for more information
+
+workflows:
+  native-android:
+    name: Native Android
+    instance_type: mac_mini_m1
+    environment:
+      java: 17
+      node: latest
+      groups:
+        - keystore_credentials
+        - google_play
+    scripts:
+      - name: Set Android SDK location
+        script: |
+          echo "sdk.dir=$ANDROID_SDK_ROOT" > "$FCI_BUILD_DIR/local.properties"
+      - name: Set up keystore
+        script: |
+          echo $CM_KEYSTORE | base64 --decode > $FCI_KEYSTORE_PATH
+          cat >> "$FCI_BUILD_DIR/androidApp/key.properties" <<EOF
+          storePassword=$CM_KEYSTORE_PASSWORD
+          keyPassword=$CM_KEY_ALIAS_PASSWORD
+          keyAlias=$CM_KEY_ALIAS_USERNAME
+          storeFile=$FCI_KEYSTORE_PATH
+          EOF
+      - name: Build Android release
+        script: |
+          # Set environment variable so it can be used to increment build number in android/app/build.gradle
+          # Note that tracks can be specified when retrieving latest build number from Google Play, for example:
+          # export NEW_BUILD_NUMBER=$(($(google-play get-latest-build-number --package-name "$PACKAGE_NAME" --tracks=alpha) + 1))
+          # export NEW_BUILD_NUMBER=$(($(google-play get-latest-build-number --package-name "$PACKAGE_NAME") + 1))
+          export NEW_BUILD_NUMBER=$(($(google-play get-latest-build-number --package-name "$PACKAGE_NAME" --tracks=internal) + 1))
+          ./gradlew bundleRelease --warn
+    artifacts:
+      - androidApp/build/outputs/**/**/*.aab
+    publishing:
+      email:
+        recipients:
+          - yammine@tomorrow.services
+        notify:
+          success: true
+          failure: true
+      google_play:
+        credentials: $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS
+        track: internal
+        submit_as_draft: true
