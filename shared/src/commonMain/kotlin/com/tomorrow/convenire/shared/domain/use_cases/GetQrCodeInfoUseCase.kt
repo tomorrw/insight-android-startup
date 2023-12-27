@@ -2,7 +2,6 @@ package com.tomorrow.convenire.shared.domain.use_cases
 
 import com.rickclephas.kmp.nativecoroutines.NativeCoroutines
 import com.tomorrow.convenire.shared.domain.model.QrCodeData
-import com.tomorrow.convenire.shared.domain.model.User
 import com.tomorrow.convenire.shared.domain.repositories.AuthenticationRepository
 import kotlinx.coroutines.flow.Flow
 import org.koin.core.component.KoinComponent
@@ -13,6 +12,6 @@ class GetQrCodeInfoUseCase: KoinComponent {
 
     @NativeCoroutines
     @Throws(Exception::class)
-    fun getQrInfo(): Flow<QrCodeData> = repository.getQr()
+    fun getTicketInfo(): Flow<QrCodeData> = repository.getTicket()
 
 }

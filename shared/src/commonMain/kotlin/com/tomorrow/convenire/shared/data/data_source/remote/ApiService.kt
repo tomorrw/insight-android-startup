@@ -1,7 +1,6 @@
 package com.tomorrow.convenire.shared.data.data_source.remote
 
 import com.tomorrow.convenire.shared.data.data_source.model.*
-import com.tomorrow.convenire.shared.domain.model.Email
 import com.tomorrow.convenire.shared.domain.utils.UUID
 import io.ktor.client.plugins.auth.providers.*
 
@@ -23,5 +22,5 @@ interface ApiService {
     suspend fun getSpinners(): Result<List<SpinnerDTO>>
     suspend fun getOffers(): Result<List<OfferDTO>>
     suspend fun getClaimedOffers(): Result<List<OfferDTO>>
-    suspend fun getTicket(): Result<String>
+    suspend fun getTicket(id: Int): Result<QrCodeDataDTO>
 }

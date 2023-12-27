@@ -5,6 +5,7 @@ import com.tomorrow.convenire.shared.data.data_source.utils.EntityMapper
 import com.tomorrow.convenire.shared.domain.model.Action
 import com.tomorrow.convenire.shared.domain.model.Email
 import com.tomorrow.convenire.shared.domain.model.League
+import com.tomorrow.convenire.shared.domain.model.Salutation
 import com.tomorrow.convenire.shared.domain.model.User
 import com.tomorrow.convenire.shared.domain.utils.PhoneNumber
 
@@ -12,6 +13,7 @@ class UserMapper : EntityMapper<User, UserDTO> {
     override fun mapFromEntity(entity: UserDTO) = User(
         id = entity.id,
         uuid = entity.uuid,
+        salutation = SalutationMapper().mapFromEntityIfNotNull(entity.salutation) ?: Salutation.None,
         name = entity.name,
         email = entity.email?.let { Email(it) },
         phoneNumber = PhoneNumber(entity.phoneNumber),

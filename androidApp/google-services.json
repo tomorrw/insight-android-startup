@@ -1,36 +1,26 @@
 {
   "project_info": {
-    "project_number": "368201602387",
-    "project_id": "bidm-57f90",
-    "storage_bucket": "bidm-57f90.appspot.com"
+    "project_number": "43872738604",
+    "project_id": "convenire-99976",
+    "storage_bucket": "convenire-99976.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:368201602387:android:85e289e2f9b65885923da6",
+        "mobilesdk_app_id": "1:43872738604:android:21177e6df79bc27e3e6089",
         "android_client_info": {
           "package_name": "com.tomorrow.convenire"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "368201602387-lo3tg4uhe5eq4g7opoidodu3vhi6c587.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBjULM-xU8k0UsHGQQddRlWTeJdvpSyYSE"
+          "current_key": "AIzaSyB0yWpPAwjPReID8fF-AAkNvUVaibPgpx4"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "368201602387-lo3tg4uhe5eq4g7opoidodu3vhi6c587.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }

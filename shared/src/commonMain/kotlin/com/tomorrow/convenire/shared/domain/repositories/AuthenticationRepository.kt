@@ -18,5 +18,5 @@ interface AuthenticationRepository {
     fun getLoggedInUser(): Flow<User>
     fun isAuthenticated(): StateFlow<Boolean?>
     suspend fun logout(): Result<Unit>
-    fun getQr(): Flow<QrCodeData>
+    fun getTicket(): Flow<QrCodeData>
 }

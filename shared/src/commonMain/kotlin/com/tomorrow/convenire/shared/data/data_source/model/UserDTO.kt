@@ -7,6 +7,7 @@ import kotlinx.serialization.Serializable
 data class UserDTO(
     val id: String,
     val uuid: String,
+    val salutation: SalutationDTO? = null,
     val name: String,
     val email: String?,
     @SerialName("phone_number")

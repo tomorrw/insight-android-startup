@@ -3,7 +3,7 @@
 
     <style name="Theme.App.Starting" parent="Theme.SplashScreen">
         <item name="postSplashScreenTheme">@style/AppTheme</item>
-        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher_foreground</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_splash_screen_foreground</item>
         <item name="android:windowSplashScreenBrandingImage">@drawable/ic_powered_by_tmrw_foreground</item>
         <item name="windowSplashScreenBackground">@color/background</item>
         <item name="android:windowFullscreen">true</item>

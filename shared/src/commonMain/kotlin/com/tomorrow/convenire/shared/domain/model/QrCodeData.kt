@@ -1,8 +1,8 @@
 package com.tomorrow.convenire.shared.domain.model
 
-import kotlinx.coroutines.flow.Flow
-
 data class QrCodeData(
-    val user: User,
-    val qrCode: String
+    val title: String,
+    val year: Int,
+    val date:String,
+    val description: String,
 )

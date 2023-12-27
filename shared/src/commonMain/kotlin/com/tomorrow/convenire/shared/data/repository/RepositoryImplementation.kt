@@ -1,12 +1,9 @@
 package com.tomorrow.convenire.shared.data.repository
 
-import com.tomorrow.convenire.shared.data.data_source.local.EncryptedStorage
 import com.tomorrow.convenire.shared.data.data_source.local.LocalDatabase
 import com.tomorrow.convenire.shared.data.data_source.mapper.*
 import com.tomorrow.convenire.shared.data.data_source.model.HomeDataDTO
 import com.tomorrow.convenire.shared.data.data_source.remote.ApiService
-import com.tomorrow.convenire.shared.data.data_source.utils.Loadable
-import com.tomorrow.convenire.shared.data.data_source.utils.NotLoaded
 import com.tomorrow.convenire.shared.domain.model.*
 import com.tomorrow.convenire.shared.domain.repositories.*
 import com.tomorrow.convenire.shared.domain.utils.PhoneNumber
@@ -18,14 +15,14 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 import kotlinx.datetime.DateTimeUnit
-import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.minus
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
 class RepositoryImplementation : CompanyRepository, SpeakerRepository, PostRepository,
-    SessionRepository, AppSettingsRepository, HomeRepository, AuthenticationRepository, OffersRepository,
+    SessionRepository, AppSettingsRepository, HomeRepository, AuthenticationRepository,
+    OffersRepository,
     KoinComponent {
 
     private val apiService: ApiService by inject()
@@ -360,40 +357,12 @@ class RepositoryImplementation : CompanyRepository, SpeakerRepository, PostRepos
         if (it is ClientRequestException && it.response.status == HttpStatusCode.Unauthorized) clearAllData()
     }
 
-    override fun getQr(): Flow<QrCodeData> = flow {
-        userMapper.mapFromEntityIfNotNull(encryptedStorage.user)?.let { user ->
-            apiService.getTicket().getOrThrow().let {
-                emit(
-                    QrCodeData(
-                        user = user,
-                        qrCode = it
-                    )
-                )
-            }
-        }
+    override fun getTicket(): Flow<QrCodeData> = flow {
+        //TODO add it to caches
+//        val user = userMapper.mapFromEntityIfNotNull(encryptedStorage.user)
 
-        apiService.getUser().getOrElse {
-            if (it is ClientRequestException && it.response.status == HttpStatusCode.Unauthorized) {
-                setIsAuthenticated(false)
-                logout()
-            }
-            // offline mode
-            else setIsAuthenticated(true)
 
-            throw it
-        }.let { user ->
-            setIsAuthenticated(true)
-            encryptedStorage.user = user
-            apiService.getTicket().getOrThrow().let {
-                emit(
-                    QrCodeData(
-                        user = userMapper.mapFromEntity(user),
-                        qrCode = it
-                    )
-                )
-            }
-        }
-
+        apiService.getTicket( 1).getOrThrow().let { emit(QrCodeDataMapper().mapFromEntity(it)) }
     }
 
     private suspend fun clearAllData() {

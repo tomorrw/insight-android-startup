@@ -35,13 +35,26 @@ import com.tomorrow.convenire.shared.domain.model.User
 import com.tomorrow.convenire.shared.domain.use_cases.GetQrCodeInfoUseCase
 import com.tomorrow.convenire.shared.domain.use_cases.GetUserUseCase
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.combine
 import org.koin.androidx.compose.koinViewModel
 import java.time.format.DateTimeFormatter
 import java.util.*
 
-class MyQrViewModel : ReadViewModel<QrCodeData>(
-    load = { GetQrCodeInfoUseCase().getQrInfo() },
-    refresh = { GetQrCodeInfoUseCase().getQrInfo() }
+class MyQrViewData (
+    val user: User,
+    val TicketData: QrCodeData
+)
+
+class MyQrViewModel : ReadViewModel<MyQrViewData>(
+    load = {
+        GetQrCodeInfoUseCase().getTicketInfo().combine(GetUserUseCase().getUser()) { ticket, user ->
+            MyQrViewData(user , ticket)
+        }
+    },
+
+    refresh = { GetQrCodeInfoUseCase().getTicketInfo().combine(GetUserUseCase().getUser()) { ticket, user ->
+        MyQrViewData(user, ticket)
+    } }
 )
 
 private val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")
@@ -50,19 +63,18 @@ private val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")
 @Composable
 fun MyQrView() {
     val viewModel: MyQrViewModel = koinViewModel()
-    DefaultReadView(viewModel = viewModel) { (user, qrCode) ->
+    DefaultReadView(viewModel = viewModel) {  ticket ->
         PageHeaderLayout(
-            title = "My QR", subtitle = "Welcome Back Dr. ${
-                user.name.replaceFirstChar {
-                    if (it.isLowerCase()) it.titlecase(Locale.ENGLISH)
-                    else it.toString()
-                }
-            }"
-        ) {
+            title = "My QR", subtitle = "Welcome Back ${ticket.user.getFormattedName()}"
 
-            LaunchedEffect(key1 = qrCode) {
+        ) {
+            val qrCode = remember(viewModel.state.isRefreshing) {
+                mutableStateOf(ticket.user.generateQrCodeString())
+            }
+
+            LaunchedEffect(key1 = qrCode.value) {
                 delay(30000)
-                viewModel.on(ReadViewModel.Event.OnRefresh)
+                qrCode.value = ticket.user.generateQrCodeString()
             }
 
             CompositionLocalProvider(
@@ -73,6 +85,7 @@ fun MyQrView() {
                         refreshing = viewModel.state.isRefreshing,
                         onRefresh = {
                             viewModel.on(ReadViewModel.Event.OnRefresh)
+                            qrCode.value = ticket.user.generateQrCodeString()
                         }
                     ),
                     isRefreshing = viewModel.state.isRefreshing
@@ -105,7 +118,7 @@ fun MyQrView() {
                                 ) {
                                     val style = LocalTextStyle.current
                                     Text(
-                                        text = "Convenire",
+                                        text = ticket.TicketData.title,
                                         style = style.copy(
                                             letterSpacing = style.fontSize.times(0.2f),
                                             fontFamily = FontFamily(
@@ -115,7 +128,7 @@ fun MyQrView() {
                                         )
                                     )
                                     Text(
-                                        text = "CONF-2023",
+                                        text = "CONF-${ticket.TicketData.year}",
                                         style = style.copy(
                                             letterSpacing = style.fontSize.times(0.2f),
                                             fontFamily = FontFamily(
@@ -130,7 +143,7 @@ fun MyQrView() {
                                     Modifier.fillMaxWidth(),
                                     horizontalArrangement = Arrangement.SpaceBetween
                                 ) {
-                                    "OCTOBER 5 - 7".forEach {
+                                    ticket.TicketData.date.forEach {
                                         Text(
                                             text = "$it",
                                             style = LocalTextStyle.current.copy(
@@ -146,7 +159,7 @@ fun MyQrView() {
 
                                 Image(
                                     painter = rememberQrBitmapPainter(
-                                        content = qrCode,
+                                        content = qrCode.value,
                                         size = 200.dp
                                     ),
                                     contentDescription = "qr",
@@ -155,7 +168,7 @@ fun MyQrView() {
                                 Spacer(modifier = Modifier.height(24.dp))
 
                                 Text(
-                                    text = user.getFullName(),
+                                    text = ticket.user.getFullName(),
                                     style = MaterialTheme.typography.headlineSmall.copy(
                                         MaterialTheme.colorScheme.onSurface
                                     )
@@ -180,7 +193,7 @@ fun MyQrView() {
                                     .padding(horizontal = 24.dp)
                                     .padding(bottom = 24.dp)
                                     .padding(top = 12.dp),
-                                text = "Scan this QR code at the event and food court entrance",
+                                text = ticket.TicketData.description,
                                 style = MaterialTheme.typography.titleMedium.copy(textAlign = TextAlign.Center)
                             )
                         } else Column(
@@ -190,14 +203,14 @@ fun MyQrView() {
                             Image(
                                 painter = rememberQrBitmapPainter(
                                     background = MaterialTheme.colorScheme.surface,
-                                    content = qrCode,
+                                    content = qrCode.value,
                                     size = 200.dp
                                 ),
                                 contentDescription = "qr",
                             )
                             Spacer(modifier = Modifier.height(16.dp))
                             Text(
-                                text = "Scan this QR code at the event and food court entrance",
+                                text = ticket.TicketData.description,
                                 style = MaterialTheme.typography.headlineSmall.copy(
                                     textAlign = TextAlign.Center
                                 )
