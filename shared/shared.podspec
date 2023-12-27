@@ -5,7 +5,7 @@ Pod::Spec.new do |spec|
     spec.source                   = { :http=> ''}
     spec.authors                  = ''
     spec.license                  = ''
-    spec.summary                  = 'shared module contains business logic for the bidm app'
+    spec.summary                  = 'shared module contains business logic for the convenire app'
     spec.vendored_frameworks      = 'build/cocoapods/framework/shared.framework'
     spec.libraries                = 'c++'
     spec.ios.deployment_target = '14.1'

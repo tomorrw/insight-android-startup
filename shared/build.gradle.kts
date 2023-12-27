@@ -24,7 +24,7 @@ kotlin {
     iosSimulatorArm64()
 
     cocoapods {
-        summary = "shared module contains business logic for the bidm app"
+        summary = "shared module contains business logic for the convenire app"
         homepage = "Link to the Shared Module homepage"
         podfile = project.file("../iosApp/Podfile")
         ios.deploymentTarget = "14.1"
@@ -110,7 +110,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.tomorrow.lda.shared"
+    namespace = "com.tomorrow.convenire.shared"
     compileSdk = Versions.androidTargetSdk
     defaultConfig {
         minSdk = Versions.androidMinSdk

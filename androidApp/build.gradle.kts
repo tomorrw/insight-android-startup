@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.tomorrow.lda"
+    namespace = "com.tomorrow.convenire"
     compileSdk = Versions.androidCompileSdk
     buildFeatures { compose = true }
     composeOptions { kotlinCompilerExtensionVersion = Versions.composeCompiler }
@@ -29,7 +29,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.tomorrow.lda"
+        applicationId = "com.tomorrow.convenire"
         minSdk = Versions.androidMinSdk
         targetSdk = Versions.androidTargetSdk
         versionCode = (appVersionCode)

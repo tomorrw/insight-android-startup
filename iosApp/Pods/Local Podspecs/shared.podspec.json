@@ -7,7 +7,7 @@
   },
   "authors": "",
   "license": "",
-  "summary": "shared module contains business logic for the bidm app",
+  "summary": "shared module contains business logic for the convenire app",
   "vendored_frameworks": "build/cocoapods/framework/shared.framework",
   "libraries": "c++",
   "platforms": {
