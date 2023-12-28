@@ -13,6 +13,8 @@
 		4C2562B62ABAE2BE00ACE03E /* OffersPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C2562B52ABAE2BE00ACE03E /* OffersPage.swift */; };
 		4C2562B82ABAE2FF00ACE03E /* OffersPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C2562B72ABAE2FF00ACE03E /* OffersPageViewModel.swift */; };
 		4C5D17EB2B3C748F00EEE73C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4C5D17EA2B3C748E00EEE73C /* GoogleService-Info.plist */; };
+		4C64DE872B3D8380001E1B17 /* TicketViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C64DE862B3D8380001E1B17 /* TicketViewModel.swift */; };
+		4C64DE8A2B3DAEBC001E1B17 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C64DE892B3DAEBC001E1B17 /* Date.swift */; };
 		4C6ACE312AA5BFAF00DBBBF5 /* Switcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C6ACE302AA5BFAF00DBBBF5 /* Switcher.swift */; };
 		4C7A1D2F2A9C812E001EB91A /* DropDown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C7A1D2E2A9C812E001EB91A /* DropDown.swift */; };
 		4C995C212ABB258F0041C95D /* HighlightedCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C995C202ABB258F0041C95D /* HighlightedCard.swift */; };
@@ -130,6 +132,8 @@
 		4C2562B52ABAE2BE00ACE03E /* OffersPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OffersPage.swift; sourceTree = "<group>"; };
 		4C2562B72ABAE2FF00ACE03E /* OffersPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OffersPageViewModel.swift; sourceTree = "<group>"; };
 		4C5D17EA2B3C748E00EEE73C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../GoogleService-Info.plist"; sourceTree = "<group>"; };
+		4C64DE862B3D8380001E1B17 /* TicketViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketViewModel.swift; sourceTree = "<group>"; };
+		4C64DE892B3DAEBC001E1B17 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		4C6ACE302AA5BFAF00DBBBF5 /* Switcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Switcher.swift; sourceTree = "<group>"; };
 		4C7A1D2E2A9C812E001EB91A /* DropDown.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DropDown.swift; sourceTree = "<group>"; };
 		4C995C202ABB258F0041C95D /* HighlightedCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighlightedCard.swift; sourceTree = "<group>"; };
@@ -281,6 +285,22 @@
 			path = Offers;
 			sourceTree = "<group>";
 		};
+		4C64DE852B3D8349001E1B17 /* Ticket */ = {
+			isa = PBXGroup;
+			children = (
+				4C64DE862B3D8380001E1B17 /* TicketViewModel.swift */,
+			);
+			path = Ticket;
+			sourceTree = "<group>";
+		};
+		4C64DE882B3DAEAE001E1B17 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				4C64DE892B3DAEBC001E1B17 /* Date.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
 		4C7A1D2D2A9C812E001EB91A /* DropDown */ = {
 			isa = PBXGroup;
 			children = (
@@ -376,6 +396,7 @@
 				B37D14CF29C9EE8600BA4E39 /* DependencyInjection */,
 				B37D14AE29C9DDDE00BA4E39 /* Utils */,
 				B5183E3B29F18B400097363D /* ForceUpdate */,
+				4C64DE852B3D8349001E1B17 /* Ticket */,
 				B37D14BF29C9E68100BA4E39 /* Authentication */,
 				B556745629FA7FDA001B7B79 /* Sessions */,
 				B556745129FA7ED2001B7B79 /* Categories */,
@@ -444,6 +465,7 @@
 		B37D14AE29C9DDDE00BA4E39 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				4C64DE882B3DAEAE001E1B17 /* Extension */,
 				4C995C1F2ABB25740041C95D /* OffersCard */,
 				4C7A1D2D2A9C812E001EB91A /* DropDown */,
 				B58BDDAF2A25F1E5003378FD /* Debouncer */,
@@ -896,6 +918,7 @@
 				B556746429FA9476001B7B79 /* FlatLinkStyle.swift in Sources */,
 				B556743929FA77F3001B7B79 /* SocialLinkMapper.swift in Sources */,
 				B37D14D729CA050F00BA4E39 /* CustomLoader.swift in Sources */,
+				4C64DE872B3D8380001E1B17 /* TicketViewModel.swift in Sources */,
 				B56AA30F29F7C4490021B12E /* CompaniesByCategoryPage.swift in Sources */,
 				B556747529FB43AF001B7B79 /* NavigationLazyView.swift in Sources */,
 				B5922CEB2A1CF26B004705C0 /* EmptyStateNavLink.swift in Sources */,
@@ -952,6 +975,7 @@
 				B3280CD12A1B715F00D4540A /* NavigationViewModel.swift in Sources */,
 				B5183E4F29F18CDD0097363D /* ErrorView.swift in Sources */,
 				B5183E2629F007920097363D /* TextButton.swift in Sources */,
+				4C64DE8A2B3DAEBC001E1B17 /* Date.swift in Sources */,
 				B3C1438829C9D21700B988B6 /* DefaultCard.swift in Sources */,
 				B5183E3929F18AFF0097363D /* UpdateViewModel.swift in Sources */,
 				4C995C212ABB258F0041C95D /* HighlightedCard.swift in Sources */,

@@ -20,12 +20,12 @@ struct ProfileSettingsPage: View {
             VStack (alignment: .leading) {
                 
                 Button(action: {
-                    if let url = URL(string: "https://bidm23.com/request-account-deletion") {
+                    if let url = URL(string: "https://convenire.app/request-account-deletion") {
                         UIApplication.shared.open(url)
                     }
                 }, label: {
                     Text("Delete Account & Archive Data")
-                        .foregroundColor(Color("HighlightPrimary"))
+                        .foregroundColor(Color("Error"))
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .contentShape(Rectangle())
                 })
@@ -36,7 +36,7 @@ struct ProfileSettingsPage: View {
                     self.islogoutConfirmationDisplayed = true
                 }, label: {
                     Text("Log Out")
-                        .foregroundColor(Color("HighlightPrimary"))
+                        .foregroundColor(Color("Error"))
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .contentShape(Rectangle())
                 })

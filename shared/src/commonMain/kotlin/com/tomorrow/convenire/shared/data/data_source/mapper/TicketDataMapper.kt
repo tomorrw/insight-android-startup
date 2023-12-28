@@ -7,9 +7,9 @@ import com.tomorrow.convenire.shared.domain.model.TicketData
 
 class TicketDataMapper : EntityMapper<TicketData, TicketDataDTO> {
     override fun mapFromEntity(entity: TicketDataDTO): TicketData = TicketData(
-        title = entity.conventionName,
-        startDate = entity.conventionStartDate?.fromApiFormatToDate()?.date,
-        endDate = entity.conventionEndDate?.fromApiFormatToDate()?.date,
+        title = entity.conference?.name ?: "Convernire",
+        startDate = entity.conference?.startDate?.fromApiFormatToDate()?.date,
+        endDate = entity.conference?.endDate?.fromApiFormatToDate()?.date,
         description = entity.ticketDescription,
         showTicket = entity.showTicket ?: true,
     )

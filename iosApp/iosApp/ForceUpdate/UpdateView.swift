@@ -13,7 +13,6 @@ import shared
 struct UpdateView: View {
     @StateObject var vm = UpdateViewModel()
     @Environment(\.openURL) private var openURL
-    private let url = URL(string: "https://apps.apple.com/us/app/bidm-23/id6456041764")
     
     var body: some View {
         if vm.showingPopup {
@@ -21,7 +20,7 @@ struct UpdateView: View {
                 Spacer()
                 
                 VStack {
-                    Text("Kindly update the app to get the latest features.")
+                    Text("Kindly update the \(vm.appName) to get the latest features.")
                         .font(.system(size: 18))
                         .multilineTextAlignment(.center)
                         .padding(.bottom)
@@ -40,7 +39,7 @@ struct UpdateView: View {
                             Spacer()
                         }
                         
-                        Link("Update", destination: url!)
+                        Link("Update", destination: vm.url)
                             .font(.system(size: 18))
                             .foregroundColor(Color("HighlightPrimary"))
                         

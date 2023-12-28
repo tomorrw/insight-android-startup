@@ -72,6 +72,8 @@ fun MyQrView() {
             }
             val eventDate: String? = remember(key1 = ticket) {
                 if (!ticket.ticketData.hasDate) null
+                else if (ticket.ticketData.startDate?.month != ticket.ticketData.endDate?.month)
+                    "${ticket.ticketData.startDate?.dayOfMonth}  ${ticket.ticketData.startDate?.month?.name} - ${ticket.ticketData.endDate?.dayOfMonth} ${ticket.ticketData.endDate?.month?.name}"
                 else
                     "${ticket.ticketData.startDate?.month?.name} ${ticket.ticketData.startDate?.dayOfMonth} - ${ticket.ticketData.endDate?.dayOfMonth}"
             }

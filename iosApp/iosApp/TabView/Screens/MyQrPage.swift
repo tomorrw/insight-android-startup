@@ -15,13 +15,14 @@ import CoreImage.CIFilterBuiltins
 
 struct MyQrPage: View {
     @InjectedObject var authViewModel: AuthenticationViewModel
+    @InjectedObject var ticketViewModel: TicketViewModel
     
     @State private var isDisplayingError = false
     @State private var spinForward: CGFloat = 0
     @State private var qrImage: UIImage = UIImage(systemName: "xmark.circle") ?? UIImage()
     
     let timer = Timer.publish(every: 30, on: .main, in: .common).autoconnect()
-    var dateArray: [String] = "OCTOBER 5 - 7".map { String($0) }
+    
     
     var body: some View {
         NavigationPages() {
@@ -31,7 +32,7 @@ struct MyQrPage: View {
                     VStack(alignment: .leading) {
                         Text("My QR")
                             .font(.system(size: 24, weight: .bold))
-                        Text("Welcome back Dr. \(authViewModel.user?.getFullName() ?? "")")
+                        Text("Welcome back \(authViewModel.user?.getFormattedName() ?? "")")
                             .foregroundColor(Color("Secondary"))
                     }
                     Spacer()
@@ -40,31 +41,34 @@ struct MyQrPage: View {
                 
                 Spacer()
                 
-                if authViewModel.user?.hasPaid == true {
+                if ticketViewModel.showTicket {
                     VStack(spacing: 0) {
                         VStack(spacing: 0) {
                             HStack(spacing: 0) {
-                                Text("BIDM")
-                                    .font(.custom("SF-Mono", size: 16))
+                                Text(ticketViewModel.name)
+                                    .font(.custom("SF-Mono", size: ticketViewModel.hasDate ? 16 : 20))
                                     .kerning(4)
-                                Spacer()
-                                Text("CONF202")
-                                    .font(.custom("SF-Mono", size: 16))
-                                    .kerning(4)
-                                Text("3") // pour aligner les 2 lignes (kerning puts a whitespace a la fin quon veut pas)
-                                    .font(.custom("SF-Mono", size: 16))
+                                if ticketViewModel.hasDate {
+                                    Spacer()
+                                    Text("CONF\(String(ticketViewModel.year!.dropLast()))")
+                                        .font(.custom("SF-Mono", size: 16))
+                                        .kerning(4)
+                                    Text(String(ticketViewModel.year!.last!))
+                                        .font(.custom("SF-Mono", size: 16))
+                                }
                             }
                             .foregroundColor(Color("HighlightPrimary"))
-                            
-                            HStack {
-                                ForEach(dateArray.indices, id: \.self) { item in
-                                    if item != 0 {
-                                        Spacer()
+                            if ticketViewModel.hasDate{
+                                HStack {
+                                    ForEach(ticketViewModel.date!.indices, id: \.self) { item in
+                                        if item != 0 {
+                                            Spacer()
+                                        }
+                                        
+                                        Text(ticketViewModel.date![item])
+                                            .foregroundColor(Color("Secondary"))
+                                            .font(.system(size: 16))
                                     }
-                                    
-                                    Text(dateArray[item])
-                                        .foregroundColor(Color("Secondary"))
-                                        .font(.system(size: 16))
                                 }
                             }
                         }
@@ -72,6 +76,7 @@ struct MyQrPage: View {
                         
                         Button {
                             withAnimation(.linear(duration: 0.6)) {
+                                Task{ await ticketViewModel.getTicketData() }
                                 authViewModel.getUser()
                             }
                         } label: {
@@ -82,7 +87,7 @@ struct MyQrPage: View {
                         }
                         
                         VStack(spacing: 4) {
-                            Text("\(authViewModel.user?.getFullName() ?? "")")
+                            Text("\(authViewModel.user?.getFormattedName() ?? "")")
                                 .font(.system(size: 20))
                             Text("REGISTERED")
                                 .font(.custom("IBMPlexMono-Regular", size: 20))
@@ -111,7 +116,7 @@ struct MyQrPage: View {
                         .frame(maxWidth: .infinity)
                         .padding(.bottom, 8)
                         
-                        Text("Scan this QR Code at the event and food court entrance")
+                        Text(ticketViewModel.description)
                             .font(.system(size: 14))
                             .lineLimit(3)
                             .multilineTextAlignment(.center)
@@ -138,7 +143,7 @@ struct MyQrPage: View {
                             .padding(.bottom, 24)
                     }
                     
-                    Text("Scan this QR Code at the event and food court entrance")
+                    Text(ticketViewModel.description)
                         .font(.system(size: 16))
                         .lineLimit(3)
                         .multilineTextAlignment(.center)
@@ -149,17 +154,17 @@ struct MyQrPage: View {
                 
                 Spacer()
                 
-
-                .onReceive(authViewModel.$errorMessage, perform: { error in
-                    guard error != nil && error != "" else {
-                        isDisplayingError = false
-                        return
+                
+                    .onReceive(authViewModel.$errorMessage, perform: { error in
+                        guard error != nil && error != "" else {
+                            isDisplayingError = false
+                            return
+                        }
+                        isDisplayingError = true
+                    })
+                    .onReceive(authViewModel.$user) { user in
+                        qrImage = (user?.generateQrCodeString() ?? "Not valid").qrImage
                     }
-                    isDisplayingError = true
-                })
-                .onReceive(authViewModel.$user) { user in
-                    qrImage = (user?.generateQrCodeString() ?? "Not valid").qrImage
-                }
             }
             .onReceive(timer, perform: { _ in
                 qrImage = (authViewModel.user?.generateQrCodeString() ?? "Not valid").qrImage

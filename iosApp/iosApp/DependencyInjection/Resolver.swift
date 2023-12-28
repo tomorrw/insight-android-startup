@@ -48,5 +48,9 @@ extension Resolver: ResolverRegistering {
         }
         .scope(.application)
         
+        register {
+            TicketViewModel()
+        }
+        .scope(.application)
     }
 }

@@ -70,9 +70,16 @@ class ApiServiceImplementation(
     override suspend fun getOffers(): Result<List<OfferDTO>> = get("$baseUrl/api/offers")
     override suspend fun getClaimedOffers(): Result<List<OfferDTO>> = get("$baseUrl/api/offers/claimed")
 
-    override suspend fun getTicket(): Result<TicketDataDTO> {
+    override suspend fun getTicket(): Result<TicketDataDTO> { // = get("$baseUrl/users/tickets")
         return Result.success(
             TicketDataDTO(
+                ticketDescription = "Your Digital Identity",
+                showTicket = true,
+                conference = ConferenceDTO(
+                    name = "Convenire",
+                    startDate = "2021-10-01 00:00:00",
+                    endDate = "2021-11-01 00:00:00"
+                )
             )
         )
     }
