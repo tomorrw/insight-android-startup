@@ -4,13 +4,14 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-class QrCodeDataDTO(
+class TicketDataDTO(
     @SerialName("convention_name")
-    val conventionName: String,
+    val conventionName: String = "Convenire",
     @SerialName("start_date")
-    val conventionStartDate: String,
+    val conventionStartDate: String? = null,
     @SerialName("end_date")
-    val conventionEndDate: String,
+    val conventionEndDate: String? = null,
     @SerialName("ticket_description")
-    val ticketDescription: String,
+    val ticketDescription: String = "Your Digital Identity",
+    val showTicket: Boolean? = null,
 )

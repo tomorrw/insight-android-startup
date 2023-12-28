@@ -357,9 +357,9 @@ class RepositoryImplementation : CompanyRepository, SpeakerRepository, PostRepos
         if (it is ClientRequestException && it.response.status == HttpStatusCode.Unauthorized) clearAllData()
     }
 
-    override fun getTicket(): Flow<QrCodeData> = flow {
+    override fun getTicket(): Flow<TicketData> = flow {
         //TODO add it to caches
-        apiService.getTicket( ).getOrThrow().let { emit(QrCodeDataMapper().mapFromEntity(it)) }
+        apiService.getTicket( ).getOrThrow().let { emit(TicketDataMapper().mapFromEntity(it)) }
     }
 
     private suspend fun clearAllData() {

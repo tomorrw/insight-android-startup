@@ -30,46 +30,50 @@ import com.tomorrow.convenire.common.headers.PageHeaderLayout
 import com.tomorrow.convenire.common.view_models.DefaultReadView
 import com.tomorrow.convenire.common.view_models.ReadViewModel
 import com.tomorrow.convenire.feature_qr_code.rememberQrBitmapPainter
-import com.tomorrow.convenire.shared.domain.model.QrCodeData
+import com.tomorrow.convenire.shared.domain.model.TicketData
 import com.tomorrow.convenire.shared.domain.model.User
 import com.tomorrow.convenire.shared.domain.use_cases.GetQrCodeInfoUseCase
 import com.tomorrow.convenire.shared.domain.use_cases.GetUserUseCase
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.combine
 import org.koin.androidx.compose.koinViewModel
-import java.time.format.DateTimeFormatter
 import java.util.*
 
-class MyQrViewData (
+class MyQrViewData(
     val user: User,
-    val TicketData: QrCodeData
+    val ticketData: TicketData
 )
 
 class MyQrViewModel : ReadViewModel<MyQrViewData>(
     load = {
         GetQrCodeInfoUseCase().getTicketInfo().combine(GetUserUseCase().getUser()) { ticket, user ->
-            MyQrViewData(user , ticket)
+            MyQrViewData(user, ticket)
         }
     },
 
-    refresh = { GetQrCodeInfoUseCase().getTicketInfo().combine(GetUserUseCase().getUser()) { ticket, user ->
-        MyQrViewData(user, ticket)
-    } }
+    refresh = {
+        GetQrCodeInfoUseCase().getTicketInfo().combine(GetUserUseCase().getUser()) { ticket, user ->
+            MyQrViewData(user, ticket)
+        }
+    }
 )
-
-private val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun MyQrView() {
     val viewModel: MyQrViewModel = koinViewModel()
-    DefaultReadView(viewModel = viewModel) {  ticket ->
+    DefaultReadView(viewModel = viewModel) { ticket ->
         PageHeaderLayout(
             title = "My QR", subtitle = "Welcome Back ${ticket.user.getFormattedName()}"
 
         ) {
             val qrCode = remember(viewModel.state.isRefreshing) {
                 mutableStateOf(ticket.user.generateQrCodeString())
+            }
+            val eventDate: String? = remember(key1 = ticket) {
+                if (!ticket.ticketData.hasDate) null
+                else
+                    "${ticket.ticketData.startDate?.month?.name} ${ticket.ticketData.startDate?.dayOfMonth} - ${ticket.ticketData.endDate?.dayOfMonth}"
             }
 
             LaunchedEffect(key1 = qrCode.value) {
@@ -97,7 +101,7 @@ fun MyQrView() {
                             .verticalScroll(rememberScrollState()),
                         verticalArrangement = Arrangement.Center,
                     ) {
-                        if (viewModel.state.viewData?.user?.hasPaid == true) Column(
+                        if (ticket.ticketData.showTicket) Column(
                             modifier = Modifier
                                 .padding(16.dp)
                                 .clip(RoundedCornerShape(8.dp))
@@ -114,36 +118,39 @@ fun MyQrView() {
                             ) {
                                 Row(
                                     Modifier.fillMaxWidth(),
-                                    horizontalArrangement = Arrangement.SpaceBetween
+                                    horizontalArrangement = if (ticket.ticketData.hasDate) Arrangement.SpaceBetween else Arrangement.Center
                                 ) {
                                     val style = LocalTextStyle.current
                                     Text(
-                                        text = ticket.TicketData.title,
+                                        text = ticket.ticketData.title,
                                         style = style.copy(
                                             letterSpacing = style.fontSize.times(0.2f),
+                                            fontSize = style.fontSize.times(if (ticket.ticketData.hasDate) 1f else 1.25f),
                                             fontFamily = FontFamily(
                                                 Font(R.font.ibmplexmono_regular)
                                             ),
                                             color = MaterialTheme.colorScheme.surfaceVariant
                                         )
                                     )
-                                    Text(
-                                        text = "CONF-${ticket.TicketData.year}",
-                                        style = style.copy(
-                                            letterSpacing = style.fontSize.times(0.2f),
-                                            fontFamily = FontFamily(
-                                                Font(R.font.ibmplexmono_regular)
-                                            ),
-                                            color = MaterialTheme.colorScheme.surfaceVariant
+                                    ticket.ticketData.startDate?.let {
+                                        Text(
+                                            text = "CONF-${it.year}",
+                                            style = style.copy(
+                                                letterSpacing = style.fontSize.times(0.2f),
+                                                fontFamily = FontFamily(
+                                                    Font(R.font.ibmplexmono_regular)
+                                                ),
+                                                color = MaterialTheme.colorScheme.surfaceVariant
+                                            )
                                         )
-                                    )
+                                    }
                                 }
 
                                 Row(
                                     Modifier.fillMaxWidth(),
                                     horizontalArrangement = Arrangement.SpaceBetween
                                 ) {
-                                    ticket.TicketData.date.forEach {
+                                    eventDate?.forEach {
                                         Text(
                                             text = "$it",
                                             style = LocalTextStyle.current.copy(
@@ -193,10 +200,11 @@ fun MyQrView() {
                                     .padding(horizontal = 24.dp)
                                     .padding(bottom = 24.dp)
                                     .padding(top = 12.dp),
-                                text = ticket.TicketData.description,
+                                text = ticket.ticketData.description,
                                 style = MaterialTheme.typography.titleMedium.copy(textAlign = TextAlign.Center)
                             )
                         } else Column(
+                            modifier = Modifier.fillMaxWidth(),
                             horizontalAlignment = Alignment.CenterHorizontally,
                             verticalArrangement = Arrangement.Center,
                         ) {
@@ -210,7 +218,7 @@ fun MyQrView() {
                             )
                             Spacer(modifier = Modifier.height(16.dp))
                             Text(
-                                text = ticket.TicketData.description,
+                                text = ticket.ticketData.description,
                                 style = MaterialTheme.typography.headlineSmall.copy(
                                     textAlign = TextAlign.Center
                                 )

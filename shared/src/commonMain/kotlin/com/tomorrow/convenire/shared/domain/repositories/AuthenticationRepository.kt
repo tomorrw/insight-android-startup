@@ -2,7 +2,7 @@ package com.tomorrow.convenire.shared.domain.repositories
 
 import com.tomorrow.convenire.shared.domain.model.Email
 import com.tomorrow.convenire.shared.domain.model.OTP
-import com.tomorrow.convenire.shared.domain.model.QrCodeData
+import com.tomorrow.convenire.shared.domain.model.TicketData
 import com.tomorrow.convenire.shared.domain.model.User
 import com.tomorrow.convenire.shared.domain.utils.PhoneNumber
 import com.tomorrow.convenire.shared.domain.utils.UUID
@@ -18,5 +18,5 @@ interface AuthenticationRepository {
     fun getLoggedInUser(): Flow<User>
     fun isAuthenticated(): StateFlow<Boolean?>
     suspend fun logout(): Result<Unit>
-    fun getTicket(): Flow<QrCodeData>
+    fun getTicket(): Flow<TicketData>
 }

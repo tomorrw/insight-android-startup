@@ -70,13 +70,9 @@ class ApiServiceImplementation(
     override suspend fun getOffers(): Result<List<OfferDTO>> = get("$baseUrl/api/offers")
     override suspend fun getClaimedOffers(): Result<List<OfferDTO>> = get("$baseUrl/api/offers/claimed")
 
-    override suspend fun getTicket(): Result<QrCodeDataDTO> {
+    override suspend fun getTicket(): Result<TicketDataDTO> {
         return Result.success(
-            QrCodeDataDTO(
-                conventionName = "Convenire",
-                conventionStartDate = "2021-09-01 08:30:00",
-                conventionEndDate = "2021-09-02 08:30:00",
-                ticketDescription = "Your Digital Identity",
+            TicketDataDTO(
             )
         )
     }
