@@ -32,6 +32,7 @@ android {
         applicationId = "com.tomorrow.convenire"
         minSdk = Versions.androidMinSdk
         targetSdk = Versions.androidTargetSdk
+        compileSdk = Versions.androidCompileSdk
         versionCode = (appVersionCode)
         versionName = Versions.applicationVersionName
         signingConfig = signingConfigs.getByName("release")

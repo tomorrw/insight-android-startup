@@ -3,12 +3,14 @@ package com.tomorrow.convenire.shared.domain.utils
 import cocoapods.libPhoneNumber_iOS.NBEPhoneNumberFormatINTERNATIONAL
 import cocoapods.libPhoneNumber_iOS.NBPhoneNumber
 import cocoapods.libPhoneNumber_iOS.NBPhoneNumberUtil
+import kotlinx.cinterop.ExperimentalForeignApi
 import platform.Foundation.NSNumber
 
 actual class PhoneNumber actual constructor(number: String?) {
     private val phoneUtil = NBPhoneNumberUtil()
     private var phoneNumber: NBPhoneNumber? = number?.toNBPhoneNumberOrNull()
 
+    @OptIn(ExperimentalForeignApi::class)
     actual var number: String? = number
         get() = phoneNumber?.let {
             phoneUtil.format(it, NBEPhoneNumberFormatINTERNATIONAL, null)
@@ -31,6 +33,7 @@ actual class PhoneNumber actual constructor(number: String?) {
             if (value != null) phoneNumber?.countryCode = NSNumber(value.code)
         }
 
+    @OptIn(ExperimentalForeignApi::class)
     private fun String.toNBPhoneNumberOrNull(): NBPhoneNumber? {
         return try {
             phoneUtil.parseAndKeepRawInput(this, "lb", null)
@@ -39,6 +42,7 @@ actual class PhoneNumber actual constructor(number: String?) {
         }
     }
 
+    @OptIn(ExperimentalForeignApi::class)
     actual fun getFormattedNumberInOriginalFormat(): String? =
         phoneNumber?.let {
             phoneUtil.formatInOriginalFormat(

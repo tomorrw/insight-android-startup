@@ -359,10 +359,7 @@ class RepositoryImplementation : CompanyRepository, SpeakerRepository, PostRepos
 
     override fun getTicket(): Flow<QrCodeData> = flow {
         //TODO add it to caches
-//        val user = userMapper.mapFromEntityIfNotNull(encryptedStorage.user)
-
-
-        apiService.getTicket( 1).getOrThrow().let { emit(QrCodeDataMapper().mapFromEntity(it)) }
+        apiService.getTicket( ).getOrThrow().let { emit(QrCodeDataMapper().mapFromEntity(it)) }
     }
 
     private suspend fun clearAllData() {

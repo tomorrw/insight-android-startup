@@ -1,8 +1,8 @@
 object Versions {
     const val androidMinSdk = 26
-    const val androidCompileSdk = 33
+    const val androidCompileSdk = 34
     const val androidTargetSdk = androidCompileSdk
-    const val applicationVersionName = "1.1.19"
+    const val applicationVersionName = "1.0.0"
 
     const val kotlinCoroutines = "1.6.4"
     const val koin = "3.4.3"
@@ -14,8 +14,8 @@ object Versions {
 
     const val kmpNativeCoroutinesVersion = "1.0.0-ALPHA-4"
 
-    const val compose = "1.4.0"
-    const val composeCompiler = "1.4.0"
+    const val compose = "1.5.3"
+    const val composeCompiler = "1.5.3"
     const val accompanist = "0.30.1"
 
     const val material3 = "1.1.1"

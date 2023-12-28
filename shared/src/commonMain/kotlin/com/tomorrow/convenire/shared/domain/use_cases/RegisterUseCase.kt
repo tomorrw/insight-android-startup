@@ -35,7 +35,7 @@ class RegisterUseCase : KoinComponent {
         return repository.register(
             firstName = firstName,
             lastName = lastName,
-            email = emailField?.getTransformed(),
+            email = emailField.getTransformed(),
             phoneNumber = phoneNumberField.getTransformed()
         )
     }

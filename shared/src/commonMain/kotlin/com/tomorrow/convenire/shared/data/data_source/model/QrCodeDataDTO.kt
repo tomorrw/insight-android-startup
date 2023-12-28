@@ -5,7 +5,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 class QrCodeDataDTO(
-    val user: UserDTO,
     @SerialName("convention_name")
     val conventionName: String,
     @SerialName("start_date")

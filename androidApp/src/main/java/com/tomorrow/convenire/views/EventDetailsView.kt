@@ -127,7 +127,7 @@ fun EventDetailsView(id: String) {
                             Spacer(Modifier.height(12.dp))
 
                             FlowRow(
-                                verticalAlignment = Alignment.CenterVertically,
+                                verticalArrangement = Arrangement.Center,
                                 horizontalArrangement = Arrangement.spacedBy(16.dp)
                             ) {
                                 Row(

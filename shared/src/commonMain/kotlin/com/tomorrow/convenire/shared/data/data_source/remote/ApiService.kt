@@ -22,5 +22,5 @@ interface ApiService {
     suspend fun getSpinners(): Result<List<SpinnerDTO>>
     suspend fun getOffers(): Result<List<OfferDTO>>
     suspend fun getClaimedOffers(): Result<List<OfferDTO>>
-    suspend fun getTicket(id: Int): Result<QrCodeDataDTO>
+    suspend fun getTicket(): Result<QrCodeDataDTO>
 }
