@@ -41,8 +41,8 @@ fun OnBoardingView() {
             listState = listState,
             items = listOf(
                 OnBoardingItem(
-                    "Discover and take part in our specialized Lectures \uD83D\uDCDA",
-                    "Get involved in our conference sessions by registering your attendance and participating in Q&A. Get to know our guest speakers and get notified of their lectures.\n"
+                    "Your Gateway to Continuous Medical Education! \uD83C\uDF93",
+                    "Convenire brings you the medical conferences to the palm of your hands, with a wide range of features to help you get the most out of your conference experience!"
                 ) {
                     Button(
                         onClick = { scope.launch { listState.animateScrollToItem(itemIndex.value + 1) } },
@@ -55,8 +55,8 @@ fun OnBoardingView() {
                     }
                 },
                 OnBoardingItem(
-                    "Collaborate & Connect with leading dental companies \uD83C\uDF10",
-                    "Develop connections with our exhibition sponsors through posts & updates and elevate your dental practice with once-in-a-lifetime offers & promotions."
+                    "Discover & Join verified conferences and workshops \uD83C\uDF10",
+                    "Register to conferences and be notified of new workshops! Attend and claim your digital certificates!"
                 ) {
                     Button(
                         onClick = { scope.launch { listState.animateScrollToItem(itemIndex.value + 1) } },
@@ -69,8 +69,8 @@ fun OnBoardingView() {
                     }
                 },
                 OnBoardingItem(
-                    "Stay in the loop with our latest updates \uD83D\uDD14",
-                    "Sign up for your preferred lectures and turn on our notifications to get reminded of your custom schedule; the entire conference in the palm of your hand!"
+                    "Exhibitions, Deals,\n and a lot more... \uD83D\uDD14",
+                    "Browse exhibitions, Develop connections, checkout posts & updates from organizers, and claim exclusive offers & promotions!"
                 ) {
                     Button(
                         onClick = { navController.navigate(AppRoute.Login.generate()) },

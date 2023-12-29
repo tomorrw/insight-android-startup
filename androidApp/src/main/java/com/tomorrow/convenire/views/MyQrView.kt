@@ -30,9 +30,9 @@ import com.tomorrow.convenire.common.headers.PageHeaderLayout
 import com.tomorrow.convenire.common.view_models.DefaultReadView
 import com.tomorrow.convenire.common.view_models.ReadViewModel
 import com.tomorrow.convenire.feature_qr_code.rememberQrBitmapPainter
-import com.tomorrow.convenire.shared.domain.model.TicketData
+import com.tomorrow.convenire.shared.domain.model.ConfigurationData
 import com.tomorrow.convenire.shared.domain.model.User
-import com.tomorrow.convenire.shared.domain.use_cases.GetQrCodeInfoUseCase
+import com.tomorrow.convenire.shared.domain.use_cases.GetConfigurationUseCase
 import com.tomorrow.convenire.shared.domain.use_cases.GetUserUseCase
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.combine
@@ -41,18 +41,18 @@ import java.util.*
 
 class MyQrViewData(
     val user: User,
-    val ticketData: TicketData
+    val ticketData: ConfigurationData
 )
 
 class MyQrViewModel : ReadViewModel<MyQrViewData>(
     load = {
-        GetQrCodeInfoUseCase().getTicketInfo().combine(GetUserUseCase().getUser()) { ticket, user ->
+        GetConfigurationUseCase().getTicketInfo().combine(GetUserUseCase().getUser()) { ticket, user ->
             MyQrViewData(user, ticket)
         }
     },
 
     refresh = {
-        GetQrCodeInfoUseCase().getTicketInfo().combine(GetUserUseCase().getUser()) { ticket, user ->
+        GetConfigurationUseCase().getTicketInfo().combine(GetUserUseCase().getUser()) { ticket, user ->
             MyQrViewData(user, ticket)
         }
     }
@@ -120,7 +120,7 @@ fun MyQrView() {
                             ) {
                                 Row(
                                     Modifier.fillMaxWidth(),
-                                    horizontalArrangement = if (ticket.ticketData.hasDate) Arrangement.SpaceBetween else Arrangement.Center
+                                    horizontalArrangement = if (ticket.ticketData.hasDate || !ticket.ticketData.subTitle.isNullOrEmpty()) Arrangement.SpaceBetween else Arrangement.Center
                                 ) {
                                     val style = LocalTextStyle.current
                                     Text(
@@ -134,9 +134,9 @@ fun MyQrView() {
                                             color = MaterialTheme.colorScheme.surfaceVariant
                                         )
                                     )
-                                    ticket.ticketData.startDate?.let {
+                                    ticket.ticketData.subTitle?.let {
                                         Text(
-                                            text = "CONF-${it.year}",
+                                            text = it,
                                             style = style.copy(
                                                 letterSpacing = style.fontSize.times(0.2f),
                                                 fontFamily = FontFamily(
@@ -185,14 +185,16 @@ fun MyQrView() {
 
                                 Spacer(modifier = Modifier.height(2.dp))
 
-                                Text(
-                                    text = "REGISTERED",
-                                    style = MaterialTheme.typography.titleLarge.copy(
-                                        MaterialTheme.colorScheme.surfaceVariant,
-                                        letterSpacing = MaterialTheme.typography.headlineSmall.fontSize * 0.2,
-                                        fontFamily = FontFamily(Font(R.font.ibmplexmono_regular))
+                                ticket.ticketData.status?.let {
+                                    Text(
+                                        text = it,
+                                        style = MaterialTheme.typography.titleLarge.copy(
+                                            MaterialTheme.colorScheme.surfaceVariant,
+                                            letterSpacing = MaterialTheme.typography.headlineSmall.fontSize * 0.2,
+                                            fontFamily = FontFamily(Font(R.font.ibmplexmono_regular))
+                                        )
                                     )
-                                )
+                                }
                             }
 
                             TicketSeparator()

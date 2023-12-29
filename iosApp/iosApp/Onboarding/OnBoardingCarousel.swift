@@ -23,16 +23,16 @@ struct OnBoardingCarousel: View {
     var horizontalSpacing: CGFloat = 30
     var infoArray: [OnBoardingInfo] = [
         OnBoardingInfo(
-            title: "Discover and take part in our specialized Lectures 📚",
-            subtitle: "Get involved in our conference sessions by registering your attendance and participating in Q&A. Get to know our guest speakers and get notified of their lectures."
+            title: "Your Gateway to Continuous Medical Education! 🎓",
+            subtitle: "Convenire brings you the medical conferences to the palm of your hands, with a wide range of features to help you get the most out of your conference experience!"
         ),
         OnBoardingInfo(
-            title: "Collaborate & Connect with leading dental companies 🌐",
-            subtitle: "Develop connections with our exhibition sponsors through posts & updates and elevate your dental practice with once-in-a-lifetime offers & promotions."
+            title: "Discover & Join verified conferences and workshops 🌐",
+            subtitle: "Register to conferences and be notified of new workshops! Attend and claim your digital certificates!"
         ),
         OnBoardingInfo(
-            title: "Stay in the loop with our latest updates 🔔",
-            subtitle: "Sign up for your preferred lectures and turn on our notifications to get reminded of your custom schedule; the entire conference in the palm of your hand!"
+            title: "Exhibitions, Deals, and a lot more... 🔔",
+            subtitle: "Browse exhibitions, Develop connections, checkout posts & updates from organizers, and claim exclusive offers & promotions!"
         ),
     ]
     @State var backgroundOffset: CGFloat = 0

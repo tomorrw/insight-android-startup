@@ -235,7 +235,7 @@ sealed class AppRoute(
 
     companion object {
         private val deepLinkPrefixes: List<String> = listOf(
-            Constants.TEST_API_BASE_URL,
+            Constants.PRODUCTION_API_BASE_URL,
             "app://convenire"
         )
 

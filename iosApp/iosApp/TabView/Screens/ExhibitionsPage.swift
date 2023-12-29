@@ -9,8 +9,11 @@
 import SwiftUI
 import shared
 import KMPNativeCoroutinesAsync
+import Resolver
 
 struct ExhibitionsPage: View {
+    @InjectedObject var ticketViewModel: TicketViewModel
+
     var body: some View {
         NavigationPages() {
             VStack(alignment: .leading) {
@@ -22,22 +25,25 @@ struct ExhibitionsPage: View {
                     .padding(.bottom, 8)
                 
                 VStack(alignment: .leading, spacing: 16) {
-                    NavigateTo(destination: {NavigationLazyView(CompaniesByMapPage())}, label: {
-                        DefaultCard(backgroundColor: Color("Primary")) {
-                            DefaultCardBody (
-                                title: "Exhibitions Map",
-                                image: "map",
-                                description: "Get to know the Floor map of our event",
-                                isHighlighted: true
-                            )
-                        }
-                    })
+                    if ticketViewModel.showExhibitionMap {
+                        NavigateTo(destination: {NavigationLazyView(CompaniesByMapPage())}, label: {
+                            DefaultCard(backgroundColor: Color("Primary")) {
+                                DefaultCardBody (
+                                    title: "Exhibitions Map",
+                                    image: "map",
+                                    description: "Get to know the Floor map of our event",
+                                    isHighlighted: true
+                                )
+                            }
+                        })
+                    }
                     NavigateTo(destination: {NavigationLazyView(CompaniesPage())}, label: {
-                        DefaultCard() {
+                        DefaultCard(backgroundColor: ticketViewModel.showExhibitionMap ? Color("Default") : Color("Primary")) {
                             DefaultCardBody (
                                 title: "Companies",
                                 image: "office-building",
-                                description: "Get to know the companies at the heart of our event"
+                                description: "Get to know the companies at the heart of our event",
+                                isHighlighted: !ticketViewModel.showExhibitionMap
                             )
                         }
                     })
@@ -51,17 +57,17 @@ struct ExhibitionsPage: View {
                             )
                         }
                     })
-                    
-                    NavigateTo(destination: {NavigationLazyView(OffersPage())}, label: {
-                        DefaultCard {
-                            DefaultCardBody(
-                                title: "Offers & Deals",
-                                image: "offers",
-                                description: "Find the best exclusive deals"
-                            )
-                        }
-                    })
-                    
+                    if ticketViewModel.showOffers {
+                        NavigateTo(destination: {NavigationLazyView(OffersPage())}, label: {
+                            DefaultCard {
+                                DefaultCardBody(
+                                    title: "Offers & Deals",
+                                    image: "offers",
+                                    description: "Find the best exclusive deals"
+                                )
+                            }
+                        })
+                    }
                     Spacer()
                 }
             }

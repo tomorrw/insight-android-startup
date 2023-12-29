@@ -48,12 +48,13 @@ struct MyQrPage: View {
                                 Text(ticketViewModel.name)
                                     .font(.custom("SF-Mono", size: ticketViewModel.hasDate ? 16 : 20))
                                     .kerning(4)
-                                if ticketViewModel.hasDate {
+                                if let subTitle = ticketViewModel.subText {
                                     Spacer()
-                                    Text("CONF\(String(ticketViewModel.year!.dropLast()))")
+                                    Text("\(String(subTitle.dropLast()))")
                                         .font(.custom("SF-Mono", size: 16))
                                         .kerning(4)
-                                    Text(String(ticketViewModel.year!.last!))
+                                    
+                                    Text(String(subTitle.last!))
                                         .font(.custom("SF-Mono", size: 16))
                                 }
                             }
@@ -89,10 +90,12 @@ struct MyQrPage: View {
                         VStack(spacing: 4) {
                             Text("\(authViewModel.user?.getFormattedName() ?? "")")
                                 .font(.system(size: 20))
-                            Text("REGISTERED")
-                                .font(.custom("IBMPlexMono-Regular", size: 20))
-                                .kerning(5)
-                                .foregroundColor(Color("HighlightPrimary"))
+                            if let status = ticketViewModel.ticketStatus {
+                                Text(status)
+                                    .font(.custom("IBMPlexMono-Regular", size: 20))
+                                    .kerning(5)
+                                    .foregroundColor(Color("HighlightPrimary"))
+                            }
                         }
                         .padding(.horizontal, 24)
                         .padding(.bottom, 18)
