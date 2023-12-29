@@ -7,6 +7,6 @@ import kotlinx.serialization.Serializable
 class TicketDataDTO(
     @SerialName("ticket_description")
     val ticketDescription: String = "Your Digital Identity",
-    val showTicket: Boolean? = null,
+    val showTicket: Boolean? = false,
     val conference: ConferenceDTO? = ConferenceDTO()
 )

@@ -21,12 +21,9 @@ class TicketViewModel: ObservableObject {
     
     private var startDate: Date? = nil
     private var endDate: Date? = nil
-    private let dateFormatter = DateFormatter()
     
     init() {
-        self.dateFormatter.dateFormat = "yyyy-MM-dd"
         Task{ await self.getTicketData() }
-        
     }
     
     @MainActor func getTicketData() async {
@@ -35,8 +32,8 @@ class TicketViewModel: ObservableObject {
             
             for try await data in result {
                 self.showTicket = data.showTicket
-                self.startDate = dateFormatter.date(from: data.startDate?.description() ?? "")
-                self.endDate = dateFormatter.date(from: data.endDate?.description() ?? "")
+                self.startDate = data.startDate?.description().formatDate("yyyy-MM-dd")
+                self.endDate = data.endDate?.description().formatDate("yyyy-MM-dd")
                 self.name = data.title
                 self.description = data.description_
                 self.hasDate = self.startDate != nil && self.endDate != nil

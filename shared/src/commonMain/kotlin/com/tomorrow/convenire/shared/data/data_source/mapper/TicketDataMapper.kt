@@ -11,7 +11,7 @@ class TicketDataMapper : EntityMapper<TicketData, TicketDataDTO> {
         startDate = entity.conference?.startDate?.fromApiFormatToDate()?.date,
         endDate = entity.conference?.endDate?.fromApiFormatToDate()?.date,
         description = entity.ticketDescription,
-        showTicket = entity.showTicket ?: true,
+        showTicket = entity.showTicket ?: false,
     )
 
     override fun mapToEntity(domainModel: TicketData): TicketDataDTO {

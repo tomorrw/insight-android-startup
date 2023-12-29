@@ -83,6 +83,10 @@ class ApiServiceImplementation(
             )
         )
     }
+
+    override suspend fun getConfrences(): Result<List<ConferenceDTO>> {
+        TODO("Not yet implemented")
+    }
     @Serializable
     private data class VerifyOTPResponse(
         val token: String, val user: UserDTO

@@ -358,7 +358,7 @@ class RepositoryImplementation : CompanyRepository, SpeakerRepository, PostRepos
     }
 
     override fun getTicket(): Flow<TicketData> = flow {
-        //TODO add it to caches
+        //TODO add it to caches when business logic is ready
         apiService.getTicket( ).getOrThrow().let { emit(TicketDataMapper().mapFromEntity(it)) }
     }
 
