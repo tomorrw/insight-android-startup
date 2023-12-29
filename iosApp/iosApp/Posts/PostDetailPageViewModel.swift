@@ -12,7 +12,8 @@ import KMPNativeCoroutinesAsync
 
 class PostDetailPageViewModel: DetailPageViewModel {
     let id: String
-    
+    @Published var date: String = ""
+
     init(id: String) {
         self.id = id
         super.init()
@@ -32,7 +33,6 @@ class PostDetailPageViewModel: DetailPageViewModel {
                 self.headerDesign = .detailPage
                 self.image = data.image ?? ""
                 self.sections = data.detailPage.getDataIfLoaded()?.mapToSectionDisplayInfo() ?? []
-                self.socialLinks = nil
                 self.action = data.action
             }
         } catch {

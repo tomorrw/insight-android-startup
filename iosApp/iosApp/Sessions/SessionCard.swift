@@ -61,7 +61,7 @@ struct SessionCard: View {
                     Image(systemName: shouldNotify ? "bookmark.fill": "bookmark")
                         .resizable()
                         .frame(width: 14, height: 20)
-                        .foregroundColor(.accentColor)
+                        .foregroundColor(Color("Primary"))
                 }
                 .frame(width: 50, height: 38)
                 .padding(.top, 6)
@@ -143,7 +143,7 @@ struct SessionCard: View {
             .padding(.bottom)
         }
         .frame(maxWidth: .infinity)
-        .background(.white)
+        .background(Color("Default"))
         .clipShape(RoundedRectangle(cornerRadius: 16))
         .onAppear {
             self.checkIfShouldNotify()

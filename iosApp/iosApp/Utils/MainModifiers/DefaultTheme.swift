@@ -9,7 +9,8 @@
 import SwiftUI
 
 struct DefaultTheme: ViewModifier {
-     
+    @Environment(\.colorScheme) var colorScheme
+
     func body(content: Content) -> some View {
         return VStack {
             content
@@ -20,8 +21,8 @@ struct DefaultTheme: ViewModifier {
         .background(Color("Background"))
         .tint(Color("Primary"))
         .accentColor(Color("Background"))
-        .preferredColorScheme(.light)
-        .environment(\.colorScheme, .light)
+        .preferredColorScheme(colorScheme)
+        .environment(\.colorScheme, colorScheme)
     }
 }
 

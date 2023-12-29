@@ -18,8 +18,11 @@ struct PostDetailPage: View {
     }
     
     var body: some View {
-        DetailPage(vm: vm)
-            .navigationBarTitleDisplayMode(.inline)
-            .background(Color("Background"))
+        DetailPage(
+            vm: vm,
+            customHeader: { Text(vm.date).foregroundColor(Color("Secondary")) }
+        )
+        .navigationBarTitleDisplayMode(.inline)
+        .background(Color("Background"))
     }
 }

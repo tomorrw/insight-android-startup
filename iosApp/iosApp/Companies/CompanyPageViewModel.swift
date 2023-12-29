@@ -12,7 +12,8 @@ import KMPNativeCoroutinesAsync
 
 class CompanyPageViewModel: DetailPageViewModel {
     let id: String
-    
+    @Published var socialLinks: [SocialLink] = []
+
     init(id: String) {
         self.id = id
         super.init()
