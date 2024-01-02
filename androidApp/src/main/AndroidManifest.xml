@@ -45,7 +45,7 @@
 
                 <data
                     android:scheme="https"
-                    android:host="app.convenire.com" />
+                    android:host="app.convenire.app" />
             </intent-filter>
         </activity>
 
