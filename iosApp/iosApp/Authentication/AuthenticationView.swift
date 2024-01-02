@@ -401,7 +401,7 @@ struct AuthenticationView: View {
                     .onTapGesture {
                         authViewModel.toggleAgreed()
                     }
-                Link("Terms & Conditions", destination: URL(string: "https://convenire.app/privacy-policy")!)
+                Link("Terms & Conditions", destination: URL(string: "https://api.convenire.app/privacy-policy")!)
                     .foregroundColor(Color("HighlightPrimary"))
             }
             .frame(maxWidth: .infinity, alignment: .leading)        }

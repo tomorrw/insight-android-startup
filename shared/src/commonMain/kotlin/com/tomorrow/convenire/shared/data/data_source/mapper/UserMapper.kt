@@ -2,7 +2,6 @@ package com.tomorrow.convenire.shared.data.data_source.mapper
 
 import com.tomorrow.convenire.shared.data.data_source.model.UserDTO
 import com.tomorrow.convenire.shared.data.data_source.utils.EntityMapper
-import com.tomorrow.convenire.shared.domain.model.Action
 import com.tomorrow.convenire.shared.domain.model.Email
 import com.tomorrow.convenire.shared.domain.model.League
 import com.tomorrow.convenire.shared.domain.model.Salutation

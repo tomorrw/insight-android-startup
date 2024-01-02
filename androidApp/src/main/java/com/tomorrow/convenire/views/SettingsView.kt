@@ -103,7 +103,7 @@ fun SettingsView() {
                     .clickable {
                         val intent = Intent(
                             Intent.ACTION_VIEW,
-                            Uri.parse("https://bidm23.com/request-account-deletion"),
+                            Uri.parse("https://api.convenire.app/request-account-deletion"),
                         )
                         try {
                             context.startActivity(intent)

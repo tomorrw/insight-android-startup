@@ -16,8 +16,11 @@ class TicketViewModel: ObservableObject {
     @Published var hasDate: Bool = false { didSet { displayDate() } }
     @Published var name: String = "Convenire"
     @Published var description: String = "Your Digital Identity"
-    @Published var year: String? = nil
+    @Published var subText: String? = nil
     @Published var date: [String]? = nil
+    @Published var showExhibitionMap: Bool = false
+    @Published var showOffers: Bool = false
+    @Published var ticketStatus: String? = nil
     
     private var startDate: Date? = nil
     private var endDate: Date? = nil
@@ -28,7 +31,7 @@ class TicketViewModel: ObservableObject {
     
     @MainActor func getTicketData() async {
         do {
-            let result = asyncSequence(for: GetQrCodeInfoUseCase().getTicketInfo())
+            let result = asyncSequence(for: GetConfigurationUseCase().getTicketInfo())
             
             for try await data in result {
                 self.showTicket = data.showTicket
@@ -37,6 +40,10 @@ class TicketViewModel: ObservableObject {
                 self.name = data.title
                 self.description = data.description_
                 self.hasDate = self.startDate != nil && self.endDate != nil
+                self.subText = data.subTitle
+                self.showOffers = data.showExhibitionOffers
+                self.showExhibitionMap = data.showExhibitionMap
+                self.ticketStatus = data.status
             }
             
         } catch {
@@ -47,9 +54,16 @@ class TicketViewModel: ObservableObject {
     
     private func displayDate(){
         if hasDate{
-            year = startDate!.getFormatted("yyyy")
             if startDate?.getFormatted("MMMM") == endDate?.getFormatted("MMMM") {
-                date = "\(startDate!.getFormatted("MMMM")) \(startDate!.getFormatted("dd")) - \(endDate!.getFormatted("dd"))".map{String($0)}
+                
+                if startDate!.getFormatted("dd") == endDate!.getFormatted("dd"){
+                    date = "\(startDate!.getFormatted("MMMM")) \(startDate!.getFormatted("dd"))".map{String($0)}
+
+                }
+                else{
+                    date = "\(startDate!.getFormatted("MMMM")) \(startDate!.getFormatted("dd")) - \(endDate!.getFormatted("dd"))".map{String($0)}
+                }
+                
             }
             else{
                 date = "\(startDate!.getFormatted("dd")) \(startDate!.getFormatted("MMM"))  - \(endDate!.getFormatted("dd")) \(endDate!.getFormatted("MMM"))".map{String($0)}

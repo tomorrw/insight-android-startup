@@ -70,7 +70,7 @@ private fun commonModule(enableNetworkLogs: Boolean) = module {
     single<ApiService> {
         ApiServiceImplementation(
             { get<BearerTokensContainer>().scope.get() },
-            Constants.TEST_API_BASE_URL
+            Constants.PRODUCTION_API_BASE_URL
         )
     }
 

@@ -20,7 +20,7 @@ struct ProfileSettingsPage: View {
             VStack (alignment: .leading) {
                 
                 Button(action: {
-                    if let url = URL(string: "https://convenire.app/request-account-deletion") {
+                    if let url = URL(string: "https://api.convenire.app/request-account-deletion") {
                         UIApplication.shared.open(url)
                     }
                 }, label: {

@@ -70,19 +70,8 @@ class ApiServiceImplementation(
     override suspend fun getOffers(): Result<List<OfferDTO>> = get("$baseUrl/api/offers")
     override suspend fun getClaimedOffers(): Result<List<OfferDTO>> = get("$baseUrl/api/offers/claimed")
 
-    override suspend fun getTicket(): Result<TicketDataDTO> { // = get("$baseUrl/users/tickets")
-        return Result.success(
-            TicketDataDTO(
-                ticketDescription = "Your Digital Identity",
-                showTicket = true,
+    override suspend fun getConfig(): Result<ConfigurationDTO>  = get("$baseUrl/api/configuration")
 
-            )
-        )
-    }
-
-    override suspend fun getConfrences(): Result<List<ConferenceDTO>> {
-        TODO("Not yet implemented")
-    }
     @Serializable
     private data class VerifyOTPResponse(
         val token: String, val user: UserDTO

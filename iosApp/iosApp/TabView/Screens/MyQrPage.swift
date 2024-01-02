@@ -46,19 +46,20 @@ struct MyQrPage: View {
                         VStack(spacing: 0) {
                             HStack(spacing: 0) {
                                 Text(ticketViewModel.name)
-                                    .font(.custom("SF-Mono", size: ticketViewModel.hasDate ? 16 : 20))
+                                    .font(.custom("SF-Mono", size: ticketViewModel.subText != nil ? 16 : 20))
                                     .kerning(4)
-                                if ticketViewModel.hasDate {
+                                if let subTitle = ticketViewModel.subText {
                                     Spacer()
-                                    Text("CONF\(String(ticketViewModel.year!.dropLast()))")
+                                    Text("\(String(subTitle.dropLast()))")
                                         .font(.custom("SF-Mono", size: 16))
                                         .kerning(4)
-                                    Text(String(ticketViewModel.year!.last!))
+                                    
+                                    Text(String(subTitle.last!))
                                         .font(.custom("SF-Mono", size: 16))
                                 }
                             }
                             .foregroundColor(Color("HighlightPrimary"))
-                            if ticketViewModel.hasDate{
+                            if ticketViewModel.hasDate {
                                 HStack {
                                     ForEach(ticketViewModel.date!.indices, id: \.self) { item in
                                         if item != 0 {
@@ -89,10 +90,12 @@ struct MyQrPage: View {
                         VStack(spacing: 4) {
                             Text("\(authViewModel.user?.getFormattedName() ?? "")")
                                 .font(.system(size: 20))
-                            Text("REGISTERED")
-                                .font(.custom("IBMPlexMono-Regular", size: 20))
-                                .kerning(5)
-                                .foregroundColor(Color("HighlightPrimary"))
+                            if let status = ticketViewModel.ticketStatus {
+                                Text(status)
+                                    .font(.custom("IBMPlexMono-Regular", size: 20))
+                                    .kerning(5)
+                                    .foregroundColor(Color("HighlightPrimary"))
+                            }
                         }
                         .padding(.horizontal, 24)
                         .padding(.bottom, 18)
