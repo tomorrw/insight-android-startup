@@ -36,7 +36,7 @@ struct DropDown: View {
             }
             .padding([.top,.bottom], 18)
             .frame(maxWidth: .infinity)
-            .background(.white)
+            .background(Color("Default"))
             .clipShape(RoundedRectangle(cornerRadius: 8))
             
         }

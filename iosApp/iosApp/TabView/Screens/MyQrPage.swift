@@ -83,6 +83,8 @@ struct MyQrPage: View {
                         } label: {
                             Image(uiImage: qrImage)
                                 .resizable()
+                                .renderingMode(.template)
+                                .colorMultiply(Color("Primary"))
                                 .frame(width: 175, height: 175)
                                 .padding(.bottom, 24)
                         }
@@ -142,6 +144,8 @@ struct MyQrPage: View {
                     } label: {
                         Image(uiImage: qrImage)
                             .resizable()
+                            .renderingMode(.template)
+                            .colorMultiply(Color("Primary"))
                             .frame(width: 175, height: 175)
                             .padding(.bottom, 24)
                     }
@@ -202,12 +206,7 @@ private extension String {
                 let maskFilter = CIFilter.blendWithMask()
                 maskFilter.maskImage = outputImage.applyingFilter("CIColorInvert")
                 maskFilter.inputImage = CIImage(
-                    color: CIColor(color: UIColor(
-                        red: 0.06,
-                        green: 0.24,
-                        blue: 0.4,
-                        alpha: 1.0
-                    )))
+                    color: CIColor(color: .white))
                 
                 let ciImage = maskFilter.outputImage!
                 qrImage = context.createCGImage(ciImage, from: ciImage.extent).map(UIImage.init)!

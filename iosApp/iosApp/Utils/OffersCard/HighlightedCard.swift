@@ -35,7 +35,7 @@ struct HighlightedCard: View {
         }
         .frame(maxWidth: .infinity)
         .padding(15)
-        .background(Color.white)
+        .background(Color("Default"))
         .cornerRadius(16)
     }
 }

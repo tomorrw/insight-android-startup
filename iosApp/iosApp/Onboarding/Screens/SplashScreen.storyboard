@@ -29,7 +29,7 @@
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Bcu-3y-fUS"/>
-                        <color key="backgroundColor" name="BottomBar"/>
+                        <color key="backgroundColor" name="Background"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -40,8 +40,8 @@
     <resources>
         <image name="Tomorrow" width="226" height="80"/>
         <image name="convenire-logo" width="151.33332824707031" height="28.666666030883789"/>
-        <namedColor name="BottomBar">
-            <color red="0.99999994039535522" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        <namedColor name="Background">
+            <color red="0.93333333730697632" green="0.96078431606292725" blue="0.98823529481887817" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>

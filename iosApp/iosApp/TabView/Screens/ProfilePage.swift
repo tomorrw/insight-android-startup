@@ -34,13 +34,13 @@ struct ProfilePage: View {
                         NavigateTo(destination: { ProfileSettingsPage() }) {
                             HighlightedCard(
                                 image: "",
-                                title: authViewModel.user?.getFullName() ?? "",
+                                title: "Dr. White",
                                 description: authViewModel.user?.phoneNumber.number ?? ""
                             )
                         }
                         .padding(.top, 10)
                         
-                        CircularProgressView(progress: Double((authViewModel.user?.league.percentage) == 0 ? 0.01 : authViewModel.user?.league.percentage ?? 0), color: Color(hex: "\(authViewModel.user?.league.color ?? "ffffff")"))
+                        CircularProgressView(progress: Double((authViewModel.user?.league.percentage) == 0 ? 0.01 : authViewModel.user?.league.percentage ?? 0), color: Color(hex: "\(authViewModel.user?.league.color ?? "Default")"))
                             .padding(.all, 25)
                             .overlay(alignment: .center) {
                                 VStack {
@@ -53,12 +53,12 @@ struct ProfilePage: View {
                                         .multilineTextAlignment(.center)
                                 }
                             }
-                            .background { Circle().fill(Color.white) }
+                            .background { Circle().fill(Color("Default")) }
                             .frame(width: 320, height: 320)
                         
                         if let leagueName = authViewModel.user?.league.name {
                             Text(leagueName)
-                                .foregroundColor(Color(hex: "\(authViewModel.user?.league.color ?? "ffffff")"))
+                                .foregroundColor(Color(hex: "\(authViewModel.user?.league.color ?? "Background")"))
                                 .font(.system(size: 22))
                                 .fontWeight(.bold)
                         }

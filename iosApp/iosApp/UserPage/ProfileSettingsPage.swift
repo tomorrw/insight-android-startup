@@ -63,7 +63,7 @@ struct ProfileSettingsPage: View {
             }
             .frame(maxWidth: .infinity)
             .padding(.vertical, 10)
-            .background(Color.white)
+            .background(Color("Default"))
             .clipShape(RoundedRectangle(cornerRadius: 10.0, style: .continuous))
             .padding(.vertical)
 
