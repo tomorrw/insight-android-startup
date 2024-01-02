@@ -13,7 +13,7 @@
         <!--Lectures-->
         <scene sceneID="XpX-CX-kzN">
             <objects>
-                <hostingController modalPresentationStyle="fullScreen" id="j4X-Dk-cri" customClass="LecturesViewHostingController" customModule="BIDM" customModuleProvider="target" sceneMemberID="viewController">
+                <hostingController modalPresentationStyle="fullScreen" id="j4X-Dk-cri" customClass="LecturesViewHostingController" customModule="Convenire" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Lectures" id="tFW-QT-oXO">
                         <imageReference key="image" image="music.mic" catalog="system" symbolScale="default"/>
                         <color key="badgeColor" name="HighlightPrimary"/>
@@ -28,7 +28,7 @@
         <!--My QR-->
         <scene sceneID="UhV-ic-lIi">
             <objects>
-                <hostingController id="ZPR-Sb-yml" customClass="MyQrViewHostingController" customModule="BIDM" customModuleProvider="target" sceneMemberID="viewController">
+                <hostingController id="ZPR-Sb-yml" customClass="MyQrViewHostingController" customModule="Convenire" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="My QR" id="XOD-hL-ggD">
                         <imageReference key="image" image="qrcode" catalog="system" symbolScale="default"/>
                         <color key="badgeColor" name="HighlightPrimary"/>
@@ -42,7 +42,7 @@
         <!--Exhibitions-->
         <scene sceneID="y39-cz-If5">
             <objects>
-                <hostingController id="B6h-XO-cWL" customClass="ExhibitionsViewHostingController" customModule="BIDM" customModuleProvider="target" sceneMemberID="viewController">
+                <hostingController id="B6h-XO-cWL" customClass="ExhibitionsViewHostingController" customModule="Convenire" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Exhibitions" id="hG4-J2-4gD">
                         <imageReference key="image" image="menucard" catalog="system" symbolScale="default"/>
                         <imageReference key="selectedImage" image="menucard" catalog="system" symbolScale="default"/>
@@ -55,7 +55,7 @@
         <!--Home-->
         <scene sceneID="abz-b5-sGO">
             <objects>
-                <hostingController id="YoL-Gy-qFY" customClass="HomeViewHostingController" customModule="BIDM" customModuleProvider="target" sceneMemberID="viewController">
+                <hostingController id="YoL-Gy-qFY" customClass="HomeViewHostingController" customModule="Convenire" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Home" id="bTe-lZ-bol">
                         <imageReference key="image" image="house" catalog="system" symbolScale="default" renderingMode="template" variableValue="1"/>
                         <color key="badgeColor" name="HighlightPrimary"/>
@@ -69,7 +69,7 @@
         <!--Home Page Tab Bar Controller-->
         <scene sceneID="Pgj-F0-Qbj">
             <objects>
-                <tabBarController storyboardIdentifier="HomePageID" id="kw8-kA-0py" customClass="HomePageTabBarController" customModule="BIDM" customModuleProvider="target" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="HomePageID" id="kw8-kA-0py" customClass="HomePageTabBarController" customModule="Convenire" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBar key="tabBar" opaque="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="wS7-QT-Wga">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -98,7 +98,7 @@
         <!--Profile-->
         <scene sceneID="s3I-DX-4YL">
             <objects>
-                <viewController id="LwA-6n-x8x" customClass="ProfileHostingController" customModule="BIDM" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="LwA-6n-x8x" customClass="ProfileHostingController" customModule="Convenire" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Profile" id="bEl-Rq-Fg7">
                         <imageReference key="image" image="person.circle" catalog="system" symbolScale="default"/>
                     </tabBarItem>

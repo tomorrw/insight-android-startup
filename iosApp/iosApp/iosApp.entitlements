@@ -6,7 +6,7 @@
 	<string>development</string>
 	<key>com.apple.developer.associated-domains</key>
 	<array>
-		<string>applinks:app.bidm23.com</string>
+		<string>applinks:app.convenire.app</string>
 	</array>
 </dict>
 </plist>
