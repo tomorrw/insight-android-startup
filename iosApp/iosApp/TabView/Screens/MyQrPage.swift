@@ -46,7 +46,7 @@ struct MyQrPage: View {
                         VStack(spacing: 0) {
                             HStack(spacing: 0) {
                                 Text(ticketViewModel.name)
-                                    .font(.custom("SF-Mono", size: ticketViewModel.hasDate ? 16 : 20))
+                                    .font(.custom("SF-Mono", size: ticketViewModel.subText != nil ? 16 : 20))
                                     .kerning(4)
                                 if let subTitle = ticketViewModel.subText {
                                     Spacer()
@@ -59,7 +59,7 @@ struct MyQrPage: View {
                                 }
                             }
                             .foregroundColor(Color("HighlightPrimary"))
-                            if ticketViewModel.hasDate{
+                            if ticketViewModel.hasDate {
                                 HStack {
                                     ForEach(ticketViewModel.date!.indices, id: \.self) { item in
                                         if item != 0 {

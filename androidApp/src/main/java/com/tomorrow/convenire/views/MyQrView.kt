@@ -120,14 +120,14 @@ fun MyQrView() {
                             ) {
                                 Row(
                                     Modifier.fillMaxWidth(),
-                                    horizontalArrangement = if (ticket.ticketData.hasDate || !ticket.ticketData.subTitle.isNullOrEmpty()) Arrangement.SpaceBetween else Arrangement.Center
+                                    horizontalArrangement = if (ticket.ticketData.subTitle.isNullOrEmpty()) Arrangement.Center else Arrangement.SpaceBetween
                                 ) {
                                     val style = LocalTextStyle.current
                                     Text(
                                         text = ticket.ticketData.title,
                                         style = style.copy(
                                             letterSpacing = style.fontSize.times(0.2f),
-                                            fontSize = style.fontSize.times(if (ticket.ticketData.hasDate) 1f else 1.25f),
+                                            fontSize = style.fontSize.times(if (ticket.ticketData.hasDate && !ticket.ticketData.subTitle.isNullOrEmpty()) 1f else 1.25f),
                                             fontFamily = FontFamily(
                                                 Font(R.font.ibmplexmono_regular)
                                             ),
@@ -142,6 +142,7 @@ fun MyQrView() {
                                                 fontFamily = FontFamily(
                                                     Font(R.font.ibmplexmono_regular)
                                                 ),
+                                                fontSize = style.fontSize.times(if (ticket.ticketData.hasDate) 1f else 1.25f),
                                                 color = MaterialTheme.colorScheme.surfaceVariant
                                             )
                                         )

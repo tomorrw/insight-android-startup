@@ -55,7 +55,15 @@ class TicketViewModel: ObservableObject {
     private func displayDate(){
         if hasDate{
             if startDate?.getFormatted("MMMM") == endDate?.getFormatted("MMMM") {
-                date = "\(startDate!.getFormatted("MMMM")) \(startDate!.getFormatted("dd")) - \(endDate!.getFormatted("dd"))".map{String($0)}
+                
+                if startDate!.getFormatted("dd") == endDate!.getFormatted("dd"){
+                    date = "\(startDate!.getFormatted("MMMM")) \(startDate!.getFormatted("dd"))".map{String($0)}
+
+                }
+                else{
+                    date = "\(startDate!.getFormatted("MMMM")) \(startDate!.getFormatted("dd")) - \(endDate!.getFormatted("dd"))".map{String($0)}
+                }
+                
             }
             else{
                 date = "\(startDate!.getFormatted("dd")) \(startDate!.getFormatted("MMM"))  - \(endDate!.getFormatted("dd")) \(endDate!.getFormatted("MMM"))".map{String($0)}

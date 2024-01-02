@@ -23,5 +23,4 @@ interface ApiService {
     suspend fun getOffers(): Result<List<OfferDTO>>
     suspend fun getClaimedOffers(): Result<List<OfferDTO>>
     suspend fun getConfig(): Result<ConfigurationDTO>
-    suspend fun getConfrences(): Result<List<ConferenceDTO>>
 }

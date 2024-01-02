@@ -12,6 +12,6 @@ class GetConfigurationUseCase: KoinComponent {
 
     @NativeCoroutines
     @Throws(Exception::class)
-    fun getTicketInfo(): Flow<ConfigurationData> = repository.getTicket()
+    fun getTicketInfo(): Flow<ConfigurationData> = repository.getConfiguration()
 
 }

@@ -18,5 +18,5 @@ interface AuthenticationRepository {
     fun getLoggedInUser(): Flow<User>
     fun isAuthenticated(): StateFlow<Boolean?>
     suspend fun logout(): Result<Unit>
-    fun getTicket(): Flow<ConfigurationData>
+    fun getConfiguration(): Flow<ConfigurationData>
 }

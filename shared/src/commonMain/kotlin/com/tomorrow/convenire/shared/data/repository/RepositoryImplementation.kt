@@ -357,10 +357,9 @@ class RepositoryImplementation : CompanyRepository, SpeakerRepository, PostRepos
         if (it is ClientRequestException && it.response.status == HttpStatusCode.Unauthorized) clearAllData()
     }
 
-    override fun getTicket(): Flow<ConfigurationData> = flow {
+    override fun getConfiguration(): Flow<ConfigurationData> = flow {
         //TODO add it to caches when business logic is ready
         apiService.getConfig( ).getOrThrow().let {
-            println("====== ${it.endDate}")
             emit(ConfigurationDataMapper().mapFromEntity(it)) }
     }
 
