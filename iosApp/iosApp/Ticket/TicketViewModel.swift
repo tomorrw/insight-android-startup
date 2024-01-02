@@ -13,7 +13,7 @@ import KMPNativeCoroutinesAsync
 
 class TicketViewModel: ObservableObject {
     @Published var showTicket: Bool = true
-    @Published var hasDate: Bool = false { didSet { displayDate() } }
+    @Published var hasDate: Bool = false
     @Published var name: String = "Convenire"
     @Published var description: String = "Your Digital Identity"
     @Published var subText: String? = nil
@@ -44,6 +44,7 @@ class TicketViewModel: ObservableObject {
                 self.showOffers = data.showExhibitionOffers
                 self.showExhibitionMap = data.showExhibitionMap
                 self.ticketStatus = data.status
+                self.date = data.getFormattedDate()?.map{ String($0) }
             }
             
         } catch {
@@ -52,23 +53,6 @@ class TicketViewModel: ObservableObject {
     }
     
     
-    private func displayDate(){
-        if hasDate{
-            if startDate?.getFormatted("MMMM") == endDate?.getFormatted("MMMM") {
-                
-                if startDate!.getFormatted("dd") == endDate!.getFormatted("dd"){
-                    date = "\(startDate!.getFormatted("MMMM")) \(startDate!.getFormatted("dd"))".map{String($0)}
 
-                }
-                else{
-                    date = "\(startDate!.getFormatted("MMMM")) \(startDate!.getFormatted("dd")) - \(endDate!.getFormatted("dd"))".map{String($0)}
-                }
-                
-            }
-            else{
-                date = "\(startDate!.getFormatted("dd")) \(startDate!.getFormatted("MMM"))  - \(endDate!.getFormatted("dd")) \(endDate!.getFormatted("MMM"))".map{String($0)}
-            }
-        }
-    }
     
 }

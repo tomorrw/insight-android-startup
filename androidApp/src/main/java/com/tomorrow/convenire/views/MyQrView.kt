@@ -41,20 +41,22 @@ import java.util.*
 
 class MyQrViewData(
     val user: User,
-    val ticketData: ConfigurationData
+    val configurationData: ConfigurationData
 )
 
 class MyQrViewModel : ReadViewModel<MyQrViewData>(
     load = {
-        GetConfigurationUseCase().getTicketInfo().combine(GetUserUseCase().getUser()) { ticket, user ->
-            MyQrViewData(user, ticket)
-        }
+        GetConfigurationUseCase().getTicketInfo()
+            .combine(GetUserUseCase().getUser()) { configurationData, user ->
+                MyQrViewData(user, configurationData)
+            }
     },
 
     refresh = {
-        GetConfigurationUseCase().getTicketInfo().combine(GetUserUseCase().getUser()) { ticket, user ->
-            MyQrViewData(user, ticket)
-        }
+        GetConfigurationUseCase().getTicketInfo()
+            .combine(GetUserUseCase().getUser()) { configurationData, user ->
+                MyQrViewData(user, configurationData)
+            }
     }
 )
 
@@ -70,13 +72,7 @@ fun MyQrView() {
             val qrCode = remember(viewModel.state.isRefreshing) {
                 mutableStateOf(ticket.user.generateQrCodeString())
             }
-            val eventDate: String? = remember(key1 = ticket) {
-                if (!ticket.ticketData.hasDate) null
-                else if (ticket.ticketData.startDate?.month != ticket.ticketData.endDate?.month)
-                    "${ticket.ticketData.startDate?.dayOfMonth}  ${ticket.ticketData.startDate?.month?.name} - ${ticket.ticketData.endDate?.dayOfMonth} ${ticket.ticketData.endDate?.month?.name}"
-                else
-                    "${ticket.ticketData.startDate?.month?.name} ${ticket.ticketData.startDate?.dayOfMonth} - ${ticket.ticketData.endDate?.dayOfMonth}"
-            }
+            val eventDate: String? = remember(key1 = ticket) { ticket.configurationData.getFormattedDate() }
 
             LaunchedEffect(key1 = qrCode.value) {
                 delay(30000)
@@ -103,7 +99,7 @@ fun MyQrView() {
                             .verticalScroll(rememberScrollState()),
                         verticalArrangement = Arrangement.Center,
                     ) {
-                        if (ticket.ticketData.showTicket) Column(
+                        if (ticket.configurationData.showTicket) Column(
                             modifier = Modifier
                                 .padding(16.dp)
                                 .clip(RoundedCornerShape(8.dp))
@@ -120,21 +116,21 @@ fun MyQrView() {
                             ) {
                                 Row(
                                     Modifier.fillMaxWidth(),
-                                    horizontalArrangement = if (ticket.ticketData.subTitle.isNullOrEmpty()) Arrangement.Center else Arrangement.SpaceBetween
+                                    horizontalArrangement = if (ticket.configurationData.subTitle.isNullOrEmpty()) Arrangement.Center else Arrangement.SpaceBetween
                                 ) {
                                     val style = LocalTextStyle.current
                                     Text(
-                                        text = ticket.ticketData.title,
+                                        text = ticket.configurationData.title,
                                         style = style.copy(
                                             letterSpacing = style.fontSize.times(0.2f),
-                                            fontSize = style.fontSize.times(if (ticket.ticketData.hasDate && !ticket.ticketData.subTitle.isNullOrEmpty()) 1f else 1.25f),
+                                            fontSize = style.fontSize.times(if (ticket.configurationData.hasDate && !ticket.configurationData.subTitle.isNullOrEmpty()) 1f else 1.25f),
                                             fontFamily = FontFamily(
                                                 Font(R.font.ibmplexmono_regular)
                                             ),
                                             color = MaterialTheme.colorScheme.surfaceVariant
                                         )
                                     )
-                                    ticket.ticketData.subTitle?.let {
+                                    ticket.configurationData.subTitle?.let {
                                         Text(
                                             text = it,
                                             style = style.copy(
@@ -142,7 +138,7 @@ fun MyQrView() {
                                                 fontFamily = FontFamily(
                                                     Font(R.font.ibmplexmono_regular)
                                                 ),
-                                                fontSize = style.fontSize.times(if (ticket.ticketData.hasDate) 1f else 1.25f),
+                                                fontSize = style.fontSize.times(if (ticket.configurationData.hasDate) 1f else 1.25f),
                                                 color = MaterialTheme.colorScheme.surfaceVariant
                                             )
                                         )
@@ -186,7 +182,7 @@ fun MyQrView() {
 
                                 Spacer(modifier = Modifier.height(2.dp))
 
-                                ticket.ticketData.status?.let {
+                                ticket.configurationData.status?.let {
                                     Text(
                                         text = it,
                                         style = MaterialTheme.typography.titleLarge.copy(
@@ -205,7 +201,7 @@ fun MyQrView() {
                                     .padding(horizontal = 24.dp)
                                     .padding(bottom = 24.dp)
                                     .padding(top = 12.dp),
-                                text = ticket.ticketData.description,
+                                text = ticket.configurationData.description,
                                 style = MaterialTheme.typography.titleMedium.copy(textAlign = TextAlign.Center)
                             )
                         } else Column(
@@ -223,7 +219,7 @@ fun MyQrView() {
                             )
                             Spacer(modifier = Modifier.height(16.dp))
                             Text(
-                                text = ticket.ticketData.description,
+                                text = ticket.configurationData.description,
                                 style = MaterialTheme.typography.headlineSmall.copy(
                                     textAlign = TextAlign.Center
                                 )

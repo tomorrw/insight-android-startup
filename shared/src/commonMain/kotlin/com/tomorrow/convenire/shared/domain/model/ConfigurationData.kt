@@ -13,4 +13,17 @@ data class ConfigurationData(
     val status: String? = null,
     val showExhibitionMap: Boolean,
     val showExhibitionOffers: Boolean,
-)
+) {
+    fun getFormattedDate(): String? {
+        if (hasDate.not()) return null
+
+        return if (startDate?.month != endDate?.month)
+            "${startDate?.dayOfMonth}  ${startDate?.month?.name} - ${endDate?.dayOfMonth} ${endDate?.month?.name}"
+        else {
+            if (startDate?.dayOfMonth == endDate?.dayOfMonth)
+                "${startDate?.month?.name} ${startDate?.dayOfMonth}"
+            else
+                "${startDate?.month?.name} ${startDate?.dayOfMonth} - ${endDate?.dayOfMonth}"
+        }
+    }
+}
