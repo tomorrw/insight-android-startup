@@ -66,9 +66,9 @@ class ClaimedOffersPageViewModel: OffersPageViewModel {
             self.errorMessage = nil
             let sequence = asyncSequence(for: GetOffersUseCase().getClaimedOffers())
             for try await offers in sequence {
-                self.isLoading = false
                 data = offers
             }
+            self.isLoading = false
         } catch {
             self.isLoading = false
             self.errorMessage = (error as? KotlinThrowable)?.toUserFriendlyError() ?? "Something Went Wrong!"

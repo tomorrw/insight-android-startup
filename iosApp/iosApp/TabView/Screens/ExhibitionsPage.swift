@@ -57,7 +57,7 @@ struct ExhibitionsPage: View {
                             )
                         }
                     })
-                    if ticketViewModel.showOffers {
+                    if !ticketViewModel.showOffers {
                         NavigateTo(destination: {NavigationLazyView(OffersPage())}, label: {
                             DefaultCard {
                                 DefaultCardBody(

@@ -12,6 +12,7 @@
 		2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2152FB032600AC8F00CF470E /* iOSApp.swift */; };
 		4C2562B62ABAE2BE00ACE03E /* OffersPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C2562B52ABAE2BE00ACE03E /* OffersPage.swift */; };
 		4C2562B82ABAE2FF00ACE03E /* OffersPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C2562B72ABAE2FF00ACE03E /* OffersPageViewModel.swift */; };
+		4C3637D02B445BC900D352D2 /* ClaimedOffersPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3637CF2B445BC900D352D2 /* ClaimedOffersPage.swift */; };
 		4C36D4A22B441527000D7781 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4C36D4A12B441527000D7781 /* GoogleService-Info.plist */; };
 		4C4F1EEF2B3EBEA90066AB31 /* AppstoreInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4F1EEE2B3EBEA80066AB31 /* AppstoreInfoViewModel.swift */; };
 		4C64DE872B3D8380001E1B17 /* TicketViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C64DE862B3D8380001E1B17 /* TicketViewModel.swift */; };
@@ -132,6 +133,7 @@
 		3B30F3472A407C2FDF9E352A /* Pods-iosApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iosApp.debug.xcconfig"; path = "Target Support Files/Pods-iosApp/Pods-iosApp.debug.xcconfig"; sourceTree = "<group>"; };
 		4C2562B52ABAE2BE00ACE03E /* OffersPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OffersPage.swift; sourceTree = "<group>"; };
 		4C2562B72ABAE2FF00ACE03E /* OffersPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OffersPageViewModel.swift; sourceTree = "<group>"; };
+		4C3637CF2B445BC900D352D2 /* ClaimedOffersPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaimedOffersPage.swift; sourceTree = "<group>"; };
 		4C36D4A12B441527000D7781 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		4C4F1EEE2B3EBEA80066AB31 /* AppstoreInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppstoreInfoViewModel.swift; sourceTree = "<group>"; };
 		4C64DE862B3D8380001E1B17 /* TicketViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketViewModel.swift; sourceTree = "<group>"; };
@@ -283,6 +285,7 @@
 				4C2562B52ABAE2BE00ACE03E /* OffersPage.swift */,
 				4C2562B72ABAE2FF00ACE03E /* OffersPageViewModel.swift */,
 				4CFB9A842AC6C894009C0740 /* OffersList.swift */,
+				4C3637CF2B445BC900D352D2 /* ClaimedOffersPage.swift */,
 			);
 			path = Offers;
 			sourceTree = "<group>";
@@ -928,6 +931,7 @@
 				4CF226D02ACAD9180044F623 /* ActionButtons.swift in Sources */,
 				B556746429FA9476001B7B79 /* FlatLinkStyle.swift in Sources */,
 				B556743929FA77F3001B7B79 /* SocialLinkMapper.swift in Sources */,
+				4C3637D02B445BC900D352D2 /* ClaimedOffersPage.swift in Sources */,
 				B37D14D729CA050F00BA4E39 /* CustomLoader.swift in Sources */,
 				4C64DE872B3D8380001E1B17 /* TicketViewModel.swift in Sources */,
 				B56AA30F29F7C4490021B12E /* CompaniesByCategoryPage.swift in Sources */,
