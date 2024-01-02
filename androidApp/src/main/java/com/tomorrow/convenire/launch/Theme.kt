@@ -11,7 +11,7 @@ import com.tomorrow.convenire.R
 val appColors = lightColors(
     primary = Color(0xFF113F67),
     primaryVariant = Color(0xFF6594BD),
-    secondary = Color(0xFF8354F5),
+    secondary = Color(0xFF46BFD3),
     secondaryVariant = Color(0xFF5495AA),
     background = Color(0xFFFFFFFF),
     surface = Color(0xFFEEF5FC),
@@ -31,7 +31,7 @@ val appColorsMaterial3 = lightColorScheme(
     error = Color(0xFFFF9494),
     surface = Color(0xFFEEF5FC),
     onSurface = Color(0xFF113F67),
-    surfaceVariant = Color(0xFF8354F5),
+    surfaceVariant = Color(0xFF46BFD3),
     onSurfaceVariant = Color(0xFF6594BD),
     surfaceTint = Color(0xFF113F67),
     outline = Color(0xFFDAE6F1),

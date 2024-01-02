@@ -124,7 +124,7 @@ struct PageIndicator: View {
             ForEach(0..<pagesCount, id: \.self) { index in
                 Circle()
                     .frame(width: 8, height: 8)
-                    .foregroundColor(CGFloat(index) == backgroundOffset ? Color("HighlightPrimary") : Color("Secondary"))
+                    .foregroundColor(CGFloat(index) == backgroundOffset ? Color("HighlightPrimary") : Color("UnHighlighted"))
             }
         }
     }
