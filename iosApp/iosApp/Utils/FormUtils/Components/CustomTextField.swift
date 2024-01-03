@@ -30,6 +30,7 @@ struct CustomTextField: View {
                 TextField("", text: $textValue)
             }
         }
+        .tint(Color("HighlightPrimary"))
         .accentColor(Color("HighlightPrimary"))
         .focused($isFocused)
         .textFieldLayout(icon: icon, placeholder: placeholderText, showPlaceholder: showPlaceholder, hasError: hasError, hasSuccess: hasSuccess)

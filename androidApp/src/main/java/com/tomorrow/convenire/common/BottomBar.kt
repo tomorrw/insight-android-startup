@@ -69,7 +69,7 @@ fun BottomBar(isVisible: Boolean) {
                         .padding(horizontal = 8.dp)
                         .padding(bottom = 8.dp)
                         .clip(MaterialTheme.shapes.medium),
-                    containerColor = Color(0xFFEEF5FC)
+                    containerColor = MaterialTheme.colorScheme.surface
                 ) {
                     screens.forEach { item ->
                         NavigationBarItem(
