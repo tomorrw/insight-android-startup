@@ -14,7 +14,6 @@ import Resolver
 import CoreImage.CIFilterBuiltins
 
 struct MyQrPage: View {
-    @InjectedObject var authViewModel: AuthenticationViewModel
     @InjectedObject var ticketViewModel: TicketViewModel
     
     @State private var isDisplayingError = false
@@ -32,7 +31,7 @@ struct MyQrPage: View {
                     VStack(alignment: .leading) {
                         Text("My QR")
                             .font(.system(size: 24, weight: .bold))
-                        Text("Welcome back \(authViewModel.user?.getFormattedName() ?? "")")
+                        Text("Welcome back \(ticketViewModel.user?.getFormattedName() ?? "")")
                             .foregroundColor(Color("Secondary"))
                     }
                     Spacer()
@@ -77,8 +76,10 @@ struct MyQrPage: View {
                         
                         Button {
                             withAnimation(.linear(duration: 0.6)) {
-                                Task{ await ticketViewModel.getTicketData() }
-                                authViewModel.getUser()
+                                DispatchQueue.main.async {
+                                    Task{ await ticketViewModel.getUser()
+                                     await ticketViewModel.getTicketData() }
+                                }
                             }
                         } label: {
                             Image(uiImage: qrImage)
@@ -88,7 +89,7 @@ struct MyQrPage: View {
                         }
                         
                         VStack(spacing: 4) {
-                            Text("\(authViewModel.user?.getFormattedName() ?? "")")
+                            Text("\(ticketViewModel.user?.getFormattedName() ?? "")")
                                 .font(.system(size: 20))
                             if let status = ticketViewModel.ticketStatus {
                                 Text(status)
@@ -137,7 +138,10 @@ struct MyQrPage: View {
                     
                     Button {
                         withAnimation(.linear(duration: 0.6)) {
-                            authViewModel.getUser()
+                            DispatchQueue.main.async {
+                                Task{ await ticketViewModel.getUser()
+                                 await ticketViewModel.getTicketData() }
+                            }
                         }
                     } label: {
                         Image(uiImage: qrImage)
@@ -158,19 +162,19 @@ struct MyQrPage: View {
                 Spacer()
                 
                 
-                    .onReceive(authViewModel.$errorMessage, perform: { error in
+                    .onReceive(ticketViewModel.$errorMessage, perform: { error in
                         guard error != nil && error != "" else {
                             isDisplayingError = false
                             return
                         }
                         isDisplayingError = true
                     })
-                    .onReceive(authViewModel.$user) { user in
+                    .onReceive(ticketViewModel.$user) { user in
                         qrImage = (user?.generateQrCodeString() ?? "Not valid").qrImage
                     }
             }
             .onReceive(timer, perform: { _ in
-                qrImage = (authViewModel.user?.generateQrCodeString() ?? "Not valid").qrImage
+                qrImage = (ticketViewModel.user?.generateQrCodeString() ?? "Not valid").qrImage
             })
             .navigationTitle("My QR")
             .frame(maxWidth: .infinity)

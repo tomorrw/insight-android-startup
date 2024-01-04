@@ -21,12 +21,33 @@ class TicketViewModel: ObservableObject {
     @Published var showExhibitionMap: Bool = false
     @Published var showOffers: Bool = false
     @Published var ticketStatus: String? = nil
-    
+    @Published var user: User? = nil
+    @Published var errorMessage: String? = ""
+
     private var startDate: Date? = nil
     private var endDate: Date? = nil
     
     init() {
-        Task{ await self.getTicketData() }
+        DispatchQueue.main.async {
+            Task{ await self.getUser()
+             await self.getTicketData() }
+        }
+    }
+    
+    @MainActor func getUser() async {
+        Task {
+            do {
+                let result = asyncSequence(for: GetUserUseCase().getUser())
+                
+                for try await userResult in result {
+                    self.user = userResult
+                }
+                
+            } catch {
+                self.errorMessage = "User Not Found!"
+                print(error)
+            }
+        }
     }
     
     @MainActor func getTicketData() async {
@@ -48,6 +69,7 @@ class TicketViewModel: ObservableObject {
             }
             
         } catch {
+            self.errorMessage = "Ticket Data Not Found!"
             print(error)
         }
     }
