@@ -47,7 +47,7 @@ fun InlineHighlightedCard(
                 )
             )
             .clickable { onClick() }
-            .background(Color(0xFFFFFFFF))
+            .background(MaterialTheme.colorScheme.onPrimary)
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             avatar?.let {

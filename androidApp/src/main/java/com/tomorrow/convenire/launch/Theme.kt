@@ -1,19 +1,30 @@
 package com.tomorrow.convenire.launch
 
+import android.app.Activity
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.Typography
+import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Shapes
+import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import androidx.core.view.WindowCompat
 import com.tomorrow.convenire.R
 
 val appColors = lightColors(
     primary = Color(0xFF113F67),
     primaryVariant = Color(0xFF6594BD),
-    secondary = Color(0xFF8354F5),
+    secondary = Color(0xFF46BFD3),
     secondaryVariant = Color(0xFF5495AA),
-    background = Color(0xFFFFFFFF),
+    background = Color(0xFFEEF5FC),
     surface = Color(0xFFEEF5FC),
     error = Color(0xFFFF9494)
 )
@@ -31,12 +42,40 @@ val appColorsMaterial3 = lightColorScheme(
     error = Color(0xFFFF9494),
     surface = Color(0xFFEEF5FC),
     onSurface = Color(0xFF113F67),
-    surfaceVariant = Color(0xFF8354F5),
+    surfaceVariant = Color(0xFF46BFD3),
     onSurfaceVariant = Color(0xFF6594BD),
     surfaceTint = Color(0xFF113F67),
     outline = Color(0xFFDAE6F1),
 
     )
+val appColorsDark = darkColors(
+    primary = Color(0xFFFFFFFF),
+    primaryVariant = Color(0xFF959EAD),
+    secondary = Color(0xFF56C6C1),
+    secondaryVariant = Color(0xFF46BFD3),
+    background = Color(0xFF2F3D45),
+    surface = Color(0xFF0E191E),
+    error = Color(0xFFFF9494)
+)
+
+val appColorsMaterial3Dark = darkColorScheme(
+    primary = Color(0xFFFFFFFF),
+    onPrimary = Color(0xFF2F3D45),
+    primaryContainer = Color(0xFF2F3D45),
+    onPrimaryContainer = Color(0xFF0E191E),
+    secondary = Color(0xFF56C6C1),
+    onSecondary = Color(0xFF2F3D45),
+    secondaryContainer = Color(0xFF5495AA),
+    onSecondaryContainer = Color(0xFF5495AA),
+    background = Color(0xFF1E2B32),
+    error = Color(0xFFFF9494),
+    surface = Color(0xFF0E191E),
+    onSurface = Color(0xFFFFFFFF),
+    surfaceVariant = Color(0xFF46BFD3),
+    onSurfaceVariant = Color(0xFF959EAD),
+    surfaceTint = Color(0xFF13242C),
+    outline = Color(0xFF959EAD)
+)
 
 val typographyMaterial3 = androidx.compose.material3.Typography().let {
     it.copy(
@@ -59,3 +98,40 @@ val typographyMaterial3 = androidx.compose.material3.Typography().let {
 }
 
 val typography = Typography(defaultFontFamily = FontFamily(Font(R.font.product_sans_regular)))
+
+@Composable
+fun JetpackComposeDarkThemeTheme(
+    darkTheme: Boolean = isSystemInDarkTheme(),
+    content: @Composable () -> Unit
+) {
+    val colors = if (darkTheme) {
+        appColorsMaterial3Dark
+    } else {
+        appColorsMaterial3
+    }
+    var materialThemeColors = if (darkTheme) {
+        appColorsDark
+    } else {
+        appColors
+    }
+    MaterialTheme(
+        colorScheme = colors,
+        typography = typographyMaterial3,
+    ) {
+        androidx.compose.material.MaterialTheme(materialThemeColors, typography = typography) {
+            content()
+        }
+    }
+        // Optional, this part helps you set the statusbar color
+        val view = LocalView.current
+        if (!view.isInEditMode) {
+            SideEffect {
+                val window = (view.context as Activity).window
+                window.statusBarColor = colors.background.toArgb()
+
+                WindowCompat.getInsetsController(window, view)
+                    .isAppearanceLightStatusBars = !darkTheme
+            }
+        }
+
+}

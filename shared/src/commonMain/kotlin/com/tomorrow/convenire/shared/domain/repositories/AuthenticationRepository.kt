@@ -1,5 +1,6 @@
 package com.tomorrow.convenire.shared.domain.repositories
 
+import com.tomorrow.convenire.shared.domain.model.ColorTheme
 import com.tomorrow.convenire.shared.domain.model.Email
 import com.tomorrow.convenire.shared.domain.model.OTP
 import com.tomorrow.convenire.shared.domain.model.ConfigurationData
@@ -19,4 +20,6 @@ interface AuthenticationRepository {
     fun isAuthenticated(): StateFlow<Boolean?>
     suspend fun logout(): Result<Unit>
     fun getConfiguration(): Flow<ConfigurationData>
+    fun getColorTheme(): ColorTheme
+    fun saveColorTheme(colorTheme: String): Result<String>
 }

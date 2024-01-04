@@ -6,4 +6,5 @@ import io.ktor.client.plugins.auth.providers.*
 interface EncryptedStorage {
     var bearerTokens: BearerTokens?
     var user: UserDTO?
+    var colorTheme: String?
 }

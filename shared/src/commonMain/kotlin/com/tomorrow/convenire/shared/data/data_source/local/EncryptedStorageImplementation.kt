@@ -30,6 +30,12 @@ class EncryptedStorageImplementation(
             encryptedSettings[com.tomorrow.convenire.shared.data.data_source.local.EncryptedStorageImplementation.Companion.USER] = json.encodeToString(value)
         }
 
+    override var colorTheme: String?
+        get() = encryptedSettings.getStringOrNull(COLOR_THEME)
+        set(value) {
+            encryptedSettings[COLOR_THEME] = value
+        }
+
     @Serializable
     private class BearerTokenSerializable(val token: String, val refreshToken: String) {
         fun toBearerTokens() = BearerTokens(accessToken = token, refreshToken = refreshToken)
@@ -59,5 +65,6 @@ class EncryptedStorageImplementation(
         const val SETTING_NAME = "ENCRYPTED_SETTING"
         const val TOKEN_NAME = "TOKEN"
         const val USER = "USER"
+        var COLOR_THEME = "COLOR_THEME"
     }
 }

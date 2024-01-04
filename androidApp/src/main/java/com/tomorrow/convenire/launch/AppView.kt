@@ -1,10 +1,12 @@
 package com.tomorrow.convenire.launch
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
@@ -20,6 +22,8 @@ import com.tomorrow.convenire.feature_in_app_update.InAppUpdater
 import com.tomorrow.convenire.feature_internet_connectivity.ConnectivityStatus
 import com.tomorrow.convenire.feature_navigation.AppRoute
 import com.tomorrow.convenire.feature_navigation.setUp
+import com.tomorrow.convenire.shared.domain.model.ColorTheme
+import com.tomorrow.convenire.shared.domain.use_cases.ColorThemeUseCase
 import com.tomorrow.convenire.shared.domain.use_cases.IsAuthenticatedUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.androidx.compose.koinViewModel
@@ -36,39 +40,48 @@ fun AppView(navController: NavHostController = rememberNavController()) {
     val currentLayoutDirection by remember { mutableStateOf(LayoutDirection.Ltr) }
     val fullScreenViewModel: FullScreenViewModel = koinViewModel()
     val isAuthenticated by IsAuthenticatedUseCase().asFlow().collectAsState()
+    val uiTheme = ColorThemeUseCase().getColorTheme()
 
     CompositionLocalProvider(
         LocalLayoutDirection provides currentLayoutDirection,
         LocalNavController provides navController,
     ) {
-
-        androidx.compose.material3.MaterialTheme(
-            appColorsMaterial3,
-            typography = typographyMaterial3
-        ) {
-            MaterialTheme(appColors, typography = typography) {
-                Scaffold(
-                    bottomBar = { BottomBar(isVisible = AppRoute.shouldDisplayBottomBar(currentRoute)) },
-                    containerColor = MaterialTheme.colors.surface
-                ) { paddingValues ->
-                    ConnectivityStatusWrapper(modifier = Modifier.padding(bottom = paddingValues.calculateBottomPadding())) {
-                        isAuthenticated?.let {
-                            // if you want to add a page to the nav graph
-                            // create an object (not a class) that implements com.dentiflow.android.feature_navigation.AppRoute
-                            // and it will be directly added here
-                            NavHost(
-                                navController,
-                                startDestination = (if (it) AppRoute.Home else AppRoute.OnBoarding).generate()
-                            ) { setUp(AppRoute.allRoutes) }
-                        } ?: Loader()
-                    }
-                }
-
-                InAppUpdater()
-
-                Box(Modifier.fillMaxSize()) { fullScreenViewModel.content() }
+        JetpackComposeDarkThemeTheme(
+            darkTheme = when(uiTheme) {
+                ColorTheme.Light -> false
+                ColorTheme.Dark -> true
+                else -> isSystemInDarkTheme()
             }
+        ) {
+            Scaffold(
+                bottomBar = { BottomBar(isVisible = AppRoute.shouldDisplayBottomBar(currentRoute)) },
+                containerColor = MaterialTheme.colors.surface
+            ) { paddingValues ->
+                ConnectivityStatusWrapper(modifier = Modifier.padding(bottom = paddingValues.calculateBottomPadding())) {
+                    isAuthenticated?.let {
+                        // if you want to add a page to the nav graph
+                        // create an object (not a class) that implements com.dentiflow.android.feature_navigation.AppRoute
+                        // and it will be directly added here
+                        NavHost(
+                            navController,
+                            startDestination = (if (it) AppRoute.Home else AppRoute.OnBoarding).generate()
+                        ) { setUp(AppRoute.allRoutes) }
+                    } ?: Loader()
+                }
+            }
+
+            InAppUpdater()
+
+            Box(Modifier.fillMaxSize()) { fullScreenViewModel.content() }
         }
+//        androidx.compose.material3.MaterialTheme(
+//            appColorsMaterial3,
+//            typography = typographyMaterial3
+//        ) {
+//            MaterialTheme(appColors, typography = typography) {
+//
+//            }
+//        }
     }
 }
 

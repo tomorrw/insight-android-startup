@@ -359,8 +359,23 @@ class RepositoryImplementation : CompanyRepository, SpeakerRepository, PostRepos
 
     override fun getConfiguration(): Flow<ConfigurationData> = flow {
         //TODO add it to caches when business logic is ready
-        apiService.getConfig( ).getOrThrow().let {
-            emit(ConfigurationDataMapper().mapFromEntity(it)) }
+        apiService.getConfig().getOrThrow().let {
+            emit(ConfigurationDataMapper().mapFromEntity(it))
+        }
+    }
+
+    override fun getColorTheme(): ColorTheme =
+        when (encryptedStorage.colorTheme ?: "Auto") {
+            "Auto" -> ColorTheme.Auto
+            "Light" -> ColorTheme.Light
+            "Dark" -> ColorTheme.Dark
+            else -> ColorTheme.Auto
+        }
+
+
+    override fun saveColorTheme(colorTheme: String): Result<String> {
+        encryptedStorage.colorTheme = colorTheme
+        return Result.success("Successfully changed")
     }
 
     private suspend fun clearAllData() {
