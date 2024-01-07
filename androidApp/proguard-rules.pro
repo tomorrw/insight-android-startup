@@ -13,3 +13,17 @@
     *** Companion;
 }
 -keep class com.tomorrow.convenire.feature_navigation.**
+
+-keep class com.tomorrow.convenire.shared.data.data_source.local.**
+-keep,includedescriptorclasses class com.tomorrow.convenire.shared.data.data_source.local.** { *; }
+-keepclassmembers class com.tomorrow.convenire.shared.data.data_source.local.** {
+    *** Companion;
+}
+-keep class com.tomorrow.convenire.shared.data.data_source.local.**
+
+-keep interface io.realm.kotlin.types.** { *; }
+-keep class io.realm.kotlin.types.** { *; }
+-keep class io.realm.kotlin.types.**
+-keep @io.realm.kotlin.types.** class *
+-keep class io.realm.internal.Keep
+-keep @io.realm.internal.Keep class *
