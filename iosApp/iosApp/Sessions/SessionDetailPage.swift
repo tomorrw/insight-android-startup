@@ -28,7 +28,8 @@ struct SessionDetailPage: View {
     var body: some View {
         DetailPage(
             vm: vm,
-            customHeader: { sessionHeader }
+            customHeader: { sessionHeader },
+            customBody: { PostDisplayView(sections: $vm.sections, actions: $vm.action) }
         )
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {

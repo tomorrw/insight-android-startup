@@ -20,7 +20,8 @@ struct PostDetailPage: View {
     var body: some View {
         DetailPage(
             vm: vm,
-            customHeader: { Text(vm.date).foregroundColor(Color("Secondary")) }
+            customHeader: { Text(vm.date).foregroundColor(Color("Secondary")) },
+            customBody: { PostDisplayView(sections: $vm.sections, actions: $vm.action) }
         )
         .navigationBarTitleDisplayMode(.inline)
         .background(Color("Background"))

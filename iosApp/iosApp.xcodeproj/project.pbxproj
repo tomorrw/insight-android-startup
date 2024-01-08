@@ -23,6 +23,7 @@
 		4C9A5DDD2AC1C6AB00885F3D /* CompaniesByMapPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C9A5DDC2AC1C6AB00885F3D /* CompaniesByMapPage.swift */; };
 		4C9A5DDF2AC1C6ED00885F3D /* CompaniesByMapPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C9A5DDE2AC1C6ED00885F3D /* CompaniesByMapPageViewModel.swift */; };
 		4CD5E1C22B4C3121006903AB /* ConfigViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CD5E1C12B4C3121006903AB /* ConfigViewModel.swift */; };
+		4CD5E1C52B4C3A69006903AB /* PageDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CD5E1C42B4C3A69006903AB /* PageDisplayView.swift */; };
 		4CF226D02ACAD9180044F623 /* ActionButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF226CF2ACAD9180044F623 /* ActionButtons.swift */; };
 		4CF226D22ACADFC30044F623 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF226D12ACADFC30044F623 /* Color.swift */; };
 		4CF226D82ACAE5D40044F623 /* ProfileSettingsPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF226D72ACAE5D40044F623 /* ProfileSettingsPage.swift */; };
@@ -145,6 +146,7 @@
 		4C9A5DDC2AC1C6AB00885F3D /* CompaniesByMapPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompaniesByMapPage.swift; sourceTree = "<group>"; };
 		4C9A5DDE2AC1C6ED00885F3D /* CompaniesByMapPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompaniesByMapPageViewModel.swift; sourceTree = "<group>"; };
 		4CD5E1C12B4C3121006903AB /* ConfigViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigViewModel.swift; sourceTree = "<group>"; };
+		4CD5E1C42B4C3A69006903AB /* PageDisplayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageDisplayView.swift; sourceTree = "<group>"; };
 		4CF226CF2ACAD9180044F623 /* ActionButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionButtons.swift; sourceTree = "<group>"; };
 		4CF226D12ACADFC30044F623 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		4CF226D72ACAE5D40044F623 /* ProfileSettingsPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingsPage.swift; sourceTree = "<group>"; };
@@ -301,13 +303,13 @@
 			path = AppStore;
 			sourceTree = "<group>";
 		};
-		4C64DE852B3D8349001E1B17 /* Config */ = {
+		4C64DE852B3D8349001E1B17 /* Conference */ = {
 			isa = PBXGroup;
 			children = (
 				4C64DE862B3D8380001E1B17 /* TicketViewModel.swift */,
 				4CD5E1C12B4C3121006903AB /* ConfigViewModel.swift */,
 			);
-			path = Config;
+			path = Conference;
 			sourceTree = "<group>";
 		};
 		4C64DE882B3DAEAE001E1B17 /* Extension */ = {
@@ -333,6 +335,14 @@
 				4C995C202ABB258F0041C95D /* HighlightedCard.swift */,
 			);
 			path = OffersCard;
+			sourceTree = "<group>";
+		};
+		4CD5E1C32B4C3A54006903AB /* PageDisplay */ = {
+			isa = PBXGroup;
+			children = (
+				4CD5E1C42B4C3A69006903AB /* PageDisplayView.swift */,
+			);
+			path = PageDisplay;
 			sourceTree = "<group>";
 		};
 		4CF226D42ACAE5980044F623 /* UserPage */ = {
@@ -413,7 +423,7 @@
 				B33C9CDD2A155B9400BC7571 /* Questions */,
 				B37D14CF29C9EE8600BA4E39 /* DependencyInjection */,
 				B37D14AE29C9DDDE00BA4E39 /* Utils */,
-				4C64DE852B3D8349001E1B17 /* Config */,
+				4C64DE852B3D8349001E1B17 /* Conference */,
 				B37D14BF29C9E68100BA4E39 /* Authentication */,
 				B556745629FA7FDA001B7B79 /* Sessions */,
 				B556745129FA7ED2001B7B79 /* Categories */,
@@ -482,6 +492,7 @@
 		B37D14AE29C9DDDE00BA4E39 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				4CD5E1C32B4C3A54006903AB /* PageDisplay */,
 				4C64DE882B3DAEAE001E1B17 /* Extension */,
 				4C995C1F2ABB25740041C95D /* OffersCard */,
 				4C7A1D2D2A9C812E001EB91A /* DropDown */,
@@ -1017,6 +1028,7 @@
 				B5183E5029F18CDD0097363D /* NetworkMonitorIndicator.swift in Sources */,
 				B33C9CE52A155E9200BC7571 /* CheckboxView.swift in Sources */,
 				B556744B29FA7DAB001B7B79 /* CompaniesByCategoryPageViewModel.swift in Sources */,
+				4CD5E1C52B4C3A69006903AB /* PageDisplayView.swift in Sources */,
 				B37D14C529C9E78800BA4E39 /* AuthenticationView.swift in Sources */,
 				B37D14BE29C9E0C100BA4E39 /* Placeholder.swift in Sources */,
 				B58BDDB12A25F1F3003378FD /* Debouncer.swift in Sources */,

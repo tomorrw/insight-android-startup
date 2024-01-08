@@ -11,22 +11,23 @@ import shared
 import KMPNativeCoroutinesAsync
 import Resolver
 
-struct DetailPage: View {
+struct DetailPage<Header: View, Body: View>: View {
     @State private var isDisplayingError = false
     @ObservedObject var vm: DetailPageViewModel
     
-    var customHeader: (() -> any View)?
-
-    init(isDisplayingError: Bool = false, vm: DetailPageViewModel, @ViewBuilder customHeader: @escaping () -> any View) {
+    var customHeader: () -> Header
+    var customBody: () -> Body
+    
+    init(
+        isDisplayingError: Bool = false,
+        vm: DetailPageViewModel,
+        @ViewBuilder customHeader: @escaping () -> Header = { EmptyView() },
+        @ViewBuilder customBody: @escaping () -> Body = { EmptyView() }
+    ) {
         self.isDisplayingError = isDisplayingError
         self.vm = vm
         self.customHeader = customHeader
-    }
-    
-    init(isDisplayingError: Bool = false, vm: DetailPageViewModel) {
-        self.isDisplayingError = isDisplayingError
-        self.vm = vm
-        self.customHeader = nil
+        self.customBody = customBody
     }
     
     var body: some View {
@@ -80,58 +81,11 @@ struct DetailPage: View {
                             .multilineTextAlignment(vm.headerDesign == .contact ? .center : .leading)
                         }
                         
-                        if customHeader != nil {
-                            AnyView(self.customHeader!())
-                        }
-                        
-                        Divider().padding(.bottom, 5)
-                        
-                        LazyVStack(alignment: .leading, spacing: 32) {
-                            ForEach(vm.sections) { section in
-                                VStack(alignment: .leading) {
-                                    let info = section.getInfo()
-                                    
-                                    VStack {
-                                        if let image = (info as? InfoContent)?.imageUrl {
-                                            UrlImageView(urlString: image)
-                                                .frame(maxWidth: .infinity)
-                                                .aspectRatio(contentMode: .fit)
-                                                .clipShape(RoundedRectangle(cornerRadius: 16))
-                                                .padding(.bottom, 4)
-                                        }
-                                    }
-                                    
-                                    Text(info.title)
-                                        .font(.system(size: 18, weight: .medium))
-                                        .padding(.bottom, 2)
-                                    Text(info.description)
-                                        .foregroundColor(Color("Secondary"))
-                                        .font(.system(size: 15))
-                                        .lineSpacing(3)
-                                    
-                                    switch(section) {
-                                    case let .video(details): if let url = URL(string: details.videoUrl) {
-                                        CustomVideoPlayer(url: url)
-                                            .aspectRatio(16/9, contentMode: .fit)
-                                            .background(.gray.opacity(0.3))
-                                            .frame(maxWidth: .infinity)
-                                            .clipShape(RoundedRectangle(cornerRadius: 16))
-                                            .padding(.vertical, 2)
-                                    } else { EmptyView() }
-                                    case let .sessions(details): SessionsVerticalView(sessions: details.sessions)
-                                    case let .speakers(details): SpeakersHorizontalView(speakers: details.speakers)
-                                    default : EmptyView()
-                                    }
-                                }
-                            }
-                        }
-                        
-                        ActionButtons(actions: vm.action)
-                        
-                        Spacer()
+                        customHeader()
                     }
                     .padding()
-                    .padding(.bottom, 30)
+                    
+                    customBody()
                 }
             } else {
                 // loaders

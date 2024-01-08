@@ -14,7 +14,6 @@ import KMPNativeCoroutinesAsync
 class ConfigViewModel: ObservableObject{
     @Published var showExhibitionMap: Bool = false
     @Published var showOffers: Bool = false
-    @Published var errorMessage: String? = ""
 
     init(){
         DispatchQueue.main.async {
@@ -32,7 +31,6 @@ class ConfigViewModel: ObservableObject{
             }
             
         } catch {
-            self.errorMessage = "Ticket Data Not Found!"
             print(error)
         }
     }
