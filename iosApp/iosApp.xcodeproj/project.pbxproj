@@ -17,6 +17,7 @@
 		4C4F1EEF2B3EBEA90066AB31 /* AppstoreInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4F1EEE2B3EBEA80066AB31 /* AppstoreInfoViewModel.swift */; };
 		4C64DE872B3D8380001E1B17 /* TicketViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C64DE862B3D8380001E1B17 /* TicketViewModel.swift */; };
 		4C64DE8A2B3DAEBC001E1B17 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C64DE892B3DAEBC001E1B17 /* Date.swift */; };
+		4C6A93DB2B4C21A9009F339D /* TicketPresentationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C6A93DA2B4C21A9009F339D /* TicketPresentationModel.swift */; };
 		4C6ACE312AA5BFAF00DBBBF5 /* Switcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C6ACE302AA5BFAF00DBBBF5 /* Switcher.swift */; };
 		4C7A1D2F2A9C812E001EB91A /* DropDown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C7A1D2E2A9C812E001EB91A /* DropDown.swift */; };
 		4C995C212ABB258F0041C95D /* HighlightedCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C995C202ABB258F0041C95D /* HighlightedCard.swift */; };
@@ -138,6 +139,7 @@
 		4C4F1EEE2B3EBEA80066AB31 /* AppstoreInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppstoreInfoViewModel.swift; sourceTree = "<group>"; };
 		4C64DE862B3D8380001E1B17 /* TicketViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketViewModel.swift; sourceTree = "<group>"; };
 		4C64DE892B3DAEBC001E1B17 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
+		4C6A93DA2B4C21A9009F339D /* TicketPresentationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketPresentationModel.swift; sourceTree = "<group>"; };
 		4C6ACE302AA5BFAF00DBBBF5 /* Switcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Switcher.swift; sourceTree = "<group>"; };
 		4C7A1D2E2A9C812E001EB91A /* DropDown.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DropDown.swift; sourceTree = "<group>"; };
 		4C995C202ABB258F0041C95D /* HighlightedCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighlightedCard.swift; sourceTree = "<group>"; };
@@ -303,6 +305,7 @@
 			isa = PBXGroup;
 			children = (
 				4C64DE862B3D8380001E1B17 /* TicketViewModel.swift */,
+				4C6A93DA2B4C21A9009F339D /* TicketPresentationModel.swift */,
 			);
 			path = Ticket;
 			sourceTree = "<group>";
@@ -953,6 +956,7 @@
 				4CF226E92ACAEA200044F623 /* MyQrPage.swift in Sources */,
 				B5A3C48629F29608007F6AC9 /* coerceIn.swift in Sources */,
 				B556745D29FA93C4001B7B79 /* SessionsPage.swift in Sources */,
+				4C6A93DB2B4C21A9009F339D /* TicketPresentationModel.swift in Sources */,
 				B32B2E4E2A13860E00C290F7 /* CarouselItem.swift in Sources */,
 				B5AE032029F91B2A00F5FB8C /* SpeakersHorizontalView.swift in Sources */,
 				B556745B29FA8199001B7B79 /* SocialLink.swift in Sources */,
