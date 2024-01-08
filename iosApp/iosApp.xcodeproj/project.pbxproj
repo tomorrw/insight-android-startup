@@ -13,16 +13,16 @@
 		4C2562B62ABAE2BE00ACE03E /* OffersPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C2562B52ABAE2BE00ACE03E /* OffersPage.swift */; };
 		4C2562B82ABAE2FF00ACE03E /* OffersPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C2562B72ABAE2FF00ACE03E /* OffersPageViewModel.swift */; };
 		4C3637D02B445BC900D352D2 /* ClaimedOffersPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3637CF2B445BC900D352D2 /* ClaimedOffersPage.swift */; };
-		4C36D4A22B441527000D7781 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4C36D4A12B441527000D7781 /* GoogleService-Info.plist */; };
 		4C4F1EEF2B3EBEA90066AB31 /* AppstoreInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4F1EEE2B3EBEA80066AB31 /* AppstoreInfoViewModel.swift */; };
 		4C64DE872B3D8380001E1B17 /* TicketViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C64DE862B3D8380001E1B17 /* TicketViewModel.swift */; };
 		4C64DE8A2B3DAEBC001E1B17 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C64DE892B3DAEBC001E1B17 /* Date.swift */; };
-		4C6A93DB2B4C21A9009F339D /* TicketPresentationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C6A93DA2B4C21A9009F339D /* TicketPresentationModel.swift */; };
 		4C6ACE312AA5BFAF00DBBBF5 /* Switcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C6ACE302AA5BFAF00DBBBF5 /* Switcher.swift */; };
 		4C7A1D2F2A9C812E001EB91A /* DropDown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C7A1D2E2A9C812E001EB91A /* DropDown.swift */; };
+		4C9902332B459C5800F70B15 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4C9902322B459C5800F70B15 /* GoogleService-Info.plist */; };
 		4C995C212ABB258F0041C95D /* HighlightedCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C995C202ABB258F0041C95D /* HighlightedCard.swift */; };
 		4C9A5DDD2AC1C6AB00885F3D /* CompaniesByMapPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C9A5DDC2AC1C6AB00885F3D /* CompaniesByMapPage.swift */; };
 		4C9A5DDF2AC1C6ED00885F3D /* CompaniesByMapPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C9A5DDE2AC1C6ED00885F3D /* CompaniesByMapPageViewModel.swift */; };
+		4CD5E1C22B4C3121006903AB /* ConfigViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CD5E1C12B4C3121006903AB /* ConfigViewModel.swift */; };
 		4CF226D02ACAD9180044F623 /* ActionButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF226CF2ACAD9180044F623 /* ActionButtons.swift */; };
 		4CF226D22ACADFC30044F623 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF226D12ACADFC30044F623 /* Color.swift */; };
 		4CF226D82ACAE5D40044F623 /* ProfileSettingsPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF226D72ACAE5D40044F623 /* ProfileSettingsPage.swift */; };
@@ -135,16 +135,16 @@
 		4C2562B52ABAE2BE00ACE03E /* OffersPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OffersPage.swift; sourceTree = "<group>"; };
 		4C2562B72ABAE2FF00ACE03E /* OffersPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OffersPageViewModel.swift; sourceTree = "<group>"; };
 		4C3637CF2B445BC900D352D2 /* ClaimedOffersPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaimedOffersPage.swift; sourceTree = "<group>"; };
-		4C36D4A12B441527000D7781 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		4C4F1EEE2B3EBEA80066AB31 /* AppstoreInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppstoreInfoViewModel.swift; sourceTree = "<group>"; };
 		4C64DE862B3D8380001E1B17 /* TicketViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketViewModel.swift; sourceTree = "<group>"; };
 		4C64DE892B3DAEBC001E1B17 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
-		4C6A93DA2B4C21A9009F339D /* TicketPresentationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketPresentationModel.swift; sourceTree = "<group>"; };
 		4C6ACE302AA5BFAF00DBBBF5 /* Switcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Switcher.swift; sourceTree = "<group>"; };
 		4C7A1D2E2A9C812E001EB91A /* DropDown.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DropDown.swift; sourceTree = "<group>"; };
+		4C9902322B459C5800F70B15 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		4C995C202ABB258F0041C95D /* HighlightedCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighlightedCard.swift; sourceTree = "<group>"; };
 		4C9A5DDC2AC1C6AB00885F3D /* CompaniesByMapPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompaniesByMapPage.swift; sourceTree = "<group>"; };
 		4C9A5DDE2AC1C6ED00885F3D /* CompaniesByMapPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompaniesByMapPageViewModel.swift; sourceTree = "<group>"; };
+		4CD5E1C12B4C3121006903AB /* ConfigViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigViewModel.swift; sourceTree = "<group>"; };
 		4CF226CF2ACAD9180044F623 /* ActionButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionButtons.swift; sourceTree = "<group>"; };
 		4CF226D12ACADFC30044F623 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		4CF226D72ACAE5D40044F623 /* ProfileSettingsPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingsPage.swift; sourceTree = "<group>"; };
@@ -301,13 +301,13 @@
 			path = AppStore;
 			sourceTree = "<group>";
 		};
-		4C64DE852B3D8349001E1B17 /* Ticket */ = {
+		4C64DE852B3D8349001E1B17 /* Config */ = {
 			isa = PBXGroup;
 			children = (
 				4C64DE862B3D8380001E1B17 /* TicketViewModel.swift */,
-				4C6A93DA2B4C21A9009F339D /* TicketPresentationModel.swift */,
+				4CD5E1C12B4C3121006903AB /* ConfigViewModel.swift */,
 			);
-			path = Ticket;
+			path = Config;
 			sourceTree = "<group>";
 		};
 		4C64DE882B3DAEAE001E1B17 /* Extension */ = {
@@ -413,7 +413,7 @@
 				B33C9CDD2A155B9400BC7571 /* Questions */,
 				B37D14CF29C9EE8600BA4E39 /* DependencyInjection */,
 				B37D14AE29C9DDDE00BA4E39 /* Utils */,
-				4C64DE852B3D8349001E1B17 /* Ticket */,
+				4C64DE852B3D8349001E1B17 /* Config */,
 				B37D14BF29C9E68100BA4E39 /* Authentication */,
 				B556745629FA7FDA001B7B79 /* Sessions */,
 				B556745129FA7ED2001B7B79 /* Categories */,
@@ -428,8 +428,8 @@
 				2152FB032600AC8F00CF470E /* iOSApp.swift */,
 				E6C4A9082A16557000E836F1 /* AppDelegate.swift */,
 				058557BA273AAA24004C7B11 /* Assets.xcassets */,
+				4C9902322B459C5800F70B15 /* GoogleService-Info.plist */,
 				7555FF8C242A565B00829871 /* Info.plist */,
-				4C36D4A12B441527000D7781 /* GoogleService-Info.plist */,
 				058557D7273AAEEB004C7B11 /* Preview Content */,
 			);
 			path = iosApp;
@@ -866,7 +866,7 @@
 				058557D9273AAEEB004C7B11 /* Preview Assets.xcassets in Resources */,
 				058557BB273AAA24004C7B11 /* Assets.xcassets in Resources */,
 				B37D14C729C9EB7C00BA4E39 /* SplashScreen.storyboard in Resources */,
-				4C36D4A22B441527000D7781 /* GoogleService-Info.plist in Resources */,
+				4C9902332B459C5800F70B15 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -956,7 +956,6 @@
 				4CF226E92ACAEA200044F623 /* MyQrPage.swift in Sources */,
 				B5A3C48629F29608007F6AC9 /* coerceIn.swift in Sources */,
 				B556745D29FA93C4001B7B79 /* SessionsPage.swift in Sources */,
-				4C6A93DB2B4C21A9009F339D /* TicketPresentationModel.swift in Sources */,
 				B32B2E4E2A13860E00C290F7 /* CarouselItem.swift in Sources */,
 				B5AE032029F91B2A00F5FB8C /* SpeakersHorizontalView.swift in Sources */,
 				B556745B29FA8199001B7B79 /* SocialLink.swift in Sources */,
@@ -986,6 +985,7 @@
 				7555FF83242A565900829871 /* ContentView.swift in Sources */,
 				B5183E2429F006BB0097363D /* OnBoardingCarousel.swift in Sources */,
 				B3C1438129C9D0FE00B988B6 /* DefaultTheme.swift in Sources */,
+				4CD5E1C22B4C3121006903AB /* ConfigViewModel.swift in Sources */,
 				4CFB9A852AC6C894009C0740 /* OffersList.swift in Sources */,
 				4C2562B62ABAE2BE00ACE03E /* OffersPage.swift in Sources */,
 				B556744D29FA7DE0001B7B79 /* CompanyPageViewModel.swift in Sources */,
@@ -1158,7 +1158,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_ENTITLEMENTS = iosApp/iosApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_ASSET_PATHS = "\"iosApp/Preview Content\"";
 				DEVELOPMENT_TEAM = 33TJNDCEA8;
 				ENABLE_PREVIEWS = YES;
@@ -1171,7 +1171,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.14;
+				MARKETING_VERSION = 1.0.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tomorrow.convenire;
 				PRODUCT_NAME = Convenire;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1190,7 +1190,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_ENTITLEMENTS = iosApp/iosApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_ASSET_PATHS = "\"iosApp/Preview Content\"";
 				DEVELOPMENT_TEAM = 33TJNDCEA8;
 				ENABLE_PREVIEWS = YES;
@@ -1203,7 +1203,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.14;
+				MARKETING_VERSION = 1.0.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tomorrow.convenire;
 				PRODUCT_NAME = Convenire;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

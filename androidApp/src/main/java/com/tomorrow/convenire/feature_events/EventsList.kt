@@ -68,7 +68,7 @@ fun EventsList(
     days: List<LocalDate>,
     selectedDay: LocalDate?,
     emptyView: @Composable () -> Unit = {
-        GeneralError(message = "Data not available", description = "")
+        GeneralError(message = "Nothing to see here yet.", description = "")
     },
     onDaySelected: (LocalDate) -> Unit,
 ) {

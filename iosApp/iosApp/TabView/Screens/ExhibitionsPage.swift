@@ -12,8 +12,8 @@ import KMPNativeCoroutinesAsync
 import Resolver
 
 struct ExhibitionsPage: View {
-    @InjectedObject var ticketViewModel: TicketViewModel
-
+    @InjectedObject var vm: ConfigViewModel
+    
     var body: some View {
         NavigationPages() {
             VStack(alignment: .leading) {
@@ -25,7 +25,7 @@ struct ExhibitionsPage: View {
                     .padding(.bottom, 8)
                 
                 VStack(alignment: .leading, spacing: 16) {
-                    if ticketViewModel.showExhibitionMap {
+                    if vm.showExhibitionMap {
                         NavigateTo(destination: {NavigationLazyView(CompaniesByMapPage())}, label: {
                             DefaultCard(backgroundColor: Color("Primary")) {
                                 DefaultCardBody (
@@ -38,12 +38,12 @@ struct ExhibitionsPage: View {
                         })
                     }
                     NavigateTo(destination: {NavigationLazyView(CompaniesPage())}, label: {
-                        DefaultCard(backgroundColor: ticketViewModel.showExhibitionMap ? Color("Default") : Color("Primary")) {
+                        DefaultCard(backgroundColor: vm.showExhibitionMap ? Color("Default") : Color("Primary")) {
                             DefaultCardBody (
                                 title: "Companies",
                                 image: "office-building",
                                 description: "Get to know the companies at the heart of our event",
-                                isHighlighted: !ticketViewModel.showExhibitionMap
+                                isHighlighted: !vm.showExhibitionMap
                             )
                         }
                     })
@@ -57,7 +57,7 @@ struct ExhibitionsPage: View {
                             )
                         }
                     })
-                    if !ticketViewModel.showOffers {
+                    if vm.showOffers {
                         NavigateTo(destination: {NavigationLazyView(OffersPage())}, label: {
                             DefaultCard {
                                 DefaultCardBody(
@@ -71,6 +71,7 @@ struct ExhibitionsPage: View {
                     Spacer()
                 }
             }
+            .onAppear{Task{ await vm.getConfigData() }}
             .padding(.horizontal)
             .frame(maxWidth: .infinity)
             .navigationBarHidden(true)

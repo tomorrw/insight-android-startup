@@ -63,3 +63,8 @@ inline fun <reified Transformed> Field<*>.getTransformed(): Transformed =
     rules.filterIsInstance<TransformativeRule<*>>().firstOrNull()
         ?.getInstanceIfValid(value) as? Transformed
         ?: throw Exception("cannot transform this field to ${Transformed::class}")
+
+@Throws(Exception::class)
+inline fun <reified Transformed> Field<*>.getTransformedOrNull(): Transformed? =
+    rules.filterIsInstance<TransformativeRule<*>>().firstOrNull()
+        ?.getInstanceIfValid(value) as? Transformed

@@ -31,7 +31,7 @@ struct OnBoardingCarousel: View {
             subtitle: "Register to conferences and be notified of new workshops! Attend and claim your digital certificates!"
         ),
         OnBoardingInfo(
-            title: "Exhibitions, Deals, and a lot more... 🔔",
+            title: "Exhibitions, Deals,\n and a lot more... 🔔",
             subtitle: "Browse exhibitions, Develop connections, checkout posts & updates from organizers, and claim exclusive offers & promotions!"
         ),
     ]

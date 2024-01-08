@@ -13,6 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 
@@ -27,11 +28,13 @@ fun CustomAlertDialog(
     ctasEnabled: Boolean = true,
     onDismiss: () -> Unit,
     icon: (@Composable () -> Unit)? = null,
-    dismissButtonText: String
+    dismissButtonText: String,
+    containerColor: Color = Color(0xFFFAFAFF)
 ) {
     AlertDialog(
         modifier = Modifier.padding(horizontal = 8.dp),
         onDismissRequest = { onDismiss() },
+        containerColor = containerColor,
         confirmButton = {
             Text(
                 text = ctaButtonText,

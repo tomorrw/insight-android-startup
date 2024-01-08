@@ -11,7 +11,7 @@ plugins {
 version = "1.0"
 
 kotlin {
-    android {
+    androidTarget {
         compilations.all {
             kotlinOptions {
                 jvmTarget = "1.8"
@@ -115,7 +115,4 @@ android {
     defaultConfig {
         minSdk = Versions.androidMinSdk
     }
-}
-dependencies {
-    implementation("androidx.compose.ui:ui-text:1.3.3")
 }

@@ -14,7 +14,6 @@ import Resolver
 import CoreImage.CIFilterBuiltins
 
 struct MyQrPage: View {
-    @InjectedObject var authViewModel: AuthenticationViewModel
     @InjectedObject var ticketViewModel: TicketViewModel
     
     @State private var isDisplayingError = false
@@ -22,7 +21,6 @@ struct MyQrPage: View {
     @State private var qrImage: UIImage = UIImage(systemName: "xmark.circle") ?? UIImage()
     
     let timer = Timer.publish(every: 30, on: .main, in: .common).autoconnect()
-    
     
     var body: some View {
         NavigationPages() {
@@ -32,7 +30,7 @@ struct MyQrPage: View {
                     VStack(alignment: .leading) {
                         Text("My QR")
                             .font(.system(size: 24, weight: .bold))
-                        Text("Welcome back \(authViewModel.user?.getFormattedName() ?? "")")
+                        Text("Welcome back \(ticketViewModel.pageData.user?.getFormattedName() ?? "")")
                             .foregroundColor(Color("Secondary"))
                     }
                     Spacer()
@@ -41,32 +39,34 @@ struct MyQrPage: View {
                 
                 Spacer()
                 
-                if ticketViewModel.showTicket {
+                if let ticket = ticketViewModel.pageData as? TicketPresentationModel {
                     VStack(spacing: 0) {
                         VStack(spacing: 0) {
                             HStack(spacing: 0) {
-                                Text(ticketViewModel.name)
-                                    .font(.custom("SF-Mono", size: ticketViewModel.subText != nil ? 16 : 20))
+                                Text(ticket.leftTitle)
+                                    .font(.custom("SF-Mono", size: ticket.rightTitle != nil ? 16 : 20))
                                     .kerning(4)
-                                if let subTitle = ticketViewModel.subText {
+                                
+                                if let rightTitle = ticket.rightTitle {
                                     Spacer()
-                                    Text("\(String(subTitle.dropLast()))")
+                                    Text("\(String(rightTitle.dropLast()))")
                                         .font(.custom("SF-Mono", size: 16))
                                         .kerning(4)
                                     
-                                    Text(String(subTitle.last!))
+                                    Text(String(rightTitle.last!))
                                         .font(.custom("SF-Mono", size: 16))
                                 }
                             }
                             .foregroundColor(Color("HighlightPrimary"))
-                            if ticketViewModel.hasDate {
+                            
+                            if let subTitle = ticket.subText {
                                 HStack {
-                                    ForEach(ticketViewModel.date!.indices, id: \.self) { item in
+                                    ForEach(subTitle.indices, id: \.self) { item in
                                         if item != 0 {
                                             Spacer()
                                         }
                                         
-                                        Text(ticketViewModel.date![item])
+                                        Text(subTitle[item])
                                             .foregroundColor(Color("Secondary"))
                                             .font(.system(size: 16))
                                     }
@@ -77,8 +77,10 @@ struct MyQrPage: View {
                         
                         Button {
                             withAnimation(.linear(duration: 0.6)) {
-                                Task{ await ticketViewModel.getTicketData() }
-                                authViewModel.getUser()
+                                DispatchQueue.main.async {
+                                    Task{ await ticketViewModel.getUser()
+                                     await ticketViewModel.getTicketData() }
+                                }
                             }
                         } label: {
                             Image(uiImage: qrImage)
@@ -90,9 +92,9 @@ struct MyQrPage: View {
                         }
                         
                         VStack(spacing: 4) {
-                            Text("\(authViewModel.user?.getFormattedName() ?? "")")
+                            Text("\(ticketViewModel.pageData.user?.getFormattedName() ?? "")")
                                 .font(.system(size: 20))
-                            if let status = ticketViewModel.ticketStatus {
+                            if let status = ticket.ticketStatus {
                                 Text(status)
                                     .font(.custom("IBMPlexMono-Regular", size: 20))
                                     .kerning(5)
@@ -121,7 +123,7 @@ struct MyQrPage: View {
                         .frame(maxWidth: .infinity)
                         .padding(.bottom, 8)
                         
-                        Text(ticketViewModel.description)
+                        Text(ticket.description)
                             .font(.system(size: 14))
                             .lineLimit(3)
                             .multilineTextAlignment(.center)
@@ -139,7 +141,10 @@ struct MyQrPage: View {
                     
                     Button {
                         withAnimation(.linear(duration: 0.6)) {
-                            authViewModel.getUser()
+                            DispatchQueue.main.async {
+                                Task{ await ticketViewModel.getUser()
+                                 await ticketViewModel.getTicketData() }
+                            }
                         }
                     } label: {
                         Image(uiImage: qrImage)
@@ -150,7 +155,7 @@ struct MyQrPage: View {
                             .padding(.bottom, 24)
                     }
                     
-                    Text(ticketViewModel.description)
+                    Text(ticketViewModel.pageData.description)
                         .font(.system(size: 16))
                         .lineLimit(3)
                         .multilineTextAlignment(.center)
@@ -162,19 +167,19 @@ struct MyQrPage: View {
                 Spacer()
                 
                 
-                    .onReceive(authViewModel.$errorMessage, perform: { error in
+                    .onReceive(ticketViewModel.$errorMessage, perform: { error in
                         guard error != nil && error != "" else {
                             isDisplayingError = false
                             return
                         }
                         isDisplayingError = true
                     })
-                    .onReceive(authViewModel.$user) { user in
+                    .onReceive(ticketViewModel.pageData.$user) { user in
                         qrImage = (user?.generateQrCodeString() ?? "Not valid").qrImage
                     }
             }
             .onReceive(timer, perform: { _ in
-                qrImage = (authViewModel.user?.generateQrCodeString() ?? "Not valid").qrImage
+                qrImage = (ticketViewModel.pageData.user?.generateQrCodeString() ?? "Not valid").qrImage
             })
             .navigationTitle("My QR")
             .frame(maxWidth: .infinity)
