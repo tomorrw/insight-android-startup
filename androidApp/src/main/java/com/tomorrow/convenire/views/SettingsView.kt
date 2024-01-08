@@ -24,6 +24,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -65,7 +66,7 @@ fun SettingsView() {
         val isLogoutVisible = remember { mutableStateOf(false) }
         val scope = rememberCoroutineScope()
         val context = LocalContext.current
-
+        val uiTheme = ColorThemeUseCase().getColorTheme().collectAsState()
         Spacer(Modifier.height(24.dp))
 
         Column {
@@ -79,7 +80,7 @@ fun SettingsView() {
             )
 
             ColorThemeRadioButton(
-                onSelectedTheme = ColorThemeUseCase().getColorTheme(),
+                onSelectedTheme = uiTheme.value,
                 onSelect = {
                     ColorThemeUseCase().setColorTheme(
                         it

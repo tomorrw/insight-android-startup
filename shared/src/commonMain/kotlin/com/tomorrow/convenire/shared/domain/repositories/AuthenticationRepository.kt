@@ -20,6 +20,6 @@ interface AuthenticationRepository {
     fun isAuthenticated(): StateFlow<Boolean?>
     suspend fun logout(): Result<Unit>
     fun getConfiguration(): Flow<ConfigurationData>
-    fun getColorTheme(): ColorTheme
-    fun saveColorTheme(colorTheme: String): Result<String>
+    fun getColorTheme(): StateFlow<ColorTheme>
+    fun setColorTheme(colorTheme: ColorTheme): Result<String>
 }

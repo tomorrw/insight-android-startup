@@ -35,6 +35,7 @@ class RepositoryImplementation : CompanyRepository, SpeakerRepository, PostRepos
     private val homeDataMapper = HomeDataMapper()
     private val userMapper = UserMapper()
     private val isAuthenticated = MutableStateFlow<Boolean?>(null)
+    private val colorTheme = MutableStateFlow(encryptedStorage.colorTheme ?: ColorTheme.Auto)
     private val scope: CoroutineScope by inject()
 
     init {
@@ -364,17 +365,12 @@ class RepositoryImplementation : CompanyRepository, SpeakerRepository, PostRepos
         }
     }
 
-    override fun getColorTheme(): ColorTheme =
-        when (encryptedStorage.colorTheme ?: "Auto") {
-            "Auto" -> ColorTheme.Auto
-            "Light" -> ColorTheme.Light
-            "Dark" -> ColorTheme.Dark
-            else -> ColorTheme.Auto
-        }
+    override fun getColorTheme(): StateFlow<ColorTheme> = colorTheme
 
 
-    override fun saveColorTheme(colorTheme: String): Result<String> {
+    override fun setColorTheme(colorTheme: ColorTheme): Result<String> {
         encryptedStorage.colorTheme = colorTheme
+        this.colorTheme.value = encryptedStorage.colorTheme ?: ColorTheme.Auto
         return Result.success("Successfully changed")
     }
 

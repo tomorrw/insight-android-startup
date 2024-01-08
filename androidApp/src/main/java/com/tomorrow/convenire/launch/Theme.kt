@@ -1,6 +1,7 @@
 package com.tomorrow.convenire.launch
 
 import android.app.Activity
+import android.content.pm.ActivityInfo
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.Typography
 import androidx.compose.material.darkColors
@@ -109,7 +110,7 @@ fun JetpackComposeDarkThemeTheme(
     } else {
         appColorsMaterial3
     }
-    var materialThemeColors = if (darkTheme) {
+    val materialThemeColors = if (darkTheme) {
         appColorsDark
     } else {
         appColors
@@ -122,16 +123,23 @@ fun JetpackComposeDarkThemeTheme(
             content()
         }
     }
-        // Optional, this part helps you set the statusbar color
-        val view = LocalView.current
-        if (!view.isInEditMode) {
-            SideEffect {
-                val window = (view.context as Activity).window
-                window.statusBarColor = colors.background.toArgb()
 
-                WindowCompat.getInsetsController(window, view)
-                    .isAppearanceLightStatusBars = !darkTheme
+    val view = LocalView.current
+    if (!view.isInEditMode) {
+        SideEffect {
+            val window = (view.context as Activity).window
+            window.statusBarColor = colors.surface.toArgb()
+            window.navigationBarColor = colors.surface.toArgb()
+            window.colorMode = if (darkTheme)
+                ActivityInfo.COLOR_MODE_WIDE_COLOR_GAMUT
+            else
+                ActivityInfo.COLOR_MODE_DEFAULT
+
+            WindowCompat.getInsetsController(window, view).let {
+                it.isAppearanceLightNavigationBars = !darkTheme
+                it.isAppearanceLightStatusBars = !darkTheme
             }
         }
+    }
 
 }

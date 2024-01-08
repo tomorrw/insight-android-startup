@@ -1,12 +1,14 @@
 package com.tomorrow.convenire.shared.domain.model
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 enum class ColorTheme {
     Light, Auto, Dark;
-    override fun toString(): String {
-        return when (this) {
-            Auto -> "Auto"
-            Light -> "Light"
-            Dark -> "Dark"
-        }
+
+    fun toBoolean() = when (this) {
+        Light -> false
+        Auto -> null
+        Dark -> true
     }
 }

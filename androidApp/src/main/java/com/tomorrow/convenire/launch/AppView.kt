@@ -40,18 +40,14 @@ fun AppView(navController: NavHostController = rememberNavController()) {
     val currentLayoutDirection by remember { mutableStateOf(LayoutDirection.Ltr) }
     val fullScreenViewModel: FullScreenViewModel = koinViewModel()
     val isAuthenticated by IsAuthenticatedUseCase().asFlow().collectAsState()
-    val uiTheme = ColorThemeUseCase().getColorTheme()
+    val uiTheme = ColorThemeUseCase().getColorTheme().collectAsState()
 
     CompositionLocalProvider(
         LocalLayoutDirection provides currentLayoutDirection,
         LocalNavController provides navController,
     ) {
         JetpackComposeDarkThemeTheme(
-            darkTheme = when(uiTheme) {
-                ColorTheme.Light -> false
-                ColorTheme.Dark -> true
-                else -> isSystemInDarkTheme()
-            }
+            darkTheme = uiTheme.value.toBoolean() ?: isSystemInDarkTheme()
         ) {
             Scaffold(
                 bottomBar = { BottomBar(isVisible = AppRoute.shouldDisplayBottomBar(currentRoute)) },

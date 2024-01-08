@@ -4,6 +4,7 @@ import com.russhwolf.settings.ObservableSettings
 import com.russhwolf.settings.set
 import com.tomorrow.convenire.shared.data.data_source.model.UserDTO
 import com.tomorrow.convenire.shared.di.BearerTokensContainer
+import com.tomorrow.convenire.shared.domain.model.ColorTheme
 import io.ktor.client.plugins.auth.providers.*
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
@@ -30,10 +31,10 @@ class EncryptedStorageImplementation(
             encryptedSettings[com.tomorrow.convenire.shared.data.data_source.local.EncryptedStorageImplementation.Companion.USER] = json.encodeToString(value)
         }
 
-    override var colorTheme: String?
-        get() = encryptedSettings.getStringOrNull(COLOR_THEME)
+    override var colorTheme: ColorTheme?
+        get() = encryptedSettings.getStringOrNull(COLOR_THEME).toColorTheme()
         set(value) {
-            encryptedSettings[COLOR_THEME] = value
+            encryptedSettings[COLOR_THEME] = value.toString()
         }
 
     @Serializable
@@ -47,8 +48,14 @@ class EncryptedStorageImplementation(
             this.refreshToken
         )
 
-    private fun String?.toUserDTO(): UserDTO? = if (this != null && this.isNotBlank()) try {
+    private fun String?.toUserDTO(): UserDTO? = if (!this.isNullOrBlank()) try {
         json.decodeFromString<UserDTO>(this)
+    } catch (e: Exception) {
+        null
+    } else null
+
+    private fun String?.toColorTheme(): ColorTheme? = if (!this.isNullOrBlank()) try {
+        json.decodeFromString<ColorTheme>(this)
     } catch (e: Exception) {
         null
     } else null

@@ -51,7 +51,7 @@ fun PageTabDisplay(
     Column(
         Modifier
             .clip(RoundedCornerShape(topEnd = 16.dp, topStart = 16.dp))
-            .background(Color(0xFFFFFFFF))
+            .background(MaterialTheme.colorScheme.background)
             .fillMaxSize()
     ) {
         TabRow(
