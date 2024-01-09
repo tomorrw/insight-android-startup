@@ -24,15 +24,15 @@ struct PageTabDisplayView: View {
                     }
                 if currentPage != nil {
                     SectionDisplayPage(section: currentPage!)
+                        .frame(maxHeight: .infinity)
                         .environment(\.sessionCardBackgroundColor, Color("Background"))
-                        .padding()
+                        .padding(.horizontal)
                         .padding(.bottom, 30)
-                        .gesture(horizontalDrag)
                 }
             }
-            .frame(maxHeight: .infinity)
             .background(Color("Default"))
             .cornerRadius(20, corners: [.topLeft, .topRight])
+            .gesture(horizontalDrag)
         }
     }
     
@@ -77,15 +77,18 @@ struct TabsHeader: View{
                     
                     VStack{
                         Text(page.getInfo().title)
-                        if selectedPage == page {
-                            Color("HighlightPrimary")
-                                .frame(height: 2)
-                                .matchedGeometryEffect(id: "underline", in: namespace, properties: .frame)
-                        } else{
-                            Color.clear.frame(height: 2)
+                            .padding(.vertical, 3)
+                        Group{
+                            if selectedPage == page {
+                                Color("HighlightPrimary")
+                                    .frame(height: 2)
+                                    .matchedGeometryEffect(id: "underline", in: namespace, properties: .frame)
+                            } else{
+                                Color.clear.frame(height: 2)
+                            }
                         }
+                        .animation(.spring(), value: self.selectedPage)
                     }
-                    .animation(.spring(), value: self.selectedPage)
                     
                     Spacer()
                 })

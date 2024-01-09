@@ -33,49 +33,54 @@ struct DetailPage<Header: View, Body: View>: View {
     var body: some View {
         Group {
             if !vm.isLoading {
-                ScrollView {
-                    VStack(alignment: vm.headerDesign == .contact ? .center : .leading, spacing: 12) {
-                        if (vm.headerDesign == .contact) {
-                            ZStack(alignment: .bottomTrailing) {
-                                UrlImageView(urlString: vm.image)
-                                    .scaledToFill()
-                                    .clipShape(Circle())
-                                    .frame(width: 72, height: 72)
-                                
-                                if let icon = vm.imagePinIcon {
-                                    UrlImageView(urlString: icon)
-                                        .clipShape(Circle())
-                                        .frame(width: 23, height: 23)
+                GeometryReader { geometry in
+                    ScrollView {
+                        VStack{
+                            VStack(alignment: vm.headerDesign == .contact ? .center : .leading, spacing: 12) {
+                                if (vm.headerDesign == .contact) {
+                                    ZStack(alignment: .bottomTrailing) {
+                                        UrlImageView(urlString: vm.image)
+                                            .scaledToFill()
+                                            .clipShape(Circle())
+                                            .frame(width: 72, height: 72)
+                                        
+                                        if let icon = vm.imagePinIcon {
+                                            UrlImageView(urlString: icon)
+                                                .clipShape(Circle())
+                                                .frame(width: 23, height: 23)
+                                        }
+                                    }
+                                    .frame(alignment: .bottomTrailing)
+                                    
+                                } else {
+                                    UrlImageView(urlString: vm.image)
+                                        .frame(maxWidth: .infinity)
+                                        .aspectRatio(contentMode: .fit)
+                                        .clipShape(RoundedRectangle(cornerRadius: 16))
+                                        .padding(.bottom, 4)
                                 }
-                            }
-                            .frame(alignment: .bottomTrailing)
-                            
-                        } else {
-                            UrlImageView(urlString: vm.image)
-                                .frame(maxWidth: .infinity)
-                                .aspectRatio(contentMode: .fit)
-                                .clipShape(RoundedRectangle(cornerRadius: 16))
-                                .padding(.bottom, 4)
-                        }
-                        
-                        VStack(alignment: vm.headerDesign == .contact ? .center : .leading) {
-                            Group {
-                                Text(vm.title)
-                                    .font(.system(size: 20, weight: .medium))
-                                    .padding(.bottom, 1)
                                 
-                                Text(vm.description)
-                                    .foregroundColor(Color("Secondary"))
-                                    .padding(.bottom, 16)
+                                VStack(alignment: vm.headerDesign == .contact ? .center : .leading) {
+                                    Group {
+                                        Text(vm.title)
+                                            .font(.system(size: 20, weight: .medium))
+                                            .padding(.bottom, 1)
+                                        
+                                        Text(vm.description)
+                                            .foregroundColor(Color("Secondary"))
+                                            .padding(.bottom, 16)
+                                    }
+                                    .multilineTextAlignment(vm.headerDesign == .contact ? .center : .leading)
+                                }
+                                
+                                customHeader()
                             }
-                            .multilineTextAlignment(vm.headerDesign == .contact ? .center : .leading)
+                            .padding()
+                            
+                            customBody()
                         }
-                        
-                        customHeader()
+                        .frame(minHeight: geometry.size.height)
                     }
-                    .padding()
-                    
-                    customBody()
                 }
             } else {
                 // loaders

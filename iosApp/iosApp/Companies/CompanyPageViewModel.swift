@@ -30,7 +30,7 @@ class CompanyPageViewModel: DetailPageViewModel {
 
                 self.isLoading = false
                 self.title = data.title
-                self.description = "\(data.objectsClause) \n\(data.boothDescription)"
+                self.description = data.boothDescription != nil ? "\(data.objectsClause)" : "\(data.objectsClause) \n\(data.boothDescription)"
                 self.headerDesign = .contact
                 self.image = data.image ?? ""
                 self.socialLinks = data.socialLinks.mapToSocialLinkUI()

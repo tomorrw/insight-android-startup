@@ -9,7 +9,7 @@ fun Page.toPageUi() =
         when (section) {
             is Page.Section.EventList -> Section.EventList(
                 title = section.title,
-                events = section.events.map { session -> session.toEvent(Color(0xFFEEF5FC)) },
+                events = section.events.map { session -> session.toEvent(true) },
                 shouldDisplayTitle = false
             )
 
