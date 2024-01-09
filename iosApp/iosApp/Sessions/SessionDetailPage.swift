@@ -28,8 +28,20 @@ struct SessionDetailPage: View {
     var body: some View {
         DetailPage(
             vm: vm,
-            customHeader: { sessionHeader },
-            customBody: { PostDisplayView(sections: $vm.sections, actions: $vm.action) }
+            customHeader: { 
+                if vm.hasAttended {
+                    Text("ATTENDED")
+                        .foregroundColor(Color("Secondary"))
+                        .font(.system(size: 14))
+                        .padding(5)
+                        .background(
+                            RoundedRectangle(cornerRadius: 8)
+                                .foregroundColor(.accentColor)
+                        )
+                }
+                sessionHeader
+            },
+            customBody: { VerticalDisplayView(sections: $vm.sections, actions: $vm.action) }
         )
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {

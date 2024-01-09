@@ -18,7 +18,8 @@ struct SessionCard: View {
     @State var isConfirmBookmarkDisplayed: Bool = false
     @State var shouldNotify: Bool = true
     @State var overlappingLectureName: String? = nil
-    
+    @Environment(\.sessionCardBackgroundColor) var backgroundColor: Color
+
     var confirmBookmarkDescription: String {
         if let lectureName = overlappingLectureName {
             return "The lecture you are trying to bookmark overlaps with your bookmarked lecture: `\(lectureName)`"
@@ -143,7 +144,7 @@ struct SessionCard: View {
             .padding(.bottom)
         }
         .frame(maxWidth: .infinity)
-        .background(Color("Default"))
+        .background(self.backgroundColor)
         .clipShape(RoundedRectangle(cornerRadius: 16))
         .onAppear {
             self.checkIfShouldNotify()

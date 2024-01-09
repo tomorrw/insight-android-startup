@@ -58,16 +58,6 @@ struct DetailPage<Header: View, Body: View>: View {
                                 .padding(.bottom, 4)
                         }
                         
-                        if vm.hasAttended {
-                            Text("ATTENDED")
-                                .font(.system(size: 14))
-                                .padding(5)
-                                .background(
-                                    RoundedRectangle(cornerRadius: 8)
-                                        .foregroundColor(.accentColor)
-                                )
-                        }
-                        
                         VStack(alignment: vm.headerDesign == .contact ? .center : .leading) {
                             Group {
                                 Text(vm.title)

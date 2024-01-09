@@ -55,6 +55,7 @@ struct ProfilePage: View {
                             }
                             .background { Circle().fill(Color("Default")) }
                             .frame(width: 320, height: 320)
+                            .padding(.top,20)
                         
                         if let leagueName = authViewModel.user?.league.name {
                             Text(leagueName)

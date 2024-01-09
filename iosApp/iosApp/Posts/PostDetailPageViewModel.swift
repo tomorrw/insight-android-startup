@@ -13,6 +13,7 @@ import KMPNativeCoroutinesAsync
 class PostDetailPageViewModel: DetailPageViewModel {
     let id: String
     @Published var date: String = ""
+    @Published var action: [Action] = []
 
     init(id: String) {
         self.id = id

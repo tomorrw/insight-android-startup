@@ -19,10 +19,7 @@ class DetailPageViewModel: ObservableObject {
     @Published var headerDesign: HeaderDesign = .contact
     @Published var errorMessage: String? = nil
     @Published var isLoading: Bool = false
-    @Published var action: [Action] = []
-    
-    @Published var hasAttended: Bool = false
-    
+        
     enum HeaderDesign {
         case contact
         case detailPage

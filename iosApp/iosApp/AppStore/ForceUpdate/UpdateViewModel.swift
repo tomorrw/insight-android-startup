@@ -47,13 +47,7 @@ class UpdateViewModel: AppstoreInfoViewModel {
             do {
                 let result = try await getUpdateTypeUseCase.getType()
                 self.updateType = result
-                switch result {
-                case .forced:
-                    openPopup(false)
-                case .flexible:
-                    openPopup(true)
-                default: return
-                }
+                showUpdate()
             } catch {
             }
         }

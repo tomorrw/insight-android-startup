@@ -10,67 +10,75 @@ import Foundation
 import shared
 import KMPNativeCoroutinesAsync
 
-class OffersPageViewModel: ObservableObject {
-    @Published var data: [Offer] = []
-    @Published var isLoading: Bool = false
-    @Published var errorMessage: String? = nil
-    
-    init(){
-        Task{ await getOffers() }
-    }
-    
-    @MainActor func refresh() async {
-        do {
-            self.errorMessage = nil
-            let sequence = asyncSequence(for: GetOffersUseCase().refresh())
-            for try await offers in sequence {
-                data = offers
+class OffersPageViewModel: SearchViewModel{
+    var offerList: [Offer] = []{
+        didSet{
+            Task { await self.changeOriginalList(offerList.map{ $0.toSearchItem() })
             }
-        } catch {
-            self.errorMessage = (error as? KotlinThrowable)?.toUserFriendlyError() ?? "Something Went Wrong!"
         }
     }
     
-    @MainActor func getOffers() async{
+    init() {
+        super.init(list: [], searchText: "")
+        Task { await getOffers() }
+    }
+    
+    @MainActor func getOffers() async {
         self.isLoading = true
         do {
             self.errorMessage = nil
             let sequence = asyncSequence(for: GetOffersUseCase().getOffers())
             for try await offers in sequence {
                 self.isLoading = false
-                data = offers
+                offerList = offers
             }
         } catch {
             self.isLoading = false
             self.errorMessage = (error as? KotlinThrowable)?.toUserFriendlyError() ?? "Something Went Wrong!"
         }
     }
-}
-
-class ClaimedOffersPageViewModel: OffersPageViewModel {
-    @MainActor override func refresh() async {
+    
+    @MainActor override func refreshData() async {
         do {
             self.errorMessage = nil
-            let sequence = asyncSequence(for: GetOffersUseCase().refreshClaimedOffers())
+            let sequence = asyncSequence(for: GetOffersUseCase().refresh())
             for try await offers in sequence {
-                data = offers
+                offerList = offers
             }
         } catch {
             self.errorMessage = (error as? KotlinThrowable)?.toUserFriendlyError() ?? "Something Went Wrong!"
         }
     }
     
-    @MainActor override func getOffers() async{
+    func getPostId(id: String)-> String? {
+        return self.offerList.first(where: {$0.id == id})?.postId ?? nil
+    }
+}
+
+class ClaimedOffersPageViewModel: OffersPageViewModel{
+    @MainActor override func getOffers() async {
         self.isLoading = true
         do {
             self.errorMessage = nil
             let sequence = asyncSequence(for: GetOffersUseCase().getClaimedOffers())
             for try await offers in sequence {
-                data = offers
+                self.isLoading = false
+                offerList = offers
             }
-            self.isLoading = false
         } catch {
             self.isLoading = false
+            self.errorMessage = (error as? KotlinThrowable)?.toUserFriendlyError() ?? "Something Went Wrong!"
+        }
+    }
+    
+    @MainActor override func refreshData() async {
+        do {
+            self.errorMessage = nil
+            let sequence = asyncSequence(for: GetOffersUseCase().refreshClaimedOffers())
+            for try await offers in sequence {
+                offerList = offers
+            }
+        } catch {
             self.errorMessage = (error as? KotlinThrowable)?.toUserFriendlyError() ?? "Something Went Wrong!"
         }
     }

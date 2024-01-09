@@ -10,13 +10,25 @@ import SwiftUI
 
 struct ClaimedOffersPage: View {
     @StateObject var vm = ClaimedOffersPageViewModel()
-    
+    @State private var hasNoPostId = false
+
     var body: some View {
-        if vm.isLoading {
-            CustomLoader()
-        }
-        else {
-            if vm.data.isEmpty{
+        SearchableList(
+            vm: vm,
+            showSeperators: false,
+            itemDetailPage: { item in
+                VStack{
+                    if let postId = vm.getPostId(id: item.id) {
+                        PostDetailPage(id: postId)
+                    }
+                    else {
+                        EmptyView()
+                            .onAppear{
+                                hasNoPostId = true
+                            }
+                    }
+                }},
+            emptyListView: {
                 VStack(spacing: 14) {
                     Image(systemName: "exclamationmark.circle")
                         .font(.system(size: 45, weight: .semibold))
@@ -33,14 +45,16 @@ struct ClaimedOffersPage: View {
                         .padding(.bottom, 6)
                 }
                 .padding()
+            },
+            listView: { item in
+                HighlightedCard(image: item.image, title: item.title, description: item.description)
             }
-            else {
-                OffersList(vm: vm)
-                    .refreshable { Task{await vm.refresh() }}
-                    .cornerRadius(16, corners: .topRight)
-                    .cornerRadius(16, corners: .topLeft)
-                    .frame(maxHeight: .infinity)
-            }
-        }
+        )
+        .task { await vm.getOffers() }
+        .navigationTitle("Offers & Deals")
+        .navigationBarTitleDisplayMode(.inline)
+        .alert("Offer Not Found!", isPresented: $hasNoPostId, actions: { }, message: {
+            Text("This offer is currently unavailable!")
+        })
     }
 }

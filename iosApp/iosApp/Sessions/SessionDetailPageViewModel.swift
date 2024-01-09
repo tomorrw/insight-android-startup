@@ -18,6 +18,8 @@ class SessionDetailPageViewModel: DetailPageViewModel {
     @Published var date: String = ""
     @Published var canAskQuestions: Bool = false
     @Published var attendees: String = ""
+    @Published var action: [Action] = []
+    @Published var hasAttended: Bool = false
 
     init(id: String) {
         self.id = id

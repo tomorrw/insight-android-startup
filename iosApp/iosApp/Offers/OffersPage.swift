@@ -10,10 +10,30 @@ import SwiftUI
 
 struct OffersPage: View {
     @StateObject var vm: OffersPageViewModel = OffersPageViewModel()
+    @State private var hasNoPostId = false
     
     var body: some View {
-        ZStack{
-            VStack (spacing: 16) {
+        SearchableList(
+            vm: vm,
+            isSearchable: false,
+            showSeperators: false,
+            itemDetailPage: { item in
+                VStack{
+                    if let postId = vm.getPostId(id: item.id) {
+                        PostDetailPage(id: postId)
+                    }
+                    else {
+                        EmptyView()
+                            .onAppear{
+                                hasNoPostId = true
+                            }
+                    }
+                }},
+            listView: { item in
+                HighlightedCard(image: item.image, title: item.title, description: item.description)
+            },
+            customHeader: {
+                
                 NavigateTo(destination: {
                     ClaimedOffersPage()
                 }, label: {
@@ -25,24 +45,17 @@ struct OffersPage: View {
                     .padding(16)
                     .background(Color("Dark"))
                     .cornerRadius(16)
-                    
-                }).padding(.top, 20)
-                    .padding(.bottom, 2)
-                
-                
-                
-                OffersList(vm: vm)
-                    .refreshable { Task{await vm.refresh() }}
-                    .cornerRadius(16, corners: .topRight)
-                    .cornerRadius(16, corners: .topLeft)
-                    .frame(maxHeight: .infinity)
+                })
+                .padding()
+                .background(Color("Background"))
             }
-        }
-        .padding(.horizontal)
-        .frame(maxWidth: .infinity)
-        .background(Color("Background"))
+        )
+        .task { await vm.getOffers() }
         .navigationTitle("Offers & Deals")
         .navigationBarTitleDisplayMode(.inline)
+        .alert("Offer Not Found!", isPresented: $hasNoPostId, actions: { }, message: {
+            Text("This offer is currently unavailable!")
+        })
     }
 }
 
