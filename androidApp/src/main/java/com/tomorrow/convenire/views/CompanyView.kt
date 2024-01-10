@@ -29,16 +29,16 @@ fun CompanyView(id: String) {
     DefaultReadView(viewModel = viewModel) {
         val navController = LocalNavController.current
         EntityDetailHeaderLayout(
-            title = viewModel.state.viewData?.title ?: "",
-            subtitle = viewModel.state.viewData?.boothDescription ?: "",
-            image = viewModel.state.viewData?.image ?: "",
-            socialLinks = viewModel.state.viewData?.socialLinks?.map {
+            title = it.title,
+            subtitle = it.boothDescription,
+            image = it.image ?: "",
+            socialLinks = it.socialLinks.map {
                 SocialLink(SocialPlatform.fromDomain(it), it.url)
             }?.ensureSize(5),
             onBack = { navController.popBackStack() },
             shareLink = ""
         ) {
-            viewModel.state.viewData?.detailPages?.getDataIfLoaded()?.let {
+            it.detailPages.getDataIfLoaded()?.let {
                 val pages =
                     remember(it) { derivedStateOf { it.toList().map { page -> page.toPageUi() } } }
                 if (pages.value.isNotEmpty())

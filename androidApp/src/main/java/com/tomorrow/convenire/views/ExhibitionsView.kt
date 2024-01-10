@@ -20,16 +20,17 @@ import com.tomorrow.convenire.shared.domain.model.ConfigurationData
 import com.tomorrow.convenire.shared.domain.use_cases.GetConfigurationUseCase
 import com.tomorrow.convenire.shared.domain.use_cases.GetUserUseCase
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.conflate
+import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.singleOrNull
+import kotlinx.coroutines.flow.transform
 import org.koin.androidx.compose.koinViewModel
 
-class ExhibitionsViewModel : ReadViewModel<ConfigurationData>(
-    load = {
-        GetConfigurationUseCase().getTicketInfo()
-    },
-
-    refresh = { GetConfigurationUseCase().getTicketInfo() }
-
+class ExhibitionsViewModel : ReadViewModel<ConfigurationData?>(
+    load = { (GetConfigurationUseCase().getTicketInfo() as Flow<ConfigurationData?> ).catch { emit(null) } },
 )
 
 @Composable
@@ -41,14 +42,13 @@ fun ExhibitionsView() = PageHeaderLayout(
     val viewModel: ExhibitionsViewModel = koinViewModel()
 
     DefaultReadView(viewModel = viewModel) { configuration ->
-
         Column(
             verticalArrangement = Arrangement.spacedBy(14.dp),
             modifier = Modifier
                 .verticalScroll(rememberScrollState())
                 .padding(vertical = 24.dp)
         ) {
-            if (configuration.showExhibitionMap) {
+            if (configuration?.showExhibitionMap == true) {
                 DefaultCardDisplay(
                     painter = painterResource(id = R.mipmap.ic_map_foreground),
                     onClick = { navController.navigate(AppRoute.CompaniesByMap.generate()) },
@@ -62,7 +62,7 @@ fun ExhibitionsView() = PageHeaderLayout(
                 onClick = { navController.navigate(AppRoute.Companies.generate()) },
                 title = "Companies",
                 subtitle = "Get to know the companies at the heart of our event",
-                isHighlighted = !configuration.showExhibitionMap,
+                isHighlighted = configuration?.showExhibitionMap != true,
             )
 
             DefaultCardDisplay(
@@ -72,7 +72,7 @@ fun ExhibitionsView() = PageHeaderLayout(
                 subtitle = "Explore the diversity of products at our conference"
             )
 
-            if (configuration.showExhibitionOffers) {
+            if (configuration?.showExhibitionOffers == true) {
                 DefaultCardDisplay(
                     painter = painterResource(id = R.mipmap.ic_offers_foreground),
                     onClick = { navController.navigate(AppRoute.OffersAndDeals.generate()) },

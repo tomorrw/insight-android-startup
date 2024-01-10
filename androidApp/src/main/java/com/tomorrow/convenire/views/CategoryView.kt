@@ -40,8 +40,8 @@ fun CategoryView(id: String) {
 
     DefaultReadView(viewModel = viewModel) {
         ListDisplayPage(
-            title = viewModel.state.viewData?.name ?: "",
-            description = viewModel.state.viewData?.description ?: "",
+            title = it?.name ?: "",
+            description = it?.description ?: "",
             onBackPress = { navController.popBackStack() },
             onItemClick = { navController.navigate(AppRoute.Company.generateExplicit(it)) },
             viewModel = companiesByCategoryViewModel

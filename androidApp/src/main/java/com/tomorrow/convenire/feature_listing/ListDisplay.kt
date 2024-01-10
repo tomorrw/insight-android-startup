@@ -78,7 +78,7 @@ fun <Item : ListDisplayItemInterface> ListDisplayPage(
             onButtonClick = { viewModel.on(ReadViewModel.Event.OnRefresh) })
     }) {
         ListDisplay(
-            items = viewModel.state.viewData ?: listOf(),
+            items = it,
             onItemClick = onItemClick,
             state = rememberPullRefreshState(refreshing = viewModel.state.isRefreshing,
                 onRefresh = { viewModel.on(ReadViewModel.Event.OnRefresh) }),

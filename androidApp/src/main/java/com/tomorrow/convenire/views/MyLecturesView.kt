@@ -18,6 +18,8 @@ import com.tomorrow.convenire.feature_events.EventsLoader
 import com.tomorrow.convenire.feature_navigation.AppRoute
 import com.tomorrow.convenire.launch.LocalNavController
 import com.tomorrow.convenire.mappers.toEvent
+import com.tomorrow.convenire.shared.data.data_source.utils.Loadable
+import com.tomorrow.convenire.shared.data.data_source.utils.Loaded
 import com.tomorrow.convenire.shared.domain.model.Session
 import com.tomorrow.convenire.shared.domain.use_cases.GetAppropriateDisplayedDayForEvent
 import com.tomorrow.convenire.shared.domain.use_cases.GetSessionsUseCase
@@ -54,11 +56,13 @@ class MyLecturesViewModel : ReadViewModel<MyLecturesState>(
     refresh = { GetSessionsUseCase().refresh().map { MyLecturesState.fromSessions(it) } }
 ) {
     override fun onDataReception(d: MyLecturesState) {
-        val oldSelectedDay = state.viewData?.displayedDay
+        val oldSelectedDay = state.viewData.getDataIfLoaded()?.displayedDay
 
         state = state.copy(
-            viewData = d.copy(
-                displayedDay = if (d.eventsByDay.keys.contains(oldSelectedDay)) oldSelectedDay else d.displayedDay
+            viewData = Loaded(
+                d.copy(
+                    displayedDay = if (d.eventsByDay.keys.contains(oldSelectedDay)) oldSelectedDay else d.displayedDay
+                )
             )
         )
         listenForBookmarkChanges(d.eventsByDay.values.flatten().map { it.id })
@@ -72,7 +76,7 @@ class MyLecturesViewModel : ReadViewModel<MyLecturesState>(
             ShouldNotifyEventUseCase()
                 .shouldNotifyFlow(ids)
                 .collect { isBookmarkedMap ->
-                    val newViewData = state.viewData?.let {
+                    val newViewData = state.viewData.getDataIfLoaded()?.let {
                         it.copy(eventsByDay = it
                             .eventsByDay
                             .mapValues { entry ->
@@ -82,13 +86,15 @@ class MyLecturesViewModel : ReadViewModel<MyLecturesState>(
                         )
                     }
 
-                    state = state.copy(viewData = newViewData)
+                    state = state.copy(viewData = Loadable.smartInit(newViewData))
                 }
         }
     }
 
     fun changeSelectedDay(day: LocalDate) {
-        state = state.copy(viewData = state.viewData?.copy(displayedDay = day))
+        state.viewData.getDataIfLoaded()?.let {
+            state = state.copy(viewData = it.copy(displayedDay = day))
+        }
     }
 }
 
@@ -133,9 +139,7 @@ fun MyLecturesView() {
                         buttonText = "Lectures Schedule",
                         onButtonClick = {
                             navController.navigate(
-                                AppRoute.DailyLectures.generateExplicit(
-                                    viewModel.state.viewData?.displayedDay.toString()
-                                )
+                                AppRoute.DailyLectures.generateExplicit(it.displayedDay.toString())
                             )
                         }
                     )
