@@ -25,10 +25,10 @@ interface LocalDatabase {
     @Throws(SerializationException::class, CancellationException::class)
     suspend fun replaceHomeResponse(apiResult: HomeDataDTO)
 
-    fun getSpeakers(): List<SpeakerDTO>?
-    fun getSessions(): List<SessionDTO>?
-    fun getCompanies(): List<CompanyDTO>?
-    fun getHomeResponse(): HomeDataDTO?
+    fun getSpeakers(): Result<List<SpeakerDTO>>
+    fun getSessions(): Result<List<SessionDTO>>
+    fun getCompanies(): Result<List<CompanyDTO>>
+    fun getHomeResponse(): Result<HomeDataDTO>
 
     fun isBookmarked(id: String): Boolean
     fun isBookmarkedFlow(id: String): Flow<Boolean>
@@ -36,10 +36,10 @@ interface LocalDatabase {
     fun eventsBookmarks(): Map<String, Boolean>
     suspend fun toggleShouldNotify(id: String)
 
-    suspend fun lastUpdatedSpeakers(): Instant?
-    suspend fun lastUpdatedSessions(): Instant?
-    suspend fun lastUpdatedCompanies(): Instant?
-    suspend fun lastUpdatedHomeResponse(): Instant?
+    fun lastUpdatedSpeakers(): Instant?
+    fun lastUpdatedSessions(): Instant?
+    fun lastUpdatedCompanies(): Instant?
+    fun lastUpdatedHomeResponse(): Instant?
 
     suspend fun clearData()
 }

@@ -3,6 +3,7 @@ package com.tomorrow.convenire.shared.data.repository
 import com.tomorrow.convenire.shared.data.data_source.local.LocalDatabase
 import com.tomorrow.convenire.shared.data.data_source.mapper.*
 import com.tomorrow.convenire.shared.data.data_source.model.HomeDataDTO
+import com.tomorrow.convenire.shared.data.data_source.model.SessionDTO
 import com.tomorrow.convenire.shared.data.data_source.remote.ApiService
 import com.tomorrow.convenire.shared.domain.model.*
 import com.tomorrow.convenire.shared.domain.repositories.*
@@ -15,10 +16,12 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 import kotlinx.datetime.DateTimeUnit
+import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.minus
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+import kotlin.time.Duration
 
 class RepositoryImplementation : CompanyRepository, SpeakerRepository, PostRepository,
     SessionRepository, AppSettingsRepository, HomeRepository, AuthenticationRepository,
@@ -41,59 +44,56 @@ class RepositoryImplementation : CompanyRepository, SpeakerRepository, PostRepos
     init {
         scope.launch {
             try {
+                apiService.addUnAuthenticatedInterceptor { logout() }
                 getLoggedInUser().collect()
             } catch (_: Exception) {
             }
         }
     }
 
-    override fun getCompanyById(id: String): Flow<Company> = flow {
-        var localDataAvailable = false
+    private fun <Data> getFromCacheAndRevalidate(
+        getFromCache: suspend () -> Result<Data>,
+        getFromApi: suspend () -> Result<Data>,
+        setInCache: suspend (Data) -> Unit,
+        cacheAge: Instant?,
+        revalidateIfOlderThan: Duration,
+    ): Flow<Data> {
+        return flow {
+            var localDataFound = false
 
-        localDatabase.getCompanies()?.find { it.id == id }?.let {
-            emit(companyMapper.mapFromEntity(it)).also { localDataAvailable = true }
+            getFromCache().getOrNull()?.let {
+                emit(it)
+                localDataFound = true
+            }
+
+            val minutesAgo =
+                Clock.System.now()
+                    .minus(
+                        revalidateIfOlderThan.inWholeMinutes,
+                        DateTimeUnit.MINUTE,
+                        TimeZone.currentSystemDefault()
+                    )
+
+            if (cacheAge != null && cacheAge < minutesAgo && localDataFound) return@flow
+
+            getFromApi().getOrThrow()?.let {
+                emit(it)
+                setInCache(it)
+            }
         }
-
-        val lastUpdated = localDatabase.lastUpdatedCompanies()
-
-        val thirtyMinutesAgo =
-            Clock.System.now().minus(30, DateTimeUnit.MINUTE, TimeZone.currentSystemDefault())
-
-        if (lastUpdated != null && lastUpdated > thirtyMinutesAgo && localDataAvailable) return@flow
-
-        val companyDTO = apiService.getCompanies().getOrElse {
-            if (it is ClientRequestException && it.response.status == HttpStatusCode.Unauthorized) logout()
-
-            if (localDataAvailable) return@flow
-            else throw it
-        }.also { localDatabase.replaceCompanies(it) }.find { it.id == id }
-            ?: throw Exception("company with id $id could not be not found")
-
-        emit(companyMapper.mapFromEntity(companyDTO))
     }
 
-    override fun getCompanies(): Flow<List<Company>> = flow {
-        var localDataAvailable = false
-
-        localDatabase.getCompanies()?.map { companyMapper.mapFromEntity(it) }
-            ?.let { emit(it).also { localDataAvailable = true } }
-
-        val lastUpdated = localDatabase.lastUpdatedCompanies()
-
-        val thirtyMinutesAgo =
-            Clock.System.now().minus(30, DateTimeUnit.MINUTE, TimeZone.currentSystemDefault())
-
-        if (lastUpdated != null && lastUpdated > thirtyMinutesAgo && localDataAvailable) return@flow
-
-        val companies = apiService.getCompanies().getOrElse {
-            if (it is ClientRequestException && it.response.status == HttpStatusCode.Unauthorized) logout()
-
-            if (localDataAvailable) return@flow
-            else throw it
-        }.also { localDatabase.replaceCompanies(it) }.map { companyMapper.mapFromEntity(it) }
-
-        emit(companies)
+    override fun getCompanyById(id: String): Flow<Company> = getCompanies().map { companies ->
+        companies.find { it.id == id } ?: throw Exception("Company with id $id not found")
     }
+
+    override fun getCompanies(): Flow<List<Company>> = getFromCacheAndRevalidate(
+        getFromCache = { localDatabase.getCompanies() },
+        getFromApi = { apiService.getCompanies() },
+        setInCache = { localDatabase.replaceCompanies(it) },
+        cacheAge = localDatabase.lastUpdatedCompanies(),
+        revalidateIfOlderThan = Duration.parse("30m")
+    ).map { companies -> companies.map { companyMapper.mapFromEntity(it) } }
 
     override fun refreshCompanies(): Flow<List<Company>> = flow {
         val companies =
@@ -112,7 +112,7 @@ class RepositoryImplementation : CompanyRepository, SpeakerRepository, PostRepos
 
 
     override fun getPostById(id: String): Flow<Post> = flow {
-        localDatabase.getHomeResponse()?.posts?.find { it.id == id }?.let {
+        localDatabase.getHomeResponse().getOrNull()?.posts?.find { it.id == id }?.let {
             emit(postMapper.mapFromEntity(it))
         }
 
@@ -124,51 +124,32 @@ class RepositoryImplementation : CompanyRepository, SpeakerRepository, PostRepos
 
     override suspend fun hitPostUrl(url: String): Result<String> = apiService.hitPostUrl(url)
 
-    override fun getSessionById(id: String): Flow<Session> = flow {
-        var localDataAvailable = false
-
-        localDatabase.getSessions()?.find { it.id == id }?.let {
-            emit(sessionMapper.mapFromEntity(it)).also { localDataAvailable = true }
-        }
-
-        apiService.getSession(id).getOrElse {
-            if (it is ClientRequestException && it.response.status == HttpStatusCode.Unauthorized) logout()
-            if (localDataAvailable) return@flow
-            else throw it
-        }.also {
-            localDatabase.replaceSession(it)
-            emit(sessionMapper.mapFromEntity(it))
-        }
-    }
+    override fun getSessionById(id: String): Flow<Session> = getFromCacheAndRevalidate(
+        getFromCache = {
+            localDatabase.getSessions().getOrNull()?.find { it.id == id }
+                ?.let { Result.success(it) }
+                ?: Result.failure(Exception("Session with id $id not found"))
+        },
+        getFromApi = { apiService.getSession(id) },
+        setInCache = { session -> localDatabase.replaceSession(session) },
+        cacheAge = localDatabase.lastUpdatedSessions(),
+        revalidateIfOlderThan = Duration.parse("30m")
+    ).map { session -> sessionMapper.mapFromEntity(session) }
 
     @Throws(Throwable::class)
-    override fun getSessions(): Flow<List<Session>> = flow {
-        var localDataAvailable = false
-
-        localDatabase.getSessions()?.map { sessionMapper.mapFromEntity(it) }
-            ?.sortedBy { it.startTime }?.let { emit(it).also { localDataAvailable = true } }
-
-        val lastUpdated = localDatabase.lastUpdatedSessions()
-
-        val thirtyMinutesAgo =
-            Clock.System.now().minus(30, DateTimeUnit.MINUTE, TimeZone.currentSystemDefault())
-
-        if (lastUpdated != null && lastUpdated > thirtyMinutesAgo && localDataAvailable) return@flow
-
-        val sessions = apiService.getSessions().getOrElse {
-            if (it is ClientRequestException && it.response.status == HttpStatusCode.Unauthorized) logout()
-            if (localDataAvailable) return@flow
-            else throw it
-        }.also { localDatabase.replaceSessions(it) }
-            .map { sessionMapper.mapFromEntity(it) }
-            .sortedBy { it.startTime }
-
-        emit(sessions)
-    }
+    override fun getSessions(): Flow<List<Session>> = getFromCacheAndRevalidate(
+        getFromCache = { localDatabase.getSessions() },
+        getFromApi = { apiService.getSessions() },
+        setInCache = { sessions -> localDatabase.replaceSessions(sessions) },
+        cacheAge = localDatabase.lastUpdatedSessions(),
+        revalidateIfOlderThan = Duration.parse("30m")
+    ).map { sessions -> sessions.map { sessionMapper.mapFromEntity(it) } }
 
     override fun getCachedSessionById(id: String): Session? = localDatabase.let {
         val allSession =
-            (it.getSessions() ?: listOf()) + (it.getHomeResponse()?.upcomingSessions ?: listOf())
+            (it.getSessions().getOrNull() ?: listOf()) + (it.getHomeResponse()
+                .getOrNull()?.upcomingSessions
+                ?: listOf())
         sessionMapper.mapFromEntityIfNotNull(allSession.find { s -> s.id == id })
     }
 
@@ -193,57 +174,20 @@ class RepositoryImplementation : CompanyRepository, SpeakerRepository, PostRepos
         localDatabase.toggleShouldNotify(id)
     }
 
-    override fun getSpeakerById(id: String): Flow<SpeakerDetail> = flow {
-        var localDataAvailable = false
-
-        localDatabase.getSpeakers()?.find { it.id == id }?.let {
-            emit(speakerMapper.mapFromEntity(it)).also { localDataAvailable = true }
+    override fun getSpeakerById(id: String): Flow<SpeakerDetail> = getSpeakers()
+        .map { speakers ->
+            speakers.find { it.id == id } ?: throw Exception("Speaker with id $id not found")
         }
 
-        val lastUpdated = localDatabase.lastUpdatedSpeakers()
 
-        val thirtyMinutesAgo =
-            Clock.System.now().minus(30, DateTimeUnit.MINUTE, TimeZone.currentSystemDefault())
+    override fun getSpeakers(): Flow<List<SpeakerDetail>> = getFromCacheAndRevalidate(
+        getFromCache = { localDatabase.getSpeakers() },
+        getFromApi = { apiService.getSpeakers() },
+        setInCache = { speakers -> localDatabase.replaceSpeakers(speakers) },
+        cacheAge = localDatabase.lastUpdatedSpeakers(),
+        revalidateIfOlderThan = Duration.parse("30m")
+    ).map { speakers -> speakers.map { speakerMapper.mapFromEntity(it) } }
 
-        if (lastUpdated != null && lastUpdated > thirtyMinutesAgo && localDataAvailable) return@flow
-
-        val speakerDto = apiService.getSpeakers().getOrElse {
-            if (it is ClientRequestException && it.response.status == HttpStatusCode.Unauthorized) logout()
-            if (localDataAvailable) return@flow
-            else throw it
-        }.also { localDatabase.replaceSpeakers(it) }.find { it.id == id }
-            ?: throw Exception("speaker with id $id could not be not found")
-
-        emit(speakerMapper.mapFromEntity(speakerDto))
-    }
-
-
-    override fun getSpeakers(): Flow<List<SpeakerDetail>> = flow {
-        var localDataAvailable = false
-
-        localDatabase.getSpeakers()
-            ?.sortedBy { it.firstName }
-            ?.map { speakerMapper.mapFromEntity(it) }
-            ?.let { emit(it).also { localDataAvailable = true } }
-
-        val lastUpdated = localDatabase.lastUpdatedSpeakers()
-
-        val thirtyMinutesAgo =
-            Clock.System.now().minus(30, DateTimeUnit.MINUTE, TimeZone.currentSystemDefault())
-
-        if (lastUpdated != null && lastUpdated > thirtyMinutesAgo && localDataAvailable) return@flow
-
-        val speakers = apiService.getSpeakers().getOrElse {
-            if (it is ClientRequestException && it.response.status == HttpStatusCode.Unauthorized) logout()
-            if (localDataAvailable) return@flow
-            else throw it
-        }
-            .also { localDatabase.replaceSpeakers(it) }
-            .sortedBy { it.firstName }
-            .map { speakerMapper.mapFromEntity(it) }
-
-        emit(speakers)
-    }
 
     override fun refreshSpeakers(): Flow<List<SpeakerDetail>> = flow {
         val speakers = apiService.getSpeakers().getOrThrow()
@@ -258,37 +202,13 @@ class RepositoryImplementation : CompanyRepository, SpeakerRepository, PostRepos
         apiService.getUpdate(AppPlatformMapper().mapToEntity(appPlatform))
             .mapCatching { UpdateInfoMapper().mapFromEntity(it) }
 
-    override fun getHomeData(): Flow<HomeData> = flow {
-        var localDataAvailable = false
-
-        try {
-            localDatabase.getHomeResponse()?.let {
-                if (it.isEmpty()) return@let
-
-                homeDataMapper.mapFromEntity(it)
-                    .also { homeData -> emit(homeData); localDataAvailable = true }
-            }
-        } catch (e: Exception) {
-            // if home data changed this will throw errors only the first time its called
-            localDatabase.replaceHomeResponse(HomeDataDTO())
-        }
-
-        val lastUpdated = localDatabase.lastUpdatedHomeResponse()
-
-        val fiveMinutesAgo =
-            Clock.System.now().minus(10, DateTimeUnit.MINUTE, TimeZone.currentSystemDefault())
-
-        if (lastUpdated != null && lastUpdated > fiveMinutesAgo && localDataAvailable) return@flow
-
-        val homeData = apiService.getHome().getOrElse {
-            if (it is ClientRequestException && it.response.status == HttpStatusCode.Unauthorized) logout()
-
-            if (localDataAvailable) return@flow
-            else throw it
-        }.also { localDatabase.replaceHomeResponse(it) }
-
-        emit(homeDataMapper.mapFromEntity(homeData))
-    }
+    override fun getHomeData(): Flow<HomeData> = getFromCacheAndRevalidate(
+        getFromCache = { localDatabase.getHomeResponse() },
+        getFromApi = { apiService.getHome() },
+        setInCache = { homeData -> localDatabase.replaceHomeResponse(homeData) },
+        cacheAge = localDatabase.lastUpdatedHomeResponse(),
+        revalidateIfOlderThan = Duration.parse("30m")
+    ).map { homeData -> homeDataMapper.mapFromEntity(homeData) }
 
     override suspend fun askQuestion(eventId: String, question: String, isAnonymous: Boolean) =
         apiService.askQuestion(eventId, question, isAnonymous).isSuccess

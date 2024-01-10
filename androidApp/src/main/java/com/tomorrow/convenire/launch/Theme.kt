@@ -2,6 +2,8 @@ package com.tomorrow.convenire.launch
 
 import android.app.Activity
 import android.content.pm.ActivityInfo
+import android.content.res.Configuration
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.Typography
 import androidx.compose.material.darkColors
@@ -11,9 +13,11 @@ import androidx.compose.material3.Shapes
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -125,20 +129,25 @@ fun JetpackComposeDarkThemeTheme(
     }
 
     val view = LocalView.current
+    val context = LocalContext.current
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
             window.statusBarColor = colors.surface.toArgb()
             window.navigationBarColor = colors.surface.toArgb()
             window.colorMode = if (darkTheme)
-                ActivityInfo.COLOR_MODE_WIDE_COLOR_GAMUT
+                ActivityInfo.COLOR_MODE_DEFAULT
             else
                 ActivityInfo.COLOR_MODE_DEFAULT
 
             WindowCompat.getInsetsController(window, view).let {
                 it.isAppearanceLightNavigationBars = !darkTheme
                 it.isAppearanceLightStatusBars = !darkTheme
+
             }
+            AppCompatDelegate.setDefaultNightMode(
+                if (!darkTheme) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
+            )
         }
     }
 

@@ -1,9 +1,13 @@
 package com.tomorrow.convenire.shared.data.data_source.utils
 
+import com.tomorrow.convenire.shared.domain.repositories.AuthenticationRepository
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*
+import io.ktor.client.statement.HttpReceivePipeline
 import io.ktor.http.*
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
 open class BaseApiService(
     val clientProvider: () -> HttpClient,

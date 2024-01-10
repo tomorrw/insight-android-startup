@@ -2,13 +2,18 @@ package com.tomorrow.convenire.shared.data.data_source.remote
 
 import com.tomorrow.convenire.shared.data.data_source.model.*
 import com.tomorrow.convenire.shared.data.data_source.utils.BaseApiService
+import com.tomorrow.convenire.shared.data.repository.RepositoryImplementation
+import com.tomorrow.convenire.shared.domain.repositories.AuthenticationRepository
 import io.ktor.client.*
 import io.ktor.client.plugins.auth.*
 import io.ktor.client.plugins.auth.providers.*
 import io.ktor.client.request.*
+import io.ktor.client.statement.HttpReceivePipeline
+import io.ktor.http.HttpStatusCode
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
 class ApiServiceImplementation(
     clientProvider: () -> HttpClient,
@@ -71,6 +76,13 @@ class ApiServiceImplementation(
     override suspend fun getClaimedOffers(): Result<List<OfferDTO>> = get("$baseUrl/api/offers/claimed")
 
     override suspend fun getConfig(): Result<ConfigurationDTO>  = get("$baseUrl/api/configuration")
+    override suspend fun addUnAuthenticatedInterceptor(intercept: suspend () -> Unit) {
+        clientProvider().receivePipeline.intercept(HttpReceivePipeline.Before) {
+            if ( it.status == HttpStatusCode.Unauthorized) {
+                intercept()
+            }
+        }
+    }
 
     @Serializable
     private data class VerifyOTPResponse(
