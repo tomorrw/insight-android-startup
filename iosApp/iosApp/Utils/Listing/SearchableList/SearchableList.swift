@@ -91,7 +91,6 @@ struct SearchableList<ItemDetailPage: View, Loader: View, EmptySearchPage: View,
                     }
                 }
             }
-            .refreshable { await vm.refreshAll() }
             .if(isSearchable, transform: { view in
                 view.searchable(
                     text: $vm.searchText,
@@ -110,6 +109,7 @@ struct SearchableList<ItemDetailPage: View, Loader: View, EmptySearchPage: View,
             }
             isDisplayingError = true
         })
+        .refreshable { await vm.refreshAll() }
     }
 }
 
