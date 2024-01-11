@@ -4,6 +4,7 @@ import com.tomorrow.convenire.shared.data.data_source.model.SpeakerDTO
 import com.tomorrow.convenire.shared.data.data_source.utils.EntityMapper
 import com.tomorrow.convenire.shared.data.data_source.utils.Loadable
 import com.tomorrow.convenire.shared.domain.model.Page
+import com.tomorrow.convenire.shared.domain.model.SocialLink
 import com.tomorrow.convenire.shared.domain.model.Speaker
 import com.tomorrow.convenire.shared.domain.model.SpeakerDetail
 import com.tomorrow.convenire.shared.domain.utils.ImageShape

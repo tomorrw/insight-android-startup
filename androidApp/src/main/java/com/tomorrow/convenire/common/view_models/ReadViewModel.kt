@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import com.tomorrow.convenire.common.GeneralError
 import com.tomorrow.convenire.common.Loader
+import com.tomorrow.convenire.launch.LocalNavController
 import com.tomorrow.convenire.shared.data.data_source.utils.Loadable
 import com.tomorrow.convenire.shared.data.data_source.utils.Loaded
 import com.tomorrow.convenire.shared.data.data_source.utils.NotLoaded
@@ -29,6 +30,7 @@ import org.koin.core.component.inject
 open class ReadViewModel<D>(
     internal val load: () -> Flow<D>,
     internal val refresh: () -> Flow<D> = load,
+    internal val emptyCheck: (D) -> Boolean = { false },
 ) : ViewModel(), KoinComponent {
     var state by mutableStateOf(State<D>())
     val scope: CoroutineScope by inject()
@@ -51,7 +53,10 @@ open class ReadViewModel<D>(
                     try {
                         load().collect {
                             onDataReception(it)
-                            state = state.copy(isLoading = false)
+                            state = state.copy(
+                                isLoading = false,
+                                isEmpty = emptyCheck(it),
+                                )
                         }
                     } catch (e: Throwable) {
                         Log.e("Read View Model Error", "$e")
@@ -66,7 +71,10 @@ open class ReadViewModel<D>(
                     try {
                         refresh().collect {
                             onDataReception(it)
-                            state = state.copy(isRefreshing = false)
+                            state = state.copy(
+                                isRefreshing = false,
+                                isEmpty = emptyCheck(it),
+                            )
                         }
                     } catch (e: Throwable) {
                         Log.e("Read View Model Error", "$e")
@@ -85,6 +93,7 @@ open class ReadViewModel<D>(
                     try {
                         load().collect {
                             onDataReception(it)
+                            state = state.copy(isEmpty = emptyCheck(it))
                         }
                     } catch (e: Throwable) {
                         Log.e("Read View Model Error", "$e")
@@ -109,15 +118,17 @@ open class ReadViewModel<D>(
     data class State<D>(
         val isLoading: Boolean = false,
         val isRefreshing: Boolean = false,
+        val isEmpty: Boolean = false,
         val viewData: Loadable<D> = NotLoaded(),
         val error: String? = null,
     ) {
         fun copy(
             isLoading: Boolean = this.isLoading,
             isRefreshing: Boolean = this.isRefreshing,
+            isEmpty: Boolean = this.isEmpty,
             viewData: D,
             error: String? = this.error,
-        ) = State(isLoading, isRefreshing, Loaded(viewData), error)
+        ) = State(isLoading, isRefreshing, isEmpty, Loaded(viewData), error)
     }
 }
 
@@ -136,6 +147,14 @@ fun <D> DefaultReadView(
             onButtonClick = { viewModel.on(ReadViewModel.Event.OnRefresh) },
         )
     },
+    emptyState: @Composable () -> Unit = {
+        GeneralError(
+            modifier = Modifier.padding(16.dp),
+            message = "No data found",
+            description = "Stay Tuned for more updates!",
+            hasBackButton = true,
+        )
+    },
     view: @Composable (D) -> Unit,
 ) {
     val context = LocalContext.current
@@ -149,6 +168,7 @@ fun <D> DefaultReadView(
     val viewData = viewModel.state.viewData
 
     if (viewModel.state.isLoading) loader()
+    else if (viewModel.state.isEmpty && viewData is Loaded) emptyState()
     else if (viewData is Loaded) {
         view(viewData.get())
     } else if (viewModel.state.error != null) error(viewModel.state.error ?: "")

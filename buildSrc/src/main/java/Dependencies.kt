@@ -2,7 +2,7 @@ object Versions {
     const val androidMinSdk = 26
     const val androidCompileSdk = 34
     const val androidTargetSdk = androidCompileSdk
-    const val applicationVersionName = "1.0.9"
+    const val applicationVersionName = "1.0.10"
 
     const val kotlinCoroutines = "1.6.4"
     const val koin = "3.4.3"
