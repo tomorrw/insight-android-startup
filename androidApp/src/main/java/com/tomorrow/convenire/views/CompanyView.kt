@@ -39,7 +39,7 @@ fun CompanyView(id: String) {
             image = it.image ?: "",
             socialLinks = it.socialLinks.map {
                 SocialLink(SocialPlatform.fromDomain(it), it.url)
-            },
+            }.take(5),
             onBack = { navController.popBackStack() },
             shareLink = ""
         ) {

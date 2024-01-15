@@ -9,7 +9,7 @@ data class HomeData(
     val todaySpeakers: Loadable<List<SpeakerDetail>> = NotLoaded(),
     val upcomingSessions: Loadable<List<Session>> = NotLoaded(),
     val posts: Loadable<List<Post>> = NotLoaded(),
-    val highlightedAds:  Loadable<List<Ad>>,
+    val highlightedAds: Loadable<List<Ad>>,
     val ads: Loadable<List<Ad>>
 ) {
     fun isNotLoaded() = listOf(
@@ -19,6 +19,13 @@ data class HomeData(
         posts,
         ads
     ).all { it !is Loaded }
+
+    fun isEmpty() = listOf(
+        todaySpeakers,
+        upcomingSessions,
+        posts,
+        ads
+    ).all { it.getDataIfLoaded()?.isEmpty() == true }.and( highlightedPost.getDataIfLoaded() == null)
 
     fun isLoaded() = !isNotLoaded()
 }

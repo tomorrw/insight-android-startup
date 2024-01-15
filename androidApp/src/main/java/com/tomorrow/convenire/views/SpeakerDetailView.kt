@@ -53,7 +53,7 @@ fun SpeakerDetailView(id: String) {
             image = speakerDetail.image ?: "",
             socialLinks = speakerDetail.socialLinks?.map {
                 SocialLink(SocialPlatform.fromDomain(it), it.url)
-            },
+            }?.take(5),
             onBack = { navController.popBackStack() },
             shareLink = "",
             decorativeIcon = speakerDetail.nationality?.url?.let {
