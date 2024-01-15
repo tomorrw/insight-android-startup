@@ -21,9 +21,10 @@ open class BaseApiService(
     }
 
     suspend inline fun <reified Model> get(
+        urlString: String,
         block: HttpRequestBuilder.() -> Unit = {}
     ): Result<Model> = try {
-        Result.success(clientProvider().get { block() }.body())
+        Result.success(clientProvider().get(urlString) { block() }.body())
     } catch (e: Throwable) {
         Result.failure(e)
     }

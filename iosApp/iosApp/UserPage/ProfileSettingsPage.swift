@@ -59,9 +59,6 @@ struct ProfileSettingsPage: View {
             
         }
         .frame(maxWidth: .infinity)
-        .navigationTitle("Profile Settings")
-        .navigationBarTitleDisplayMode(.inline)
-        .background(Color("Background"))
         .confirmationDialog(
             "Log out",
             isPresented: $islogoutConfirmationDisplayed

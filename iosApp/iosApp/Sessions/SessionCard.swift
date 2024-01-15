@@ -129,7 +129,7 @@ struct SessionCard: View {
                         if session.isSessionHappeningNow() {
                             Text("NOW")
                                 .font(.system(size: 14))
-                                .foregroundColor(.white)
+                                .foregroundColor(Color("Default"))
                                 .padding(5)
                                 .background(
                                     RoundedRectangle(cornerRadius: 8)

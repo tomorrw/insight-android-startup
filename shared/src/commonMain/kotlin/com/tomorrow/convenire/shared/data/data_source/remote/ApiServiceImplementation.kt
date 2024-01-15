@@ -2,8 +2,6 @@ package com.tomorrow.convenire.shared.data.data_source.remote
 
 import com.tomorrow.convenire.shared.data.data_source.model.*
 import com.tomorrow.convenire.shared.data.data_source.utils.BaseApiService
-import com.tomorrow.convenire.shared.data.repository.RepositoryImplementation
-import com.tomorrow.convenire.shared.domain.repositories.AuthenticationRepository
 import io.ktor.client.*
 import io.ktor.client.plugins.auth.*
 import io.ktor.client.plugins.auth.providers.*
@@ -12,20 +10,24 @@ import io.ktor.client.statement.HttpReceivePipeline
 import io.ktor.http.HttpStatusCode
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+
 
 class ApiServiceImplementation(
     clientProvider: () -> HttpClient,
     private val baseUrl: String,
 ) : KoinComponent, ApiService, BaseApiService(clientProvider) {
-
+    val json: Json by inject()
     override suspend fun getSpeakers(): Result<List<SpeakerDTO>> = get("$baseUrl/api/speakers")
     override suspend fun getCompanies(): Result<List<CompanyDTO>> = get("$baseUrl/api/companies")
     override suspend fun getSessions(): Result<List<SessionDTO>> = get("$baseUrl/api/events")
     override suspend fun getHome(): Result<HomeDataDTO> = get("$baseUrl/api/home")
 
-    override suspend fun hitPostUrl(url: String): Result<String> = post<HitPostResponse>(url).map { it.message }
+    override suspend fun hitPostUrl(url: String): Result<String> =
+        post<HitPostResponse>(url).map { it.message }
 
     override suspend fun getPost(id: String): Result<PostDTO> = get("$baseUrl/api/posts/$id")
 
@@ -44,11 +46,15 @@ class ApiServiceImplementation(
     override suspend fun register(
         firstName: String, lastName: String, email: String?, phoneNumber: String
     ): Result<String> = post<RegisterResponse>("$baseUrl/api/register") {
-        setBody(RegisterRequest(firstName, lastName,  "", phoneNumber.replace(" ", "")))
+        setBody(RegisterRequest(firstName, lastName, "", phoneNumber.replace(" ", "")))
     }.map { it.uuid }
 
     // this is the actual login once the otp is verified
-    override suspend fun verifyOTP(email: String?,phoneNumber: String?,  otp: String): Result<Pair<BearerTokens, UserDTO>> =
+    override suspend fun verifyOTP(
+        email: String?,
+        phoneNumber: String?,
+        otp: String
+    ): Result<Pair<BearerTokens, UserDTO>> =
         post<VerifyOTPResponse>("$baseUrl/api/login") {
             phoneNumber?.let {
 
@@ -60,29 +66,35 @@ class ApiServiceImplementation(
         }.map { Pair(BearerTokens(accessToken = it.token, refreshToken = it.token), it.user) }
 
     // this is used to not make old users go through register again
-    override suspend fun login(phoneNumber: String?, email: String?): Result<String> = post<LoginResponse>("$baseUrl/api/request-otp") {
-        phoneNumber?.let {
-            setBody(LoginRequest(it.replace(" ", "").replace("+", "")))
-        }
-        email?.let {
-            setBody(LoginRequestViaEmail(it))
-        }
-    }.map { it.uuid }
+    override suspend fun login(phoneNumber: String?, email: String?): Result<String> =
+        post<LoginResponse>("$baseUrl/api/request-otp") {
+            phoneNumber?.let {
+                setBody(LoginRequest(it.replace(" ", "").replace("+", "")))
+            }
+            email?.let {
+                setBody(LoginRequestViaEmail(it))
+            }
+        }.map { it.uuid }
 
     override suspend fun logout(): Result<Unit> = post("$baseUrl/api/logout")
     override suspend fun getUser(): Result<UserDTO> = get("$baseUrl/api/users")
     override suspend fun getSpinners(): Result<List<SpinnerDTO>> = get("$baseUrl/api/spinners")
     override suspend fun getOffers(): Result<List<OfferDTO>> = get("$baseUrl/api/offers")
-    override suspend fun getClaimedOffers(): Result<List<OfferDTO>> = get("$baseUrl/api/offers/claimed")
+    override suspend fun getClaimedOffers(): Result<List<OfferDTO>> =
+        get("$baseUrl/api/offers/claimed")
 
-    override suspend fun getConfig(): Result<ConfigurationDTO>  = get("$baseUrl/api/configuration")
+    override suspend fun getConfig(): Result<ConfigurationDTO> = get("$baseUrl/api/configuration")
     override suspend fun addUnAuthenticatedInterceptor(intercept: suspend () -> Unit) {
         clientProvider().receivePipeline.intercept(HttpReceivePipeline.Before) {
-            if ( it.status == HttpStatusCode.Unauthorized) {
+            if (it.status == HttpStatusCode.Unauthorized) {
                 intercept()
             }
         }
     }
+
+    override suspend fun getAppStoreInfo(bundleId: String): Result<AppStoreResult> =
+        get<ByteArray>("https://itunes.apple.com/lookup?bundleId=$bundleId")
+            .mapCatching { json.decodeFromString(it.decodeToString()) }
 
     @Serializable
     private data class VerifyOTPResponse(
@@ -115,6 +127,7 @@ class ApiServiceImplementation(
         @SerialName("phone_number") val phoneNumber: String,
         val otp: String,
     )
+
     @Serializable
     private data class VerifyOTPRequestViaEmail(
         val email: String,

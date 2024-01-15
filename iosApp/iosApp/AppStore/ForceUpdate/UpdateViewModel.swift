@@ -52,11 +52,25 @@ class UpdateViewModel: AppstoreInfoViewModel {
             }
         }
     }
+    
+    @MainActor
+    func getAppConfig() async {
+        guard let bundleId = Bundle.main.infoDictionary?[kCFBundleIdentifierKey as String] as? String else{ return }
+        do {
+            let result = try await AppleInfo().getAppleInfo(bundleId: bundleId)
+            print(result?.appName)
+            print(result?.storeUrl)
+        } catch {
+            print(error)
+        }
+    }
 
     override init() {
         super.init()
         DispatchQueue.main.async {
-            Task{ await super.fetchAppStoreUrl() }
+            Task{ await super.fetchAppStoreUrl()
+                await self.getAppConfig()
+            }
             self.getUpdateUseCase()
         }
     }

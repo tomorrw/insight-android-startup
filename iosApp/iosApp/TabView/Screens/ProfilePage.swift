@@ -31,7 +31,12 @@ struct ProfilePage: View {
                 
                 ScrollView{
                     VStack(spacing: 16) {
-                        NavigateTo(destination: { ProfileSettingsPage() }) {
+                        NavigateTo(destination: { 
+                            ProfileSettingsPage()
+                                .navigationTitle("Profile Settings")
+                                .navigationBarTitleDisplayMode(.inline)
+                                .background(Color("Background"))
+                        }) {
                             HighlightedCard(
                                 image: "",
                                 title: "Dr. White",
