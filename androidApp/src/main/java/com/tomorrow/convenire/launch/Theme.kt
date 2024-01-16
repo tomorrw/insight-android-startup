@@ -129,25 +129,16 @@ fun JetpackComposeDarkThemeTheme(
     }
 
     val view = LocalView.current
-    val context = LocalContext.current
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
             window.statusBarColor = colors.surface.toArgb()
             window.navigationBarColor = colors.surface.toArgb()
-            window.colorMode = if (darkTheme)
-                ActivityInfo.COLOR_MODE_DEFAULT
-            else
-                ActivityInfo.COLOR_MODE_DEFAULT
 
             WindowCompat.getInsetsController(window, view).let {
                 it.isAppearanceLightNavigationBars = !darkTheme
                 it.isAppearanceLightStatusBars = !darkTheme
-
             }
-            AppCompatDelegate.setDefaultNightMode(
-                if (!darkTheme) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
-            )
         }
     }
 

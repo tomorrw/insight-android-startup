@@ -19,10 +19,9 @@ actual fun platformModule() = module {
     single(createdAtStart = false) {
         runBlocking {
             val iosAppConfig = AppStoreHelper().getAppNameAndUpdateUrl(
-                bundleId = NSBundle.mainBundle.infoDictionary?.get("CFBundleShortVersionString" as NSString)
+                bundleId = NSBundle.mainBundle.infoDictionary?.get("CFBundleIdentifier" as NSString)
                     .toString()
             )
-
             AppConfig(
                 version = NSBundle.mainBundle.infoDictionary?.get("CFBundleShortVersionString" as NSString)
                     .toString(),

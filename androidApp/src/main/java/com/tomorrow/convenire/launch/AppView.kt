@@ -70,14 +70,6 @@ fun AppView(navController: NavHostController = rememberNavController()) {
 
             Box(Modifier.fillMaxSize()) { fullScreenViewModel.content() }
         }
-//        androidx.compose.material3.MaterialTheme(
-//            appColorsMaterial3,
-//            typography = typographyMaterial3
-//        ) {
-//            MaterialTheme(appColors, typography = typography) {
-//
-//            }
-//        }
     }
 }
 

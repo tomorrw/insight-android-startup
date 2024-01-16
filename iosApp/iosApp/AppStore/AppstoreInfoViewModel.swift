@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import shared
 
 class AppstoreInfoViewModel: ObservableObject {
     let defaultName = "App"
@@ -21,19 +22,10 @@ class AppstoreInfoViewModel: ObservableObject {
     }
     
     @MainActor
-    func fetchAppStoreUrl() async {
-        guard let bundleId = Bundle.main.infoDictionary?[kCFBundleIdentifierKey as String] as? String,
-              let urlEncodedBundleId = bundleId.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed),
-              let lookupUrl = URL(string: "http://itunes.apple.com/lookup?bundleId=\(urlEncodedBundleId)"),
-              let response = try? await URLSession(configuration: .default).data(from: lookupUrl),
-              let json = try? JSONSerialization.jsonObject(with: response.0) as? [String: Any],
-              let results = json["results"] as? [[String: Any]], !results.isEmpty,
-              let trackViewUrl = results.first?["trackViewUrl"] as? String,
-              let appName = results.first?["trackName"] as? String
-        else { return }
-        
-        self.url = URL(string: trackViewUrl)!
-        self.appName = String(appName)
-        
+    func fetchAppStoreUrl()  {
+        let result = GetAppConfig().appConfig
+        self.appName = result.name
+        guard let url = result.updateUrl else { return }
+        self.url = URL(string: url) ?? self.defaultUrl
     }
 }

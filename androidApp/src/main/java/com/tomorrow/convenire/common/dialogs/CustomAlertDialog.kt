@@ -29,7 +29,7 @@ fun CustomAlertDialog(
     onDismiss: () -> Unit,
     icon: (@Composable () -> Unit)? = null,
     dismissButtonText: String,
-    containerColor: Color = Color(0xFFFAFAFF)
+    containerColor: Color = MaterialTheme.colorScheme.surface
 ) {
     AlertDialog(
         modifier = Modifier.padding(horizontal = 8.dp),
