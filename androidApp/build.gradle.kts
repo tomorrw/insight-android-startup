@@ -33,7 +33,7 @@ android {
         minSdk = Versions.androidMinSdk
         targetSdk = Versions.androidTargetSdk
         compileSdk = Versions.androidCompileSdk
-        versionCode = 2
+        versionCode = 3
         versionName = Versions.applicationVersionName
         signingConfig = signingConfigs.getByName("release")
     }

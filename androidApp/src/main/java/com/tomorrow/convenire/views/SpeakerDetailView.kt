@@ -28,7 +28,10 @@ import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
 
 class SpeakerDetailViewModel(id: String) :
-    ReadViewModel<SpeakerDetail>(load = { GetSpeakerByIdUseCase().getSpeaker(id) })
+    ReadViewModel<SpeakerDetail>(
+        load = { GetSpeakerByIdUseCase().getSpeaker(id) },
+        emptyCheck = { it.socialLinks.isEmpty() && it.detailPages.getDataIfLoaded()?.isEmpty() == true }
+    )
 
 @Composable
 fun SpeakerDetailView(id: String) {
@@ -45,12 +48,12 @@ fun SpeakerDetailView(id: String) {
     }) { speakerDetail ->
         val navController = LocalNavController.current
         EntityDetailHeaderLayout(
-            title = viewModel.state.viewData?.getFullName() ?: "",
-            subtitle = "${viewModel.state.viewData?.title ?: ""}${viewModel.state.viewData?.nationality?.name?.let { " | $it" } ?: ""}",
-            image = viewModel.state.viewData?.image ?: "",
-            socialLinks = viewModel.state.viewData?.socialLinks?.map {
+            title = speakerDetail.getFullName(),
+            subtitle = "${speakerDetail.title}${speakerDetail.nationality?.name?.let { " | $it" } ?: ""}",
+            image = speakerDetail.image ?: "",
+            socialLinks = speakerDetail.socialLinks?.map {
                 SocialLink(SocialPlatform.fromDomain(it), it.url)
-            }?.ensureSize(5),
+            }?.take(5),
             onBack = { navController.popBackStack() },
             shareLink = "",
             decorativeIcon = speakerDetail.nationality?.url?.let {
@@ -66,11 +69,16 @@ fun SpeakerDetailView(id: String) {
                 }
             }
         ) {
-            viewModel.state.viewData?.detailPages?.getDataIfLoaded()?.let {
+            speakerDetail.detailPages.getDataIfLoaded()?.let {
                 val pages =
                     remember(it) { derivedStateOf { it.map { page -> page.toPageUi() } } }
                 if (pages.value.isNotEmpty())
                     PageTabDisplay(pages.value)
+                else GeneralError(
+                    modifier = Modifier.padding(16.dp),
+                    message = "No data found",
+                    description = "Stay Tuned for more updates!",
+                )
             }
         }
     }

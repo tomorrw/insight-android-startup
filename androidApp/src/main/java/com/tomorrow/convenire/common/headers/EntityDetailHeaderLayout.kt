@@ -118,13 +118,15 @@ fun EntityDetailHeaderLayout(
             textAlign = TextAlign.Center
         )
 
-        socialLinks?.let {
-            Socials(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 32.dp),
-                links = it,
-            )
+        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
+            socialLinks?.let {
+                Socials(
+                    modifier = Modifier
+                        .fillMaxWidth(socialLinks.size.toFloat() * 0.2f)
+                        .padding(top = 32.dp),
+                    links = it,
+                )
+            }
         }
     }
 

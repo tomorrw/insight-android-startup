@@ -17,6 +17,7 @@ import com.tomorrow.convenire.feature_events.EventsList
 import com.tomorrow.convenire.feature_events.EventsLoader
 import com.tomorrow.convenire.launch.LocalNavController
 import com.tomorrow.convenire.mappers.toEvent
+import com.tomorrow.convenire.shared.data.data_source.utils.Loaded
 import com.tomorrow.convenire.shared.domain.model.Session
 import com.tomorrow.convenire.shared.domain.use_cases.GetAppropriateDisplayedDayForEvent
 import com.tomorrow.convenire.shared.domain.use_cases.GetSessionsUseCase
@@ -42,17 +43,16 @@ class DailyLecturesViewModel : ReadViewModel<DailyLecturesState>(
     refresh = { GetSessionsUseCase().refresh().map { DailyLecturesState.fromSessions(it) } }
 ) {
     override fun onDataReception(d: DailyLecturesState) {
-        val oldSelectedDay = state.viewData?.displayedDay
+        val oldSelectedDay = state.viewData.getDataIfLoaded()?.displayedDay
 
         state = state.copy(
-            viewData = d.copy(
-                displayedDay = if (d.eventsByDay.keys.contains(oldSelectedDay)) oldSelectedDay else d.displayedDay
-            )
+            viewData = d.copy(displayedDay = if (d.eventsByDay.keys.contains(oldSelectedDay)) oldSelectedDay else d.displayedDay)
         )
     }
 
     fun changeSelectedDay(day: LocalDate) {
-        state = state.copy(viewData = state.viewData?.copy(displayedDay = day))
+        state.viewData.getDataIfLoaded()
+            ?.let { state = state.copy(viewData = it.copy(displayedDay = day)) }
     }
 }
 

@@ -1,6 +1,10 @@
 package com.tomorrow.convenire.views
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import com.tomorrow.convenire.common.GeneralError
 import com.tomorrow.convenire.common.view_models.DefaultReadView
 import com.tomorrow.convenire.common.view_models.ReadViewModel
 import com.tomorrow.convenire.feature_listing.ListDisplayItem
@@ -40,11 +44,19 @@ fun CategoryView(id: String) {
 
     DefaultReadView(viewModel = viewModel) {
         ListDisplayPage(
-            title = viewModel.state.viewData?.name ?: "",
-            description = viewModel.state.viewData?.description ?: "",
+            title = it?.name ?: "",
+            description = it?.description ?: "",
             onBackPress = { navController.popBackStack() },
             onItemClick = { navController.navigate(AppRoute.Company.generateExplicit(it)) },
-            viewModel = companiesByCategoryViewModel
+            viewModel = companiesByCategoryViewModel,
+            emptyListView = {
+                GeneralError(
+                    modifier = Modifier.padding(16.dp),
+                    message = "No data found",
+                    description = "Stay Tuned for more updates!",
+                    onButtonClick = { viewModel.on(ReadViewModel.Event.OnRefresh) },
+                )
+            }
         )
     }
 }

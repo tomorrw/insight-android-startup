@@ -35,25 +35,20 @@ import com.tomorrow.convenire.shared.domain.model.User
 import com.tomorrow.convenire.shared.domain.use_cases.GetConfigurationUseCase
 import com.tomorrow.convenire.shared.domain.use_cases.GetUserUseCase
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import org.koin.androidx.compose.koinViewModel
 import java.util.*
 
 class MyQrViewData(
     val user: User,
-    val configurationData: ConfigurationData
+    val configurationData: ConfigurationData?
 )
 
 class MyQrViewModel : ReadViewModel<MyQrViewData>(
     load = {
-        GetConfigurationUseCase().getTicketInfo()
-            .combine(GetUserUseCase().getUser()) { configurationData, user ->
-                MyQrViewData(user, configurationData)
-            }
-    },
-
-    refresh = {
-        GetConfigurationUseCase().getTicketInfo()
+        (GetConfigurationUseCase().getTicketInfo() as Flow<ConfigurationData?>).catch { emit(null) }
             .combine(GetUserUseCase().getUser()) { configurationData, user ->
                 MyQrViewData(user, configurationData)
             }
@@ -72,7 +67,7 @@ fun MyQrView() {
             val qrCode = remember(viewModel.state.isRefreshing) {
                 mutableStateOf(ticket.user.generateQrCodeString())
             }
-            val eventDate: String? = remember(key1 = ticket) { ticket.configurationData.getFormattedDate() }
+            val eventDate: String? = remember(key1 = ticket) { ticket.configurationData?.getFormattedDate() }
 
             LaunchedEffect(key1 = qrCode.value) {
                 delay(30000)
@@ -99,7 +94,7 @@ fun MyQrView() {
                             .verticalScroll(rememberScrollState()),
                         verticalArrangement = Arrangement.Center,
                     ) {
-                        if (ticket.configurationData.showTicket) Column(
+                        if (ticket.configurationData?.showTicket == true) Column(
                             modifier = Modifier
                                 .padding(16.dp)
                                 .clip(RoundedCornerShape(8.dp))
@@ -219,7 +214,7 @@ fun MyQrView() {
                             )
                             Spacer(modifier = Modifier.height(16.dp))
                             Text(
-                                text = ticket.configurationData.description,
+                                text = ticket.configurationData?.description ?: "Your Digital Identity",
                                 style = MaterialTheme.typography.headlineSmall.copy(
                                     textAlign = TextAlign.Center
                                 )

@@ -94,25 +94,51 @@ fun EventDetailsView(id: String) {
                     Column(modifier = Modifier.padding(horizontal = 16.dp)) {
                         Spacer(Modifier.height(8.dp))
 
-                        viewModel.state.viewData?.let { d ->
-                            if (d.isSessionHappeningNow()) TagText(text = "NOW")
-                            else if (d.hasAttended) TagText(text = "ATTENDED")
+                        if (it.isSessionHappeningNow()) TagText(text = "NOW")
+                        else if (it.hasAttended) TagText(text = "ATTENDED")
 
-                            Text(
-                                modifier = Modifier.padding(top = 10.dp),
-                                text = it.title,
-                                style = MaterialTheme.typography.headlineSmall.copy(color = MaterialTheme.colorScheme.onSurface)
+                        Text(
+                            modifier = Modifier.padding(top = 10.dp),
+                            text = it.title,
+                            style = MaterialTheme.typography.headlineSmall.copy(color = MaterialTheme.colorScheme.onSurface)
+                        )
+
+                        Spacer(Modifier.height(22.dp))
+
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            Icon(
+                                Icons.Outlined.LocationOn,
+                                contentDescription = "location",
+                                modifier = Modifier
+                                    .size(20.dp)
+                                    .align(Alignment.CenterVertically),
+                                tint = MaterialTheme.colorScheme.primary
                             )
 
-                            Spacer(Modifier.height(22.dp))
+                            Text(
+                                text = it.location,
+                                style = MaterialTheme.typography.bodyLarge.copy(color = MaterialTheme.colorScheme.onSurfaceVariant),
+                                modifier = Modifier
+                            )
+                        }
 
+                        Spacer(Modifier.height(12.dp))
+
+                        FlowRow(
+                            verticalArrangement = Arrangement.Center,
+                            horizontalArrangement = Arrangement.spacedBy(16.dp)
+                        ) {
                             Row(
+                                modifier = Modifier.padding(bottom = 12.dp),
                                 verticalAlignment = Alignment.CenterVertically,
                                 horizontalArrangement = Arrangement.spacedBy(8.dp)
                             ) {
                                 Icon(
-                                    Icons.Outlined.LocationOn,
-                                    contentDescription = "location",
+                                    Icons.Outlined.DateRange,
+                                    contentDescription = "date",
                                     modifier = Modifier
                                         .size(20.dp)
                                         .align(Alignment.CenterVertically),
@@ -120,120 +146,92 @@ fun EventDetailsView(id: String) {
                                 )
 
                                 Text(
-                                    text = d.location,
+                                    text = it.startTime.toJavaLocalDateTime()
+                                        .format(dayFormatter),
                                     style = MaterialTheme.typography.bodyLarge.copy(color = MaterialTheme.colorScheme.onSurfaceVariant),
                                     modifier = Modifier
                                 )
                             }
 
-                            Spacer(Modifier.height(12.dp))
-
-                            FlowRow(
-                                verticalArrangement = Arrangement.Center,
-                                horizontalArrangement = Arrangement.spacedBy(16.dp)
+                            Row(
+                                modifier = Modifier.padding(bottom = 12.dp),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(8.dp)
                             ) {
-                                Row(
-                                    modifier = Modifier.padding(bottom = 12.dp),
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                                ) {
-                                    Icon(
-                                        Icons.Outlined.DateRange,
-                                        contentDescription = "date",
-                                        modifier = Modifier
-                                            .size(20.dp)
-                                            .align(Alignment.CenterVertically),
-                                        tint = MaterialTheme.colorScheme.primary
-                                    )
-
-                                    Text(
-                                        text = d.startTime.toJavaLocalDateTime()
-                                            .format(dayFormatter),
-                                        style = MaterialTheme.typography.bodyLarge.copy(color = MaterialTheme.colorScheme.onSurfaceVariant),
-                                        modifier = Modifier
-                                    )
-                                }
-
-                                Row(
-                                    modifier = Modifier.padding(bottom = 12.dp),
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                                ) {
-                                    Icon(
-                                        painterResource(id = R.drawable.baseline_access_time_24),
-                                        contentDescription = "date",
-                                        modifier = Modifier
-                                            .size(20.dp)
-                                            .align(Alignment.CenterVertically),
-                                        tint = MaterialTheme.colorScheme.primary
-                                    )
-
-                                    Text(
-                                        text = "${
-                                            d.startTime.toJavaLocalDateTime().format(formatter)
-                                        } - ${d.endTime.toJavaLocalDateTime().format(formatter)}",
-                                        style = MaterialTheme.typography.bodyLarge.copy(color = MaterialTheme.colorScheme.onSurfaceVariant),
-                                        modifier = Modifier
-                                    )
-                                }
-                            }
-
-                            if (it.numberOfAttendees.isLoaded || it.numberOfSeats.isLoaded) {
-                                Row(
-                                    modifier = Modifier.padding(bottom = 12.dp),
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                                ) {
-                                    Icon(
-                                        Icons.Outlined.Person,
-                                        contentDescription = "date",
-                                        modifier = Modifier
-                                            .size(20.dp)
-                                            .align(Alignment.CenterVertically),
-                                        tint = MaterialTheme.colorScheme.primary
-                                    )
-
-                                    Text(
-                                        text = listOfNotNull(
-                                            it.numberOfAttendees.getDataIfLoaded(),
-                                            it.numberOfSeats.getDataIfLoaded()
-                                        ).joinToString(" / "),
-                                        style = MaterialTheme.typography.bodyLarge.copy(color = MaterialTheme.colorScheme.onSurfaceVariant),
-                                        modifier = Modifier
-                                    )
-                                }
-                            }
-
-                            Spacer(Modifier.height(14.dp))
-
-                            if (d.canAskQuestions) {
-                                Button(
-                                    onClick = {
-                                        navController.navigate(
-                                            AppRoute.AskLectureQuestion.generateExplicit(
-                                                d.id
-                                            )
-                                        )
-                                    },
+                                Icon(
+                                    painterResource(id = R.drawable.baseline_access_time_24),
+                                    contentDescription = "date",
                                     modifier = Modifier
-                                        .heightIn(min = 50.dp)
-                                        .fillMaxWidth(),
-                                    enabled = !viewModel.state.isLoading,
-                                    shape = RoundedCornerShape(8.dp),
-                                ) {
-                                    Text(
-                                        "Ask a Question",
-                                        style = MaterialTheme.typography.titleMedium.copy(color = MaterialTheme.colorScheme.onPrimary)
-                                    )
-                                }
-                                Spacer(Modifier.height(26.dp))
+                                        .size(20.dp)
+                                        .align(Alignment.CenterVertically),
+                                    tint = MaterialTheme.colorScheme.primary
+                                )
+
+                                Text(
+                                    text = "${
+                                        it.startTime.toJavaLocalDateTime().format(formatter)
+                                    } - ${it.endTime.toJavaLocalDateTime().format(formatter)}",
+                                    style = MaterialTheme.typography.bodyLarge.copy(color = MaterialTheme.colorScheme.onSurfaceVariant),
+                                    modifier = Modifier
+                                )
                             }
                         }
 
-                        Divider(color = MaterialTheme.colorScheme.outline)
+                        if (it.numberOfAttendees.isLoaded || it.numberOfSeats.isLoaded) {
+                            Row(
+                                modifier = Modifier.padding(bottom = 12.dp),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                            ) {
+                                Icon(
+                                    Icons.Outlined.Person,
+                                    contentDescription = "date",
+                                    modifier = Modifier
+                                        .size(20.dp)
+                                        .align(Alignment.CenterVertically),
+                                    tint = MaterialTheme.colorScheme.primary
+                                )
 
-                        Spacer(Modifier.height(26.dp))
+                                Text(
+                                    text = listOfNotNull(
+                                        it.numberOfAttendees.getDataIfLoaded(),
+                                        it.numberOfSeats.getDataIfLoaded()
+                                    ).joinToString(" / "),
+                                    style = MaterialTheme.typography.bodyLarge.copy(color = MaterialTheme.colorScheme.onSurfaceVariant),
+                                    modifier = Modifier
+                                )
+                            }
+                        }
+
+                        Spacer(Modifier.height(14.dp))
+
+                        if (it.canAskQuestions) {
+                            Button(
+                                onClick = {
+                                    navController.navigate(
+                                        AppRoute.AskLectureQuestion.generateExplicit(
+                                            it.id
+                                        )
+                                    )
+                                },
+                                modifier = Modifier
+                                    .heightIn(min = 50.dp)
+                                    .fillMaxWidth(),
+                                enabled = !viewModel.state.isLoading,
+                                shape = RoundedCornerShape(8.dp),
+                            ) {
+                                Text(
+                                    "Ask a Question",
+                                    style = MaterialTheme.typography.titleMedium.copy(color = MaterialTheme.colorScheme.onPrimary)
+                                )
+                            }
+                            Spacer(Modifier.height(26.dp))
+                        }
                     }
+
+                    Divider(color = MaterialTheme.colorScheme.outline)
+
+                    Spacer(Modifier.height(26.dp))
                 }
 
                 it.detailPage.getDataIfLoaded()?.toPageUi()?.sections?.let { sections ->
