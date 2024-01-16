@@ -20,7 +20,6 @@ class ApiServiceImplementation(
     clientProvider: () -> HttpClient,
     private val baseUrl: String,
 ) : KoinComponent, ApiService, BaseApiService(clientProvider) {
-    val json: Json by inject()
     override suspend fun getSpeakers(): Result<List<SpeakerDTO>> = get("$baseUrl/api/speakers")
     override suspend fun getCompanies(): Result<List<CompanyDTO>> = get("$baseUrl/api/companies")
     override suspend fun getSessions(): Result<List<SessionDTO>> = get("$baseUrl/api/events")
@@ -91,10 +90,6 @@ class ApiServiceImplementation(
             }
         }
     }
-
-    override suspend fun getAppStoreInfo(bundleId: String): Result<AppStoreResult> =
-        get<ByteArray>("https://itunes.apple.com/lookup?bundleId=$bundleId")
-            .mapCatching { json.decodeFromString(it.decodeToString()) }
 
     @Serializable
     private data class VerifyOTPResponse(

@@ -24,5 +24,4 @@ interface ApiService {
     suspend fun getClaimedOffers(): Result<List<OfferDTO>>
     suspend fun getConfig(): Result<ConfigurationDTO>
     suspend fun addUnAuthenticatedInterceptor(intercept: suspend () -> Unit): Unit
-    suspend fun getAppStoreInfo(bundleId: String): Result<AppStoreResult?>
 }

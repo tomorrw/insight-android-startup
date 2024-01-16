@@ -55,14 +55,35 @@ class UpdateViewModel: AppstoreInfoViewModel {
     
     @MainActor
     func getAppConfig() async {
-        guard let bundleId = Bundle.main.infoDictionary?[kCFBundleIdentifierKey as String] as? String else{ return }
-        do {
-            let result = try await AppleInfo().getAppleInfo(bundleId: bundleId)
-            print(result?.appName)
-            print(result?.storeUrl)
-        } catch {
-            print(error)
-        }
+        
+        guard let bundleId = Bundle.main.infoDictionary?[kCFBundleIdentifierKey as String] as? String,
+              let res = try? await AppleInfo().getAppleInfo(bundleId: bundleId)
+        else{
+            print("res return")
+            return }
+        
+        res.fold(
+            onSuccess: { [weak self] data in
+                guard let self = self else { return }
+                guard let info = data as? IOSAppInfo  else {
+                    print("conv return")
+                    return
+                }
+                print(info.appName)
+                print(info.storeUrl  ?? "no store ")
+            },
+            onFailure: { [weak self] err in
+                guard let self = self else { return }
+                print(err)
+            }
+        )
+//        do {
+//            let result = try await AppleInfo().getAppleInfo(bundleId: bundleId)
+//            print(result?.appName)
+//            print(result?.storeUrl)
+//        } catch {
+//            print(error)
+//        }
     }
 
     override init() {

@@ -2,7 +2,6 @@ package com.tomorrow.convenire.shared.data.repository
 
 import com.tomorrow.convenire.shared.data.data_source.local.LocalDatabase
 import com.tomorrow.convenire.shared.data.data_source.mapper.*
-import com.tomorrow.convenire.shared.data.data_source.model.AppstoreInfoDTO
 import com.tomorrow.convenire.shared.data.data_source.remote.ApiService
 import com.tomorrow.convenire.shared.domain.model.*
 import com.tomorrow.convenire.shared.domain.repositories.*
@@ -200,11 +199,6 @@ class RepositoryImplementation : CompanyRepository, SpeakerRepository, PostRepos
     override suspend fun getUpdateInfo(appPlatform: AppPlatform): Result<UpdateInfo> =
         apiService.getUpdate(AppPlatformMapper().mapToEntity(appPlatform))
             .mapCatching { UpdateInfoMapper().mapFromEntity(it) }
-
-    override suspend fun getAppleInfo(bundleId: String): AppstoreInfoDTO? =
-        apiService.getAppStoreInfo(bundleId)
-            .also { print("here $it") }
-            .getOrThrow()?.results?.firstOrNull()
 
     override fun getHomeData(): Flow<HomeData> = getFromCacheAndRevalidate(
         getFromCache = { localDatabase.getHomeResponse() },

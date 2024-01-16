@@ -47,7 +47,12 @@ class ConvenireApp : Application() {
     companion object {
         val appModule = module {
             viewModel { VideoPlayerViewModel(androidApplication()) }
-            single { AppConfig(BuildConfig.VERSION_NAME, AppPlatform.Android) }
+            single { AppConfig(
+                version = BuildConfig.VERSION_NAME,
+                name = "",
+                platform = AppPlatform.Android,
+                updateUrl = null
+                ) }
             single { FullScreenViewModel() }
             single { RegisterViewModel() }
             viewModel { HomeViewModel() }
