@@ -83,6 +83,11 @@ class ApiServiceImplementation(
         get("$baseUrl/api/offers/claimed")
 
     override suspend fun getConfig(): Result<ConfigurationDTO> = get("$baseUrl/api/configuration")
+    override suspend fun saveFCMToken(fcmToken: String): Result<Unit> = Result.success(Unit)
+//        post("$baseUrl/api/fcm-tokens") {
+//            setBody(FCMTokensRequest(fcmToken))
+//        }
+
     override suspend fun addUnAuthenticatedInterceptor(intercept: suspend () -> Unit) {
         clientProvider().receivePipeline.intercept(HttpReceivePipeline.Before) {
             if (it.status == HttpStatusCode.Unauthorized) {
@@ -90,6 +95,11 @@ class ApiServiceImplementation(
             }
         }
     }
+
+    @Serializable
+    private data class FCMTokensRequest(
+        val token: String
+    )
 
     @Serializable
     private data class VerifyOTPResponse(

@@ -5,9 +5,8 @@ import com.russhwolf.settings.set
 import com.tomorrow.convenire.shared.data.data_source.model.UserDTO
 import com.tomorrow.convenire.shared.di.BearerTokensContainer
 import com.tomorrow.convenire.shared.domain.model.ColorTheme
-import io.ktor.client.plugins.auth.providers.*
+import io.ktor.client.plugins.auth.providers.BearerTokens
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.koin.core.component.KoinComponent
@@ -16,26 +15,28 @@ import org.koin.core.component.inject
 class EncryptedStorageImplementation(
     private val encryptedSettings: ObservableSettings,
     private val json: Json,
-) : com.tomorrow.convenire.shared.data.data_source.local.EncryptedStorage, KoinComponent {
+) : EncryptedStorage, KoinComponent {
     private val tokensContainer: BearerTokensContainer by inject()
     override var bearerTokens: BearerTokens?
-        get() = encryptedSettings.getStringOrNull(com.tomorrow.convenire.shared.data.data_source.local.EncryptedStorageImplementation.Companion.TOKEN_NAME).toBearerTokens()
+        get() = encryptedSettings.getStringOrNull(TOKEN_NAME).toBearerTokens()
         set(value) {
-            encryptedSettings[com.tomorrow.convenire.shared.data.data_source.local.EncryptedStorageImplementation.Companion.TOKEN_NAME] = json.encodeToString(value?.toBearerTokenSerializable())
+            encryptedSettings[TOKEN_NAME] = json.encodeToString(value?.toBearerTokenSerializable())
             tokensContainer.scope.close()
         }
 
     override var user: UserDTO?
-        get() = encryptedSettings.getStringOrNull(com.tomorrow.convenire.shared.data.data_source.local.EncryptedStorageImplementation.Companion.USER).toUserDTO()
+        get() = encryptedSettings.getStringOrNull(USER).toUserDTO()
         set(value) {
-            encryptedSettings[com.tomorrow.convenire.shared.data.data_source.local.EncryptedStorageImplementation.Companion.USER] = json.encodeToString(value)
+            encryptedSettings[USER] = json.encodeToString(value)
         }
 
     override var colorTheme: ColorTheme?
         get() = encryptedSettings.getStringOrNull(COLOR_THEME).toColorTheme()
-        set(value) {
-            encryptedSettings[COLOR_THEME] = value.toString()
-        }
+        set(value) { encryptedSettings[COLOR_THEME] = value.toString() }
+
+    override var fcmToken: String?
+        get() = encryptedSettings.getStringOrNull(FCM_TOKEN)
+        set(value) { encryptedSettings[FCM_TOKEN] = value ?: "" }
 
     @Serializable
     private class BearerTokenSerializable(val token: String, val refreshToken: String) {
@@ -43,7 +44,7 @@ class EncryptedStorageImplementation(
     }
 
     private fun BearerTokens.toBearerTokenSerializable() =
-        com.tomorrow.convenire.shared.data.data_source.local.EncryptedStorageImplementation.BearerTokenSerializable(
+        BearerTokenSerializable(
             this.accessToken,
             this.refreshToken
         )
@@ -61,8 +62,8 @@ class EncryptedStorageImplementation(
     } else null
 
     private fun String?.toBearerTokens(): BearerTokens? =
-        if (this != null && this.isNotBlank()) try {
-            json.decodeFromString<com.tomorrow.convenire.shared.data.data_source.local.EncryptedStorageImplementation.BearerTokenSerializable>(this).toBearerTokens()
+        if (!this.isNullOrBlank()) try {
+            json.decodeFromString<BearerTokenSerializable>(this).toBearerTokens()
         } catch (e: Exception) {
             null
         } else null
@@ -72,6 +73,7 @@ class EncryptedStorageImplementation(
         const val SETTING_NAME = "ENCRYPTED_SETTING"
         const val TOKEN_NAME = "TOKEN"
         const val USER = "USER"
-        var COLOR_THEME = "COLOR_THEME"
+        const val COLOR_THEME = "COLOR_THEME"
+        const val FCM_TOKEN = "FCM_TOKEN"
     }
 }

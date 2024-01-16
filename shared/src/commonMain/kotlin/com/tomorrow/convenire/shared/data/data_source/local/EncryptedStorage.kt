@@ -8,4 +8,5 @@ interface EncryptedStorage {
     var bearerTokens: BearerTokens?
     var user: UserDTO?
     var colorTheme: ColorTheme?
+    var fcmToken: String?
 }

@@ -51,7 +51,7 @@ fun AppView(navController: NavHostController = rememberNavController()) {
         ) {
             Scaffold(
                 bottomBar = { BottomBar(isVisible = AppRoute.shouldDisplayBottomBar(currentRoute)) },
-                containerColor = MaterialTheme.colors.surface
+                containerColor = androidx.compose.material3.MaterialTheme.colorScheme.surface
             ) { paddingValues ->
                 ConnectivityStatusWrapper(modifier = Modifier.padding(bottom = paddingValues.calculateBottomPadding())) {
                     isAuthenticated?.let {

@@ -209,9 +209,7 @@ private fun Header(
                     Column(Modifier
                         .clip(RoundedCornerShape(8.dp))
                         .background(
-                            if (it == selectedDay) MaterialTheme.colorScheme.background else Color(
-                                0xFFE0ECF9
-                            )
+                            if (it == selectedDay) MaterialTheme.colorScheme.background else androidx.compose.material.MaterialTheme.colors.surface
                         )
                         .clickable { onDaySelected(it) }
                         .padding(8.dp)
@@ -220,7 +218,7 @@ private fun Header(
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         val color =
-                            if (selectedDay == it) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
+                            if (selectedDay == it) MaterialTheme.colorScheme.primary else androidx.compose.material.MaterialTheme.colors.primaryVariant
 
                         Text(
                             it.dayOfMonth.toString(),

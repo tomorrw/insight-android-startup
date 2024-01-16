@@ -26,11 +26,11 @@ import com.tomorrow.convenire.R
 
 val appColors = lightColors(
     primary = Color(0xFF113F67),
-    primaryVariant = Color(0xFF6594BD),
+    primaryVariant = Color(0xFF46BFD3),
     secondary = Color(0xFF46BFD3),
     secondaryVariant = Color(0xFF5495AA),
     background = Color(0xFFEEF5FC),
-    surface = Color(0xFFEEF5FC),
+    surface = Color(0xFFE0ECF9),
     error = Color(0xFFFF9494)
 )
 
@@ -55,11 +55,11 @@ val appColorsMaterial3 = lightColorScheme(
     )
 val appColorsDark = darkColors(
     primary = Color(0xFFFFFFFF),
-    primaryVariant = Color(0xFF959EAD),
+    primaryVariant = Color(0xFF424E55),
     secondary = Color(0xFF56C6C1),
     secondaryVariant = Color(0xFF46BFD3),
     background = Color(0xFF2F3D45),
-    surface = Color(0xFF0E191E),
+    surface = Color(0xFF141E25),
     error = Color(0xFFFF9494)
 )
 

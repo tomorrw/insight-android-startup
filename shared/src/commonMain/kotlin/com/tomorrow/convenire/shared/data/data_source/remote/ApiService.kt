@@ -23,5 +23,6 @@ interface ApiService {
     suspend fun getOffers(): Result<List<OfferDTO>>
     suspend fun getClaimedOffers(): Result<List<OfferDTO>>
     suspend fun getConfig(): Result<ConfigurationDTO>
-    suspend fun addUnAuthenticatedInterceptor(intercept: suspend () -> Unit): Unit
+    suspend fun saveFCMToken(fcmToken: String): Result<Unit>
+    suspend fun addUnAuthenticatedInterceptor(intercept: suspend () -> Unit)
 }

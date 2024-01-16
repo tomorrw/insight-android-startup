@@ -22,4 +22,5 @@ interface AuthenticationRepository {
     fun getConfiguration(): Flow<ConfigurationData>
     fun getColorTheme(): StateFlow<ColorTheme>
     fun setColorTheme(colorTheme: ColorTheme): Result<String>
+    fun saveFCMToken(fcmToken: String?): Result<String>
 }

@@ -1,5 +1,6 @@
 package com.tomorrow.convenire.shared.data.repository
 
+import com.tomorrow.convenire.shared.data.data_source.local.EncryptedStorage
 import com.tomorrow.convenire.shared.data.data_source.local.LocalDatabase
 import com.tomorrow.convenire.shared.data.data_source.mapper.*
 import com.tomorrow.convenire.shared.data.data_source.remote.ApiService
@@ -28,7 +29,7 @@ class RepositoryImplementation : CompanyRepository, SpeakerRepository, PostRepos
 
     private val apiService: ApiService by inject()
     private val localDatabase: LocalDatabase by inject()
-    private val encryptedStorage: com.tomorrow.convenire.shared.data.data_source.local.EncryptedStorage by inject()
+    private val encryptedStorage: EncryptedStorage by inject()
     private val companyMapper = CompanyMapper()
     private val sessionMapper = SessionMapper()
     private val postMapper = PostMapper()
@@ -42,10 +43,10 @@ class RepositoryImplementation : CompanyRepository, SpeakerRepository, PostRepos
     init {
         scope.launch {
             try {
-                apiService.addUnAuthenticatedInterceptor { logout() }
                 getLoggedInUser().collect()
             } catch (_: Exception) {
             }
+            apiService.addUnAuthenticatedInterceptor { logout() }
         }
     }
 
@@ -248,7 +249,9 @@ class RepositoryImplementation : CompanyRepository, SpeakerRepository, PostRepos
         apiService.login(email = email.value, phoneNumber = null)
 
     override fun getLoggedInUser(): Flow<User> = flow {
-        userMapper.mapFromEntityIfNotNull(encryptedStorage.user)?.let { emit(it) }
+        userMapper.mapFromEntityIfNotNull(encryptedStorage.user)?.let {
+            emit(it).also { encryptedStorage.fcmToken?.let { fcm -> apiService.saveFCMToken(fcm) } }
+        }
 
         apiService.getUser().getOrElse {
             if (it is ClientRequestException && it.response.status == HttpStatusCode.Unauthorized) {
@@ -285,16 +288,21 @@ class RepositoryImplementation : CompanyRepository, SpeakerRepository, PostRepos
 
     override fun getColorTheme(): StateFlow<ColorTheme> = colorTheme
 
-
     override fun setColorTheme(colorTheme: ColorTheme): Result<String> {
         encryptedStorage.colorTheme = colorTheme
         this.colorTheme.value = encryptedStorage.colorTheme ?: ColorTheme.Auto
         return Result.success("Successfully changed")
     }
 
+    override fun saveFCMToken(fcmToken: String?): Result<String> {
+        encryptedStorage.fcmToken = fcmToken
+        return Result.success("Successfully saved")
+    }
+
     private suspend fun clearAllData() {
         encryptedStorage.bearerTokens = null
         encryptedStorage.user = null
+        encryptedStorage.colorTheme = null
         setIsAuthenticated(false)
         localDatabase.clearData()
     }
