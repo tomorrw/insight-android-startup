@@ -13,6 +13,7 @@ import io.ktor.http.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.datetime.Clock
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.Instant
@@ -44,9 +45,13 @@ class RepositoryImplementation : CompanyRepository, SpeakerRepository, PostRepos
         scope.launch {
             try {
                 getLoggedInUser().collect()
-            } catch (_: Exception) {
+            } catch (e: Exception) {
+                println("====== $e")
             }
-            apiService.addUnAuthenticatedInterceptor { logout() }
+            apiService.addUnAuthenticatedInterceptor(
+                intercept = { internalLogout() },
+                clearCaches = { clearAllData() }
+            )
         }
     }
 
@@ -115,10 +120,7 @@ class RepositoryImplementation : CompanyRepository, SpeakerRepository, PostRepos
             emit(postMapper.mapFromEntity(it))
         }
 
-        apiService.getPost(id).getOrElse {
-            if (it is ClientRequestException && it.response.status == HttpStatusCode.Unauthorized) logout()
-            throw it
-        }.let { emit(postMapper.mapFromEntity(it)) }
+        apiService.getPost(id).getOrThrow().let { emit(postMapper.mapFromEntity(it)) }
     }
 
     override suspend fun hitPostUrl(url: String): Result<String> = apiService.hitPostUrl(url)
@@ -250,13 +252,12 @@ class RepositoryImplementation : CompanyRepository, SpeakerRepository, PostRepos
 
     override fun getLoggedInUser(): Flow<User> = flow {
         userMapper.mapFromEntityIfNotNull(encryptedStorage.user)?.let {
-            emit(it).also { encryptedStorage.fcmToken?.let { fcm -> apiService.saveFCMToken(fcm) } }
+            emit(it)
         }
-
         apiService.getUser().getOrElse {
             if (it is ClientRequestException && it.response.status == HttpStatusCode.Unauthorized) {
                 setIsAuthenticated(false)
-                logout()
+                internalLogout()
             }
             // offline mode
             else setIsAuthenticated(true)
@@ -266,7 +267,9 @@ class RepositoryImplementation : CompanyRepository, SpeakerRepository, PostRepos
             setIsAuthenticated(true)
             encryptedStorage.user = it
             emit(userMapper.mapFromEntity(it))
+            runBlocking {encryptedStorage.fcmToken?.let { fcm -> apiService.saveFCMToken(fcm).also {f-> println("==--=== $f\n $fcm") }}}
         }
+
     }
 
     private fun setIsAuthenticated(value: Boolean) {
@@ -274,9 +277,11 @@ class RepositoryImplementation : CompanyRepository, SpeakerRepository, PostRepos
     }
 
     override fun isAuthenticated(): StateFlow<Boolean?> = isAuthenticated
+    private suspend fun internalLogout() = apiService.logout()
 
-    override suspend fun logout() = apiService.logout().map { clearAllData() }.onFailure {
-        if (it is ClientRequestException && it.response.status == HttpStatusCode.Unauthorized) clearAllData()
+    override suspend fun logout(): Result<Unit> {
+        encryptedStorage.fcmToken?.let { apiService.deleteFCMToken(it).also {f-> println("===== $f") }  }
+        return internalLogout()
     }
 
     override fun getConfiguration(): Flow<ConfigurationData> = flow {
@@ -308,30 +313,19 @@ class RepositoryImplementation : CompanyRepository, SpeakerRepository, PostRepos
     }
 
     override fun getOffers(): Flow<List<Offer>> = flow {
-
-        val offers = apiService.getOffers().getOrElse {
-            if (it is ClientRequestException && it.response.status == HttpStatusCode.Unauthorized) logout()
-            throw it
-        }.map { OfferMapper().mapFromEntity(it) }
-
+        val offers = apiService.getOffers().getOrThrow().map { OfferMapper().mapFromEntity(it) }
         emit(offers)
     }
 
     override fun getSpinners(): Flow<List<Spinner>> = flow {
-        val spinner = apiService.getSpinners().getOrElse {
-            if (it is ClientRequestException && it.response.status == HttpStatusCode.Unauthorized) logout()
-            throw it
-        }.map { SpinnerMapper().mapFromEntity(it) }
-
+        val spinner =
+            apiService.getSpinners().getOrThrow().map { SpinnerMapper().mapFromEntity(it) }
         emit(spinner)
     }
 
     override fun getClaimedOffers(): Flow<List<Offer>> = flow {
-        val offers = apiService.getClaimedOffers().getOrElse {
-            if (it is ClientRequestException && it.response.status == HttpStatusCode.Unauthorized) logout()
-            throw it
-        }.map { OfferMapper().mapFromEntity(it) }
-
+        val offers =
+            apiService.getClaimedOffers().getOrThrow().map { OfferMapper().mapFromEntity(it) }
         emit(offers)
     }
 

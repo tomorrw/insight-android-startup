@@ -7,6 +7,8 @@ import io.ktor.client.plugins.auth.*
 import io.ktor.client.plugins.auth.providers.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.HttpReceivePipeline
+import io.ktor.client.statement.HttpResponsePipeline
+import io.ktor.client.statement.request
 import io.ktor.http.HttpStatusCode
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -75,7 +77,8 @@ class ApiServiceImplementation(
             }
         }.map { it.uuid }
 
-    override suspend fun logout(): Result<Unit> = post("$baseUrl/api/logout")
+    val logoutUrl = "$baseUrl/api/logout"
+    override suspend fun logout(): Result<Unit> = post(logoutUrl)
     override suspend fun getUser(): Result<UserDTO> = get("$baseUrl/api/users")
     override suspend fun getSpinners(): Result<List<SpinnerDTO>> = get("$baseUrl/api/spinners")
     override suspend fun getOffers(): Result<List<OfferDTO>> = get("$baseUrl/api/offers")
@@ -83,15 +86,24 @@ class ApiServiceImplementation(
         get("$baseUrl/api/offers/claimed")
 
     override suspend fun getConfig(): Result<ConfigurationDTO> = get("$baseUrl/api/configuration")
-    override suspend fun saveFCMToken(fcmToken: String): Result<Unit> = Result.success(Unit)
-//        post("$baseUrl/api/fcm-tokens") {
-//            setBody(FCMTokensRequest(fcmToken))
-//        }
+    override suspend fun saveFCMToken(fcmToken: String): Result<Unit> =
+        post("$baseUrl/api/fcm-tokens") {
+            setBody(FCMTokensRequest(fcmToken))
+        }
 
-    override suspend fun addUnAuthenticatedInterceptor(intercept: suspend () -> Unit) {
-        clientProvider().receivePipeline.intercept(HttpReceivePipeline.Before) {
+    override suspend fun deleteFCMToken(fcmToken: String): Result<Unit> =
+        post("$baseUrl/api/fcm-tokens/unlink") {
+            setBody(FCMTokensRequest(fcmToken))
+        }
+
+    override suspend fun addUnAuthenticatedInterceptor(
+        intercept: suspend () -> Unit,
+        clearCaches: suspend () -> Unit
+    ) {
+        clientProvider().receivePipeline.intercept(HttpReceivePipeline.After) {
             if (it.status == HttpStatusCode.Unauthorized) {
-                intercept()
+                if (it.request.url.toString().contains(logoutUrl)) clearCaches()
+                else intercept()
             }
         }
     }
