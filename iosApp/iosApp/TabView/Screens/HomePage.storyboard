@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="kw8-kA-0py">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21679"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Lectures-->
+        <scene sceneID="XpX-CX-kzN">
+            <objects>
+                <hostingController modalPresentationStyle="fullScreen" id="j4X-Dk-cri" customClass="LecturesViewHostingController" customModule="Convenire" customModuleProvider="target" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Lectures" id="tFW-QT-oXO">
+                        <imageReference key="image" image="music.mic" catalog="system" symbolScale="default"/>
+                        <color key="badgeColor" name="HighlightPrimary"/>
+                        <imageReference key="selectedImage" image="music.mic" catalog="system" symbolScale="default"/>
+                    </tabBarItem>
+                    <navigationItem key="navigationItem" id="kNz-iF-Q6U"/>
+                </hostingController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3Af-YX-iq5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1472" y="623"/>
+        </scene>
+        <!--My QR-->
+        <scene sceneID="UhV-ic-lIi">
+            <objects>
+                <hostingController id="ZPR-Sb-yml" customClass="MyQrViewHostingController" customModule="Convenire" customModuleProvider="target" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="My QR" id="XOD-hL-ggD">
+                        <imageReference key="image" image="qrcode" catalog="system" symbolScale="default"/>
+                        <color key="badgeColor" name="HighlightPrimary"/>
+                        <imageReference key="selectedImage" image="qrcode" catalog="system" symbolScale="default"/>
+                    </tabBarItem>
+                </hostingController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="oy1-43-Shn" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-701" y="623"/>
+        </scene>
+        <!--Exhibitions-->
+        <scene sceneID="y39-cz-If5">
+            <objects>
+                <hostingController id="B6h-XO-cWL" customClass="ExhibitionsViewHostingController" customModule="Convenire" customModuleProvider="target" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Exhibitions" id="hG4-J2-4gD">
+                        <imageReference key="image" image="menucard" catalog="system" symbolScale="default"/>
+                        <imageReference key="selectedImage" image="menucard" catalog="system" symbolScale="default"/>
+                    </tabBarItem>
+                </hostingController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="C6v-K4-b52" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="42" y="623"/>
+        </scene>
+        <!--Home-->
+        <scene sceneID="abz-b5-sGO">
+            <objects>
+                <hostingController id="YoL-Gy-qFY" customClass="HomeViewHostingController" customModule="Convenire" customModuleProvider="target" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Home" id="bTe-lZ-bol">
+                        <imageReference key="image" image="house" catalog="system" symbolScale="default" renderingMode="template" variableValue="1"/>
+                        <color key="badgeColor" name="HighlightPrimary"/>
+                        <imageReference key="selectedImage" image="house" catalog="system" symbolScale="default"/>
+                    </tabBarItem>
+                </hostingController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nVI-lP-hBk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2212" y="623"/>
+        </scene>
+        <!--Home Page Tab Bar Controller-->
+        <scene sceneID="Pgj-F0-Qbj">
+            <objects>
+                <tabBarController storyboardIdentifier="HomePageID" id="kw8-kA-0py" customClass="HomePageTabBarController" customModule="Convenire" customModuleProvider="target" sceneMemberID="viewController">
+                    <tabBar key="tabBar" opaque="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="wS7-QT-Wga">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="tintColor" systemColor="labelColor"/>
+                        <color key="barTintColor" name="Primary"/>
+                        <color key="selectedImageTintColor" name="Primary"/>
+                        <tabBarAppearance key="standardAppearance" backgroundEffect="prominent">
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <color key="shadowColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <color key="selectionIndicatorTintColor" name="Primary"/>
+                        </tabBarAppearance>
+                    </tabBar>
+                    <connections>
+                        <segue destination="YoL-Gy-qFY" kind="relationship" relationship="viewControllers" id="Tss-7F-YU0"/>
+                        <segue destination="j4X-Dk-cri" kind="relationship" relationship="viewControllers" id="zJs-wY-1RL"/>
+                        <segue destination="ZPR-Sb-yml" kind="relationship" relationship="viewControllers" id="4Pc-ee-fBL"/>
+                        <segue destination="B6h-XO-cWL" kind="relationship" relationship="viewControllers" id="KWe-X2-DVa"/>
+                        <segue destination="LwA-6n-x8x" kind="relationship" relationship="viewControllers" id="ApR-O3-f8A"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="SsN-fx-ixM" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1117" y="-96"/>
+        </scene>
+        <!--Profile-->
+        <scene sceneID="s3I-DX-4YL">
+            <objects>
+                <viewController id="LwA-6n-x8x" customClass="ProfileHostingController" customModule="Convenire" customModuleProvider="target" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Profile" id="bEl-Rq-Fg7">
+                        <imageReference key="image" image="person.circle" catalog="system" symbolScale="default"/>
+                    </tabBarItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="JNj-wM-8D0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="804" y="623"/>
+        </scene>
+    </scenes>
+    <color key="tintColor" name="Primary"/>
+    <resources>
+        <image name="house" catalog="system" width="128" height="104"/>
+        <image name="menucard" catalog="system" width="108" height="128"/>
+        <image name="music.mic" catalog="system" width="128" height="119"/>
+        <image name="person.circle" catalog="system" width="128" height="123"/>
+        <image name="qrcode" catalog="system" width="128" height="114"/>
+        <namedColor name="HighlightPrimary">
+            <color red="1" green="0.36470588235294116" blue="0.36470588235294116" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="Primary">
+            <color red="0.066666666666666666" green="0.24705882352941178" blue="0.40392156862745099" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <systemColor name="labelColor">
+            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>
