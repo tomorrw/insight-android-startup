@@ -11,7 +11,9 @@ import androidx.core.util.Consumer
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.messaging.FirebaseMessaging
 import com.tomorrow.convenire.shared.domain.use_cases.IsAuthenticatedUseCase
+import com.tomorrow.convenire.shared.domain.use_cases.SaveFCMToken
 
 class MainActivity : ComponentActivity() {
     private lateinit var firebaseAnalytics: FirebaseAnalytics
@@ -24,6 +26,11 @@ class MainActivity : ComponentActivity() {
 
         try {
             firebaseAnalytics = FirebaseAnalytics.getInstance(this)
+            FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+                if (!task.isSuccessful) return@addOnCompleteListener
+                val token = task.result
+                SaveFCMToken().saveFCMToken(token)
+            }
         } catch (e: Throwable) {
             Log.e("FirebaseAnalytics", "failed initializing firebase analytics $e")
         }
