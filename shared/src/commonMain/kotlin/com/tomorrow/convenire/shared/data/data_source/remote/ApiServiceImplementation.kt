@@ -70,7 +70,21 @@ class ApiServiceImplementation(
     override suspend fun getOffers(): Result<List<OfferDTO>> = get("$baseUrl/api/offers")
     override suspend fun getClaimedOffers(): Result<List<OfferDTO>> = get("$baseUrl/api/offers/claimed")
 
+    override suspend fun saveFCMToken(fcmToken: String): Result<Unit> =
+        post("$baseUrl/api/fcm-tokens") {
+            setBody(FCMTokensRequest(fcmToken))
+        }
+    override suspend fun deleteFCMToken(fcmToken: String): Result<Unit> =
+        post("$baseUrl/api/fcm-tokens/unlink") {
+            setBody(FCMTokensRequest(fcmToken))
+        }
+
     override suspend fun getConfig(): Result<ConfigurationDTO>  = get("$baseUrl/api/configuration")
+
+    @Serializable
+    private data class FCMTokensRequest(
+        val token: String
+    )
 
     @Serializable
     private data class VerifyOTPResponse(

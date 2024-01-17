@@ -47,6 +47,7 @@ struct DetailPage: View {
                         
                         if vm.hasAttended {
                             Text("ATTENDED")
+                                .foregroundColor(.white)
                                 .font(.system(size: 14))
                                 .padding(5)
                                 .background(

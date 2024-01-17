@@ -19,4 +19,5 @@ interface AuthenticationRepository {
     fun isAuthenticated(): StateFlow<Boolean?>
     suspend fun logout(): Result<Unit>
     fun getConfiguration(): Flow<ConfigurationData>
+    fun saveFCMToken(fcmToken: String?): Result<String>
 }

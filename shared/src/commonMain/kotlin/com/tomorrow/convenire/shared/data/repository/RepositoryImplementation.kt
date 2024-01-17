@@ -13,6 +13,7 @@ import io.ktor.http.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.datetime.Clock
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.TimeZone
@@ -344,6 +345,7 @@ class RepositoryImplementation : CompanyRepository, SpeakerRepository, PostRepos
             setIsAuthenticated(true)
             encryptedStorage.user = it
             emit(userMapper.mapFromEntity(it))
+            runBlocking { encryptedStorage.fcmToken?.let { fcm -> apiService.saveFCMToken(fcm) } }
         }
     }
 
@@ -353,14 +355,24 @@ class RepositoryImplementation : CompanyRepository, SpeakerRepository, PostRepos
 
     override fun isAuthenticated(): StateFlow<Boolean?> = isAuthenticated
 
-    override suspend fun logout() = apiService.logout().map { clearAllData() }.onFailure {
+    private suspend fun internalLogout() = apiService.logout().map { clearAllData() }.onFailure {
         if (it is ClientRequestException && it.response.status == HttpStatusCode.Unauthorized) clearAllData()
+    }
+
+    override suspend fun logout(): Result<Unit> {
+        encryptedStorage.fcmToken?.let { apiService.deleteFCMToken(it) }
+        return internalLogout()
     }
 
     override fun getConfiguration(): Flow<ConfigurationData> = flow {
         //TODO add it to caches when business logic is ready
         apiService.getConfig( ).getOrThrow().let {
             emit(ConfigurationDataMapper().mapFromEntity(it)) }
+    }
+
+    override fun saveFCMToken(fcmToken: String?): Result<String> {
+        encryptedStorage.fcmToken = fcmToken
+        return Result.success("Successfully saved")
     }
 
     private suspend fun clearAllData() {
