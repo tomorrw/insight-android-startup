@@ -14,7 +14,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import com.tomorrow.convenire.common.GeneralError
 import com.tomorrow.convenire.common.Loader
-import com.tomorrow.convenire.launch.LocalNavController
 import com.tomorrow.convenire.shared.data.data_source.utils.Loadable
 import com.tomorrow.convenire.shared.data.data_source.utils.Loaded
 import com.tomorrow.convenire.shared.data.data_source.utils.NotLoaded
@@ -35,7 +34,7 @@ open class ReadViewModel<D>(
     var state by mutableStateOf(State<D>())
     val scope: CoroutineScope by inject()
 
-    constructor(suspendLoad: suspend () -> D) : this(
+    constructor(suspendLoad: suspend () -> D) : this( // not used but useful
         load = { flow { emit(suspendLoad()) } },
         refresh = { flow { emit(suspendLoad()) } },
     )
