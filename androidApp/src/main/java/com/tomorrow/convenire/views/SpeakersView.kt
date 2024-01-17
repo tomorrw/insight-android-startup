@@ -19,6 +19,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
+import com.tomorrow.convenire.common.GeneralError
 import com.tomorrow.convenire.common.headers.PageHeaderLayout
 import com.tomorrow.convenire.common.view_models.DefaultReadView
 import com.tomorrow.convenire.common.view_models.ReadViewModel
@@ -33,8 +34,11 @@ import com.tomorrow.convenire.shared.domain.use_cases.GetSpeakersUseCase
 import org.koin.androidx.compose.getViewModel
 
 class SpeakersViewModel :
-    ReadViewModel<List<SpeakerDetail>>(load = { GetSpeakersUseCase().getSpeakers() },
-        refresh = { GetSpeakersUseCase().refresh() })
+    ReadViewModel<List<SpeakerDetail>>(
+        load = { GetSpeakersUseCase().getSpeakers() },
+        refresh = { GetSpeakersUseCase().refresh() },
+        emptyCheck = { it.isEmpty() }
+        )
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -45,7 +49,17 @@ fun SpeakersView() {
     PageHeaderLayout(title = "Speakers",
         subtitle = "Discover our diverse speakers",
         onBackPress = { navController.popBackStack() }) {
-        DefaultReadView(viewModel = viewModel, loader = { ListLoader() }) { speakerDetail ->
+        DefaultReadView(
+            viewModel = viewModel,
+            loader = { ListLoader() },
+            emptyState = {
+                GeneralError(
+                    modifier = Modifier.padding(16.dp),
+                    message = "No data found",
+                    description = "Stay Tuned for more updates!",
+                    onButtonClick = { viewModel.on(ReadViewModel.Event.OnRefresh) },
+                )
+            }) { speakerDetail ->
             val mapData = remember {
                 derivedStateOf {
                     speakerDetail.sortedBy { it.nationality?.name }.groupBy { it.nationality }

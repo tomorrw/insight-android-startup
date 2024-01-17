@@ -25,7 +25,8 @@ import org.koin.androidx.compose.getViewModel
 
 class HomeViewModel : ReadViewModel<HomeData>(
     load = { GetHomeDataUseCase().getHome() },
-    refresh = { GetHomeDataUseCase().refresh() }
+    refresh = { GetHomeDataUseCase().refresh() },
+    emptyCheck = { it.isEmpty() }
 )
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -46,7 +47,16 @@ fun HomeView() = PageHeaderLayout(
         viewModel.on(ReadViewModel.Event.LoadSilently)
     }
 
-    DefaultReadView(viewModel = viewModel) {
+    DefaultReadView(
+        viewModel = viewModel,
+        emptyState = {
+            GeneralError(
+                modifier = Modifier.padding(16.dp),
+                message = "No data found",
+                description = "Stay Tuned for more updates!",
+                onButtonClick = { viewModel.on(ReadViewModel.Event.OnRefresh) },
+            )
+        }) {
         PullToRefreshLayout(
             state = rememberPullRefreshState(
                 refreshing = viewModel.state.isRefreshing,

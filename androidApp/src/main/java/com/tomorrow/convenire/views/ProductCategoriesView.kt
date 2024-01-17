@@ -1,6 +1,10 @@
 package com.tomorrow.convenire.views
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import com.tomorrow.convenire.common.GeneralError
 import com.tomorrow.convenire.common.view_models.ReadViewModel
 import com.tomorrow.convenire.feature_listing.ListDisplayItem
 import com.tomorrow.convenire.feature_listing.ListDisplayPage
@@ -31,7 +35,15 @@ fun ProductCategoriesView() {
         title = "Product Categories",
         onBackPress = { navController.navigate(AppRoute.Exhibitions.generate()) },
         onItemClick = { navController.navigate(AppRoute.ProductCategory.generateExplicit(it)) },
-        viewModel = viewModel
+        viewModel = viewModel,
+        emptyListView = {
+            GeneralError(
+                modifier = Modifier.padding(16.dp),
+                message = "No data found",
+                description = "Stay Tuned for more updates!",
+                onButtonClick = { viewModel.on(ReadViewModel.Event.OnRefresh) },
+            )
+        }
     )
 }
 
