@@ -58,8 +58,15 @@ struct SearchableList<ItemDetailPage: View, Loader: View, EmptySearchPage: View,
                     loader()
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                 } else if vm.displayedList.isEmpty && vm.searchText.isEmpty {
-                    emptyListView()
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    EmptyStateView (
+                        title: "Nothing here.",
+                        text: "Stay tuned for more!",
+                        buttonText: "Reload",
+                        buttonAction: {
+                            Task { await vm.refreshAll() }
+                        }
+                    )
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
                 }
                 else if vm.displayedList.isEmpty {
                     emptySearchListView($vm.searchText, $noResultText)

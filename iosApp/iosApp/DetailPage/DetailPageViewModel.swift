@@ -28,24 +28,28 @@ class DetailPageViewModel: ObservableObject {
 
 struct InfoContent: Hashable, HasInfo {
     let title: String
+    let subtitle: String
     let description: String
     let imageUrl: String?
 }
 
 struct VideoContent: Hashable, HasInfo {
     let title: String
+    let subtitle: String
     let description: String
     let videoUrl: String
 }
 
 struct EventContent: Hashable, HasInfo {
     let title: String
+    let subtitle: String
     let description: String
     let sessions: [Session]
 }
 
 struct SpeakersContent: Hashable, HasInfo {
     let title: String
+    let subtitle: String
     let description: String
     let speakers: [Speaker]
 }

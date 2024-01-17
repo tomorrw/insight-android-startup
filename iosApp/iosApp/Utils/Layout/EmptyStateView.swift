@@ -16,6 +16,8 @@ struct EmptyStateView: View {
     
     var body: some View {
         VStack(spacing: 14) {
+            Spacer()
+            
             Image(systemName: "exclamationmark.circle")
                 .font(.system(size: 45, weight: .semibold))
             
@@ -39,7 +41,7 @@ struct EmptyStateView: View {
             
             Spacer()
         }
-        .padding(.top, 25)
+        .padding(.bottom, 1)
         .frame(maxHeight: .infinity)
     }
 }

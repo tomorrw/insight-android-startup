@@ -76,12 +76,7 @@ struct MyQrPage: View {
                         .padding(24)
                         
                         Button {
-                            withAnimation(.linear(duration: 0.6)) {
-                                DispatchQueue.main.async {
-                                    Task{ await ticketViewModel.getUser()
-                                     await ticketViewModel.getTicketData() }
-                                }
-                            }
+                            withAnimation(.linear(duration: 0.6)) { ticketViewModel.getData() }
                         } label: {
                             Image(uiImage: qrImage)
                                 .resizable()
@@ -140,12 +135,7 @@ struct MyQrPage: View {
                 } else {
                     
                     Button {
-                        withAnimation(.linear(duration: 0.6)) {
-                            DispatchQueue.main.async {
-                                Task{ await ticketViewModel.getUser()
-                                 await ticketViewModel.getTicketData() }
-                            }
-                        }
+                        withAnimation(.linear(duration: 0.6)) { ticketViewModel.getData() }
                     } label: {
                         Image(uiImage: qrImage)
                             .resizable()
@@ -181,6 +171,7 @@ struct MyQrPage: View {
             .onReceive(timer, perform: { _ in
                 qrImage = (ticketViewModel.pageData.user?.generateQrCodeString() ?? "Not valid").qrImage
             })
+            .onAppear{ ticketViewModel.getData() }
             .navigationTitle("My QR")
             .frame(maxWidth: .infinity)
             .navigationBarHidden(true)

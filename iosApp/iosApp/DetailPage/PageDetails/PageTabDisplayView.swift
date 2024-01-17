@@ -32,7 +32,7 @@ struct PageTabDisplayView: View {
             }
             .background(Color("Default"))
             .cornerRadius(20, corners: [.topLeft, .topRight])
-            .gesture(horizontalDrag)
+            .gesture(horizontalDrag(next: { currentPage = pages[nextPage(1)] }, previous: {currentPage = pages[nextPage(-1)]}))
         }
     }
     
@@ -41,24 +41,8 @@ struct PageTabDisplayView: View {
             let index = (pages.firstIndex(of: currentPage!) ?? 0) + index
             return max(min(index, pages.count - 1), 0)
         }
-        return -1
+        return 0
     }
-    
-    var horizontalDrag: some Gesture {
-        DragGesture(coordinateSpace: .local)
-            .onEnded { value in
-                if value.translation.width < -50 {
-                    withAnimation {
-                        currentPage = pages[nextPage(1)]
-                    }
-                } else if value.translation.width > 50 {
-                    withAnimation {
-                        currentPage = pages[nextPage(-1)]
-                    }
-                }
-            }
-    }
-    
 }
 
 struct TabsHeader: View{

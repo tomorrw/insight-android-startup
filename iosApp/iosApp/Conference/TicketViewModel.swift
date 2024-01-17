@@ -16,10 +16,7 @@ class TicketViewModel: ObservableObject {
     @Published var errorMessage: String? = ""
     
     init() {
-        DispatchQueue.main.async {
-            Task{ await self.getUser()
-                await self.getTicketData() }
-        }
+        self.getData()
     }
     
     @MainActor func getUser() async {
@@ -57,6 +54,14 @@ class TicketViewModel: ObservableObject {
         } catch {
             self.errorMessage = "Ticket Data Not Found!"
             print(error)
+        }
+    }
+    
+    func getData(){
+        DispatchQueue.main.async {
+            Task{ await self.getUser()
+                await self.getTicketData()
+            }
         }
     }
     

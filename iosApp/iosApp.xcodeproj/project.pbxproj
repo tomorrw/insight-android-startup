@@ -45,6 +45,7 @@
 		4CF226ED2ACAEA200044F623 /* HomePageTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF226E32ACAEA200044F623 /* HomePageTabBarController.swift */; };
 		4CF226EE2ACAEA200044F623 /* TabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF226E52ACAEA200044F623 /* TabView.swift */; };
 		4CF226F02ACB17860044F623 /* NavigateTo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF226EF2ACB17860044F623 /* NavigateTo.swift */; };
+		4CF2B2182B58050C00A1A646 /* HorizontalDrag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF2B2172B58050C00A1A646 /* HorizontalDrag.swift */; };
 		4CFF09632AC4408E006794A0 /* PlainListCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CFF09622AC4408E006794A0 /* PlainListCard.swift */; };
 		7555FF83242A565900829871 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7555FF82242A565900829871 /* ContentView.swift */; };
 		AF1CAA21AFB12C3A25DC7EEC /* Pods_iosApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A39EA41D65AE59C3B72E95D6 /* Pods_iosApp.framework */; };
@@ -175,6 +176,7 @@
 		4CF226E32ACAEA200044F623 /* HomePageTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomePageTabBarController.swift; sourceTree = "<group>"; };
 		4CF226E52ACAEA200044F623 /* TabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabView.swift; sourceTree = "<group>"; };
 		4CF226EF2ACB17860044F623 /* NavigateTo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigateTo.swift; sourceTree = "<group>"; };
+		4CF2B2172B58050C00A1A646 /* HorizontalDrag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalDrag.swift; sourceTree = "<group>"; };
 		4CFF09622AC4408E006794A0 /* PlainListCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlainListCard.swift; sourceTree = "<group>"; };
 		7555FF7B242A565900829871 /* Convenire.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Convenire.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7555FF82242A565900829871 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -422,6 +424,14 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		4CF2B2162B5804FE00A1A646 /* Gestures */ = {
+			isa = PBXGroup;
+			children = (
+				4CF2B2172B58050C00A1A646 /* HorizontalDrag.swift */,
+			);
+			path = Gestures;
+			sourceTree = "<group>";
+		};
 		7555FF72242A565900829871 = {
 			isa = PBXGroup;
 			children = (
@@ -521,6 +531,7 @@
 		B37D14AE29C9DDDE00BA4E39 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				4CF2B2162B5804FE00A1A646 /* Gestures */,
 				4C64DE882B3DAEAE001E1B17 /* Extension */,
 				4C995C1F2ABB25740041C95D /* OffersCard */,
 				4C7A1D2D2A9C812E001EB91A /* DropDown */,
@@ -1044,6 +1055,7 @@
 				4CA347232B4D44B500FB12AE /* VerticalDisplayView.swift in Sources */,
 				B5183E3929F18AFF0097363D /* UpdateViewModel.swift in Sources */,
 				4C995C212ABB258F0041C95D /* HighlightedCard.swift in Sources */,
+				4CF2B2182B58050C00A1A646 /* HorizontalDrag.swift in Sources */,
 				B3E86FC72A1B8E0400E65E9F /* Array.swift in Sources */,
 				B5183E5129F18CDD0097363D /* NetworkMonitor.swift in Sources */,
 				B556743F29FA7B52001B7B79 /* SocialLinksDisplay.swift in Sources */,

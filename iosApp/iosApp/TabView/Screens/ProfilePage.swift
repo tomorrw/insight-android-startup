@@ -35,11 +35,10 @@ struct ProfilePage: View {
                             ProfileSettingsPage()
                                 .navigationTitle("Profile Settings")
                                 .navigationBarTitleDisplayMode(.inline)
-                                .background(Color("Background"))
                         }) {
                             HighlightedCard(
                                 image: "",
-                                title: "Dr. White",
+                                title: authViewModel.user?.getFormattedName() ?? "User",
                                 description: authViewModel.user?.phoneNumber.number ?? ""
                             )
                         }

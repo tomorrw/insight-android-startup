@@ -267,7 +267,7 @@ class RepositoryImplementation : CompanyRepository, SpeakerRepository, PostRepos
             setIsAuthenticated(true)
             encryptedStorage.user = it
             emit(userMapper.mapFromEntity(it))
-            runBlocking {encryptedStorage.fcmToken?.let { fcm -> apiService.saveFCMToken(fcm).also {f-> println("==--=== $f\n $fcm") }}}
+            runBlocking { encryptedStorage.fcmToken?.let { fcm -> apiService.saveFCMToken(fcm) } }
         }
 
     }
@@ -280,7 +280,7 @@ class RepositoryImplementation : CompanyRepository, SpeakerRepository, PostRepos
     private suspend fun internalLogout() = apiService.logout()
 
     override suspend fun logout(): Result<Unit> {
-        encryptedStorage.fcmToken?.let { apiService.deleteFCMToken(it).also {f-> println("===== $f") }  }
+        encryptedStorage.fcmToken?.let { apiService.deleteFCMToken(it) }
         return internalLogout()
     }
 

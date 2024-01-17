@@ -27,7 +27,6 @@ class PostDetailPageViewModel: DetailPageViewModel {
             self.errorMessage = nil
             let sessionSequence = asyncSequence(for: GetPostByIdUseCase().getPost(id: id))
             for try await data in sessionSequence {
-                self.isLoading = false
                 self.title = data.title
                 self.date = data.getHumanReadablePublishedAt()
                 self.description = data.description_
@@ -35,6 +34,7 @@ class PostDetailPageViewModel: DetailPageViewModel {
                 self.image = data.image ?? ""
                 self.sections = data.detailPage.getDataIfLoaded()?.mapToSectionDisplayInfo() ?? []
                 self.action = data.action
+                self.isLoading = false
             }
         } catch {
             self.isLoading = false
