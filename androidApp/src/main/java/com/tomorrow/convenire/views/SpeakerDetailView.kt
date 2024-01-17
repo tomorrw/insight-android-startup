@@ -51,9 +51,9 @@ fun SpeakerDetailView(id: String) {
             title = speakerDetail.getFullName(),
             subtitle = "${speakerDetail.title}${speakerDetail.nationality?.name?.let { " | $it" } ?: ""}",
             image = speakerDetail.image ?: "",
-            socialLinks = speakerDetail.socialLinks?.map {
+            socialLinks = speakerDetail.socialLinks.map {
                 SocialLink(SocialPlatform.fromDomain(it), it.url)
-            },
+            }.take(5),
             onBack = { navController.popBackStack() },
             shareLink = "",
             decorativeIcon = speakerDetail.nationality?.url?.let {
