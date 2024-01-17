@@ -11,6 +11,30 @@ import shared
 import Combine
 import KMPNativeCoroutinesAsync
 
+class MyQrPresentationModel: ObservableObject{
+    @Published var user: User? = nil
+    @Published var description: String = "Your Digital Identity"
+    
+    init(user: User? = nil, description: String = "Your Digital Identity") {
+        self.user = user
+        self.description = description
+    }
+}
+
+class TicketPresentationModel: MyQrPresentationModel{
+    @Published var rightTitle: String? = nil
+    @Published var leftTitle: String = "Convenire"
+    @Published var subText: [String]? = nil
+    @Published var ticketStatus: String? = nil
+    
+    init(rightTitle: String? = nil, leftTitle: String, subText: [String]? = nil, ticketStatus: String? = nil) {
+        self.rightTitle = rightTitle
+        self.leftTitle = leftTitle
+        self.subText = subText
+        self.ticketStatus = ticketStatus
+    }
+}
+
 class TicketViewModel: ObservableObject {
     var pageData: MyQrPresentationModel = MyQrPresentationModel()
     @Published var errorMessage: String? = ""
@@ -47,6 +71,8 @@ class TicketViewModel: ObservableObject {
                         subText: data.getFormattedDate()?.map{ String($0) },
                         ticketStatus: data.status
                     )
+                } else {
+                    self.pageData = MyQrPresentationModel(user: self.pageData.user)
                 }
                 self.pageData.description = data.description_
             }
@@ -65,23 +91,4 @@ class TicketViewModel: ObservableObject {
         }
     }
     
-}
-
-class MyQrPresentationModel: ObservableObject{
-    @Published var user: User? = nil
-    @Published var description: String = "Your Digital Identity"
-}
-
-class TicketPresentationModel: MyQrPresentationModel{
-    @Published var rightTitle: String? = nil
-    @Published var leftTitle: String = "Convenire"
-    @Published var subText: [String]? = nil
-    @Published var ticketStatus: String? = nil
-    
-    init(rightTitle: String? = nil, leftTitle: String, subText: [String]? = nil, ticketStatus: String? = nil) {
-        self.rightTitle = rightTitle
-        self.leftTitle = leftTitle
-        self.subText = subText
-        self.ticketStatus = ticketStatus
-    }
 }

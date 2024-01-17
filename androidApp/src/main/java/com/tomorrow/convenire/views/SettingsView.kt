@@ -158,8 +158,6 @@ fun SettingsView() {
                     style = MaterialTheme.typography.labelLarge.copy(MaterialTheme.colorScheme.error),
                 )
             }
-
-
         }
 
         if (isLogoutVisible.value) CustomAlertDialog(

@@ -53,7 +53,6 @@ class UpdateViewModel: AppstoreInfoViewModel {
         }
     }
     
-
     override init() {
         super.init()
         DispatchQueue.main.async {
@@ -62,4 +61,3 @@ class UpdateViewModel: AppstoreInfoViewModel {
         }
     }
 }
-

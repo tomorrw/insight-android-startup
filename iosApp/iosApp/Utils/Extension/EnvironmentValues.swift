@@ -9,12 +9,13 @@
 import SwiftUI
 
 extension EnvironmentValues {
-    var sessionCardBackgroundColor: Color {
-        get { self[BackgroundColorKey.self] }
-        set { self[BackgroundColorKey.self] = newValue }
+    var sessionCardColors: SessionCardColors{
+        get { self[SessionCardColorsKey.self] }
+        set { self[SessionCardColorsKey.self] = newValue }
     }
 }
 
-struct BackgroundColorKey: EnvironmentKey {
-    static let defaultValue: Color = Color("Default")
+struct SessionCardColorsKey: EnvironmentKey{
+    typealias Value = SessionCardColors
+    static let defaultValue: SessionCardColors = SessionCardColors()
 }

@@ -15,8 +15,9 @@ struct VerticalDisplayView: View{
     
     var body: some View{
         VStack {
-            Divider().padding(.bottom, 5)
-            
+            if !sections.isEmpty {
+                Divider().padding(.bottom, 5)
+            }
             LazyVStack(alignment: .leading, spacing: 32) {
                 ForEach(sections) { section in
                     SectionDisplayPage(section: section)

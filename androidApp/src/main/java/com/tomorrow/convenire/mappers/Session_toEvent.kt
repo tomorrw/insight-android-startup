@@ -1,6 +1,5 @@
 package com.tomorrow.convenire.mappers
 
-import androidx.compose.ui.graphics.Color
 import com.tomorrow.convenire.feature_events.Event
 import com.tomorrow.convenire.shared.domain.model.Session
 import kotlinx.datetime.toJavaLocalDateTime
@@ -14,6 +13,6 @@ fun Session.toEvent(isTransparent: Boolean = false) = Event(
     speakers = this.speakers,
     location = this.location,
     hasAttended = this.hasAttended,
-    isTransparent = isTransparent,
+    isLighter = isTransparent,
     isNow = this.isSessionHappeningNow()
 )

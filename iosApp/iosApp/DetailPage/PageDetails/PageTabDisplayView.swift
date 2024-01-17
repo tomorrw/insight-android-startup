@@ -13,7 +13,7 @@ struct PageTabDisplayView: View {
     @State var currentPage: SectionDisplayInfo? = nil
     @Binding var pages: [SectionDisplayInfo]
     
-    @Environment(\.sessionCardBackgroundColor) var backgroundColor: Color
+    @Environment(\.sessionCardColors) var backgroundColor: SessionCardColors
     
     var body: some View {
         if !pages.isEmpty {
@@ -25,7 +25,7 @@ struct PageTabDisplayView: View {
                 if currentPage != nil {
                     SectionDisplayPage(section: currentPage!)
                         .frame(maxHeight: .infinity)
-                        .environment(\.sessionCardBackgroundColor, Color("Background"))
+                        .environment(\.sessionCardColors, SessionCardColors(background: Color("Background")))
                         .padding(.horizontal)
                         .padding(.bottom, 30)
                 }
@@ -81,10 +81,4 @@ struct TabsHeader: View{
             
         }
     }
-}
-
-struct Pages:Hashable, Identifiable{
-    var id: Self { return self }
-    let title: String
-    let section: SectionDisplayInfo
 }

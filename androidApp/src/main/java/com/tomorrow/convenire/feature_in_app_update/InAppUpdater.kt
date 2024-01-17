@@ -12,7 +12,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -30,7 +29,6 @@ import com.tomorrow.convenire.shared.domain.model.AppConfig
 import com.tomorrow.convenire.shared.domain.use_cases.GetAppConfig
 import com.tomorrow.convenire.shared.domain.use_cases.GetUpdateTypeUseCase
 import kotlinx.coroutines.launch
-import java.net.URI
 import kotlin.system.exitProcess
 
 private fun AppUpdateManager.startUpdate(
