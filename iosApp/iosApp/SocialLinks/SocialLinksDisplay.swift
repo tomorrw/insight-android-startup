@@ -13,7 +13,7 @@ struct SocialLinksDisplay: View {
     private let uselessUrl = URL(string: "https://google.com")!
     
     init(socialLinks: [SocialLink]) {
-        self.socialLinks = socialLinks.ensureSize(size: 5)
+        self.socialLinks = Array(socialLinks.filter{ $0.getUrl() != nil}.prefix(upTo: 5))
     }
     
     var body: some View {
