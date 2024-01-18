@@ -23,8 +23,7 @@ import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.common.IntentSenderForResultStarter
 import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.UpdateAvailability
-import com.tomorrow.convenire.feature_in_app_update.components.FlexibleUpdateDialog
-import com.tomorrow.convenire.feature_in_app_update.components.ForceUpdateDialog
+import com.tomorrow.convenire.common.dialogs.CustomAlertDialog
 import com.tomorrow.convenire.shared.domain.model.AppConfig
 import com.tomorrow.convenire.shared.domain.use_cases.GetAppConfig
 import com.tomorrow.convenire.shared.domain.use_cases.GetUpdateTypeUseCase
@@ -90,17 +89,26 @@ fun InAppUpdater(
     }
 
     when {
-        isForceUpdateDialogVisible.value -> ForceUpdateDialog(
+        isForceUpdateDialogVisible.value -> CustomAlertDialog(
+            title = "${appInfo?.name ?: "App"} needs an update!",
+            description = "A new update is available, please download the latest version!",
+            ctaButtonText = "Update",
             onCTAClick = { context.openUpdatePageInPlayStore(appInfo?.updateUrl?.toUri()) },
-            appName = appInfo?.name ?: "App"
+            isDismissible = false,
+            onDismiss = { exitProcess(0) },
+            dismissButtonText = "Close App",
+            isDismissibleOnBack = false
         )
 
-        isFlexibleUpdateDialogVisible.value -> FlexibleUpdateDialog(
-            onDismiss = { isFlexibleUpdateDialogVisible.value = false },
-            isDismissible = true,
-            isDismissibleOnBack = true,
+        isFlexibleUpdateDialogVisible.value -> CustomAlertDialog(
+            title = "${appInfo?.name ?: "App"} needs an update!",
+            description = "A new update is available, please download the latest version!",
+            ctaButtonText = "Update",
             onCTAClick = { context.openUpdatePageInPlayStore(appInfo?.updateUrl?.toUri()) },
-            appName = context.getAppName()
+            isDismissible = true,
+            onDismiss = { isFlexibleUpdateDialogVisible.value = false },
+            dismissButtonText = "No Thanks",
+            isDismissibleOnBack = true
         )
     }
 }
