@@ -10,6 +10,7 @@ import SwiftUI
 import shared
 import Combine
 import KMPNativeCoroutinesAsync
+import Firebase
 
 class TicketViewModel: ObservableObject {
     @Published var showTicket: Bool = true
@@ -23,14 +24,14 @@ class TicketViewModel: ObservableObject {
     @Published var ticketStatus: String? = nil
     @Published var user: User? = nil
     @Published var errorMessage: String? = ""
-
+    
     private var startDate: Date? = nil
     private var endDate: Date? = nil
     
     init() {
         DispatchQueue.main.async {
             Task{ await self.getUser()
-             await self.getTicketData() }
+                await self.getTicketData() }
         }
     }
     
@@ -41,6 +42,7 @@ class TicketViewModel: ObservableObject {
                 
                 for try await userResult in result {
                     self.user = userResult
+                    userResult.notificationTopics.forEach{ Messaging.messaging().subscribe(toTopic: $0) }
                 }
                 
             } catch {

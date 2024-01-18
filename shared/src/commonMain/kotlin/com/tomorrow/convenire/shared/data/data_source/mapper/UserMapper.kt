@@ -25,7 +25,8 @@ class UserMapper : EntityMapper<User, UserDTO> {
             percentage = 0f,
             color = "BE8D69"
         ),
-        actions = entity.actions.map { ActionMapper().mapFromEntity(it) }
+        actions = entity.actions.map { ActionMapper().mapFromEntity(it) },
+        notificationTopics = entity.notificationTopics ?: listOf()
     )
 
     override fun mapToEntity(domainModel: User): UserDTO {
