@@ -25,7 +25,7 @@ struct SectionDisplayPage: View{
                 }
             }
             
-            Text(info.subtitle)
+            Text(info.title)
                 .font(.system(size: 18, weight: .medium))
                 .padding(.bottom, 2)
             Text(info.description)

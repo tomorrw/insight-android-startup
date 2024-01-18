@@ -19,7 +19,7 @@ struct CompanyPage: View {
         DetailPage(
             vm: vm,
             customHeader: { SocialLinksDisplay(socialLinks: vm.socialLinks) },
-            customBody: { PageTabDisplayView(pages: $vm.sections) }
+            customBody: { PageTabDisplayView(pages: $vm.pages) }
         )
         .navigationBarTitleDisplayMode(.inline)
         .background(Color("Background"))

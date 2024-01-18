@@ -14,6 +14,7 @@ class PostDetailPageViewModel: DetailPageViewModel {
     let id: String
     @Published var date: String = ""
     @Published var action: [Action] = []
+    @Published var sections: [SectionDisplayInfo] = []
 
     init(id: String) {
         self.id = id
@@ -32,7 +33,7 @@ class PostDetailPageViewModel: DetailPageViewModel {
                 self.description = data.description_
                 self.headerDesign = .detailPage
                 self.image = data.image ?? ""
-                self.sections = data.detailPage.getDataIfLoaded()?.mapToSectionDisplayInfo() ?? []
+                self.sections = data.detailPage.getDataIfLoaded()?.sections.mapToSectionDisplayInfo() ?? []
                 self.action = data.action
                 self.isLoading = false
             }

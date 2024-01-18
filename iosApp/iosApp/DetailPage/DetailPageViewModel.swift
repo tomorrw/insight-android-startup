@@ -15,7 +15,6 @@ class DetailPageViewModel: ObservableObject {
     @Published var infoImage: String = ""
     @Published var title: String = ""
     @Published var description: String = ""
-    @Published var sections: [SectionDisplayInfo] = []
     @Published var headerDesign: HeaderDesign = .contact
     @Published var errorMessage: String? = nil
     @Published var isLoading: Bool = false
@@ -28,28 +27,24 @@ class DetailPageViewModel: ObservableObject {
 
 struct InfoContent: Hashable, HasInfo {
     let title: String
-    let subtitle: String
     let description: String
     let imageUrl: String?
 }
 
 struct VideoContent: Hashable, HasInfo {
     let title: String
-    let subtitle: String
     let description: String
     let videoUrl: String
 }
 
 struct EventContent: Hashable, HasInfo {
     let title: String
-    let subtitle: String
     let description: String
     let sessions: [Session]
 }
 
 struct SpeakersContent: Hashable, HasInfo {
     let title: String
-    let subtitle: String
     let description: String
     let speakers: [Speaker]
 }
@@ -72,4 +67,13 @@ enum SectionDisplayInfo: Hashable, Identifiable {
     case video(VideoContent)
     case sessions(EventContent)
     case speakers(SpeakersContent)
+}
+
+
+struct PagePresentationModel: Hashable, Identifiable {
+    var id: Self {
+        return self
+    }
+    var title: String
+    var sections: [SectionDisplayInfo]
 }

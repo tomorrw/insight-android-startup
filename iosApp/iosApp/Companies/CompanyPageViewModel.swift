@@ -13,6 +13,7 @@ import KMPNativeCoroutinesAsync
 class CompanyPageViewModel: DetailPageViewModel {
     let id: String
     @Published var socialLinks: [SocialLink] = []
+    @Published var pages: [PagePresentationModel] = []
 
     init(id: String) {
         self.id = id
@@ -30,11 +31,11 @@ class CompanyPageViewModel: DetailPageViewModel {
 
                 self.isLoading = false
                 self.title = data.title
-                self.description = data.boothDescription != nil ? "\(data.objectsClause)" : "\(data.objectsClause) \n\(data.boothDescription)"
+                self.description = data.boothDescription != nil ? "\(data.objectsClause)" : "\(data.objectsClause) \n\(String(describing: data.boothDescription))"
                 self.headerDesign = .contact
                 self.image = data.image ?? ""
                 self.socialLinks = data.socialLinks.mapToSocialLinkUI()
-                self.sections = detailPages?.compactMap { $0 as? Page }.mapToSectionDisplayInfo() ?? []
+                self.pages = detailPages?.compactMap { $0 as? Page }.mapToPagePresentationModel() ?? []
                 
             }
         } catch {

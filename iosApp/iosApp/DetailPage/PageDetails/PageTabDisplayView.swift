@@ -10,8 +10,8 @@
 import SwiftUI
 
 struct PageTabDisplayView: View {
-    @State var currentPage: SectionDisplayInfo? = nil
-    @Binding var pages: [SectionDisplayInfo]
+    @State var currentPage: PagePresentationModel? = nil
+    @Binding var pages: [PagePresentationModel]
     
     @Environment(\.sessionCardColors) var backgroundColor: SessionCardColors
     
@@ -23,11 +23,13 @@ struct PageTabDisplayView: View {
                         currentPage = pages.first?.id
                     }
                 if currentPage != nil {
-                    SectionDisplayPage(section: currentPage!)
-                        .frame(maxHeight: .infinity)
-                        .environment(\.sessionCardColors, SessionCardColors(background: Color("Background")))
-                        .padding(.horizontal)
-                        .padding(.bottom, 30)
+                    ForEach(currentPage!.sections) { section in
+                        SectionDisplayPage(section: section)
+                            .frame(maxHeight: .infinity)
+                            .environment(\.sessionCardColors, SessionCardColors(background: Color("Background")))
+                            .padding(.horizontal)
+                            .padding(.bottom, 30)
+                    }
                 }
             }
             .background(Color("Default"))
@@ -46,8 +48,8 @@ struct PageTabDisplayView: View {
 }
 
 struct TabsHeader: View{
-    @Binding var selectedPage: SectionDisplayInfo?
-    var Pages: [SectionDisplayInfo]
+    @Binding var selectedPage: PagePresentationModel?
+    var Pages: [PagePresentationModel]
     @Namespace var namespace
     
     var body: some View{
@@ -60,7 +62,7 @@ struct TabsHeader: View{
                     Spacer()
                     
                     VStack{
-                        Text(page.getInfo().title)
+                        Text(page.title)
                             .padding(.vertical, 3)
                         Group{
                             if selectedPage == page {

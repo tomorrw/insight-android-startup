@@ -10,6 +10,5 @@ import Foundation
 
 protocol HasInfo {
     var title: String { get }
-    var subtitle: String { get }
     var description: String { get }
 }
