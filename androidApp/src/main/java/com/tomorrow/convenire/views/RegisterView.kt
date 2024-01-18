@@ -126,9 +126,6 @@ class RegisterViewModel : ViewModel(), KoinComponent {
                             try {
                                 Firebase.messaging.subscribeToTopic("user_registered")
                                 Firebase.messaging.subscribeToTopic("user_${it.id}")
-                                it.notificationTopics.map { topic ->
-                                    Firebase.messaging.subscribeToTopic(topic)
-                                }
                             } catch (e: Exception) {
                                 Log.e(
                                     "Firebase subscription",

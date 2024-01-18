@@ -49,10 +49,6 @@ class AuthenticationViewModel: ObservableObject {
                     self.user = userResult
                     try await Messaging.messaging().subscribe(toTopic: "user_\(userResult.id)")
                     try await Messaging.messaging().subscribe(toTopic: "user_registered")
-                    userResult.notificationTopics.forEach{ 
-                        Messaging.messaging().subscribe(toTopic: $0){error in
-                            print(error)
-                    } }
                 }
                 
             } catch {

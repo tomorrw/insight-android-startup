@@ -10,6 +10,7 @@ import SwiftUI
 import shared
 import Combine
 import KMPNativeCoroutinesAsync
+import Firebase
 
 class TicketViewModel: ObservableObject {
     @Published var showTicket: Bool = true
@@ -41,6 +42,11 @@ class TicketViewModel: ObservableObject {
                 
                 for try await userResult in result {
                     self.user = userResult
+                    userResult.notificationTopics.forEach{ 
+                        print($0)
+                        Messaging.messaging().subscribe(toTopic: $0){error in
+                            print("bitcch \(error)")
+                        } }
                 }
                 
             } catch {

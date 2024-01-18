@@ -19,7 +19,7 @@ data class UserDTO(
     val nextLeagueName: String? = null,
     @SerialName("actions")
     val actions: List<ActionDTO> = listOf(),
-    @SerialName("notification_data")
+    @SerialName("notification_topics")
     val notificationTopics: List<String>? = null,
 )
 
