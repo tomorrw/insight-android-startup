@@ -24,14 +24,14 @@ class TicketViewModel: ObservableObject {
     @Published var ticketStatus: String? = nil
     @Published var user: User? = nil
     @Published var errorMessage: String? = ""
-
+    
     private var startDate: Date? = nil
     private var endDate: Date? = nil
     
     init() {
         DispatchQueue.main.async {
             Task{ await self.getUser()
-             await self.getTicketData() }
+                await self.getTicketData() }
         }
     }
     
@@ -42,11 +42,7 @@ class TicketViewModel: ObservableObject {
                 
                 for try await userResult in result {
                     self.user = userResult
-                    userResult.notificationTopics.forEach{ 
-                        print($0)
-                        Messaging.messaging().subscribe(toTopic: $0){error in
-                            print("bitcch \(error)")
-                        } }
+                    userResult.notificationTopics.forEach{ Messaging.messaging().subscribe(toTopic: $0) }
                 }
                 
             } catch {
