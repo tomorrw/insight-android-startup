@@ -13,13 +13,15 @@ struct SocialLinksDisplay: View {
     private let uselessUrl = URL(string: "https://google.com")!
     
     init(socialLinks: [SocialLink]) {
-        self.socialLinks = Array(socialLinks.filter{ $0.getUrl() != nil}.prefix(upTo: 5))
+        self.socialLinks = Array(socialLinks.filter{ $0.getUrl() != nil}.prefix(5))
     }
     
     var body: some View {
         ZStack {
             if socialLinks.isEmpty == false {
                 HStack {
+                    Spacer()
+
                     ForEach(socialLinks.indices, id: \.self) { i in
                         let link = socialLinks[i]
                         
@@ -44,7 +46,7 @@ struct SocialLinksDisplay: View {
                         }
                         .frame(width: 26)
                         
-                        if socialLinks.count - 1 != i { Spacer() }
+                        Spacer()
                     }
                 }
             }
