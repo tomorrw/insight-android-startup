@@ -96,15 +96,12 @@ class ApiServiceImplementation(
             setBody(FCMTokensRequest(fcmToken))
         }
 
-    override suspend fun addUnAuthenticatedInterceptor(
-        intercept: suspend () -> Unit,
-        clearCaches: suspend () -> Unit
-    ) {
+    override suspend fun addUnAuthenticatedInterceptor(intercept: suspend () -> Unit) {
         clientProvider().receivePipeline.intercept(HttpReceivePipeline.After) {
-            if (it.status == HttpStatusCode.Unauthorized) {
-                if (it.request.url.toString().contains(logoutUrl)) clearCaches()
-                else intercept()
-            }
+            if (it.status == HttpStatusCode.Unauthorized
+                && !it.request.url.toString().contains(logoutUrl)
+            )
+                intercept()
         }
     }
 

@@ -46,12 +46,9 @@ class RepositoryImplementation : CompanyRepository, SpeakerRepository, PostRepos
             try {
                 getLoggedInUser().collect()
             } catch (e: Exception) {
-                println("====== $e")
+                println("$e")
             }
-            apiService.addUnAuthenticatedInterceptor(
-                intercept = { internalLogout() },
-                clearCaches = { clearAllData() }
-            )
+            apiService.addUnAuthenticatedInterceptor { internalLogout() }
         }
     }
 
@@ -277,7 +274,10 @@ class RepositoryImplementation : CompanyRepository, SpeakerRepository, PostRepos
     }
 
     override fun isAuthenticated(): StateFlow<Boolean?> = isAuthenticated
-    private suspend fun internalLogout() = apiService.logout()
+
+    private suspend fun internalLogout() = apiService.logout().map { clearAllData() }.onFailure {
+        if (it is ClientRequestException && it.response.status == HttpStatusCode.Unauthorized) clearAllData()
+    }
 
     override suspend fun logout(): Result<Unit> {
         encryptedStorage.fcmToken?.let { apiService.deleteFCMToken(it) }

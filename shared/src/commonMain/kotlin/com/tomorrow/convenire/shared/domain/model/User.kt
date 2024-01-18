@@ -17,7 +17,8 @@ data class User(
     val hasPaid: Boolean = false,
     val league: League,
     val nextLeagueName: String,
-    val actions: List<Action>
+    val actions: List<Action>,
+    val notificationTopics: List<String> = listOf(),
 ) {
     fun getFullName() = this.name.split(" ")
         .joinToString(" ") { name -> name.replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() } }

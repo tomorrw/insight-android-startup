@@ -1,5 +1,6 @@
 package com.tomorrow.convenire.views
 
+import android.util.Log
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -24,6 +25,8 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.ktx.messaging
 import com.tomorrow.convenire.R
 import com.tomorrow.convenire.common.PullToRefreshLayout
 import com.tomorrow.convenire.common.headers.PageHeaderLayout
@@ -50,6 +53,14 @@ class MyQrViewModel : ReadViewModel<MyQrViewData>(
     load = {
         (GetConfigurationUseCase().getTicketInfo() as Flow<ConfigurationData?>).catch { emit(null) }
             .combine(GetUserUseCase().getUser()) { configurationData, user ->
+                try {
+                    user.notificationTopics.map { Firebase.messaging.subscribeToTopic(it) }
+                } catch (e: Exception) {
+                    Log.e(
+                        "Firebase subscription",
+                        "failed to subscribe to user topic $e"
+                    )
+                }
                 MyQrViewData(user, configurationData)
             }
     }
@@ -67,7 +78,8 @@ fun MyQrView() {
             val qrCode = remember(viewModel.state.isRefreshing) {
                 mutableStateOf(ticket.user.generateQrCodeString())
             }
-            val eventDate: String? = remember(key1 = ticket) { ticket.configurationData?.getFormattedDate() }
+            val eventDate: String? =
+                remember(key1 = ticket) { ticket.configurationData?.getFormattedDate() }
 
             LaunchedEffect(key1 = qrCode.value) {
                 delay(30000)
@@ -214,7 +226,8 @@ fun MyQrView() {
                             )
                             Spacer(modifier = Modifier.height(16.dp))
                             Text(
-                                text = ticket.configurationData?.description ?: "Your Digital Identity",
+                                text = ticket.configurationData?.description
+                                    ?: "Your Digital Identity",
                                 style = MaterialTheme.typography.headlineSmall.copy(
                                     textAlign = TextAlign.Center
                                 )
