@@ -14,7 +14,6 @@ import KMPNativeCoroutinesAsync
 class SpeakerDetailPageViewModel: DetailPageViewModel {
     let id: String
     @Published var socialLinks: [SocialLink] = []
-    @Published var pages: [PagePresentationModel] = []
 
     init(id: String) {
         self.id = id

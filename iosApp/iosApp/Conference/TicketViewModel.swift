@@ -10,7 +10,7 @@ import SwiftUI
 import shared
 import Combine
 import KMPNativeCoroutinesAsync
-//import Firebase
+import Firebase
 
 class MyQrPresentationModel: ObservableObject{
     @Published var user: User? = nil
@@ -51,7 +51,7 @@ class TicketViewModel: ObservableObject {
                 
                 for try await userResult in result {
                     self.pageData.user = userResult
-//                    userResult.notificationTopics.forEach{ Messaging.messaging().subscribe(toTopic: $0) }
+                    userResult.notificationTopics.forEach{ Messaging.messaging().subscribe(toTopic: $0) }
                 }
                 
             } catch {

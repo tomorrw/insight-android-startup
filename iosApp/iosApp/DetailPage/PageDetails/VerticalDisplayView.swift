@@ -10,17 +10,19 @@ import SwiftUI
 import shared
 
 struct VerticalDisplayView: View{
-    @Binding var sections: [SectionDisplayInfo]
+    @Binding var pages: [PagePresentationModel]
     @Binding var actions: [Action]
     
     var body: some View{
         VStack {
-            if !sections.isEmpty {
+            if !pages.isEmpty {
                 Divider().padding(.bottom, 5)
             }
             LazyVStack(alignment: .leading, spacing: 32) {
-                ForEach(sections) { section in
-                    SectionDisplayPage(section: section)
+                ForEach(pages) { page in
+                    ForEach(page.sections) { section in
+                        SectionDisplayPage(section: section)
+                    }
                 }
             }
             

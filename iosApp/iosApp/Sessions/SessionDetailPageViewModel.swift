@@ -42,6 +42,7 @@ class SessionDetailPageViewModel: DetailPageViewModel {
                 self.headerDesign = .detailPage
                 self.image = data.image
                 self.sections = data.detailPage.getDataIfLoaded()?.sections.mapToSectionDisplayInfo() ?? []
+                self.pages = [data.detailPage.getDataIfLoaded()].compactMap{ $0 }.mapToPagePresentationModel()
                 self.timeInterval = data.getTimeInterval()
                 self.canAskQuestions = data.canAskQuestions
                 self.hasAttended = data.hasAttended

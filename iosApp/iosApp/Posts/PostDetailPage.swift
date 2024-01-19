@@ -21,7 +21,7 @@ struct PostDetailPage: View {
         DetailPage(
             vm: vm,
             customHeader: { Text(vm.date).foregroundColor(Color("Secondary")) },
-            customBody: { VerticalDisplayView(sections: $vm.sections, actions: $vm.action) }
+            customBody: { VerticalDisplayView(pages: $vm.pages, actions: $vm.action) }
         )
         .navigationBarTitleDisplayMode(.inline)
         .background(Color("Background"))

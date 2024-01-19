@@ -41,7 +41,7 @@ struct SessionDetailPage: View {
                 }
                 sessionHeader
             },
-            customBody: { VerticalDisplayView(sections: $vm.sections, actions: $vm.action) }
+            customBody: { VerticalDisplayView(pages: $vm.pages, actions: $vm.action) }
         )
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {

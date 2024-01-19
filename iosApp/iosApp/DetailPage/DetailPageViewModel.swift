@@ -15,6 +15,7 @@ class DetailPageViewModel: ObservableObject {
     @Published var infoImage: String = ""
     @Published var title: String = ""
     @Published var description: String = ""
+    @Published var pages: [PagePresentationModel] = []
     @Published var headerDesign: HeaderDesign = .contact
     @Published var errorMessage: String? = nil
     @Published var isLoading: Bool = false
