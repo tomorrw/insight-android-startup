@@ -48,7 +48,7 @@ fun EventCard(modifier: Modifier = Modifier, event: Event?) {
             tag = if (event.isNow()) "NOW" else if (event.hasAttended) "ATTENDED" else null,
             onClick = { navController.navigate(AppRoute.EventDetail.generateExplicit(event.id)) },
             rightIcon = { BookmarkEventButton(id = event.id) },
-            color = if (event.isLighter) MaterialTheme.colorScheme.surface  else MaterialTheme.colorScheme.background
+            color = event.color ?: MaterialTheme.colorScheme.background,
         )
     } ?: Box(
         Modifier

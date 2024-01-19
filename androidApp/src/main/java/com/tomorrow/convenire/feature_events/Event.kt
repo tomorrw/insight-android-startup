@@ -1,5 +1,6 @@
 package com.tomorrow.convenire.feature_events
 
+import androidx.compose.ui.graphics.Color
 import com.tomorrow.convenire.shared.domain.model.Speaker
 import java.time.LocalDateTime
 
@@ -12,7 +13,7 @@ data class Event(
     val speakers: List<Speaker>,
     val location: String,
     val hasAttended: Boolean = false,
-    val isLighter: Boolean = false,
+    val color: Color? = null,
     val isNow: Boolean = false
 )
 

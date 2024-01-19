@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -61,7 +62,7 @@ fun InAppUpdater(
 
     val isForceUpdateDialogVisible = rememberSaveable { mutableStateOf(false) }
     val isFlexibleUpdateDialogVisible = rememberSaveable { mutableStateOf(false) }
-    var appInfo by rememberSaveable { mutableStateOf<AppConfig?>(null) }
+    var appInfo by remember { mutableStateOf<AppConfig?>(null) }
 
     LaunchedEffect(key1 = "update") {
         fun toggleDialog(updateType: GetUpdateTypeUseCase.UpdateType) {

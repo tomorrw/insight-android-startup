@@ -25,10 +25,10 @@ fun AppTextField(
     supportingText: @Composable (() -> Unit)? = null
 ) =
     OutlinedTextField(
-        colors = TextFieldDefaults.outlinedTextFieldColors(
+        colors = OutlinedTextFieldDefaults.colors(
             focusedBorderColor = MaterialTheme.colorScheme.primary,
+            focusedLeadingIconColor = MaterialTheme.colorScheme.primary,
             focusedLabelColor = MaterialTheme.colorScheme.primary,
-            focusedLeadingIconColor = MaterialTheme.colorScheme.primary
         ),
         keyboardActions = keyboardActions,
         keyboardOptions = keyboardOptions,

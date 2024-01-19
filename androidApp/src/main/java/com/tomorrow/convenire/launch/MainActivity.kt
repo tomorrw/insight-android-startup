@@ -68,7 +68,7 @@ class MainActivity : ComponentActivity() {
                 addOnNewIntentListener(listener)
 
                 onDispose {
-                    removeOnNewIntentListener(listener);
+                    removeOnNewIntentListener(listener)
                     navController.removeOnDestinationChangedListener(routeListener)
                 }
             }

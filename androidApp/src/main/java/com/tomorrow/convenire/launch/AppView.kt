@@ -3,10 +3,8 @@ package com.tomorrow.convenire.launch
 import android.annotation.SuppressLint
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
@@ -22,7 +20,6 @@ import com.tomorrow.convenire.feature_in_app_update.InAppUpdater
 import com.tomorrow.convenire.feature_internet_connectivity.ConnectivityStatus
 import com.tomorrow.convenire.feature_navigation.AppRoute
 import com.tomorrow.convenire.feature_navigation.setUp
-import com.tomorrow.convenire.shared.domain.model.ColorTheme
 import com.tomorrow.convenire.shared.domain.use_cases.ColorThemeUseCase
 import com.tomorrow.convenire.shared.domain.use_cases.IsAuthenticatedUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
