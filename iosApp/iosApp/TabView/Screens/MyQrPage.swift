@@ -13,9 +13,59 @@ import shared
 import Resolver
 import CoreImage.CIFilterBuiltins
 
+class MyQrViewModel: ObservableObject {
+    //This need refactoring
+    @Published var websocketMessage: String = ""
+    private var usecase = LiveNotificationListenerUseCase()
+    init() {
+            try? self.usecase.startListening(callback: self.listenToMessage)
+    }
+    
+    func listenToMessage(){
+        DispatchQueue.main.async {
+            
+            guard let res = try? self.usecase.getMessageIOS() else{
+                return
+            }
+            
+            res.fold(
+                onSuccess: { [weak self] message in
+                    guard let self = self else { return }
+                    guard let msg = message as? String  else {
+                        return
+                    }
+                    self.websocketMessage = msg
+                    vibrate()
+                    
+                },
+                onFailure: { [weak self] err in
+                    guard let self = self else { return }
+                    
+                    self.websocketMessage = err.toUserFriendlyError()
+                }
+            )
+            print( "\(self.usecase.getMessageIOS())")
+        }
+    }
+    
+    func vibrate() {
+        let impactMed = UIImpactFeedbackGenerator(style: .heavy)
+        impactMed.impactOccurred()
+    }
+    
+    @MainActor func startListening(){
+        self.usecase.startListening(callback: self.listenToMessage)
+    }
+    
+    @MainActor func stopListening(){
+        self.usecase.stopListening()
+    }
+}
+
 struct MyQrPage: View {
     @InjectedObject var ticketViewModel: TicketViewModel
-    
+    @StateObject var MyQrVM: MyQrViewModel = MyQrViewModel()
+
     @State private var isDisplayingError = false
     @State private var spinForward: CGFloat = 0
     @State private var qrImage: UIImage = UIImage(systemName: "xmark.circle") ?? UIImage()
@@ -176,6 +226,12 @@ struct MyQrPage: View {
             .onReceive(timer, perform: { _ in
                 qrImage = (ticketViewModel.user?.generateQrCodeString() ?? "Not valid").qrImage
             })
+            .onAppear{
+                MyQrVM.startListening()
+            }
+            .onDisappear{
+                MyQrVM.stopListening()
+            }
             .navigationTitle("My QR")
             .frame(maxWidth: .infinity)
             .navigationBarHidden(true)

@@ -48,6 +48,7 @@ kotlin {
                     implementation(contentNegotiation)
                     implementation(auth)
                     implementation(json)
+                    implementation(clientWebsocket)
                 }
 
                 with(Deps.Realm) {
@@ -79,7 +80,7 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 with(Deps.Ktor) {
-                    implementation(clientAndroid)
+                    implementation(clientOkHttpEngine)
                 }
                 implementation("com.googlecode.libphonenumber:libphonenumber:8.12.32")
                 implementation("androidx.security:security-crypto-ktx:1.1.0-alpha06")

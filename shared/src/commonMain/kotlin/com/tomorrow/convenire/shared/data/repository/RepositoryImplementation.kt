@@ -4,6 +4,7 @@ import com.tomorrow.convenire.shared.data.data_source.local.LocalDatabase
 import com.tomorrow.convenire.shared.data.data_source.mapper.*
 import com.tomorrow.convenire.shared.data.data_source.model.HomeDataDTO
 import com.tomorrow.convenire.shared.data.data_source.remote.ApiService
+import com.tomorrow.convenire.shared.data.data_source.remote.WebSocketService
 import com.tomorrow.convenire.shared.domain.model.*
 import com.tomorrow.convenire.shared.domain.repositories.*
 import com.tomorrow.convenire.shared.domain.utils.PhoneNumber
@@ -21,7 +22,8 @@ import kotlinx.datetime.minus
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
-class RepositoryImplementation : CompanyRepository, SpeakerRepository, PostRepository,
+class RepositoryImplementation : LiveNotificationRepository, CompanyRepository, SpeakerRepository,
+    PostRepository,
     SessionRepository, AppSettingsRepository, HomeRepository, AuthenticationRepository,
     OffersRepository,
     KoinComponent {
@@ -37,6 +39,7 @@ class RepositoryImplementation : CompanyRepository, SpeakerRepository, PostRepos
     private val userMapper = UserMapper()
     private val isAuthenticated = MutableStateFlow<Boolean?>(null)
     private val scope: CoroutineScope by inject()
+    private val webSocketService: WebSocketService by inject()
 
     init {
         scope.launch {
@@ -366,8 +369,9 @@ class RepositoryImplementation : CompanyRepository, SpeakerRepository, PostRepos
 
     override fun getConfiguration(): Flow<ConfigurationData> = flow {
         //TODO add it to caches when business logic is ready
-        apiService.getConfig( ).getOrThrow().let {
-            emit(ConfigurationDataMapper().mapFromEntity(it)) }
+        apiService.getConfig().getOrThrow().let {
+            emit(ConfigurationDataMapper().mapFromEntity(it))
+        }
     }
 
     override fun saveFCMToken(fcmToken: String?): Result<String> {
@@ -410,4 +414,9 @@ class RepositoryImplementation : CompanyRepository, SpeakerRepository, PostRepos
         emit(offers)
     }
 
+    override fun startReceivingMessages(setMessage: (Result<String>) -> Unit) =
+        webSocketService.startListeningToQr(setMessage)
+
+    override fun stopReceivingMessages() =
+        webSocketService.stopListeningToQr()
 }

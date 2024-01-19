@@ -4,6 +4,8 @@ import com.tomorrow.convenire.shared.data.data_source.local.LocalDatabase
 import com.tomorrow.convenire.shared.data.data_source.local.LocalDatabaseImplementation
 import com.tomorrow.convenire.shared.data.data_source.remote.ApiService
 import com.tomorrow.convenire.shared.data.data_source.remote.ApiServiceImplementation
+import com.tomorrow.convenire.shared.data.data_source.remote.WebSocketService
+import com.tomorrow.convenire.shared.data.data_source.remote.WebSocketServiceImplementation
 import com.tomorrow.convenire.shared.data.repository.RepositoryImplementation
 import com.tomorrow.convenire.shared.domain.model.MultipleFieldValidationError
 import com.tomorrow.convenire.shared.domain.repositories.*
@@ -15,8 +17,10 @@ import io.ktor.client.plugins.auth.*
 import io.ktor.client.plugins.auth.providers.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.plugins.logging.*
+import io.ktor.client.plugins.websocket.WebSockets
 import io.ktor.client.request.*
 import io.ktor.http.*
+import io.ktor.serialization.kotlinx.KotlinxWebsocketSerializationConverter
 import io.ktor.serialization.kotlinx.json.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -74,6 +78,15 @@ private fun commonModule(enableNetworkLogs: Boolean) = module {
         )
     }
 
+    single<WebSocketService> {
+        WebSocketServiceImplementation(
+            { get<BearerTokensContainer>().scope.get() },
+//            Constants.PRODUCTION_WEBSITE_BASE_URL // TODO: no
+            "free.blr2.piesocket.com" // TODO: change this, not secure!
+        )
+    }
+
+
     single<LocalDatabase> { LocalDatabaseImplementation(get()) }
 
     single { RepositoryImplementation() } binds arrayOf(
@@ -85,7 +98,8 @@ private fun commonModule(enableNetworkLogs: Boolean) = module {
         AuthenticationRepository::class,
         HomeRepository::class,
         OffersRepository::class,
-    )
+        LiveNotificationRepository::class,
+        )
 }
 
 fun createJson() = Json {
@@ -139,6 +153,10 @@ fun createHttpClient(
             logger = Logger.DEFAULT
             level = LogLevel.INFO
         }
+    }
+
+    install(WebSockets) {
+        contentConverter = KotlinxWebsocketSerializationConverter(Json)
     }
 }
 

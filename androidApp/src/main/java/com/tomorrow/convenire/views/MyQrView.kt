@@ -1,6 +1,7 @@
 package com.tomorrow.convenire.views
 
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -19,6 +20,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathEffect
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -30,6 +32,7 @@ import com.google.firebase.messaging.ktx.messaging
 import com.tomorrow.convenire.R
 import com.tomorrow.convenire.common.PullToRefreshLayout
 import com.tomorrow.convenire.common.headers.PageHeaderLayout
+import com.tomorrow.convenire.common.vibratePhone
 import com.tomorrow.convenire.common.view_models.DefaultReadView
 import com.tomorrow.convenire.common.view_models.ReadViewModel
 import com.tomorrow.convenire.feature_qr_code.rememberQrBitmapPainter
@@ -37,6 +40,7 @@ import com.tomorrow.convenire.shared.domain.model.ConfigurationData
 import com.tomorrow.convenire.shared.domain.model.User
 import com.tomorrow.convenire.shared.domain.use_cases.GetConfigurationUseCase
 import com.tomorrow.convenire.shared.domain.use_cases.GetUserUseCase
+import com.tomorrow.convenire.shared.domain.use_cases.LiveNotificationListenerUseCase
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -63,13 +67,47 @@ class MyQrViewModel : ReadViewModel<MyQrViewData>(
                 }
                 MyQrViewData(user, configurationData)
             }
+    },
+    refresh = {
+        (GetConfigurationUseCase().getTicketInfo() as Flow<ConfigurationData?>).catch { emit(null) }
+            .combine(GetUserUseCase().getUser()) { configurationData, user ->
+                MyQrViewData(user, configurationData)
+            }
+    },
+    onDismiss = { LiveNotificationListenerUseCase().stopListening() }
+
+) {
+    val notificationMessage = mutableStateOf("")
+    fun startListening() {
+        val liveNotify = LiveNotificationListenerUseCase()
+
+        try {
+            liveNotify.startListening {
+                liveNotify.getMessage().getOrThrow().let { notificationMessage.value = it }
+            }
+        } catch (e: Exception) {
+            Log.e("LiveNotificationListenerUseCase", "Error startListening $e")
+        }
     }
-)
+}
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun MyQrView() {
     val viewModel: MyQrViewModel = koinViewModel()
+    val context = LocalContext.current
+
+    LaunchedEffect(key1 = "") {
+        viewModel.startListening()
+    }
+
+    LaunchedEffect(key1 = viewModel.notificationMessage.value) {
+        if (viewModel.notificationMessage.value.isNotEmpty()) {
+            context.vibratePhone()
+            Toast.makeText(context, viewModel.notificationMessage.value, Toast.LENGTH_LONG).show()
+        }
+    }
+
     DefaultReadView(viewModel = viewModel) { ticket ->
         PageHeaderLayout(
             title = "My QR", subtitle = "Welcome Back ${ticket.user.getFormattedName()}"
