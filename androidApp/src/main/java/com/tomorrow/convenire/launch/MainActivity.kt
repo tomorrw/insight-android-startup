@@ -29,7 +29,9 @@ class MainActivity : ComponentActivity() {
             FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
                 if (!task.isSuccessful) return@addOnCompleteListener
                 val token = task.result
-                SaveFCMToken().saveFCMToken(token)
+                SaveFCMToken().saveFCMToken(token).onFailure {
+                    Log.e("FirebaseAnalytics", "failed saving fcm token $it")
+                }
             }
         } catch (e: Throwable) {
             Log.e("FirebaseAnalytics", "failed initializing firebase analytics $e")

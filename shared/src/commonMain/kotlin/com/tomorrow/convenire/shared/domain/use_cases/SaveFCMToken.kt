@@ -9,6 +9,6 @@ import org.koin.core.component.inject
 class SaveFCMToken : KoinComponent {
     val repository: AuthenticationRepository by inject()
 
-    fun saveFCMToken(fcmToken: String?): ResultIOS<String, Throwable> = repository.saveFCMToken(fcmToken).toResultIOS()
+    fun saveFCMToken(fcmToken: String?): Result<String> = repository.saveFCMToken(fcmToken)
     fun saveFCMTokenIOS(fcmToken: String?): ResultIOS<String, Throwable> = repository.saveFCMToken(fcmToken).toResultIOS()
 }
