@@ -10,11 +10,11 @@ import SwiftUI
 import UIKit
 
 struct UrlImageView: View {
-    @StateObject var urlImageModel: UrlImageModel
+    @ObservedObject var urlImageModel: UrlImageModel
     let placeholderImage: String
     
     init(urlString: String?, placeholderImage: String = "placeholderImage") {
-        _urlImageModel = StateObject(wrappedValue: UrlImageModel(urlString: urlString))
+        urlImageModel = UrlImageModel(urlString: urlString)
         self.placeholderImage = placeholderImage
     }
     
