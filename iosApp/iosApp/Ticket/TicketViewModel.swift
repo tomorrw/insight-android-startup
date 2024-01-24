@@ -24,7 +24,9 @@ class TicketViewModel: ObservableObject {
     @Published var ticketStatus: String? = nil
     @Published var user: User? = nil
     @Published var errorMessage: String? = ""
+    @Published var websocketMessage: String = ""
     
+    private var usecase = LiveNotificationListenerUseCase()
     private var startDate: Date? = nil
     private var endDate: Date? = nil
     
@@ -76,7 +78,43 @@ class TicketViewModel: ObservableObject {
         }
     }
     
+    func listenToMessage() {
+        
+        guard let res = try? self.usecase.getMessageIOS() else{
+            return
+        }
+        
+        res.fold(
+            onSuccess: { [weak self] message in
+                guard let self = self,
+                      let msg = message as? String  else {
+                    return
+                }
+                DispatchQueue.main.async {
+                    self.websocketMessage = msg
+                    self.vibrate()
+                }
+            },
+            onFailure: { [weak self] err in
+                guard let self = self else { return }
+                self.websocketMessage = err.toUserFriendlyError()
+            }
+        )
+        
+    }
     
+    func vibrate() {
+        let impactMed = UIImpactFeedbackGenerator(style: .medium)
+        impactMed.impactOccurred()
+    }
+    
+    @MainActor func startListening(){
+        self.usecase.startListening(callback: self.listenToMessage)
+    }
+    
+    @MainActor func stopListening(){
+        self.usecase.stopListening()
+    }
 
     
 }
