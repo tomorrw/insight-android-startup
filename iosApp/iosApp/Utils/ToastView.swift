@@ -86,6 +86,7 @@ struct ToastView: View {
             fadeInOut.toggle()
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
                 isActive = false
+                options.onDismiss()
             })
         }
     }
@@ -98,6 +99,7 @@ public struct ToastOptions {
     let position: ToastPosition
     let duration: Double?
     let dismissible: Bool
+    let onDismiss: () -> Void
     /// An object that holds settings for a ToastView.
     ///
     ///  - Parameters:
@@ -107,13 +109,15 @@ public struct ToastOptions {
     ///    - position: A `ToastPosition` object that corresponds with the location of the toast on the parent view.
     ///    - duration: The time in seconds to display the ToastView before fading away. Optional. If nil, the ToastView will appear indefinitely.
     ///    - dismissable: If true, the ToastView will fade away when tapped.
+    ///    - onDismiss: on dissmiss executes
     public init(
         image: Image? = nil,
         title: String,
         subtitle: String? = nil,
         position: ToastPosition,
         duration: Double? = nil,
-        dismissible: Bool
+        dismissible: Bool,
+        onDismiss: @escaping () -> Void = {}
     ) {
         self.image = image
         self.title = title
@@ -121,6 +125,7 @@ public struct ToastOptions {
         self.position = position
         self.duration = duration
         self.dismissible = dismissible
+        self.onDismiss = onDismiss
     }
 }
 

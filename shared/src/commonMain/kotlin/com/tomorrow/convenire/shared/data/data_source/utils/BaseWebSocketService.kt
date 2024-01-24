@@ -17,13 +17,12 @@ import org.koin.core.component.inject
 
 open class BaseWebSocketService(
     private val clientProvider: () -> HttpClient,
-    private val baseUrl: String,
     private var counter: Int = 0
 
 ) : KoinComponent {
     val scope: CoroutineScope by inject()
     private var webSocketSession: HashMap<String, DefaultClientWebSocketSession> = HashMap()
-    fun startListening(setMessage: (Result<String>) -> Unit, path: String) {
+    fun startListening(setMessage: (Result<String>) -> Unit, baseUrl: String, path: String) {
         scope.launch {
             try {
                 clientProvider().wss(

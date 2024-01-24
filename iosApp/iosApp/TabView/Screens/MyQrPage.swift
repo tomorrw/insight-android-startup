@@ -16,6 +16,7 @@ import CoreImage.CIFilterBuiltins
 struct MyQrPage: View {
     @InjectedObject var ticketViewModel: TicketViewModel
 
+    @State private var isDisplayingToast = false
     @State private var isDisplayingError = false
     @State private var spinForward: CGFloat = 0
     @State private var qrImage: UIImage = UIImage(systemName: "xmark.circle") ?? UIImage()
@@ -173,14 +174,22 @@ struct MyQrPage: View {
                         qrImage = (user?.generateQrCodeString() ?? "Not valid").qrImage
                     }
             }
+            .onReceive(ticketViewModel.$websocketMessage, perform: { newMsg in
+                guard !newMsg.isEmpty else {
+                    isDisplayingToast = false
+                    return
+                }
+                isDisplayingToast = true
+            })
             .overlay {
-                if !ticketViewModel.websocketMessage.isEmpty {
+                if isDisplayingToast {
                     ToastView(options: ToastOptions(
                         image: Image(systemName: "checkmark.seal.fill"),
                         title: ticketViewModel.websocketMessage,
                         position: ToastPosition.top,
                         duration: 7,
-                        dismissible: true)
+                        dismissible: true,
+                        onDismiss: { isDisplayingToast.toggle() })
                     )
                 }
             }
