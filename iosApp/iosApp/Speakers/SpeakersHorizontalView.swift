@@ -33,7 +33,7 @@ struct SpeakersHorizontalView: View {
                             }
                             .frame(alignment: .bottomTrailing)
                             
-                            Text(speaker.getFullName())
+                            Text(speaker.fullName.getFormattedName())
                                 .multilineTextAlignment(.center)
                                 .lineLimit(2)
                                 .frame(height: 40, alignment: .top)

@@ -29,7 +29,7 @@ class SpeakerDetailPageViewModel: DetailPageViewModel {
                 let detailPages = data.detailPages.getDataIfLoaded()
                 
                 self.isLoading = false
-                self.title = data.getFullName()
+                self.title = data.fullName.getFormattedName()
                 self.description = data.title
                 if let country = data.nationality?.name {
                     self.description += " | \(country)"

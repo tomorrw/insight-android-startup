@@ -37,11 +37,7 @@ fun EventCard(modifier: Modifier = Modifier, event: Event?) {
             isHighlighted = LocalDateTime.now().let { it > event.startDate && it < event.endDate },
             location = event.location,
             speakers = event.speakers.map { speaker ->
-                EventSpeaker(speaker.firstName.replaceFirstChar { char ->
-                    if (char.isLowerCase()) char.titlecase(Locale.ROOT) else char.toString()
-                } + " " + speaker.lastName.replaceFirstChar { char ->
-                    if (char.isLowerCase()) char.titlecase(Locale.ROOT) else char.toString()
-                }, rememberAsyncImagePainter(model = speaker.nationality?.url)
+                EventSpeaker(speaker.fullName.getFormattedName(), rememberAsyncImagePainter(model = speaker.nationality?.url)
                 )
             },
             tag = if (event.isNow()) "NOW" else if (event.hasAttended) "ATTENDED" else null,

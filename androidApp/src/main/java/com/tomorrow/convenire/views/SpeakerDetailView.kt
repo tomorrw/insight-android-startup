@@ -48,7 +48,7 @@ fun SpeakerDetailView(id: String) {
     }) { speakerDetail ->
         val navController = LocalNavController.current
         EntityDetailHeaderLayout(
-            title = speakerDetail.getFullName(),
+            title = speakerDetail.fullName.getFormattedName(),
             subtitle = "${speakerDetail.title}${speakerDetail.nationality?.name?.let { " | $it" } ?: ""}",
             image = speakerDetail.image ?: "",
             socialLinks = speakerDetail.socialLinks.map {

@@ -5,8 +5,7 @@ import com.tomorrow.convenire.shared.data.data_source.utils.NotLoaded
 
 class SpeakerDetail(
     id: String,
-    firstName: String,
-    lastName: String,
+    fullName: FullName,
     title: String,
     image: String?,
     socialLinks: List<SocialLink>,
@@ -14,8 +13,7 @@ class SpeakerDetail(
     nationality: Country? = null
 ) : Speaker(
     id,
-    firstName,
-    lastName,
+    fullName,
     title,
     image,
     socialLinks,
