@@ -23,7 +23,7 @@ class AppstoreInfoViewModel: ObservableObject {
     
     @MainActor
     func fetchAppStoreUrl()  {
-        let result = GetAppConfig().appConfig
+        let result = GetAppConfigUseCase().get()
         self.appName = result.name
         guard let url = result.updateUrl else { return }
         self.url = URL(string: url) ?? self.defaultUrl

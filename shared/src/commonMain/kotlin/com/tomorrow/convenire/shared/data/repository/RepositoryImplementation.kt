@@ -4,6 +4,7 @@ import com.tomorrow.convenire.shared.data.data_source.local.EncryptedStorage
 import com.tomorrow.convenire.shared.data.data_source.local.LocalDatabase
 import com.tomorrow.convenire.shared.data.data_source.mapper.*
 import com.tomorrow.convenire.shared.data.data_source.remote.ApiService
+import com.tomorrow.convenire.shared.data.repository.utils.getFromCacheAndRevalidate
 import com.tomorrow.convenire.shared.domain.model.*
 import com.tomorrow.convenire.shared.domain.repositories.*
 import com.tomorrow.convenire.shared.domain.utils.PhoneNumber
@@ -49,38 +50,6 @@ class RepositoryImplementation : CompanyRepository, SpeakerRepository, PostRepos
                 println("$e")
             }
             apiService.addUnAuthenticatedInterceptor { internalLogout() }
-        }
-    }
-
-    private fun <Data> getFromCacheAndRevalidate(
-        getFromCache: suspend () -> Result<Data>,
-        getFromApi: suspend () -> Result<Data>,
-        setInCache: suspend (Data) -> Unit,
-        cacheAge: Instant?,
-        revalidateIfOlderThan: Duration,
-    ): Flow<Data> {
-        return flow {
-            var localDataFound = false
-
-            getFromCache().getOrNull()?.let {
-                emit(it)
-                localDataFound = true
-            }
-
-            val minutesAgo =
-                Clock.System.now()
-                    .minus(
-                        revalidateIfOlderThan.inWholeMinutes,
-                        DateTimeUnit.MINUTE,
-                        TimeZone.currentSystemDefault()
-                    )
-
-            if (cacheAge != null && cacheAge < minutesAgo && localDataFound) return@flow
-
-            getFromApi().getOrThrow()?.let {
-                emit(it)
-                setInCache(it)
-            }
         }
     }
 
