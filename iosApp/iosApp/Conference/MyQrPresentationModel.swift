@@ -11,9 +11,15 @@ import shared
 class MyQrPresentationModel: ObservableObject{
     @Published var userName: String? = nil
     @Published var qrCodeString: String? = nil
+    private var user: User? = nil
     
     func loadUser(_ user: User? = nil) {
+        self.user = user
         self.userName = user?.getFormattedName()
+        self.qrCodeString = user?.generateQrCodeString()
+    }
+    
+    func generateQrCode(){
         self.qrCodeString = user?.generateQrCodeString()
     }
 }

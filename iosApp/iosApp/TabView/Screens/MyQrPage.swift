@@ -171,6 +171,7 @@ struct MyQrPage: View {
                     }
             }
             .onReceive(timer, perform: { _ in
+                ticketViewModel.pageData.generateQrCode()
                 qrImage = (ticketViewModel.pageData.qrCodeString ?? "Not valid").qrImage
             })
             .onAppear{ ticketViewModel.getData() }
