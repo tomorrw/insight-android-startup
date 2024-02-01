@@ -43,7 +43,7 @@ fun AppView(navController: NavHostController = rememberNavController()) {
         LocalLayoutDirection provides currentLayoutDirection,
         LocalNavController provides navController,
     ) {
-        JetpackComposeDarkThemeTheme(
+        JetpackComposeTheme(
             darkTheme = uiTheme.value.toBoolean() ?: isSystemInDarkTheme()
         ) {
             Scaffold(

@@ -99,7 +99,7 @@ val typographyMaterial3 = androidx.compose.material3.Typography().let {
 val typography = Typography(defaultFontFamily = FontFamily(Font(R.font.product_sans_regular)))
 
 @Composable
-fun JetpackComposeDarkThemeTheme(
+fun JetpackComposeTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
