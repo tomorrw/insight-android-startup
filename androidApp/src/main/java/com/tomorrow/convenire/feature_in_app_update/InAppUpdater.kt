@@ -26,7 +26,7 @@ import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.UpdateAvailability
 import com.tomorrow.convenire.common.dialogs.CustomAlertDialog
 import com.tomorrow.convenire.shared.domain.model.AppConfig
-import com.tomorrow.convenire.shared.domain.use_cases.GetAppConfig
+import com.tomorrow.convenire.shared.domain.use_cases.GetAppConfigUseCase
 import com.tomorrow.convenire.shared.domain.use_cases.GetUpdateTypeUseCase
 import kotlinx.coroutines.launch
 import kotlin.system.exitProcess
@@ -86,7 +86,7 @@ fun InAppUpdater(
                     }.addOnFailureListener { toggleDialog(type) }
                 }
         }
-        appInfo = GetAppConfig().appConfig
+        appInfo = GetAppConfigUseCase().get()
     }
 
     when {

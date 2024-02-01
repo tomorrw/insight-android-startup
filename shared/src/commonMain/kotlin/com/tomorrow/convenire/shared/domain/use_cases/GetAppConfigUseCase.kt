@@ -4,6 +4,8 @@ import com.tomorrow.convenire.shared.domain.model.AppConfig
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
-class GetAppConfig: KoinComponent {
-    val appConfig: AppConfig by inject()
+class GetAppConfigUseCase: KoinComponent {
+    private val appConfig: AppConfig by inject()
+
+    fun get(): AppConfig = appConfig
 }
