@@ -55,9 +55,6 @@ class UpdateViewModel: AppstoreInfoViewModel {
     
     override init() {
         super.init()
-        DispatchQueue.main.async {
-            super.fetchAppStoreUrl()
-            self.getUpdateUseCase()
-        }
+        DispatchQueue.main.async { self.getUpdateUseCase() }
     }
 }

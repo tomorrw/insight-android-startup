@@ -30,7 +30,7 @@ struct MyQrPage: View {
                     VStack(alignment: .leading) {
                         Text("My QR")
                             .font(.system(size: 24, weight: .bold))
-                        Text("Welcome back \(ticketViewModel.pageData.user?.getFormattedName() ?? "")")
+                        Text("Welcome back \(ticketViewModel.pageData.userName ?? "")")
                             .foregroundColor(Color("Secondary"))
                     }
                     Spacer()
@@ -87,7 +87,7 @@ struct MyQrPage: View {
                         }
                         
                         VStack(spacing: 4) {
-                            Text("\(ticketViewModel.pageData.user?.getFormattedName() ?? "")")
+                            Text("\(ticketViewModel.pageData.userName ?? "")")
                                 .font(.system(size: 20))
                             if let status = ticket.ticketStatus {
                                 Text(status)
@@ -132,8 +132,8 @@ struct MyQrPage: View {
                             .foregroundColor(Color("Default"))
                     }
                     .padding(.horizontal, 16)
-                } else {
-                    
+                } 
+                if let emptyTicketInfo = ticketViewModel.pageData as? EmptyTicketPresentationModel {
                     Button {
                         withAnimation(.linear(duration: 0.6)) { ticketViewModel.getData() }
                     } label: {
@@ -145,7 +145,7 @@ struct MyQrPage: View {
                             .padding(.bottom, 24)
                     }
                     
-                    Text(ticketViewModel.pageData.description)
+                    Text(emptyTicketInfo.description)
                         .font(.system(size: 16))
                         .lineLimit(3)
                         .multilineTextAlignment(.center)
@@ -164,12 +164,12 @@ struct MyQrPage: View {
                         }
                         isDisplayingError = true
                     })
-                    .onReceive(ticketViewModel.pageData.$user) { user in
-                        qrImage = (user?.generateQrCodeString() ?? "Not valid").qrImage
+                    .onReceive(ticketViewModel.pageData.$qrCodeString) { qrString in
+                        qrImage = (qrString ?? "Not valid").qrImage
                     }
             }
             .onReceive(timer, perform: { _ in
-                qrImage = (ticketViewModel.pageData.user?.generateQrCodeString() ?? "Not valid").qrImage
+                qrImage = (ticketViewModel.pageData.qrCodeString ?? "Not valid").qrImage
             })
             .onAppear{ ticketViewModel.getData() }
             .navigationTitle("My QR")

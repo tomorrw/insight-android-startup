@@ -12,30 +12,6 @@ import Combine
 import KMPNativeCoroutinesAsync
 import Firebase
 
-class MyQrPresentationModel: ObservableObject{
-    @Published var user: User? = nil
-    @Published var description: String = "Your Digital Identity"
-    
-    init(user: User? = nil, description: String = "Your Digital Identity") {
-        self.user = user
-        self.description = description
-    }
-}
-
-class TicketPresentationModel: MyQrPresentationModel{
-    @Published var rightTitle: String? = nil
-    @Published var leftTitle: String = "Convenire"
-    @Published var subText: [String]? = nil
-    @Published var ticketStatus: String? = nil
-    
-    init(rightTitle: String? = nil, leftTitle: String, subText: [String]? = nil, ticketStatus: String? = nil) {
-        self.rightTitle = rightTitle
-        self.leftTitle = leftTitle
-        self.subText = subText
-        self.ticketStatus = ticketStatus
-    }
-}
-
 class TicketViewModel: ObservableObject {
     var pageData: MyQrPresentationModel = MyQrPresentationModel()
     @Published var errorMessage: String? = ""
@@ -50,10 +26,9 @@ class TicketViewModel: ObservableObject {
                 let result = asyncSequence(for: GetUserUseCase().getUser())
                 
                 for try await userResult in result {
-                    self.pageData.user = userResult
+                    self.pageData.loadUser(userResult)
                     userResult.notificationTopics.forEach{ Messaging.messaging().subscribe(toTopic: $0) }
                 }
-                
             } catch {
                 self.errorMessage = "User Not Found!"
                 print(error)
@@ -71,14 +46,13 @@ class TicketViewModel: ObservableObject {
                         rightTitle: data.subTitle,
                         leftTitle: data.title,
                         subText: data.getFormattedDate()?.map{ String($0) },
-                        ticketStatus: data.status
+                        ticketStatus: data.status,
+                        description: data.description_
                     )
                 } else {
-                    self.pageData = MyQrPresentationModel(user: self.pageData.user)
+                    self.pageData = EmptyTicketPresentationModel(description: data.description_)
                 }
-                self.pageData.description = data.description_
             }
-            
         } catch {
             self.errorMessage = "Ticket Data Not Found!"
             print(error)
@@ -92,5 +66,4 @@ class TicketViewModel: ObservableObject {
             }
         }
     }
-    
 }

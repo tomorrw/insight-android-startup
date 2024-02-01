@@ -19,9 +19,9 @@ class AppstoreInfoViewModel: ObservableObject {
     init(){
         self.url = self.defaultUrl
         self.appName = self.defaultName
+        DispatchQueue.main.async { self.fetchAppStoreUrl() }
     }
     
-    @MainActor
     func fetchAppStoreUrl()  {
         let result = GetAppConfigUseCase().get()
         self.appName = result.name
