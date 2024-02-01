@@ -72,6 +72,7 @@ struct ProfilePage: View {
                         
                         
                         ActionButtons(actions: authViewModel.user?.actions ?? [] )
+                            .buttonStyle(.plain)
                     }
                     .padding(.horizontal)
                     .padding(.bottom)

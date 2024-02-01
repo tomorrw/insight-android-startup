@@ -34,6 +34,7 @@ struct DropDown: View {
                 .padding([.leading, .trailing], 15)
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
+            .buttonStyle(.plain)
             .padding([.top,.bottom], 18)
             .frame(maxWidth: .infinity)
             .background(Color("Default"))

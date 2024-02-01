@@ -35,6 +35,7 @@ struct SessionsPage: View {
                                 .foregroundColor(info.isEnabled ? Color("Default") : Color("Dark"))
                         )
                     }
+                    .buttonStyle(.plain)
                     
                     if vm.datesDisplayed.count - 1 != i { Spacer().frame(width: 20) }
                 }

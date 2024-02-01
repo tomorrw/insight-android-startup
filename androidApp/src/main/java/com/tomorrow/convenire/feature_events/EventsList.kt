@@ -182,7 +182,8 @@ private fun Header(
 
                 with(density) {
                     headerOffset =
-                        (headerOffset + changeOfOffset.toDp()).coerceIn(
+                        if (newFirstVisibleItemScrollIndex == 0 && newFirstVisibleItemScrollOffset.toDp() == 0.dp) 0.dp
+                        else (headerOffset + changeOfOffset.toDp()).coerceIn(
                             0.dp,
                             headerHeight
                         )

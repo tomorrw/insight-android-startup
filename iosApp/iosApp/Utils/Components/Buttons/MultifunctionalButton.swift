@@ -37,6 +37,7 @@ struct MultifunctionalButton: View {
                     }
                 }
         }
+        .buttonStyle(.plain)
         .disabled(isLoading)
         .overlay {
             RoundedRectangle(cornerRadius: 8)

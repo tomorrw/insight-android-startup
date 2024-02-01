@@ -85,6 +85,7 @@ struct MyQrPage: View {
                                 .frame(width: 175, height: 175)
                                 .padding(.bottom, 24)
                         }
+                        .buttonStyle(.plain)
                         
                         VStack(spacing: 4) {
                             Text("\(ticketViewModel.pageData.userName ?? "")")
@@ -144,6 +145,7 @@ struct MyQrPage: View {
                             .frame(width: 175, height: 175)
                             .padding(.bottom, 24)
                     }
+                    .buttonStyle(.plain)
                     
                     Text(emptyTicketInfo.description)
                         .font(.system(size: 16))

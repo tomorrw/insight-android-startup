@@ -84,6 +84,7 @@ struct TabsHeader: View{
                     
                     Spacer()
                 })
+                .buttonStyle(.plain)
                 .padding(.vertical)
             }
             
