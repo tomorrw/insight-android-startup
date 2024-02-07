@@ -11,9 +11,15 @@ import SwiftUI
 struct EmptyStateView: View {
     let title: String
     let text: String
-    let buttonText: String
+    let buttonText: String?
     let buttonAction: () -> Void
     
+    init(title: String, text: String, buttonText: String? = nil, buttonAction: @escaping () -> Void = {}) {
+        self.title = title
+        self.text = text
+        self.buttonText = buttonText
+        self.buttonAction = buttonAction
+    }
     var body: some View {
         VStack(spacing: 14) {
             Spacer()
@@ -31,14 +37,14 @@ struct EmptyStateView: View {
                 .foregroundColor(Color("Secondary"))
                 .lineSpacing(5)
                 .padding(.bottom, 6)
-            
-            MultifunctionalButton(
-                action: {
-                    buttonAction()
-                },
-                label: buttonText
-            )
-            
+            if let btnText = buttonText {
+                MultifunctionalButton(
+                    action: {
+                        buttonAction()
+                    },
+                    label: btnText
+                )
+            }
             Spacer()
         }
         .padding(.bottom, 1)

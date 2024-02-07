@@ -122,7 +122,7 @@ struct SessionDetailPage: View {
                     AskAQuestionPage(
                         subjectId: vm.subjectId,
                         title: vm.title,
-                        speakers: (vm.sections.first(where: { section in
+                        speakers: (vm.pages.mapToSectionDisplayInfo().first(where: { section in
                             switch section {
                             case .speakers(_): return true
                             default: return false

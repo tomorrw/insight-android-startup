@@ -20,7 +20,6 @@ class SessionDetailPageViewModel: DetailPageViewModel {
     @Published var attendees: String = ""
     @Published var action: [Action] = []
     @Published var hasAttended: Bool = false
-    @Published var sections: [SectionDisplayInfo] = []
 
     init(id: String) {
         self.id = id
@@ -41,7 +40,6 @@ class SessionDetailPageViewModel: DetailPageViewModel {
                 self.location = data.location
                 self.headerDesign = .detailPage
                 self.image = data.image
-                self.sections = data.detailPage.getDataIfLoaded()?.sections.mapToSectionDisplayInfo() ?? []
                 self.pages = [data.detailPage.getDataIfLoaded()].compactMap{ $0 }.mapToPagePresentationModel()
                 self.timeInterval = data.getTimeInterval()
                 self.canAskQuestions = data.canAskQuestions

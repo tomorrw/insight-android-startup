@@ -32,7 +32,7 @@ struct SearchableList<ItemDetailPage: View, Loader: View, EmptySearchPage: View,
          itemDetailPage: @escaping (SearchItem) -> ItemDetailPage,
          loader: @escaping () -> Loader = { DefaultListLoader() } ,
          emptySearchListView: @escaping (_ searchText: Binding<String>, _ noResult: Binding<String>) -> EmptySearchPage = {s,n in DefaultEmptyList(searchText: s, noResultText: n) },
-         emptyListView: @escaping () -> EmptyPage = { Text("Nothing here!") },
+         emptyListView: @escaping () -> EmptyPage = { EmptyStateView ( title: "Nothing here.", text: "Stay tuned for more!" ) },
          listView: @escaping (_: SearchItem) -> ListView = { item in DefaultListItem(item: item) },
          customHeader: @escaping () -> HeaderView = { EmptyView() }
     ) {
@@ -58,14 +58,8 @@ struct SearchableList<ItemDetailPage: View, Loader: View, EmptySearchPage: View,
                     loader()
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                 } else if vm.displayedList.isEmpty && vm.searchText.isEmpty {
-                    EmptyStateView (
-                        title: "Nothing here.",
-                        text: "Stay tuned for more!",
-                        buttonText: "Reload",
-                        buttonAction: {
-                            Task { await vm.refreshAll() }
-                        }
-                    )
+                    emptyListView()
+                    .padding()
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                 }
                 else if vm.displayedList.isEmpty {
@@ -109,6 +103,7 @@ struct SearchableList<ItemDetailPage: View, Loader: View, EmptySearchPage: View,
         .alert("Load Failed.", isPresented: $isDisplayingError, actions: { }, message: {
             Text(vm.errorMessage ?? "Something Went Wrong!")
         })
+        .background(Color("Background"))
         .onReceive(vm.$errorMessage, perform: { error in
             guard error != nil && error != "" else {
                 isDisplayingError = false
@@ -143,7 +138,7 @@ struct ExtractedView<ItemDetailPage: View, ListView: View>: View {
     var body: some View {
         List(vm.displayedList.map { $0.category }, id: \.id) { category in
             Section {
-                ForEach(vm.displayedList.first(where: { $0.category == category })?.items ?? [], id: \.self) { item in
+                ForEach(vm.displayedList.first(where: { $0.category == category })?.items ?? []) { item in
                     NavigateTo {
                         itemDetailPage(item)
                     } label: {

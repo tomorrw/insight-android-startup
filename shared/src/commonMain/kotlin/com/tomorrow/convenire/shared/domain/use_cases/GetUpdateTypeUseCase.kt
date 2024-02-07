@@ -13,8 +13,8 @@ class GetUpdateTypeUseCase : KoinComponent {
     private val appConfig: AppConfig by inject()
     private val repository: AppSettingsRepository by inject()
 
-    suspend fun getUpdateType(): Result<UpdateType> {
-     return repository.getUpdateInfo(appConfig.platform).map {
+    suspend fun getUpdateType(): Result<UpdateType> =
+        repository.getUpdateInfo(appConfig.platform).map {
             val currentVersion: Version = try {
                 Version(appConfig.version)
             } catch (e: Exception) {
@@ -38,7 +38,7 @@ class GetUpdateTypeUseCase : KoinComponent {
             // a
             UpdateType.None
         }
-    }
+
     @Throws(Exception::class)
     suspend fun getType(): UpdateType = getUpdateType().getOrThrow()
 

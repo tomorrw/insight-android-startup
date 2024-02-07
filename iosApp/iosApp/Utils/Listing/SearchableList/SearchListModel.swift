@@ -8,7 +8,7 @@
 
 import shared
 
-struct SearchCategory: Hashable, Equatable, Comparable, Identifiable {
+struct SearchCategory:  Equatable, Comparable, Identifiable {
     static func < (lhs: SearchCategory, rhs: SearchCategory) -> Bool {
         return lhs.text == rhs.text
     }
@@ -28,19 +28,31 @@ struct SearchCategory: Hashable, Equatable, Comparable, Identifiable {
     let iconImage: String?
 }
 
-struct SearchItem: Identifiable, Equatable, Hashable {
+class SearchItem: Identifiable, Equatable {
+    
+    static func == (lhs: SearchItem, rhs: SearchItem) -> Bool {
+        return lhs.id == rhs.id
+    }
+    
     let id: String
     let title: String
     let description: String
     let image: String?
     var category: SearchCategory? = nil
     
+    init(id: String, title: String, description: String, image: String?, category: SearchCategory? = nil) {
+        self.id = id
+        self.title = title
+        self.description = description
+        self.image = image
+        self.category = category
+    }
     func getSearchableString() -> String {
         return title + " " + description
     }
 }
 
-struct CategoryListItem: Hashable, Equatable, Comparable, Identifiable {
+struct CategoryListItem: Equatable, Comparable, Identifiable {
     static func < (lhs: CategoryListItem, rhs: CategoryListItem) -> Bool {
         return lhs.category == rhs.category
     }

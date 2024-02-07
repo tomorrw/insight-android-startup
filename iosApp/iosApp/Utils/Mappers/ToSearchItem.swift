@@ -16,12 +16,13 @@ extension Array where Element == Company {
 }
 
 extension Offer {
-    func toSearchItem() -> SearchItem {
-        SearchItem(
+    func toOfferSearchItem() -> OfferSearchItem {
+        OfferSearchItem(
             id: self.id,
             title: self.title,
             description: self.company.title,
-            image: self.image ?? " "
+            image: self.image ?? " ",
+            postId: self.postId
         )
     }
 }

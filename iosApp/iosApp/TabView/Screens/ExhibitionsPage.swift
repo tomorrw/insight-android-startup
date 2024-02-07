@@ -71,7 +71,7 @@ struct ExhibitionsPage: View {
                     Spacer()
                 }
             }
-            .onAppear{Task{ await vm.getConfigData() }}
+            .task{ await vm.getConfigData() }
             .padding(.horizontal)
             .frame(maxWidth: .infinity)
             .navigationBarHidden(true)

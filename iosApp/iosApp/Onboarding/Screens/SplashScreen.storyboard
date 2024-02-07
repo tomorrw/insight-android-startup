@@ -17,7 +17,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Tomorrow" highlightedImage="Tomorrow" id="UNj-0k-hNo">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Power-by-tomorrow" highlightedImage="Power-by-tomorrow" id="UNj-0k-hNo">
                                 <rect key="frame" x="140" y="765" width="112" height="53"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
@@ -37,7 +37,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Tomorrow" width="226" height="80"/>
+        <image name="Power-by-tomorrow" width="226" height="80"/>
         <image name="convenire-logo" width="454" height="86"/>
         <namedColor name="Background">
             <color red="0.93333333730697632" green="0.96078431606292725" blue="0.98823529481887817" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

@@ -10,13 +10,24 @@ import Foundation
 import shared
 import KMPNativeCoroutinesAsync
 
-class OffersPageViewModel: SearchViewModel{
-    var offerList: [Offer] = []{
-        didSet{
-            Task { await self.changeOriginalList(offerList.map{ $0.toSearchItem() })
-            }
-        }
+class OfferSearchItem: SearchItem{
+    var postId: String?
+    
+    init(
+        id: String,
+        title: String,
+        description: String,
+        image: String?,
+        category: SearchCategory? = nil,
+        postId: String?
+    ) {
+        super.init(id: id, title: title, description: description, image: image)
+        self.postId = postId
     }
+}
+
+class OffersPageViewModel: SearchViewModel{
+
     
     init() {
         super.init(list: [], searchText: "")
@@ -30,7 +41,7 @@ class OffersPageViewModel: SearchViewModel{
             let sequence = asyncSequence(for: GetOffersUseCase().getOffers())
             for try await offers in sequence {
                 self.isLoading = false
-                offerList = offers
+                self.changeOriginalList(offers.map{ $0.toOfferSearchItem() })
             }
         } catch {
             self.isLoading = false
@@ -43,15 +54,11 @@ class OffersPageViewModel: SearchViewModel{
             self.errorMessage = nil
             let sequence = asyncSequence(for: GetOffersUseCase().refresh())
             for try await offers in sequence {
-                offerList = offers
+                self.changeOriginalList(offers.map{ $0.toOfferSearchItem() })
             }
         } catch {
             self.errorMessage = (error as? KotlinThrowable)?.toUserFriendlyError() ?? "Something Went Wrong!"
         }
-    }
-    
-    func getPostId(id: String)-> String? {
-        return self.offerList.first(where: {$0.id == id})?.postId ?? nil
     }
 }
 
@@ -63,7 +70,7 @@ class ClaimedOffersPageViewModel: OffersPageViewModel{
             let sequence = asyncSequence(for: GetOffersUseCase().getClaimedOffers())
             for try await offers in sequence {
                 self.isLoading = false
-                offerList = offers
+                self.changeOriginalList(offers.map{ $0.toOfferSearchItem() })
             }
         } catch {
             self.isLoading = false
@@ -76,7 +83,7 @@ class ClaimedOffersPageViewModel: OffersPageViewModel{
             self.errorMessage = nil
             let sequence = asyncSequence(for: GetOffersUseCase().refreshClaimedOffers())
             for try await offers in sequence {
-                offerList = offers
+                self.changeOriginalList(offers.map{ $0.toOfferSearchItem() })
             }
         } catch {
             self.errorMessage = (error as? KotlinThrowable)?.toUserFriendlyError() ?? "Something Went Wrong!"

@@ -18,7 +18,9 @@ struct ClaimedOffersPage: View {
             showSeperators: false,
             itemDetailPage: { item in
                 VStack{
-                    if let postId = vm.getPostId(id: item.id) {
+                    if let offerPost = item as? OfferSearchItem,
+                       let postId = offerPost.postId
+                    {
                         PostDetailPage(id: postId)
                     }
                     else {

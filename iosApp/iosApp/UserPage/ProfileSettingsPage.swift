@@ -8,6 +8,7 @@
 
 import SwiftUI
 import Resolver
+import shared
 
 struct ProfileSettingsPage: View {
     @InjectedObject var authViewModel: AuthenticationViewModel
@@ -38,7 +39,7 @@ struct ProfileSettingsPage: View {
             
             Section {
                 Button {
-                    if let url = URL(string: "https://api.convenire.app/request-account-deletion") {
+                    if let url = URL(string: "\(Constants.shared.PRODUCTION_API_BASE_URL)/request-account-deletion") {
                         UIApplication.shared.open(url)
                     }
                 } label: {

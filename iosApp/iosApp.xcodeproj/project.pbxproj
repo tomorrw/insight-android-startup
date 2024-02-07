@@ -322,14 +322,14 @@
 			path = AppStore;
 			sourceTree = "<group>";
 		};
-		4C64DE852B3D8349001E1B17 /* Conference */ = {
+		4C64DE852B3D8349001E1B17 /* Ticket */ = {
 			isa = PBXGroup;
 			children = (
 				4C64DE862B3D8380001E1B17 /* TicketViewModel.swift */,
 				4CD5E1C12B4C3121006903AB /* ConfigViewModel.swift */,
 				4CBA63D12B6BA6FE003139BF /* MyQrPresentationModel.swift */,
 			);
-			path = Conference;
+			path = Ticket;
 			sourceTree = "<group>";
 		};
 		4C64DE882B3DAEAE001E1B17 /* Extension */ = {
@@ -491,7 +491,7 @@
 				B33C9CDD2A155B9400BC7571 /* Questions */,
 				B37D14CF29C9EE8600BA4E39 /* DependencyInjection */,
 				B37D14AE29C9DDDE00BA4E39 /* Utils */,
-				4C64DE852B3D8349001E1B17 /* Conference */,
+				4C64DE852B3D8349001E1B17 /* Ticket */,
 				B37D14BF29C9E68100BA4E39 /* Authentication */,
 				B556745629FA7FDA001B7B79 /* Sessions */,
 				B556745129FA7ED2001B7B79 /* Categories */,

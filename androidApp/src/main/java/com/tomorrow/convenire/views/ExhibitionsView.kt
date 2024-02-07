@@ -72,7 +72,7 @@ fun ExhibitionsView() = PageHeaderLayout(
                 subtitle = "Explore the diversity of products at our conference"
             )
 
-            if (configuration?.showExhibitionOffers == true) {
+            if (configuration?.showExhibitionOffers == false) {
                 DefaultCardDisplay(
                     painter = painterResource(id = R.mipmap.ic_offers_foreground),
                     onClick = { navController.navigate(AppRoute.OffersAndDeals.generate()) },
