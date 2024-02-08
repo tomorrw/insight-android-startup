@@ -13,7 +13,7 @@ data class Event(
     val speakers: List<Speaker>,
     val location: String,
     val hasAttended: Boolean = false,
-    val color: Color,
+    val color: Color? = null,
     val isNow: Boolean = false
 )
 

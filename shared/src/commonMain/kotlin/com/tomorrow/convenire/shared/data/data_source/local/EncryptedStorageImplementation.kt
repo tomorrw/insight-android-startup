@@ -4,6 +4,7 @@ import com.russhwolf.settings.ObservableSettings
 import com.russhwolf.settings.set
 import com.tomorrow.convenire.shared.data.data_source.model.UserDTO
 import com.tomorrow.convenire.shared.di.BearerTokensContainer
+import com.tomorrow.convenire.shared.domain.model.ColorTheme
 import io.ktor.client.plugins.auth.providers.BearerTokens
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.encodeToString
@@ -29,6 +30,10 @@ class EncryptedStorageImplementation(
             encryptedSettings[USER] = json.encodeToString(value)
         }
 
+    override var colorTheme: ColorTheme?
+        get() = encryptedSettings.getStringOrNull(COLOR_THEME).toColorTheme()
+        set(value) { encryptedSettings[COLOR_THEME] = value.toString() }
+
     override var fcmToken: String?
         get() = encryptedSettings.getStringOrNull(FCM_TOKEN)
         set(value) { encryptedSettings[FCM_TOKEN] = value ?: "" }
@@ -44,14 +49,20 @@ class EncryptedStorageImplementation(
             this.refreshToken
         )
 
-    private fun String?.toUserDTO(): UserDTO? = if (this != null && this.isNotBlank()) try {
+    private fun String?.toUserDTO(): UserDTO? = if (!this.isNullOrBlank()) try {
         json.decodeFromString<UserDTO>(this)
     } catch (e: Exception) {
         null
     } else null
 
+    private fun String?.toColorTheme(): ColorTheme? = if (!this.isNullOrBlank()) try {
+        json.decodeFromString<ColorTheme>(this)
+    } catch (e: Exception) {
+        null
+    } else null
+
     private fun String?.toBearerTokens(): BearerTokens? =
-        if (this != null && this.isNotBlank()) try {
+        if (!this.isNullOrBlank()) try {
             json.decodeFromString<BearerTokenSerializable>(this).toBearerTokens()
         } catch (e: Exception) {
             null
@@ -62,6 +73,7 @@ class EncryptedStorageImplementation(
         const val SETTING_NAME = "ENCRYPTED_SETTING"
         const val TOKEN_NAME = "TOKEN"
         const val USER = "USER"
+        const val COLOR_THEME = "COLOR_THEME"
         const val FCM_TOKEN = "FCM_TOKEN"
     }
 }

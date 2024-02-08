@@ -8,6 +8,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCompositionContext
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
@@ -69,9 +71,10 @@ fun SpeakerDetailView(id: String) {
                 }
             }
         ) {
+            val surfaceColor = MaterialTheme.colorScheme.surface
             speakerDetail.detailPages.getDataIfLoaded()?.let {
                 val pages =
-                    remember(it) { derivedStateOf { it.map { page -> page.toPageUi() } } }
+                    remember(it) { derivedStateOf { it.map { page -> page.toPageUi(surfaceColor) } } }
                 if (pages.value.isNotEmpty())
                     PageTabDisplay(pages.value)
                 else GeneralError(

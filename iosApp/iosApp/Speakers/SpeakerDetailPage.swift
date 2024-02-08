@@ -16,7 +16,11 @@ struct SpeakerDetailPage: View {
     }
     
     var body: some View {
-        DetailPage(vm: vm)
+        DetailPage(
+            vm: vm,
+            customHeader: { SocialLinksDisplay(socialLinks: vm.socialLinks) },
+            customBody: { PageTabDisplayView(pages: $vm.pages) }
+        )
             .navigationBarTitleDisplayMode(.inline)
             .background(Color("Background"))
     }

@@ -9,26 +9,17 @@
 import Foundation
 import shared
 
-class DetailPageViewModel: ObservableObject {
-    var subjectId: String = ""
+class DetailPageViewModel: ObservableObject {    
     @Published var image: String = ""
     @Published var imagePinIcon: String? = nil
     @Published var infoImage: String = ""
     @Published var title: String = ""
     @Published var description: String = ""
-    @Published var sections: [SectionDisplayInfo] = []
+    @Published var pages: [PagePresentationModel] = []
     @Published var headerDesign: HeaderDesign = .contact
     @Published var errorMessage: String? = nil
     @Published var isLoading: Bool = false
-    @Published var socialLinks: [SocialLink]? = nil
-    @Published var timeInterval: String = ""
-    @Published var location: String = ""
-    @Published var date: String = ""
-    @Published var canAskQuestions: Bool = false
-    @Published var hasAttended: Bool = false
-    @Published var action: [Action] = []
-    @Published var attendees: String = ""
-
+        
     enum HeaderDesign {
         case contact
         case detailPage
@@ -77,4 +68,13 @@ enum SectionDisplayInfo: Hashable, Identifiable {
     case video(VideoContent)
     case sessions(EventContent)
     case speakers(SpeakersContent)
+}
+
+
+struct PagePresentationModel: Hashable, Identifiable {
+    var id: Self {
+        return self
+    }
+    var title: String
+    var sections: [SectionDisplayInfo]
 }

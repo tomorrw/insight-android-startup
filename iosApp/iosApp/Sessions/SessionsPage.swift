@@ -35,6 +35,7 @@ struct SessionsPage: View {
                                 .foregroundColor(info.isEnabled ? Color("Default") : Color("Dark"))
                         )
                     }
+                    .buttonStyle(.plain)
                     
                     if vm.datesDisplayed.count - 1 != i { Spacer().frame(width: 20) }
                 }
@@ -63,6 +64,15 @@ struct SessionsPage: View {
                 }
                 .frame(maxHeight: .infinity)
                 .padding(.vertical, 24)
+            } else if vm.sessionsDisplayed.isEmpty {
+                EmptyStateView (
+                    title: "Nothing here.",
+                    text: "Stay tuned for more!",
+                    buttonText: "Reload",
+                    buttonAction: {
+                        Task { await vm.refresh() }
+                    }
+                )
             } else {
                 ScrollView {
                     HStack{

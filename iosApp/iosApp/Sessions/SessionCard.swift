@@ -11,6 +11,17 @@ import shared
 import KMPNativeCoroutinesAsync
 import Firebase
 
+
+struct SessionCardColors{
+    var primaryText: Color = Color("Primary")
+    var secondaryText: Color = Color("Secondary")
+    var highlightedText: Color = Color("HighlightPrimary")
+    var icons: Color = Color("Primary")
+    var background: Color = Color("Default")
+    var firstTag: TextTagColor = TextTagColor()
+    var secondaryTag: TextTagColor = TextTagColor(textColor: Color("Default"),background: .accentColor)
+}
+
 struct SessionCard: View {
     let session: Session
     var date: String = ""
@@ -18,6 +29,7 @@ struct SessionCard: View {
     @State var isConfirmBookmarkDisplayed: Bool = false
     @State var shouldNotify: Bool = true
     @State var overlappingLectureName: String? = nil
+    @Environment(\.sessionCardColors) var colors: SessionCardColors
     
     var confirmBookmarkDescription: String {
         if let lectureName = overlappingLectureName {
@@ -43,7 +55,7 @@ struct SessionCard: View {
             HStack(alignment: .top) {
                 Text(session.getTimeInterval())
                     .font(.system(size: 14))
-                    .foregroundColor(Color("HighlightPrimary"))
+                    .foregroundColor(colors.highlightedText)
                     .padding(.top)
                     .padding(.leading)
                 
@@ -61,7 +73,7 @@ struct SessionCard: View {
                     Image(systemName: shouldNotify ? "bookmark.fill": "bookmark")
                         .resizable()
                         .frame(width: 14, height: 20)
-                        .foregroundColor(.accentColor)
+                        .foregroundColor(colors.icons)
                 }
                 .frame(width: 50, height: 38)
                 .padding(.top, 6)
@@ -83,57 +95,54 @@ struct SessionCard: View {
                 Group {
                     HStack {
                         Image(systemName: "location")
-                            .foregroundColor(Color("Primary"))
+                            .foregroundColor(colors.icons)
                         Text(session.location)
                             .multilineTextAlignment(.leading)
                     }
                     
                     HStack {
                         Image(systemName: "calendar")
-                            .foregroundColor(Color("Primary"))
+                            .foregroundColor(colors.icons)
                         Text(date)
+                        
+                        Spacer()
+                        
+                        if session.isSessionHappeningNow() && session.speakers.isEmpty {
+                            TextTag(text: "NOW", colors: colors.secondaryTag)
+                        }
                     }
                 }
                 .padding(.bottom, 4)
-                .foregroundColor(Color("Secondary"))
+                .foregroundColor(colors.secondaryText)
                 .font(.system(size: 14))
                 
                 HStack {
-                    if let speaker = session.speakers.first {
-                        NavigateTo {
-                            SpeakerDetailPage(id: speaker.id)
-                        } label: {
-                            HStack {
-                                UrlImageView(urlString: speaker.nationality?.url)
-                                    .scaledToFill()
-                                    .clipShape(Circle())
-                                    .frame(width: 18, height: 18)
-                                Text(speaker.getFullName())
-                                    .font(.system(size: 16))
+                    if !session.speakers.isEmpty {
+                        ForEach(session.speakers) { speaker in
+                            NavigateTo {
+                                SpeakerDetailPage(id: speaker.id)
+                            } label: {
+                                HStack {
+                                    UrlImageView(urlString: speaker.nationality?.url)
+                                        .scaledToFill()
+                                        .clipShape(Circle())
+                                        .frame(width: 18, height: 18)
+                                    Text(speaker.getFullName())
+                                        .font(.system(size: 16))
+                                }
                             }
-                        }
+                            
+                            if session.speakers.last == speaker {
+                                Spacer()
                                 
-                        Spacer()
-                        
-                        if session.hasAttended {
-                            Text("ATTENDED")
-                                .font(.system(size: 14))
-                                .padding(5)
-                                .background(
-                                    RoundedRectangle(cornerRadius: 8)
-                                        .foregroundColor(Color("ColoredDefault"))
-                                )
-                        }
-                        
-                        if session.isSessionHappeningNow() {
-                            Text("NOW")
-                                .font(.system(size: 14))
-                                .foregroundColor(.white)
-                                .padding(5)
-                                .background(
-                                    RoundedRectangle(cornerRadius: 8)
-                                        .foregroundColor(.accentColor)
-                                )
+                                if session.hasAttended {
+                                    TextTag(text: "ATTENDED", colors: colors.firstTag)
+                                }
+                                
+                                if session.isSessionHappeningNow() {
+                                    TextTag(text: "NOW", colors: colors.secondaryTag)//color secondary
+                                }
+                            }
                         }
                     }
                 }
@@ -142,8 +151,9 @@ struct SessionCard: View {
             .padding(.horizontal)
             .padding(.bottom)
         }
+        .foregroundColor(colors.primaryText)
         .frame(maxWidth: .infinity)
-        .background(.white)
+        .background(colors.background)
         .clipShape(RoundedRectangle(cornerRadius: 16))
         .onAppear {
             self.checkIfShouldNotify()

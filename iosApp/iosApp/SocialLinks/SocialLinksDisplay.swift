@@ -42,6 +42,7 @@ struct SocialLinksDisplay: View {
                                 }
                             }
                             .disabled(link.getUrl() == nil)
+                            .buttonStyle(.plain)
                             .foregroundColor(link.getUrl() == nil ? Color("OnSurface-Secondary") : Color("Primary"))
                         }
                         .frame(width: 26)

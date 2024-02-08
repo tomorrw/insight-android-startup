@@ -35,8 +35,7 @@ import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
 
 class NewsArticleViewModel(id: String) :
-    ReadViewModel<Post>(load = { GetPostByIdUseCase().getPost(id) }) {
-}
+    ReadViewModel<Post>(load = { GetPostByIdUseCase().getPost(id) })
 
 @Composable
 fun PostView(id: String) {

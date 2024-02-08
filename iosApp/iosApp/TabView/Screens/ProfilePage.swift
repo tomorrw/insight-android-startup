@@ -31,16 +31,20 @@ struct ProfilePage: View {
                 
                 ScrollView{
                     VStack(spacing: 16) {
-                        NavigateTo(destination: { ProfileSettingsPage() }) {
+                        NavigateTo(destination: { 
+                            ProfileSettingsPage()
+                                .navigationTitle("Profile Settings")
+                                .navigationBarTitleDisplayMode(.inline)
+                        }) {
                             HighlightedCard(
                                 image: "",
-                                title: authViewModel.user?.getFullName() ?? "",
+                                title: authViewModel.user?.getFormattedName() ?? "User",
                                 description: authViewModel.user?.phoneNumber.number ?? ""
                             )
                         }
                         .padding(.top, 10)
                         
-                        CircularProgressView(progress: Double((authViewModel.user?.league.percentage) == 0 ? 0.01 : authViewModel.user?.league.percentage ?? 0), color: Color(hex: "\(authViewModel.user?.league.color ?? "ffffff")"))
+                        CircularProgressView(progress: Double((authViewModel.user?.league.percentage) == 0 ? 0.01 : authViewModel.user?.league.percentage ?? 0), color: Color(hex: "\(authViewModel.user?.league.color ?? "Default")"))
                             .padding(.all, 25)
                             .overlay(alignment: .center) {
                                 VStack {
@@ -53,12 +57,13 @@ struct ProfilePage: View {
                                         .multilineTextAlignment(.center)
                                 }
                             }
-                            .background { Circle().fill(Color.white) }
+                            .background { Circle().fill(Color("Default")) }
                             .frame(width: 320, height: 320)
+                            .padding(.top,20)
                         
                         if let leagueName = authViewModel.user?.league.name {
                             Text(leagueName)
-                                .foregroundColor(Color(hex: "\(authViewModel.user?.league.color ?? "ffffff")"))
+                                .foregroundColor(Color(hex: "\(authViewModel.user?.league.color ?? "Background")"))
                                 .font(.system(size: 22))
                                 .fontWeight(.bold)
                         }
@@ -67,6 +72,7 @@ struct ProfilePage: View {
                         
                         
                         ActionButtons(actions: authViewModel.user?.actions ?? [] )
+                            .buttonStyle(.plain)
                     }
                     .padding(.horizontal)
                     .padding(.bottom)

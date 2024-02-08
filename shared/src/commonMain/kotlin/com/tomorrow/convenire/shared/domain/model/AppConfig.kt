@@ -2,5 +2,7 @@ package com.tomorrow.convenire.shared.domain.model
 
 class AppConfig(
     val version: String,
-    val platform: AppPlatform
+    val name: String,
+    val platform: AppPlatform,
+    val updateUrl: String?,
 )

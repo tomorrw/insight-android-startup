@@ -31,7 +31,7 @@ import java.util.*
 @Composable
 fun EntityDetailHeaderLayout(
     title: String,
-    subtitle: String,
+    subtitle: String?,
     image: String,
     socialLinks: List<SocialLink>?,
     decorativeIcon: (@Composable () -> Unit)? = null,
@@ -111,12 +111,13 @@ fun EntityDetailHeaderLayout(
                     .padding(start = 21.dp)
             )
         }
-
-        Text(
-            text = subtitle,
-            style = MaterialTheme.typography.bodyLarge.copy(color = MaterialTheme.colorScheme.onSurfaceVariant),
-            textAlign = TextAlign.Center
-        )
+        subtitle?.let{
+            Text(
+                text = it,
+                style = MaterialTheme.typography.bodyLarge.copy(color = MaterialTheme.colorScheme.onSurfaceVariant),
+                textAlign = TextAlign.Center
+            )
+        }
 
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
             socialLinks?.let {
