@@ -50,21 +50,15 @@ fun PageHeaderLayout(
 
             Column {
                 title?.let {
-                    Row(
-                        Modifier.fillMaxWidth(),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        Text(text = it, style = MaterialTheme.typography.headlineSmall)
-
-                        AppSeparator(Modifier.width(72.dp))
-                    }
+                    Text(
+                        text = it,
+                        style = if(onBackPress == null) MaterialTheme.typography.headlineSmall else MaterialTheme.typography.titleLarge
+                    )
                 }
                 subtitle?.let {
                     Text(
-                        modifier = Modifier.padding(top = 7.dp),
                         text = it,
-                        style = MaterialTheme.typography.titleMedium.copy(color = Color(0xFF6594BD))
+                        style = MaterialTheme.typography.titleMedium.copy(color = MaterialTheme.colorScheme.secondary)
                     )
                 }
             }

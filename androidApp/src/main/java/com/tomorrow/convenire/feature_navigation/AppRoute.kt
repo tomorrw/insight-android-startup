@@ -222,7 +222,7 @@ sealed class AppRoute(
     )
 
     object Speakers : AppRoute(
-        path = "speakers",
+        path = "lectures/speakers",
         component = { SpeakersView() },
         shouldDisplayBottomBar = true
     )

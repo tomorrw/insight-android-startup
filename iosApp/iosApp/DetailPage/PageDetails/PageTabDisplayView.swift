@@ -19,26 +19,31 @@ struct PageTabDisplayView: View {
         if !pages.isEmpty {
             VStack{
                 TabsHeader(selectedPage: $currentPage, Pages: pages)
-                if currentPage != nil {
-                    ForEach(currentPage!.sections) { section in
-                        SectionDisplayPage(section: section)
-                            .frame(maxHeight: .infinity)
-                            .environment(\.sessionCardColors, SessionCardColors(background: Color("Background")))
-                            .padding(.horizontal)
-                            .padding(.bottom, 30)
-                    }
-                }
-                else{
-                    Spacer()
-                        .onAppear{
-                            currentPage = pages.first?.id
+                
+                GeometryReader { geometry in
+                    ScrollView{
+                        if currentPage != nil {
+                            ForEach(currentPage!.sections) { section in
+                                SectionDisplayPage(section: section)
+                                    .environment(\.sessionCardColors, SessionCardColors(background: Color("Background")))
+                                    .padding(.horizontal)
+                                    .padding(.bottom, 30)
+                            }
                         }
+                        else{
+                            Spacer()
+                                .onAppear{
+                                    currentPage = pages.first?.id
+                                }
+                        }
+                        
+                    }
                 }
             }
             .background(Color("Default"))
             .cornerRadius(20, corners: [.topLeft, .topRight])
             .onChange(of: pages) { newPages in
-                currentPage = newPages.first?.id 
+                currentPage = newPages.first?.id
             }
             .gesture(horizontalDrag(next: { currentPage = pages[nextPage(1)] }, previous: {currentPage = pages[nextPage(-1)]}))
         }
@@ -82,10 +87,9 @@ struct TabsHeader: View{
                         .animation(.spring(), value: self.selectedPage)
                     }
                     
-                    Spacer()
                 })
                 .buttonStyle(.plain)
-                .padding(.vertical)
+                .padding(.top)
             }
             
         }

@@ -132,7 +132,7 @@ struct HomePage: View {
                                 !posts.isEmpty
                             {
                                 VStack(alignment: .leading, spacing: 16) {
-                                    Text("Posts")
+                                    Text("Updates")
                                         .font(.system(size: 20, weight: .medium))
                                     
                                     PostsView(posts: posts)

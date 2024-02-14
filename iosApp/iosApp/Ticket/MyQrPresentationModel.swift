@@ -8,22 +8,18 @@
 
 import shared
 
-class MyQrPresentationModel: ObservableObject{
+class MyQrPresentationModel{
     @Published var userName: String? = nil
-    @Published var qrCodeString: String? = nil
-    private var user: User? = nil{
+    @Published var qrCodeString: String = "No user"
+    var user: User? = nil{
         didSet{
             self.userName = user?.getFormattedName()
-            self.qrCodeString = user?.generateQrCodeString()
+            self.qrCodeString = user?.generateQrCodeString() ?? "No user"
         }
     }
     
-    func loadUser(_ user: User? = nil) {
+    func loadUser(_ user: User) {
         self.user = user
-    }
-    
-    func generateQrCode(){
-        self.qrCodeString = user?.generateQrCodeString()
     }
 }
 

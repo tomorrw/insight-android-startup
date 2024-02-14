@@ -13,7 +13,7 @@ import KMPNativeCoroutinesAsync
 import Firebase
 
 class TicketViewModel: ObservableObject {
-    var pageData: MyQrPresentationModel = MyQrPresentationModel()
+    @Published var pageData: MyQrPresentationModel = MyQrPresentationModel()
     @Published var errorMessage: String? = ""
     
     init() {
