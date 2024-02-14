@@ -24,7 +24,7 @@ data class User(
         .joinToString(" ") { name -> name.replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() } }
 
     fun getFormattedName() = if (salutation == Salutation.None) getFullName()
-    else "${salutation.getAsString()} ${getFullName()}"
+    else "${salutation.getAsString()}. ${getFullName()}"
 
     @Serializable
     private class QrCodeContent(
