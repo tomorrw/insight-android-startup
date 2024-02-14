@@ -18,10 +18,6 @@ struct ProfileSettingsPage: View {
     
     @AppStorage("selectedColorTheme") private var selectedColorTheme = "Auto"
 
-    init(){
-        UITableView.appearance().backgroundColor = .clear
-    }
-    
     var body: some View {
         Form{
             
