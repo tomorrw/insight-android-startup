@@ -16,8 +16,12 @@ struct CompanyPage: View {
     }
     
     var body: some View {
-        DetailPage(vm: vm)
-            .navigationBarTitleDisplayMode(.inline)
-            .background(Color("Background"))
+        DetailPage(
+            vm: vm,
+            customHeader: { SocialLinksDisplay(socialLinks: vm.socialLinks) },
+            customBody: { PageTabDisplayView(pages: $vm.pages) }
+        )
+        .navigationBarTitleDisplayMode(.inline)
+        .background(Color("Background"))
     }
 }

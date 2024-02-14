@@ -23,7 +23,6 @@ struct MyQrPage: View {
     
     let timer = Timer.publish(every: 30, on: .main, in: .common).autoconnect()
     
-    
     var body: some View {
         NavigationPages() {
             
@@ -32,7 +31,7 @@ struct MyQrPage: View {
                     VStack(alignment: .leading) {
                         Text("My QR")
                             .font(.system(size: 24, weight: .bold))
-                        Text("Welcome back \(ticketViewModel.user?.getFormattedName() ?? "")")
+                        Text("Welcome back \(ticketViewModel.pageData.userName ?? "")")
                             .foregroundColor(Color("Secondary"))
                     }
                     Spacer()
@@ -41,32 +40,34 @@ struct MyQrPage: View {
                 
                 Spacer()
                 
-                if ticketViewModel.showTicket {
+                if let ticket = ticketViewModel.pageData as? TicketPresentationModel {
                     VStack(spacing: 0) {
                         VStack(spacing: 0) {
                             HStack(spacing: 0) {
-                                Text(ticketViewModel.name)
-                                    .font(.custom("SF-Mono", size: ticketViewModel.subText != nil ? 16 : 20))
+                                Text(ticket.leftTitle)
+                                    .font(.custom("SF-Mono", size: ticket.rightTitle != nil ? 16 : 20))
                                     .kerning(4)
-                                if let subTitle = ticketViewModel.subText {
+                                
+                                if let rightTitle = ticket.rightTitle {
                                     Spacer()
-                                    Text("\(String(subTitle.dropLast()))")
+                                    Text("\(String(rightTitle.dropLast()))")
                                         .font(.custom("SF-Mono", size: 16))
                                         .kerning(4)
                                     
-                                    Text(String(subTitle.last!))
+                                    Text(String(rightTitle.last!))
                                         .font(.custom("SF-Mono", size: 16))
                                 }
                             }
                             .foregroundColor(Color("HighlightPrimary"))
-                            if ticketViewModel.hasDate {
+                            
+                            if let subTitle = ticket.subText {
                                 HStack {
-                                    ForEach(ticketViewModel.date!.indices, id: \.self) { item in
+                                    ForEach(subTitle.indices, id: \.self) { item in
                                         if item != 0 {
                                             Spacer()
                                         }
                                         
-                                        Text(ticketViewModel.date![item])
+                                        Text(subTitle[item])
                                             .foregroundColor(Color("Secondary"))
                                             .font(.system(size: 16))
                                     }
@@ -76,23 +77,21 @@ struct MyQrPage: View {
                         .padding(24)
                         
                         Button {
-                            withAnimation(.linear(duration: 0.6)) {
-                                DispatchQueue.main.async {
-                                    Task{ await ticketViewModel.getUser()
-                                     await ticketViewModel.getTicketData() }
-                                }
-                            }
+                            withAnimation(.linear(duration: 0.6)) { ticketViewModel.getData() }
                         } label: {
                             Image(uiImage: qrImage)
                                 .resizable()
+                                .renderingMode(.template)
+                                .colorMultiply(Color("Primary"))
                                 .frame(width: 175, height: 175)
                                 .padding(.bottom, 24)
                         }
+                        .buttonStyle(.plain)
                         
                         VStack(spacing: 4) {
-                            Text("\(ticketViewModel.user?.getFormattedName() ?? "")")
+                            Text("\(ticketViewModel.pageData.userName ?? "")")
                                 .font(.system(size: 20))
-                            if let status = ticketViewModel.ticketStatus {
+                            if let status = ticket.ticketStatus {
                                 Text(status)
                                     .font(.custom("IBMPlexMono-Regular", size: 20))
                                     .kerning(5)
@@ -121,7 +120,7 @@ struct MyQrPage: View {
                         .frame(maxWidth: .infinity)
                         .padding(.bottom, 8)
                         
-                        Text(ticketViewModel.description)
+                        Text(ticket.description)
                             .font(.system(size: 14))
                             .lineLimit(3)
                             .multilineTextAlignment(.center)
@@ -135,23 +134,21 @@ struct MyQrPage: View {
                             .foregroundColor(Color("Default"))
                     }
                     .padding(.horizontal, 16)
-                } else {
-                    
+                } 
+                if let emptyTicketInfo = ticketViewModel.pageData as? EmptyTicketPresentationModel {
                     Button {
-                        withAnimation(.linear(duration: 0.6)) {
-                            DispatchQueue.main.async {
-                                Task{ await ticketViewModel.getUser()
-                                 await ticketViewModel.getTicketData() }
-                            }
-                        }
+                        withAnimation(.linear(duration: 0.6)) { ticketViewModel.getData() }
                     } label: {
                         Image(uiImage: qrImage)
                             .resizable()
+                            .renderingMode(.template)
+                            .colorMultiply(Color("Primary"))
                             .frame(width: 175, height: 175)
                             .padding(.bottom, 24)
                     }
+                    .buttonStyle(.plain)
                     
-                    Text(ticketViewModel.description)
+                    Text(emptyTicketInfo.description)
                         .font(.system(size: 16))
                         .lineLimit(3)
                         .multilineTextAlignment(.center)
@@ -170,8 +167,8 @@ struct MyQrPage: View {
                         }
                         isDisplayingError = true
                     })
-                    .onReceive(ticketViewModel.$user) { user in
-                        qrImage = (user?.generateQrCodeString() ?? "Not valid").qrImage
+                    .onReceive(ticketViewModel.pageData.$qrCodeString) { qrString in
+                        qrImage = (qrString ?? "Not valid").qrImage
                     }
             }
             .onReceive(ticketViewModel.$websocketMessage, perform: { newMsg in
@@ -194,7 +191,8 @@ struct MyQrPage: View {
                 }
             }
             .onReceive(timer, perform: { _ in
-                qrImage = (ticketViewModel.user?.generateQrCodeString() ?? "Not valid").qrImage
+                ticketViewModel.pageData.generateQrCode()
+                qrImage = (ticketViewModel.pageData.qrCodeString ?? "Not valid").qrImage
             })
             .onAppear{
                 ticketViewModel.startListening()
@@ -202,6 +200,7 @@ struct MyQrPage: View {
             .onDisappear{
                 ticketViewModel.stopListening()
             }
+            .onAppear{ ticketViewModel.getData() }
             .navigationTitle("My QR")
             .frame(maxWidth: .infinity)
             .navigationBarHidden(true)
@@ -232,12 +231,7 @@ private extension String {
                 let maskFilter = CIFilter.blendWithMask()
                 maskFilter.maskImage = outputImage.applyingFilter("CIColorInvert")
                 maskFilter.inputImage = CIImage(
-                    color: CIColor(color: UIColor(
-                        red: 0.06,
-                        green: 0.24,
-                        blue: 0.4,
-                        alpha: 1.0
-                    )))
+                    color: CIColor(color: .white))
                 
                 let ciImage = maskFilter.outputImage!
                 qrImage = context.createCGImage(ciImage, from: ciImage.extent).map(UIImage.init)!

@@ -59,7 +59,7 @@ fun OffersAndDeals() {
                     .heightIn(min = 50.dp),
                 onClick = { navController.navigate(AppRoute.ClaimedOffers.path) },
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0XFFE0ECF9),
+                    containerColor = MaterialTheme.colorScheme.onSecondary,
                     contentColor = MaterialTheme.colorScheme.primary,
                 ),
                 shape = RoundedCornerShape(8.dp)

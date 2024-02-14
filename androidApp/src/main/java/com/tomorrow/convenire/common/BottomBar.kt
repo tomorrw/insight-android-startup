@@ -69,7 +69,7 @@ fun BottomBar(isVisible: Boolean) {
                         .padding(horizontal = 8.dp)
                         .padding(bottom = 8.dp)
                         .clip(MaterialTheme.shapes.medium),
-                    containerColor = MaterialTheme.colorScheme.surface
+                    containerColor = androidx.compose.material.MaterialTheme.colors.background
                 ) {
                     screens.forEach { item ->
                         NavigationBarItem(
@@ -97,7 +97,7 @@ fun BottomBar(isVisible: Boolean) {
                             colors = NavigationBarItemDefaults.colors(
                                 selectedIconColor = MaterialTheme.colorScheme.primary,
                                 selectedTextColor = MaterialTheme.colorScheme.secondary,
-                                indicatorColor = Color(0xFFFFFFFF),
+                                indicatorColor = MaterialTheme.colorScheme.background,
                                 unselectedIconColor = MaterialTheme.colorScheme.primary,
                                 unselectedTextColor = MaterialTheme.colorScheme.secondary,
                             )

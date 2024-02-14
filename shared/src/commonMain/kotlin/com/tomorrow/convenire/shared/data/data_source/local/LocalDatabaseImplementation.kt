@@ -49,6 +49,7 @@ class LocalDatabaseImplementation(
         }
     }
 
+
     override suspend fun replaceSpeakers(apiResult: List<SpeakerDTO>) {
         realm.write { copyToRealm(apiResult.toRealm(), UpdatePolicy.ALL) }
     }
@@ -62,7 +63,7 @@ class LocalDatabaseImplementation(
             var updatedAt: RealmInstant? = null
             getRealmSessions().find { updatedAt = it?.updatedAt }
 
-            copyToRealm(((getSessions()?.filter { it.id != session.id }
+            copyToRealm(((getSessions().getOrNull()?.filter { it.id != session.id }
                 ?: listOf()) + session).toRealm(updatedAt), UpdatePolicy.ALL)
         }
     }
@@ -75,16 +76,26 @@ class LocalDatabaseImplementation(
         realm.write { copyToRealm(apiResult.toRealm(), UpdatePolicy.ALL) }
     }
 
-    override fun getSpeakers(): List<SpeakerDTO>? = getRealmSpeakers().find()?.toDTO()
+    override fun getSpeakers(): Result<List<SpeakerDTO>> =
+        getRealmSpeakers().find()?.toDTO()?.let { Result.success(it) }
+            ?: Result.failure(Exception("No Speakers found"))
 
 
-    override fun getSessions(): List<SessionDTO>? = getRealmSessions().find()?.toDTO()
+    override fun getSessions(): Result<List<SessionDTO>> =
+        getRealmSessions().find()?.toDTO()?.let { Result.success(it) }
+            ?: Result.failure(Exception("No Sessions found"))
 
 
-    override fun getCompanies(): List<CompanyDTO>? = getRealmCompanies().find()?.toDTO()
+    override fun getCompanies(): Result<List<CompanyDTO>> =
+        getRealmCompanies().find()?.toDTO()?.let { Result.success(it) } ?: Result.failure(
+            Exception("No Companies found")
+        )
 
 
-    override fun getHomeResponse(): HomeDataDTO? = getRealmHomeResponse().find()?.toDTO()
+    override fun getHomeResponse(): Result<HomeDataDTO> =
+        getRealmHomeResponse().find()?.toDTO()?.let { Result.success(it) } ?: Result.failure(
+            Exception("No Home Response found")
+        )
 
     override fun isBookmarked(id: String): Boolean =
         realm.query<ShouldNotify>("id = $0", id).first().find()?.isEnabled ?: false
@@ -117,16 +128,16 @@ class LocalDatabaseImplementation(
         }
     }
 
-    override suspend fun lastUpdatedSpeakers(): Instant? =
+    override fun lastUpdatedSpeakers(): Instant? =
         getRealmSpeakers().find()?.updatedAt?.toInstant()
 
-    override suspend fun lastUpdatedSessions(): Instant? =
+    override fun lastUpdatedSessions(): Instant? =
         getRealmSessions().find()?.updatedAt?.toInstant()
 
-    override suspend fun lastUpdatedCompanies(): Instant? =
+    override fun lastUpdatedCompanies(): Instant? =
         getRealmCompanies().find()?.updatedAt?.toInstant()
 
-    override suspend fun lastUpdatedHomeResponse(): Instant? =
+    override fun lastUpdatedHomeResponse(): Instant? =
         getRealmHomeResponse().find()?.updatedAt?.toInstant()
 
     override suspend fun clearData() = realm.write {

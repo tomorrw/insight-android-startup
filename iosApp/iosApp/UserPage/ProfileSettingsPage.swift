@@ -8,76 +8,79 @@
 
 import SwiftUI
 import Resolver
+import shared
 
 struct ProfileSettingsPage: View {
     @InjectedObject var authViewModel: AuthenticationViewModel
+    
     @State var islogoutConfirmationDisplayed = false
     @State private var isDisplayingError = false
     
-    var body: some View {
-        VStack (spacing: 20){
+    @AppStorage("selectedColorTheme") private var selectedColorTheme = "Auto"
 
-            VStack (alignment: .leading) {
-                
-                Button(action: {
-                    if let url = URL(string: "https://api.convenire.app/request-account-deletion") {
+    var body: some View {
+        Form{
+            
+            Section {
+                Picker(selection: $selectedColorTheme, label: Text("Color Theme")) {
+                    ForEach(["Light", "Auto", "Dark"], id: \.self) {
+                        Text($0).tag($0)
+                    }
+                }
+                .pickerStyle(SegmentedPickerStyle())
+            } header: {
+                Text("Color Theme")
+                    .font(.custom("Outfit", size: 14))
+            } footer: {
+                Text("The Auto option means that the color theme selected will be the current one on your device.")
+                    .font(.custom("Outfit", size: 14))
+            }
+            .listRowBackground(Color.clear)
+            
+            Section {
+                Button {
+                    if let url = URL(string: "\(Constants.shared.PRODUCTION_API_BASE_URL)/request-account-deletion") {
                         UIApplication.shared.open(url)
                     }
-                }, label: {
-                    Text("Delete Account & Archive Data")
+                } label: {
+                    Label("Delete Account & Archive Data", systemImage: "trash")
+                        .font(.custom("Outfit", size: 16))
                         .foregroundColor(Color("Error"))
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .contentShape(Rectangle())
-                })
-                .padding(.horizontal)
-                .padding(.vertical, 5)
-                Divider()
-                Button(action: {
-                    self.islogoutConfirmationDisplayed = true
-                }, label: {
-                    Text("Log Out")
-                        .foregroundColor(Color("Error"))
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .contentShape(Rectangle())
-                })
-                .padding(.horizontal)
-                .padding(.vertical, 5)
-                .confirmationDialog(
-                    "Log out",
-                    isPresented: $islogoutConfirmationDisplayed
-                ) {
-                    Button("Log out", role: .destructive) { authViewModel.logout() }
-                } message: {
-                    Text("Are you sure you want to log out? all your changes will be lost.")
                 }
-                .alert("Logout Failed", isPresented: $isDisplayingError, actions: { }, message: {
-                    Text(authViewModel.errorMessage ?? "Something Went Wrong!")
-                })
-                .onReceive(authViewModel.$errorMessage, perform: { error in
-                    guard error != nil && error != "" else {
-                        isDisplayingError = false
-                        return
-                    }
-                    isDisplayingError = true
-                })
+                
+                Button {
+                    self.islogoutConfirmationDisplayed = true
+                } label: {
+                    Label("Log Out", systemImage: "rectangle.portrait.and.arrow.right")
+                        .font(.custom("Outfit", size: 16))
+                        .foregroundColor(Color("Error"))
+                }
             }
-            .frame(maxWidth: .infinity)
-            .padding(.vertical, 10)
-            .background(Color.white)
-            .clipShape(RoundedRectangle(cornerRadius: 10.0, style: .continuous))
-            .padding(.vertical)
-
-            Spacer()
+            .listRowBackground(Color("Default"))
+            
         }
-        .padding(.horizontal)
-        .padding(.bottom)
-        
         .frame(maxWidth: .infinity)
-        .navigationTitle("Profile Settings")
-        .navigationBarTitleDisplayMode(.inline)
+        .confirmationDialog(
+            "Log out",
+            isPresented: $islogoutConfirmationDisplayed
+        ) {
+            Button("Log out", role: .destructive) { authViewModel.logout() }
+        } message: {
+            Text("Are you sure you want to log out? all your changes will be lost.")
+        }
+        .alert("Logout Failed", isPresented: $isDisplayingError, actions: { }, message: {
+            Text(authViewModel.errorMessage ?? "Something Went Wrong!")
+        })
+        .onReceive(authViewModel.$errorMessage, perform: { error in
+            guard error != nil && error != "" else {
+                isDisplayingError = false
+                return
+            }
+            isDisplayingError = true
+        })
         .background(Color("Background"))
     }
-
+    
 }
 
 

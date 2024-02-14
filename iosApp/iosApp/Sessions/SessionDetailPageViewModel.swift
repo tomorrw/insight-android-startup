@@ -12,7 +12,15 @@ import KMPNativeCoroutinesAsync
 
 class SessionDetailPageViewModel: DetailPageViewModel {
     let id: String
-    
+    var subjectId: String = ""
+    @Published var timeInterval: String = ""
+    @Published var location: String = ""
+    @Published var date: String = ""
+    @Published var canAskQuestions: Bool = false
+    @Published var attendees: String = ""
+    @Published var action: [Action] = []
+    @Published var hasAttended: Bool = false
+
     init(id: String) {
         self.id = id
         super.init()
@@ -32,8 +40,7 @@ class SessionDetailPageViewModel: DetailPageViewModel {
                 self.location = data.location
                 self.headerDesign = .detailPage
                 self.image = data.image
-                self.sections = data.detailPage.getDataIfLoaded()?.mapToSectionDisplayInfo() ?? []
-                self.socialLinks = nil
+                self.pages = [data.detailPage.getDataIfLoaded()].compactMap{ $0 }.mapToPagePresentationModel()
                 self.timeInterval = data.getTimeInterval()
                 self.canAskQuestions = data.canAskQuestions
                 self.hasAttended = data.hasAttended

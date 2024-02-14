@@ -54,7 +54,7 @@ fun DefaultCardDisplay(
         Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
             Text(
                 text = title,
-                style = MaterialTheme.typography.titleMedium.copy(color = if (isHighlighted) Color.White else MaterialTheme.colorScheme.primary)
+                style = MaterialTheme.typography.titleMedium.copy(color = if (isHighlighted) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.primary)
             )
             Text(
                 text = subtitle,

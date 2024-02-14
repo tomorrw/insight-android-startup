@@ -12,7 +12,9 @@ import KMPNativeCoroutinesAsync
 
 class PostDetailPageViewModel: DetailPageViewModel {
     let id: String
-    
+    @Published var date: String = ""
+    @Published var action: [Action] = []
+
     init(id: String) {
         self.id = id
         super.init()
@@ -25,15 +27,14 @@ class PostDetailPageViewModel: DetailPageViewModel {
             self.errorMessage = nil
             let sessionSequence = asyncSequence(for: GetPostByIdUseCase().getPost(id: id))
             for try await data in sessionSequence {
-                self.isLoading = false
                 self.title = data.title
                 self.date = data.getHumanReadablePublishedAt()
                 self.description = data.description_
                 self.headerDesign = .detailPage
                 self.image = data.image ?? ""
-                self.sections = data.detailPage.getDataIfLoaded()?.mapToSectionDisplayInfo() ?? []
-                self.socialLinks = nil
+                self.pages = [data.detailPage.getDataIfLoaded()].compactMap{ $0 }.mapToPagePresentationModel()
                 self.action = data.action
+                self.isLoading = false
             }
         } catch {
             self.isLoading = false

@@ -13,7 +13,8 @@ import KMPNativeCoroutinesAsync
 
 class SpeakerDetailPageViewModel: DetailPageViewModel {
     let id: String
-    
+    @Published var socialLinks: [SocialLink] = []
+
     init(id: String) {
         self.id = id
         super.init()
@@ -40,7 +41,7 @@ class SpeakerDetailPageViewModel: DetailPageViewModel {
                 if let icon = data.nationality?.url {
                     self.imagePinIcon = icon
                 }
-                self.sections = detailPages?.compactMap { $0 as? Page }.mapToSectionDisplayInfo() ?? []
+                self.pages = detailPages?.compactMap { $0 as? Page }.mapToPagePresentationModel() ?? []
             }
         } catch {
             self.isLoading = false

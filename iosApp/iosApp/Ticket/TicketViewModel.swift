@@ -13,28 +13,14 @@ import KMPNativeCoroutinesAsync
 import Firebase
 
 class TicketViewModel: ObservableObject {
-    @Published var showTicket: Bool = true
-    @Published var hasDate: Bool = false
-    @Published var name: String = "Convenire"
-    @Published var description: String = "Your Digital Identity"
-    @Published var subText: String? = nil
-    @Published var date: [String]? = nil
-    @Published var showExhibitionMap: Bool = false
-    @Published var showOffers: Bool = false
-    @Published var ticketStatus: String? = nil
-    @Published var user: User? = nil
+    var pageData: MyQrPresentationModel = MyQrPresentationModel()
     @Published var errorMessage: String? = ""
-    @Published var websocketMessage: String = ""
     
-    private var usecase = LiveNotificationListenerUseCase()
     private var startDate: Date? = nil
     private var endDate: Date? = nil
     
     init() {
-        DispatchQueue.main.async {
-            Task{ await self.getUser()
-                await self.getTicketData() }
-        }
+        self.getData()
     }
     
     @MainActor func getUser() async {
@@ -43,10 +29,9 @@ class TicketViewModel: ObservableObject {
                 let result = asyncSequence(for: GetUserUseCase().getUser())
                 
                 for try await userResult in result {
-                    self.user = userResult
+                    self.pageData.loadUser(userResult)
                     userResult.notificationTopics.forEach{ Messaging.messaging().subscribe(toTopic: $0) }
                 }
-                
             } catch {
                 self.errorMessage = "User Not Found!"
                 print(error)
@@ -59,25 +44,31 @@ class TicketViewModel: ObservableObject {
             let result = asyncSequence(for: GetConfigurationUseCase().getTicketInfo())
             
             for try await data in result {
-                self.showTicket = data.showTicket
-                self.startDate = data.startDate?.description().formatDate("yyyy-MM-dd")
-                self.endDate = data.endDate?.description().formatDate("yyyy-MM-dd")
-                self.name = data.title
-                self.description = data.description_
-                self.hasDate = self.startDate != nil && self.endDate != nil
-                self.subText = data.subTitle
-                self.showOffers = data.showExhibitionOffers
-                self.showExhibitionMap = data.showExhibitionMap
-                self.ticketStatus = data.status
-                self.date = data.getFormattedDate()?.map{ String($0) }
+                if data.showTicket {
+                    self.pageData = TicketPresentationModel(
+                        rightTitle: data.subTitle,
+                        leftTitle: data.title,
+                        subText: data.getFormattedDate()?.map{ String($0) },
+                        ticketStatus: data.status,
+                        description: data.description_
+                    )
+                } else {
+                    self.pageData = EmptyTicketPresentationModel(description: data.description_)
+                }
             }
-            
         } catch {
             self.errorMessage = "Ticket Data Not Found!"
             print(error)
         }
     }
     
+    func getData(){
+        DispatchQueue.main.async {
+            Task{ await self.getUser()
+                await self.getTicketData()
+            }
+        }
+    }
     func listenToMessage() {
         
         guard let res = try? self.usecase.getMessageIOS() else{
