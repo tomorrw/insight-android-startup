@@ -22,6 +22,8 @@ import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -220,7 +222,7 @@ fun EventDetailsView(id: String) {
                             ) {
                                 Text(
                                     "Ask a Question",
-                                    style = MaterialTheme.typography.titleMedium.copy(color = Color.White)
+                                    style = MaterialTheme.typography.titleMedium.copy(color = MaterialTheme.colorScheme.onPrimary)
                                 )
                             }
                             Spacer(Modifier.height(26.dp))

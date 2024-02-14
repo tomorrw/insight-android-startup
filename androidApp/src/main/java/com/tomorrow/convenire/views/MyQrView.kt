@@ -75,7 +75,7 @@ fun MyQrView() {
             title = "My QR", subtitle = "Welcome Back ${ticket.user.getFormattedName()}"
 
         ) {
-            val qrCode = remember(viewModel.state.isRefreshing) {
+            val qrCode = remember {
                 mutableStateOf(ticket.user.generateQrCodeString())
             }
             val eventDate: String? =

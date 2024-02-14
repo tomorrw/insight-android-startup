@@ -21,7 +21,7 @@ struct DefaultCardBody: View {
             
             VStack(alignment: .leading, spacing: 4) {
                 Text(title)
-                    .foregroundColor(isHighlighted ? Color(.white) : Color("Primary"))
+                    .foregroundColor(isHighlighted ? Color("Background") : Color("Primary"))
                     .font(.system(size: 18, weight: .medium))
                 Text(description)
                     .foregroundColor(Color("Secondary"))

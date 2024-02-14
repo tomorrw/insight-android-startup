@@ -51,7 +51,7 @@ struct PostsView: View {
                     .padding(.bottom, 5)
                     .frame(maxWidth: .infinity)
                     .padding()
-                    .background(Color(.white))
+                    .background(Color("Default"))
                     .clipShape(RoundedRectangle(cornerRadius: 16))
                 }
                 .buttonStyle(FlatLinkStyle())

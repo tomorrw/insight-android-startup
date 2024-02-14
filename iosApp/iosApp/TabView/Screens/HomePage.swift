@@ -40,6 +40,16 @@ struct HomePage: View {
                         .frame(maxHeight: .infinity)
                         .padding(.vertical, 24)
                     }
+                    else if vm.data?.isEmpty() ?? false && !vm.isLoading {
+                        EmptyStateView (
+                            title: "Nothing here.",
+                            text: "Stay tuned for more!",
+                            buttonText: "Reload",
+                            buttonAction: {
+                                Task { await vm.refresh() }
+                            }
+                        )
+                    }
                     
                     ScrollView(showsIndicators: false) {
                         VStack(spacing: 48) {

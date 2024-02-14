@@ -61,12 +61,12 @@ fun ActionButton(modifier: Modifier = Modifier, action: Action) {
         shape = RoundedCornerShape(8.dp),
         colors = ButtonDefaults.buttonColors(
             containerColor = if (action.isPrimary) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.secondary,
-            contentColor = Color.White
+            contentColor = MaterialTheme.colorScheme.onPrimary
         )
     ) {
         Text(
             action.label,
-            style = MaterialTheme.typography.titleMedium.copy(color = Color.White),
+            style = MaterialTheme.typography.titleMedium.copy(color = MaterialTheme.colorScheme.onPrimary),
             textAlign = TextAlign.Center
         )
     }

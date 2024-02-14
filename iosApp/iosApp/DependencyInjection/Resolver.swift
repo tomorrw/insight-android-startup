@@ -52,5 +52,10 @@ extension Resolver: ResolverRegistering {
             TicketViewModel()
         }
         .scope(.application)
+
+        register {
+            ConfigViewModel()
+        }
+        .scope(.application)
     }
 }

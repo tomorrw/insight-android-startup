@@ -7,7 +7,7 @@ data class Company(
     val id: String,
     val title: String,
     val image: String?,
-    val boothDescription: String,
+    val boothDescription: String?,
     val objectsClause: String,
     val categories: List<Category>,
     val socialLinks: List<SocialLink>,

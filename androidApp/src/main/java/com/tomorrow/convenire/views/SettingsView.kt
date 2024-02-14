@@ -24,6 +24,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -37,15 +38,19 @@ import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.ktx.messaging
 import com.tomorrow.convenire.R
+import com.tomorrow.convenire.common.buttons.ColorThemeRadioButton
 import com.tomorrow.convenire.common.dialogs.CustomAlertDialog
 import com.tomorrow.convenire.common.headers.PageHeaderLayout
 import com.tomorrow.convenire.feature_navigation.AppRoute
 import com.tomorrow.convenire.launch.LocalNavController
+import com.tomorrow.convenire.shared.domain.model.ColorTheme
 import com.tomorrow.convenire.shared.domain.model.toUserFriendlyError
+import com.tomorrow.convenire.shared.domain.use_cases.ColorThemeUseCase
 import com.tomorrow.convenire.shared.domain.use_cases.LogoutUseCase
 import kotlinx.coroutines.launch
 
@@ -61,16 +66,38 @@ fun SettingsView() {
         val isLogoutVisible = remember { mutableStateOf(false) }
         val scope = rememberCoroutineScope()
         val context = LocalContext.current
+        val uiTheme = ColorThemeUseCase().getColorTheme().collectAsState()
+        Spacer(Modifier.height(24.dp))
+
+        Column {
+            Text(
+                text = "COLOR THEME:",
+                style = MaterialTheme.typography.labelLarge.copy(
+                    color = MaterialTheme.colorScheme.primary.copy(alpha = 0.8f),
+                    textAlign = TextAlign.Left
+                ),
+                modifier = Modifier.padding(start = 8.dp)
+            )
+
+            ColorThemeRadioButton(
+                onSelectedTheme = uiTheme.value,
+                onSelect = {
+                    ColorThemeUseCase().setColorTheme(
+                        it
+                    )
+                })
+        }
 
         Spacer(Modifier.height(24.dp))
 
         Column(
             Modifier
                 .clip(RoundedCornerShape(8.dp))
-                .background(Color.White)
+                .background(MaterialTheme.colorScheme.onPrimary)
         ) {
             Row(
                 modifier = Modifier
+                    .background(MaterialTheme.colorScheme.onPrimary)
                     .clickable { isLogoutVisible.value = true }
                     .padding(horizontal = 16.dp)
                     .heightIn(min = 50.dp)

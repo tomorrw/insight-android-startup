@@ -68,7 +68,7 @@ fun <Item : ListDisplayItemInterface> ListDisplayPage(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(1.dp)
-                .background(Color(0xFFDAE6F1))
+                .background(MaterialTheme.colorScheme.outline)
         )
     }
 ) = PageHeaderLayout(title = title, subtitle = description, onBackPress = onBackPress) {
@@ -119,7 +119,7 @@ fun <Item : ListDisplayItemInterface> ListDisplay(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(1.dp)
-                .background(Color(0xFFDAE6F1))
+                .background(MaterialTheme.colorScheme.outline)
         )
     }
 ) = ListDisplay(map = listOf(ListHeader {} to items).toMap(),
@@ -175,7 +175,7 @@ fun <Item : ListDisplayItemInterface> ListDisplay(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(1.dp)
-                .background(Color(0xFFDAE6F1))
+                .background(MaterialTheme.colorScheme.outline)
         )
     },
 ) {
@@ -212,11 +212,13 @@ fun <Item : ListDisplayItemInterface> ListDisplay(
         },
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(50.dp),
-        colors = TextFieldDefaults.textFieldColors(
-            containerColor = MaterialTheme.colorScheme.background,
+        colors = TextFieldDefaults.colors(
+            focusedContainerColor = MaterialTheme.colorScheme.background,
+            unfocusedContainerColor = MaterialTheme.colorScheme.background,
+            disabledContainerColor = MaterialTheme.colorScheme.background,
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
-            disabledIndicatorColor = Color.Transparent
+            disabledIndicatorColor = Color.Transparent,
         )
     )
 

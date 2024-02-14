@@ -11,182 +11,76 @@ import shared
 import KMPNativeCoroutinesAsync
 import Resolver
 
-struct DetailPage: View {
+struct DetailPage<Header: View, Body: View>: View {
     @State private var isDisplayingError = false
-    var isSessionDetails: Bool = false
-    
     @ObservedObject var vm: DetailPageViewModel
+    
+    var customHeader: () -> Header
+    var customBody: () -> Body
+    
+    init(
+        isDisplayingError: Bool = false,
+        vm: DetailPageViewModel,
+        @ViewBuilder customHeader: @escaping () -> Header = { EmptyView() },
+        @ViewBuilder customBody: @escaping () -> Body = { EmptyView() }
+    ) {
+        self.isDisplayingError = isDisplayingError
+        self.vm = vm
+        self.customHeader = customHeader
+        self.customBody = customBody
+    }
     
     var body: some View {
         Group {
             if !vm.isLoading {
-                ScrollView {
-                    VStack(alignment: vm.headerDesign == .contact ? .center : .leading, spacing: 12) {
-                        if (vm.headerDesign == .contact) {
-                            ZStack(alignment: .bottomTrailing) {
-                                UrlImageView(urlString: vm.image)
-                                    .scaledToFill()
-                                    .clipShape(Circle())
-                                    .frame(width: 72, height: 72)
-                                
-                                if let icon = vm.imagePinIcon {
-                                    UrlImageView(urlString: icon)
-                                        .clipShape(Circle())
-                                        .frame(width: 23, height: 23)
-                                }
-                            }
-                            .frame(alignment: .bottomTrailing)
-                            
-                        } else {
-                            UrlImageView(urlString: vm.image)
-                                .frame(maxWidth: .infinity)
-                                .aspectRatio(contentMode: .fit)
-                                .clipShape(RoundedRectangle(cornerRadius: 16))
-                                .padding(.bottom, 4)
-                        }
-                        
-                        if vm.hasAttended {
-                            Text("ATTENDED")
-                                .foregroundColor(.white)
-                                .font(.system(size: 14))
-                                .padding(5)
-                                .background(
-                                    RoundedRectangle(cornerRadius: 8)
-                                        .foregroundColor(.accentColor)
-                                )
-                        }
-                        
-                        VStack(alignment: vm.headerDesign == .contact ? .center : .leading) {
-                            Group {
-                                Text(vm.title)
-                                    .font(.system(size: 20, weight: .medium))
-                                    .padding(.bottom, 1)
-                                
-                                Text(vm.description)
-                                    .foregroundColor(Color("Secondary"))
-                                    .padding(.bottom, 16)
-                            }
-                            .multilineTextAlignment(vm.headerDesign == .contact ? .center : .leading)
-                        }
-                        
-                        if isSessionDetails {
-                            Group {
-                                Label(title: {
-                                    Text(vm.location)
-                                        .foregroundColor(.gray)
-                                }) {
-                                    Image(systemName: "location")
-                                        .foregroundColor(.accentColor)
-                                }
-                                
-                                Label(title: {
-                                    Text(vm.date)
-                                        .foregroundColor(.gray)
-                                }) {
-                                    Image(systemName: "calendar")
-                                        .foregroundColor(.accentColor)
-                                }
-                                
-                                Label(title: {
-                                    Text(vm.timeInterval)
-                                        .foregroundColor(.gray)
-                                }) {
-                                    Image(systemName: "clock")
-                                        .foregroundColor(.accentColor)
-                                }
-                                
-                                Label(title: {
-                                    Text(vm.attendees)
-                                        .foregroundColor(.gray)
-                                }) {
-                                    Image(systemName: "person.fill")
-                                        .foregroundColor(.accentColor)
-                                }
-                                .padding(.bottom, 5)
-                                
-                            }
-                            .font(.system(size: 14))
-                            
-                            if vm.canAskQuestions {
-                                NavigateTo(destination: {
-                                    AskAQuestionPage(
-                                        subjectId: vm.subjectId,
-                                        title: vm.title,
-                                        speakers: (vm.sections.first(where: { section in
-                                            switch section {
-                                            case .speakers(_): return true
-                                            default: return false
-                                            }
-                                        })?.getInfo() as? SpeakersContent)?.speakers
-                                    )
-                                    .navigationTitle("Post Your Question")
-                                }, label: {
-                                    Text("Ask a Question")
-                                        .foregroundColor(Color("Default"))
-                                        .font(.system(size: 16))
-                                        .frame(maxWidth: .infinity)
-                                        .padding(16)
-                                        .background(Color("Primary"))
-                                        .cornerRadius(16)
-                                })
-                            }
-                        }
-                        else if vm.headerDesign == .detailPage && !vm.date.isEmpty {
-                            Text(vm.date).foregroundColor(Color("Secondary"))
-                        }
-                        
-                        if let links = vm.socialLinks {
-                            SocialLinksDisplay(socialLinks: links)
-                        }
-                        
-                        Divider().padding(.bottom, 5)
-                        
-                        LazyVStack(alignment: .leading, spacing: 32) {
-                            ForEach(vm.sections) { section in
-                                VStack(alignment: .leading) {
-                                    let info = section.getInfo()
-                                    
-                                    VStack {
-                                        if let image = (info as? InfoContent)?.imageUrl {
-                                            UrlImageView(urlString: image)
-                                                .frame(maxWidth: .infinity)
-                                                .aspectRatio(contentMode: .fit)
-                                                .clipShape(RoundedRectangle(cornerRadius: 16))
-                                                .padding(.bottom, 4)
+                GeometryReader { geometry in
+                    ScrollView {
+                        VStack{
+                            VStack(alignment: vm.headerDesign == .contact ? .center : .leading, spacing: 12) {
+                                if (vm.headerDesign == .contact) {
+                                    ZStack(alignment: .bottomTrailing) {
+                                        UrlImageView(urlString: vm.image)
+                                            .scaledToFill()
+                                            .clipShape(Circle())
+                                            .frame(width: 72, height: 72)
+                                        
+                                        if let icon = vm.imagePinIcon {
+                                            UrlImageView(urlString: icon)
+                                                .clipShape(Circle())
+                                                .frame(width: 23, height: 23)
                                         }
                                     }
+                                    .frame(alignment: .bottomTrailing)
                                     
-                                    Text(info.title)
-                                        .font(.system(size: 18, weight: .medium))
-                                        .padding(.bottom, 2)
-                                    Text(info.description)
-                                        .foregroundColor(Color("Secondary"))
-                                        .font(.system(size: 15))
-                                        .lineSpacing(3)
-                                    
-                                    switch(section) {
-                                    case let .video(details): if let url = URL(string: details.videoUrl) {
-                                        CustomVideoPlayer(url: url)
-                                            .aspectRatio(16/9, contentMode: .fit)
-                                            .background(.gray.opacity(0.3))
-                                            .frame(maxWidth: .infinity)
-                                            .clipShape(RoundedRectangle(cornerRadius: 16))
-                                            .padding(.vertical, 2)
-                                    } else { EmptyView() }
-                                    case let .sessions(details): SessionsVerticalView(sessions: details.sessions)
-                                    case let .speakers(details): SpeakersHorizontalView(speakers: details.speakers)
-                                    default : EmptyView()
-                                    }
+                                } else {
+                                    UrlImageView(urlString: vm.image)
+                                        .frame(maxWidth: .infinity)
+                                        .aspectRatio(contentMode: .fit)
+                                        .clipShape(RoundedRectangle(cornerRadius: 16))
+                                        .padding(.bottom, 4)
                                 }
+                                
+                                VStack(alignment: vm.headerDesign == .contact ? .center : .leading) {
+                                    Group {
+                                        Text(vm.title)
+                                            .font(.system(size: 20, weight: .medium))
+                                            .padding(.bottom, 1)
+                                        
+                                        Text(vm.description)
+                                            .foregroundColor(Color("Secondary"))
+                                            .padding(.bottom, 16)
+                                    }
+                                    .multilineTextAlignment(vm.headerDesign == .contact ? .center : .leading)
+                                }
+                                
+                                customHeader()
                             }
+                            .padding()
+                            
+                            customBody()
                         }
-                        
-                        ActionButtons(actions: vm.action)
-                        
-                        Spacer()
+                        .frame(minHeight: geometry.size.height)
                     }
-                    .padding()
-                    .padding(.bottom, 30)
                 }
             } else {
                 // loaders

@@ -1,6 +1,9 @@
 package com.tomorrow.convenire.launch
 
 import android.app.Application
+import android.content.Context
+import android.content.Intent
+import androidx.core.net.toUri
 import com.tomorrow.convenire.BuildConfig
 import com.tomorrow.convenire.feature_video.VideoPlayerViewModel
 import com.tomorrow.convenire.shared.di.initKoin
@@ -47,7 +50,14 @@ class ConvenireApp : Application() {
     companion object {
         val appModule = module {
             viewModel { VideoPlayerViewModel(androidApplication()) }
-            single { AppConfig(BuildConfig.VERSION_NAME, AppPlatform.Android) }
+            single {
+                AppConfig(
+                    version = BuildConfig.VERSION_NAME,
+                    name = androidContext().getAppName(),
+                    platform = AppPlatform.Android,
+                    updateUrl = androidContext().getPlayStoreLink()
+                )
+            }
             single { FullScreenViewModel() }
             single { RegisterViewModel() }
             viewModel { HomeViewModel() }
@@ -70,5 +80,11 @@ class ConvenireApp : Application() {
             viewModel { SpeakerDetailViewModel(it[0]) }
             viewModel { CompaniesByCategoryViewModel(it[0]) }
         }
+
+        private fun Context.getPlayStoreLink() =
+            "http://play.google.com/store/apps/details?id=${packageName}"
+
+        private fun Context.getAppName(): String =
+            this.applicationInfo.loadLabel(this.packageManager).toString()
     }
 }

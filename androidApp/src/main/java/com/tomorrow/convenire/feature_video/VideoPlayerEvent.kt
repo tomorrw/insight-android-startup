@@ -1,6 +1,6 @@
 package com.tomorrow.convenire.feature_video
 
-sealed class VideoPlayerEvent() {
+sealed class VideoPlayerEvent {
     object OnPauseToggle : VideoPlayerEvent()
     object OnPause : VideoPlayerEvent()
     object OnPlay : VideoPlayerEvent()

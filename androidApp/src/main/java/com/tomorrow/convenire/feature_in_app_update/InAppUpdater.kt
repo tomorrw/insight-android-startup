@@ -3,15 +3,19 @@ package com.tomorrow.convenire.feature_in_app_update
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.net.toUri
 import com.google.android.play.core.appupdate.AppUpdateInfo
@@ -20,8 +24,9 @@ import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.common.IntentSenderForResultStarter
 import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.UpdateAvailability
-import com.tomorrow.convenire.feature_in_app_update.components.FlexibleUpdateDialog
-import com.tomorrow.convenire.feature_in_app_update.components.ForceUpdateDialog
+import com.tomorrow.convenire.common.dialogs.CustomAlertDialog
+import com.tomorrow.convenire.shared.domain.model.AppConfig
+import com.tomorrow.convenire.shared.domain.use_cases.GetAppConfigUseCase
 import com.tomorrow.convenire.shared.domain.use_cases.GetUpdateTypeUseCase
 import kotlinx.coroutines.launch
 import kotlin.system.exitProcess
@@ -57,6 +62,7 @@ fun InAppUpdater(
 
     val isForceUpdateDialogVisible = rememberSaveable { mutableStateOf(false) }
     val isFlexibleUpdateDialogVisible = rememberSaveable { mutableStateOf(false) }
+    var appInfo by remember { mutableStateOf<AppConfig?>(null) }
 
     LaunchedEffect(key1 = "update") {
         fun toggleDialog(updateType: GetUpdateTypeUseCase.UpdateType) {
@@ -80,32 +86,44 @@ fun InAppUpdater(
                     }.addOnFailureListener { toggleDialog(type) }
                 }
         }
+        appInfo = GetAppConfigUseCase().get()
     }
 
     when {
-        isForceUpdateDialogVisible.value -> ForceUpdateDialog (
-            onCTAClick = { context.openUpdatePageInPlayStore() },
-            appName = context.getAppName()
+        isForceUpdateDialogVisible.value -> CustomAlertDialog(
+            title = "${appInfo?.name ?: "App"} needs an update!",
+            description = "A new update is available, please download the latest version!",
+            ctaButtonText = "Update",
+            onCTAClick = { context.openUpdatePageInPlayStore(appInfo?.updateUrl?.toUri()) },
+            isDismissible = false,
+            onDismiss = { exitProcess(0) },
+            dismissButtonText = "Close App",
+            isDismissibleOnBack = false
         )
-        isFlexibleUpdateDialogVisible.value -> FlexibleUpdateDialog(
-            onDismiss = { isFlexibleUpdateDialogVisible.value = false },
+
+        isFlexibleUpdateDialogVisible.value -> CustomAlertDialog(
+            title = "${appInfo?.name ?: "App"} needs an update!",
+            description = "A new update is available, please download the latest version!",
+            ctaButtonText = "Update",
+            onCTAClick = { context.openUpdatePageInPlayStore(appInfo?.updateUrl?.toUri()) },
             isDismissible = true,
-            isDismissibleOnBack = true,
-            onCTAClick = { context.openUpdatePageInPlayStore() },
-            appName = context.getAppName()
+            onDismiss = { isFlexibleUpdateDialogVisible.value = false },
+            dismissButtonText = "No Thanks",
+            isDismissibleOnBack = true
         )
     }
 }
 
-private fun Context.openUpdatePageInPlayStore() {
+private fun Context.openUpdatePageInPlayStore(stringUrl: Uri?) {
     startActivity(
         Intent(
             Intent.ACTION_VIEW,
-            "http://play.google.com/store/apps/details?id=${packageName}".toUri()
+            stringUrl ?: "https://convenire.tomorrow.services/".toUri()
         )
     )
 }
-private fun Context.getAppName(): String{
+
+private fun Context.getAppName(): String {
     return this.applicationInfo.loadLabel(this.packageManager).toString()
 }
 

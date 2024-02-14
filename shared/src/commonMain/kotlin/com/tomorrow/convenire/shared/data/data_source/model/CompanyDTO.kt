@@ -16,7 +16,7 @@ class CompanyDTO(
     @SerialName("objects_clause")
     val objectsClause: String,
     @SerialName("booth_number")
-    val boothDescription: String,
+    val boothDescription: String? = null,
     @SerialName("detail_pages")
     val detailPages: List<DetailPageDTO>,
     @SerialName("social_links")

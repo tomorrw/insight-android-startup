@@ -26,42 +26,121 @@ struct SessionDetailPage: View {
     }
     
     var body: some View {
-        DetailPage(isSessionDetails: true, vm: vm)
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                Button {
-                    Task {
-                        if shouldNotify == false && doSessionOverlap() {
-                            isConfirmBookmarkDisplayed = true
-                        } else {
-                            await toggleShouldSendReminder()
-                        }
-                    }
-                } label: {
-                    Image(systemName: shouldNotify ? "bookmark.fill": "bookmark")
-                        .resizable()
-                        .frame(width: 14, height: 20)
-                        .foregroundColor(.accentColor)
+        DetailPage(
+            vm: vm,
+            customHeader: { 
+                if vm.hasAttended {
+                    Text("ATTENDED")
+                        .foregroundColor(Color("Secondary"))
+                        .font(.system(size: 14))
+                        .padding(5)
+                        .background(
+                            RoundedRectangle(cornerRadius: 8)
+                                .foregroundColor(.accentColor)
+                        )
                 }
-                .frame(width: 50, height: 38)
-                .padding(.top, 6)
+                sessionHeader
+            },
+            customBody: { VerticalDisplayView(pages: $vm.pages, actions: $vm.action) }
+        )
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            Button {
+                Task {
+                    if shouldNotify == false && doSessionOverlap() {
+                        isConfirmBookmarkDisplayed = true
+                    } else {
+                        await toggleShouldSendReminder()
+                    }
+                }
+            } label: {
+                Image(systemName: shouldNotify ? "bookmark.fill": "bookmark")
+                    .resizable()
+                    .frame(width: 14, height: 20)
+                    .foregroundColor(.accentColor)
             }
-            .onAppear {
-                self.checkIfShouldNotify()
+            .frame(width: 50, height: 38)
+            .padding(.top, 6)
+        }
+        .onAppear {
+            self.checkIfShouldNotify()
+        }
+        .alert(isPresented: $isConfirmBookmarkDisplayed) {
+            Alert(
+                title: Text("OverLapping Lectures"),
+                message: Text(confirmBookmarkDescription),
+                primaryButton: .destructive(Text("Add anyway").foregroundColor(.accentColor)) {
+                    Task {
+                        await toggleShouldSendReminder()
+                    }
+                },
+                secondaryButton: .cancel()
+            )
+        }
+        .background(Color("Background"))
+    }
+    
+    var sessionHeader: some View {
+        Group {
+            Label(title: {
+                Text(vm.location)
+                    .foregroundColor(.gray)
+            }) {
+                Image(systemName: "location")
+                    .foregroundColor(.accentColor)
             }
-            .alert(isPresented: $isConfirmBookmarkDisplayed) {
-                Alert(
-                    title: Text("OverLapping Lectures"),
-                    message: Text(confirmBookmarkDescription),
-                    primaryButton: .destructive(Text("Add anyway").foregroundColor(.accentColor)) {
-                        Task {
-                            await toggleShouldSendReminder()
-                        }
-                    },
-                    secondaryButton: .cancel()
-                )
+            
+            Label(title: {
+                Text(vm.date)
+                    .foregroundColor(.gray)
+            }) {
+                Image(systemName: "calendar")
+                    .foregroundColor(.accentColor)
             }
-            .background(Color("Background"))
+            
+            Label(title: {
+                Text(vm.timeInterval)
+                    .foregroundColor(.gray)
+            }) {
+                Image(systemName: "clock")
+                    .foregroundColor(.accentColor)
+            }
+            
+            Label(title: {
+                Text(vm.attendees)
+                    .foregroundColor(.gray)
+            }) {
+                Image(systemName: "person.fill")
+                    .foregroundColor(.accentColor)
+            }
+            .padding(.bottom, 5)
+            
+            
+            
+            if vm.canAskQuestions {
+                NavigateTo(destination: {
+                    AskAQuestionPage(
+                        subjectId: vm.subjectId,
+                        title: vm.title,
+                        speakers: (vm.pages.mapToSectionDisplayInfo().first(where: { section in
+                            switch section {
+                            case .speakers(_): return true
+                            default: return false
+                            }
+                        })?.getInfo() as? SpeakersContent)?.speakers
+                    )
+                    .navigationTitle("Post Your Question")
+                }, label: {
+                    Text("Ask a Question")
+                        .foregroundColor(Color("Default"))
+                        .font(.system(size: 16))
+                        .frame(maxWidth: .infinity)
+                        .padding(16)
+                        .background(Color("Primary"))
+                        .cornerRadius(16)
+                })
+            }}
+        .font(.system(size: 14))
     }
     
     var confirmBookmarkDescription: String {

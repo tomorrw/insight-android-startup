@@ -25,4 +25,5 @@ interface ApiService {
     suspend fun getConfig(): Result<ConfigurationDTO>
     suspend fun saveFCMToken(fcmToken: String): Result<Unit>
     suspend fun deleteFCMToken(fcmToken: String): Result<Unit>
+    suspend fun addUnAuthenticatedInterceptor(intercept: suspend () -> Unit)
 }

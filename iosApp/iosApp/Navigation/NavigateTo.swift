@@ -23,6 +23,7 @@ struct NavigateTo<Label: View, Destination: View>: View {
         },
             label: label
         )
+        .buttonStyle(.plain)
     }
 }
 
@@ -39,6 +40,7 @@ struct NavigateToWithActive<Label: View, Destination: View>: View {
         },
                        label: label
         )
+        .buttonStyle(.plain)
     }
 }
 
@@ -50,6 +52,7 @@ struct NavigateTxtTo<Destination: View>: View {
     var body: some View {
         NavigationLink( label, destination:{
             newScreenNavigationStyle(destination: destination)})
+        .buttonStyle(.plain)
     }
 }
 
@@ -64,6 +67,7 @@ struct NavigateEmptyTo<Destination: View>: View {
         NavigationLink( label, destination:
             newScreenNavigationStyle(destination: destination)
         , isActive: $isActive)
+        .buttonStyle(.plain)
     }
 }
 

@@ -87,7 +87,7 @@ fun ProfileView() {
                             Modifier
                                 .padding(horizontal = 32.dp)
                                 .clip(CircleShape)
-                                .background(Color.White), contentAlignment = Alignment.Center
+                                .background(MaterialTheme.colorScheme.onPrimary), contentAlignment = Alignment.Center
                         ) {
                             Column(
                                 modifier = Modifier.aspectRatio(1f).padding(20.dp),
