@@ -27,11 +27,11 @@ struct MySessionsPage: View {
                             Text(info.date.month.description().capitalized.prefix(3))
                                 .font(.system(size: 14))
                         }
-                        .foregroundColor(info.isEnabled ? Color("Primary") : Color("Secondary"))
+                        .foregroundColor(info.isEnabled ? Color("Primary") : Color("OnSurface"))
                         .frame(width: 56, height: 56)
                         .background(
                             RoundedRectangle(cornerRadius: 16)
-                                .foregroundColor(info.isEnabled ? Color("Default") : Color("Dark"))
+                                .foregroundColor(info.isEnabled ? Color("Default") : Color("Surface"))
                         )
                     }
                     .buttonStyle(.plain)

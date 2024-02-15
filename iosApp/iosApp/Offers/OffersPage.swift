@@ -45,7 +45,7 @@ struct OffersPage: View {
                         Image(systemName: "chevron.right")
                     }
                     .padding(16)
-                    .background(Color("Dark"))
+                    .background(Color("Surface"))
                     .cornerRadius(16)
                 })
                 .padding()

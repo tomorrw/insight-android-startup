@@ -68,7 +68,7 @@ fun <Item : ListDisplayItemInterface> ListDisplayPage(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(1.dp)
-                .background(MaterialTheme.colorScheme.outline)
+                .background(MaterialTheme.colorScheme.background)
         )
     }
 ) = PageHeaderLayout(title = title, subtitle = description, onBackPress = onBackPress) {
@@ -119,7 +119,7 @@ fun <Item : ListDisplayItemInterface> ListDisplay(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(1.dp)
-                .background(MaterialTheme.colorScheme.outline)
+                .background(MaterialTheme.colorScheme.background)
         )
     }
 ) = ListDisplay(map = listOf(ListHeader {} to items).toMap(),
@@ -175,7 +175,7 @@ fun <Item : ListDisplayItemInterface> ListDisplay(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(1.dp)
-                .background(MaterialTheme.colorScheme.outline)
+                .background(MaterialTheme.colorScheme.background)
         )
     },
 ) {

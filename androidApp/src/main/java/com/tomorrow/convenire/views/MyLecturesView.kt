@@ -103,7 +103,7 @@ class MyLecturesViewModel : ReadViewModel<MyLecturesState>(
 fun MyLecturesView() {
     val navController = LocalNavController.current
     PageHeaderLayout(
-        title = "My Schedule",
+        title = "My Lectures",
         onBackPress = { navController.popBackStack() }
     ) {
         val viewModel: MyLecturesViewModel = koinViewModel()

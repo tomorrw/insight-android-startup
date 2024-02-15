@@ -13,26 +13,26 @@ import KMPNativeCoroutinesAsync
 import Firebase
 
 class TicketViewModel: ObservableObject {
-    var pageData: MyQrPresentationModel = MyQrPresentationModel()
+    @Published var pageData: MyQrPresentationModel = MyQrPresentationModel()
     @Published var errorMessage: String? = ""
+    private var user: User? = nil
     
     init() {
         self.getData()
     }
     
     @MainActor func getUser() async {
-        Task {
-            do {
-                let result = asyncSequence(for: GetUserUseCase().getUser())
-                
-                for try await userResult in result {
-                    self.pageData.loadUser(userResult)
-                    userResult.notificationTopics.forEach{ Messaging.messaging().subscribe(toTopic: $0) }
-                }
-            } catch {
-                self.errorMessage = "User Not Found!"
-                print(error)
+        do {
+            let result = asyncSequence(for: GetUserUseCase().getUser())
+            
+            for try await userResult in result {
+                userResult.notificationTopics.forEach{ Messaging.messaging().subscribe(toTopic: $0) }
+                self.user = userResult
+                self.pageData.load(user: userResult)
             }
+        } catch {
+            self.errorMessage = "User Not Found!"
+            print(error)
         }
     }
     
@@ -43,6 +43,7 @@ class TicketViewModel: ObservableObject {
             for try await data in result {
                 if data.showTicket {
                     self.pageData = TicketPresentationModel(
+                        user: user,
                         rightTitle: data.subTitle,
                         leftTitle: data.title,
                         subText: data.getFormattedDate()?.map{ String($0) },
@@ -50,7 +51,7 @@ class TicketViewModel: ObservableObject {
                         description: data.description_
                     )
                 } else {
-                    self.pageData = EmptyTicketPresentationModel(description: data.description_)
+                    self.pageData = EmptyTicketPresentationModel(user: user, description: data.description_)
                 }
             }
         } catch {
@@ -61,7 +62,8 @@ class TicketViewModel: ObservableObject {
     
     func getData(){
         DispatchQueue.main.async {
-            Task{ await self.getUser()
+            Task{
+                await self.getUser()
                 await self.getTicketData()
             }
         }

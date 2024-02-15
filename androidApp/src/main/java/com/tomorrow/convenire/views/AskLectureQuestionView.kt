@@ -145,10 +145,10 @@ fun AskLectureQuestionView(eventId: String) {
                 text = viewModel.state.title, style = MaterialTheme.typography.titleLarge
             )
 
-            viewModel.state.speaker?.getFullName()?.let {
+            viewModel.state.speaker?.fullName?.getFormattedName()?.let {
                 Text(
                     modifier = Modifier.padding(top = 4.dp),
-                    text = "Dr. $it",
+                    text = it,
                     style = MaterialTheme.typography.titleMedium.copy(color = Color(0xFF959EAD)),
                 )
             }

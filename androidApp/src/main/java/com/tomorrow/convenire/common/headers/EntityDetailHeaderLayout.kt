@@ -68,11 +68,7 @@ fun EntityDetailHeaderLayout(
             Modifier.padding(top = 8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            AppSeparator(
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(end = 21.dp)
-            )
+
             val iconSize = with(LocalDensity.current) { 16.dp.toSp() }
             Text(
                 buildAnnotatedString {
@@ -105,11 +101,6 @@ fun EntityDetailHeaderLayout(
                 )
             )
 
-            AppSeparator(
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(start = 21.dp)
-            )
         }
         subtitle?.let{
             Text(

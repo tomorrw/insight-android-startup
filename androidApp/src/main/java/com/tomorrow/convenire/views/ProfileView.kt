@@ -71,7 +71,7 @@ fun ProfileView() {
                     verticalArrangement = Arrangement.SpaceBetween,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    InlineHighlightedCard(name = user.getFullName(),
+                    InlineHighlightedCard(name = user.fullName.getFullName(),
                         avatar = "",
                         detailText = user.phoneNumber.getFormattedNumberInOriginalFormat(),
                         onClick = { navController.navigate(AppRoute.Settings.path) })

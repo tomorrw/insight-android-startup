@@ -6,6 +6,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 class SpeakerDTO(
     val id: String,
+    val salutation: SalutationDTO? = SalutationDTO.None,
     @SerialName("first_name")
     val firstName: String,
     @SerialName("last_name")

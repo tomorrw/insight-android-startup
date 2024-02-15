@@ -34,7 +34,7 @@ struct AskAQuestionPage: View {
             
             if let speakers = speakers {
                 ForEach(speakers, id: \.self) { speaker in
-                    Text("\(speakers.firstIndex(of: speaker) == 0 ? "": ", ")Dr. \(speaker.getFullName())")
+                    Text("\(speakers.firstIndex(of: speaker) == 0 ? "": ", ") \(speaker.fullName.getFormattedName())")
                         .foregroundColor(Color("Secondary"))
                 }
                 .padding(.bottom, 20)

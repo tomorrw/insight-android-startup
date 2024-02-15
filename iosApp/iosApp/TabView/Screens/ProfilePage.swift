@@ -38,7 +38,7 @@ struct ProfilePage: View {
                         }) {
                             HighlightedCard(
                                 image: "",
-                                title: authViewModel.user?.getFormattedName() ?? "User",
+                                title: authViewModel.user?.fullName.getFormattedName() ?? "User",
                                 description: authViewModel.user?.phoneNumber.number ?? ""
                             )
                         }

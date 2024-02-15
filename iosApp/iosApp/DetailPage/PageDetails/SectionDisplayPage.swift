@@ -25,9 +25,13 @@ struct SectionDisplayPage: View{
                 }
             }
             
-            Text(info.title)
-                .font(.system(size: 18, weight: .medium))
-                .padding(.bottom, 2)
+            switch(section) {
+            case .sessions(_): EmptyView()
+            default:
+                Text(info.title)
+                    .font(.system(size: 18, weight: .medium))
+                    .padding(.bottom, 2)
+            }
             Text(info.description)
                 .foregroundColor(Color("Secondary"))
                 .font(.system(size: 15))
@@ -46,6 +50,8 @@ struct SectionDisplayPage: View{
             case let .speakers(details): SpeakersHorizontalView(speakers: details.speakers)
             default : EmptyView()
             }
+            Spacer()
+            
         }
         
     }

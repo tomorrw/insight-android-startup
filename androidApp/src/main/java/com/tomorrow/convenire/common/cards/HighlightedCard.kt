@@ -39,7 +39,7 @@ fun HighlightedCard(
     Column(
         modifier = Modifier
             .padding(all = 16.dp)
-            .padding(bottom = 18.dp)
+            .padding(bottom = 2.dp)
             .fillMaxSize(),
         verticalArrangement = Arrangement.SpaceBetween
     ) {
@@ -60,13 +60,13 @@ fun HighlightedCard(
 
         Text(
             text = title,
-            style = MaterialTheme.typography.headlineSmall
+            style = MaterialTheme.typography.titleLarge
         )
 
         Column {
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(12.dp))
             AppSeparator(Modifier.width(72.dp))
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(12.dp))
             Text(
                 text = description,
                 style = MaterialTheme.typography.titleMedium.copy(color = MaterialTheme.colorScheme.secondary)

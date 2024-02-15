@@ -10,10 +10,12 @@
 		058557BB273AAA24004C7B11 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557BA273AAA24004C7B11 /* Assets.xcassets */; };
 		058557D9273AAEEB004C7B11 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */; };
 		2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2152FB032600AC8F00CF470E /* iOSApp.swift */; };
+		4C04C9822B7CED6C0030B9A8 /* FormHiddenBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C04C9812B7CED6C0030B9A8 /* FormHiddenBackground.swift */; };
 		4C2562B62ABAE2BE00ACE03E /* OffersPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C2562B52ABAE2BE00ACE03E /* OffersPage.swift */; };
 		4C2562B82ABAE2FF00ACE03E /* OffersPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C2562B72ABAE2FF00ACE03E /* OffersPageViewModel.swift */; };
 		4C3637D02B445BC900D352D2 /* ClaimedOffersPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3637CF2B445BC900D352D2 /* ClaimedOffersPage.swift */; };
 		4C4F1EEF2B3EBEA90066AB31 /* AppstoreInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4F1EEE2B3EBEA80066AB31 /* AppstoreInfoViewModel.swift */; };
+		4C54826A2B7CC278005F9C96 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4C5482692B7CC278005F9C96 /* SplashScreen.storyboard */; };
 		4C64DE872B3D8380001E1B17 /* TicketViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C64DE862B3D8380001E1B17 /* TicketViewModel.swift */; };
 		4C64DE8A2B3DAEBC001E1B17 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C64DE892B3DAEBC001E1B17 /* Date.swift */; };
 		4C6ACE312AA5BFAF00DBBBF5 /* Switcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C6ACE302AA5BFAF00DBBBF5 /* Switcher.swift */; };
@@ -69,7 +71,6 @@
 		B37D14BE29C9E0C100BA4E39 /* Placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37D14BD29C9E0C100BA4E39 /* Placeholder.swift */; };
 		B37D14C329C9E6A600BA4E39 /* AuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37D14C229C9E6A600BA4E39 /* AuthenticationViewModel.swift */; };
 		B37D14C529C9E78800BA4E39 /* AuthenticationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37D14C429C9E78800BA4E39 /* AuthenticationView.swift */; };
-		B37D14C729C9EB7C00BA4E39 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B37D14C629C9EB7C00BA4E39 /* SplashScreen.storyboard */; };
 		B37D14D129C9EF1800BA4E39 /* Resolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37D14D029C9EF1800BA4E39 /* Resolver.swift */; };
 		B37D14D429CA048500BA4E39 /* MultifunctionalButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37D14D329CA048500BA4E39 /* MultifunctionalButton.swift */; };
 		B37D14D729CA050F00BA4E39 /* CustomLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37D14D629CA050F00BA4E39 /* CustomLoader.swift */; };
@@ -143,10 +144,12 @@
 		058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		2152FB032600AC8F00CF470E /* iOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSApp.swift; sourceTree = "<group>"; };
 		3B30F3472A407C2FDF9E352A /* Pods-iosApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iosApp.debug.xcconfig"; path = "Target Support Files/Pods-iosApp/Pods-iosApp.debug.xcconfig"; sourceTree = "<group>"; };
+		4C04C9812B7CED6C0030B9A8 /* FormHiddenBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormHiddenBackground.swift; sourceTree = "<group>"; };
 		4C2562B52ABAE2BE00ACE03E /* OffersPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OffersPage.swift; sourceTree = "<group>"; };
 		4C2562B72ABAE2FF00ACE03E /* OffersPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OffersPageViewModel.swift; sourceTree = "<group>"; };
 		4C3637CF2B445BC900D352D2 /* ClaimedOffersPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaimedOffersPage.swift; sourceTree = "<group>"; };
 		4C4F1EEE2B3EBEA80066AB31 /* AppstoreInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppstoreInfoViewModel.swift; sourceTree = "<group>"; };
+		4C5482692B7CC278005F9C96 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = SplashScreen.storyboard; sourceTree = "<group>"; };
 		4C64DE862B3D8380001E1B17 /* TicketViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketViewModel.swift; sourceTree = "<group>"; };
 		4C64DE892B3DAEBC001E1B17 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		4C6ACE302AA5BFAF00DBBBF5 /* Switcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Switcher.swift; sourceTree = "<group>"; };
@@ -205,7 +208,6 @@
 		B37D14BD29C9E0C100BA4E39 /* Placeholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Placeholder.swift; sourceTree = "<group>"; };
 		B37D14C229C9E6A600BA4E39 /* AuthenticationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewModel.swift; sourceTree = "<group>"; };
 		B37D14C429C9E78800BA4E39 /* AuthenticationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationView.swift; sourceTree = "<group>"; };
-		B37D14C629C9EB7C00BA4E39 /* SplashScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SplashScreen.storyboard; sourceTree = "<group>"; };
 		B37D14D029C9EF1800BA4E39 /* Resolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resolver.swift; sourceTree = "<group>"; };
 		B37D14D329CA048500BA4E39 /* MultifunctionalButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultifunctionalButton.swift; sourceTree = "<group>"; };
 		B37D14D629CA050F00BA4E39 /* CustomLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLoader.swift; sourceTree = "<group>"; };
@@ -660,6 +662,7 @@
 				B3C1438029C9D0FE00B988B6 /* DefaultTheme.swift */,
 				B556746529FB1CE3001B7B79 /* CornerRadius.swift */,
 				4CF226D12ACADFC30044F623 /* Color.swift */,
+				4C04C9812B7CED6C0030B9A8 /* FormHiddenBackground.swift */,
 			);
 			path = MainModifiers;
 			sourceTree = "<group>";
@@ -698,7 +701,7 @@
 		B3C259D629C89E0C000956A4 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
-				B37D14C629C9EB7C00BA4E39 /* SplashScreen.storyboard */,
+				4C5482692B7CC278005F9C96 /* SplashScreen.storyboard */,
 				B5183E2B29F00A470097363D /* OnBoarding.swift */,
 			);
 			path = Screens;
@@ -938,8 +941,8 @@
 				4CF226EA2ACAEA200044F623 /* HomePage.storyboard in Resources */,
 				058557D9273AAEEB004C7B11 /* Preview Assets.xcassets in Resources */,
 				058557BB273AAA24004C7B11 /* Assets.xcassets in Resources */,
-				B37D14C729C9EB7C00BA4E39 /* SplashScreen.storyboard in Resources */,
 				4C9902332B459C5800F70B15 /* GoogleService-Info.plist in Resources */,
+				4C54826A2B7CC278005F9C96 /* SplashScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1062,6 +1065,7 @@
 				4CF226E62ACAEA200044F623 /* HomePage.swift in Sources */,
 				B56AA30929F7C3160021B12E /* CompaniesPage.swift in Sources */,
 				7555FF83242A565900829871 /* ContentView.swift in Sources */,
+				4C04C9822B7CED6C0030B9A8 /* FormHiddenBackground.swift in Sources */,
 				4CA347312B4D64BB00FB12AE /* ViewExtension.swift in Sources */,
 				B5183E2429F006BB0097363D /* OnBoardingCarousel.swift in Sources */,
 				B3C1438129C9D0FE00B988B6 /* DefaultTheme.swift in Sources */,
@@ -1242,7 +1246,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_ENTITLEMENTS = iosApp/iosApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 12;
 				DEVELOPMENT_ASSET_PATHS = "\"iosApp/Preview Content\"";
 				DEVELOPMENT_TEAM = 33TJNDCEA8;
 				ENABLE_PREVIEWS = YES;
@@ -1255,7 +1259,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.21;
+				MARKETING_VERSION = 1.0.22;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tomorrow.convenire;
 				PRODUCT_NAME = Convenire;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1274,7 +1278,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_ENTITLEMENTS = iosApp/iosApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 12;
 				DEVELOPMENT_ASSET_PATHS = "\"iosApp/Preview Content\"";
 				DEVELOPMENT_TEAM = 33TJNDCEA8;
 				ENABLE_PREVIEWS = YES;
@@ -1287,7 +1291,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.21;
+				MARKETING_VERSION = 1.0.22;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tomorrow.convenire;
 				PRODUCT_NAME = Convenire;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
