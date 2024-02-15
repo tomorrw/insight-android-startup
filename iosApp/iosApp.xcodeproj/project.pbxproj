@@ -1259,7 +1259,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.22;
+				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tomorrow.convenire;
 				PRODUCT_NAME = Convenire;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1291,7 +1291,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.22;
+				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tomorrow.convenire;
 				PRODUCT_NAME = Convenire;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
