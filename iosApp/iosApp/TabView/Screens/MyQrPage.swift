@@ -76,7 +76,7 @@ struct MyQrPage: View {
                         .padding(24)
                         
                         Button {
-                            withAnimation(.linear(duration: 0.6)) { self.generateQr() }
+                            withAnimation(.linear(duration: 0.6)) { self.ticketViewModel.getData() }
                         } label: {
                             Image(uiImage: qrImage)
                                 .resizable()
@@ -136,7 +136,7 @@ struct MyQrPage: View {
                 } 
                 if let emptyTicketInfo = ticketViewModel.pageData as? EmptyTicketPresentationModel {
                     Button {
-                        withAnimation(.linear(duration: 0.6)) { self.generateQr() }
+                        withAnimation(.linear(duration: 0.6)) { self.ticketViewModel.getData() }
                     } label: {
                         Image(uiImage: qrImage)
                             .resizable()
@@ -170,10 +170,7 @@ struct MyQrPage: View {
                     })
             }
             .onReceive(timer, perform: { _ in
-                self.generateQr()
-            })
-            .onReceive(ticketViewModel.$pageData, perform: { _ in
-                self.generateQr()
+                self.ticketViewModel.pageData.qrCodeString = self.ticketViewModel.pageData.user?.generateQrCodeString() ?? "Not validfds"
             })
             .onAppear{ ticketViewModel.getData() }
             .navigationTitle("My QR")
@@ -183,10 +180,6 @@ struct MyQrPage: View {
             .padding(.bottom)
             .background(Color("Background"))
         }
-    }
-    
-    func generateQr(){
-        self.ticketViewModel.pageData.qrCodeString = self.ticketViewModel.pageData.user?.generateQrCodeString() ?? "Not valid"
     }
 }
 
