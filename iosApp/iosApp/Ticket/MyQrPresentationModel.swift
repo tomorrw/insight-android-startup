@@ -15,7 +15,7 @@ class MyQrPresentationModel{
     
     init(user: User? = nil) {
         self.user = user
-        self.userName = self.user?.getFormattedName()
+        self.userName = self.user?.fullName.getFormattedName()
         self.qrCodeString = self.user?.generateQrCodeString() ?? "Not Valid"
     }
     

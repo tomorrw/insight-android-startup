@@ -72,7 +72,7 @@ fun MyQrView() {
     val viewModel: MyQrViewModel = koinViewModel()
     DefaultReadView(viewModel = viewModel) { ticket ->
         PageHeaderLayout(
-            title = "My QR", subtitle = "Welcome Back ${ticket.user.getFormattedName()}"
+            title = "My QR", subtitle = "Welcome Back ${ticket.user.fullName.getFormattedName()}"
 
         ) {
             val qrCode = remember {
@@ -181,7 +181,7 @@ fun MyQrView() {
                                 Spacer(modifier = Modifier.height(24.dp))
 
                                 Text(
-                                    text = ticket.user.getFullName(),
+                                    text = ticket.user.fullName.getFullName(),
                                     style = MaterialTheme.typography.headlineSmall.copy(
                                         MaterialTheme.colorScheme.onSurface
                                     )
