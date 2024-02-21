@@ -4,11 +4,8 @@ import com.tomorrow.convenire.shared.data.data_source.local.EncryptedStorage
 import com.tomorrow.convenire.shared.data.data_source.local.LocalDatabase
 import com.tomorrow.convenire.shared.data.data_source.mapper.*
 import com.tomorrow.convenire.shared.data.data_source.remote.ApiService
-<<<<<<< HEAD
 import com.tomorrow.convenire.shared.data.data_source.remote.WebSocketService
-=======
 import com.tomorrow.convenire.shared.data.repository.utils.getFromCacheAndRevalidate
->>>>>>> develop
 import com.tomorrow.convenire.shared.domain.model.*
 import com.tomorrow.convenire.shared.domain.repositories.*
 import com.tomorrow.convenire.shared.domain.utils.PhoneNumber
@@ -19,11 +16,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import kotlinx.datetime.Clock
-import kotlinx.datetime.DateTimeUnit
-import kotlinx.datetime.Instant
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.minus
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import kotlin.time.Duration
@@ -264,8 +256,6 @@ class RepositoryImplementation : LiveNotificationRepository, CompanyRepository, 
         apiService.getConfig().getOrThrow().let {
             emit(ConfigurationDataMapper().mapFromEntity(it))
         }
-<<<<<<< HEAD
-=======
     }
 
     override fun getColorTheme(): StateFlow<ColorTheme> = colorTheme
@@ -274,7 +264,6 @@ class RepositoryImplementation : LiveNotificationRepository, CompanyRepository, 
         encryptedStorage.colorTheme = colorTheme
         this.colorTheme.value = encryptedStorage.colorTheme ?: ColorTheme.Auto
         return Result.success("Successfully changed")
->>>>>>> develop
     }
 
     override fun saveFCMToken(fcmToken: String?): Result<String> {

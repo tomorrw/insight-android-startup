@@ -16,9 +16,8 @@ class TicketViewModel: ObservableObject {
     @Published var pageData: MyQrPresentationModel = MyQrPresentationModel()
     @Published var errorMessage: String? = ""
     private var user: User? = nil
-    
-    private var startDate: Date? = nil
-    private var endDate: Date? = nil
+    private var usecase = shared.LiveNotificationListenerUseCase()
+    @Published var websocketMessage: String = ""
     
     init() {
         self.getData()
