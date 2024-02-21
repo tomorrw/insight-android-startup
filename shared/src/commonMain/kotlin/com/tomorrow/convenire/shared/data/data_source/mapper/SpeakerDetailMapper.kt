@@ -3,7 +3,9 @@ package com.tomorrow.convenire.shared.data.data_source.mapper
 import com.tomorrow.convenire.shared.data.data_source.model.SpeakerDTO
 import com.tomorrow.convenire.shared.data.data_source.utils.EntityMapper
 import com.tomorrow.convenire.shared.data.data_source.utils.Loadable
+import com.tomorrow.convenire.shared.domain.model.FullName
 import com.tomorrow.convenire.shared.domain.model.Page
+import com.tomorrow.convenire.shared.domain.model.Salutation
 import com.tomorrow.convenire.shared.domain.model.SocialLink
 import com.tomorrow.convenire.shared.domain.model.Speaker
 import com.tomorrow.convenire.shared.domain.model.SpeakerDetail
@@ -37,8 +39,11 @@ class SpeakerDetailMapper : EntityMapper<SpeakerDetail, SpeakerDTO> {
                     allPages.add(Page("Lectures",dynamicThirdPage))
                 allPages
             }),
-        firstName = entity.firstName,
-        lastName = entity.lastName,
+        fullName = FullName(
+            salutation = SalutationMapper().mapFromEntityIfNotNull(entity.salutation) ?: Salutation.None,
+            firstName = entity.firstName,
+            lastName = entity.lastName,
+        ),
         socialLinks = entity.socialLinks.map { SocialLinkMapper().mapFromEntity(it) },
         nationality = entity.country?.let { country ->
             Speaker.Country(

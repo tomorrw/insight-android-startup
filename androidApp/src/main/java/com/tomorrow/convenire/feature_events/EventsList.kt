@@ -223,7 +223,7 @@ private fun Header(
 
                         Text(
                             it.dayOfMonth.toString(),
-                            style = MaterialTheme.typography.titleLarge.copy(color)
+                            style = MaterialTheme.typography.titleMedium.copy(color)
                         )
                         Text(
                             getMonthFormatter.format(it),

@@ -8,29 +8,29 @@
 
 import shared
 
-class MyQrPresentationModel: ObservableObject{
+class MyQrPresentationModel{
     @Published var userName: String? = nil
-    @Published var qrCodeString: String? = nil
-    private var user: User? = nil{
-        didSet{
-            self.userName = user?.getFormattedName()
-            self.qrCodeString = user?.generateQrCodeString()
-        }
-    }
+    @Published var qrCodeString: String = "Not valid"
+    var user: User? = nil
     
-    func loadUser(_ user: User? = nil) {
+    init(user: User? = nil) {
         self.user = user
+        self.userName = self.user?.fullName.getFormattedName()
+        self.qrCodeString = self.user?.generateQrCodeString() ?? "Not Valid"
     }
     
-    func generateQrCode(){
-        self.qrCodeString = user?.generateQrCodeString()
+    func load(user: User? = nil) {
+        self.user = user
+        self.userName = self.user?.fullName.getFormattedName()
+        self.qrCodeString = self.user?.generateQrCodeString() ?? "Not Valid"
     }
 }
 
 class EmptyTicketPresentationModel: MyQrPresentationModel{
     @Published var description: String = "Your Digital Identity"
     
-    init(description: String) {
+    init(user: User?, description: String) {
+        super.init(user: user)
         self.description = description
     }
 }
@@ -41,8 +41,9 @@ class TicketPresentationModel: MyQrPresentationModel{
     @Published var subText: [String]? = nil
     @Published var ticketStatus: String? = nil
     @Published var description: String = "Your Digital Identity"
-
-    init(rightTitle: String? = nil, leftTitle: String, subText: [String]? = nil, ticketStatus: String? = nil,description: String) {
+    
+    init(user:User?, rightTitle: String? = nil, leftTitle: String, subText: [String]? = nil, ticketStatus: String? = nil,description: String) {
+        super.init(user: user)
         self.rightTitle = rightTitle
         self.leftTitle = leftTitle
         self.subText = subText

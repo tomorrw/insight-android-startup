@@ -18,7 +18,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Power-by-tomorrow" highlightedImage="Power-by-tomorrow" id="UNj-0k-hNo">
-                                <rect key="frame" x="140" y="765" width="112" height="53"/>
+                                <rect key="frame" x="146" y="765" width="112" height="53"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="convenire-logo" highlightedImage="convenire-logo" id="IBL-CB-Bhe">

@@ -127,7 +127,7 @@ struct SessionCard: View {
                                         .scaledToFill()
                                         .clipShape(Circle())
                                         .frame(width: 18, height: 18)
-                                    Text(speaker.getFullName())
+                                    Text(speaker.fullName.getFormattedName())
                                         .font(.system(size: 16))
                                 }
                             }

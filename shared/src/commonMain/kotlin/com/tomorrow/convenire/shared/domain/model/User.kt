@@ -10,8 +10,7 @@ import kotlinx.serialization.json.Json
 data class User(
     val id: String,
     val uuid: String,
-    val salutation: Salutation = Salutation.None,
-    val name: String,
+    var fullName: FullName,
     val email: Email?,
     val phoneNumber: PhoneNumber,
     val hasPaid: Boolean = false,
@@ -20,11 +19,6 @@ data class User(
     val actions: List<Action>,
     val notificationTopics: List<String> = listOf(),
 ) {
-    fun getFullName() = this.name.split(" ")
-        .joinToString(" ") { name -> name.replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() } }
-
-    fun getFormattedName() = if (salutation == Salutation.None) getFullName()
-    else "${salutation.getAsString()} ${getFullName()}"
 
     @Serializable
     private class QrCodeContent(

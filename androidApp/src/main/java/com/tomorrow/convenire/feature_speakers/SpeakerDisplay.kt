@@ -68,7 +68,7 @@ fun SpeakerDisplay(speaker: Speaker) {
         },
         title = {
             Text(
-                speaker.getFullName(),
+                speaker.fullName.getFullName(),
                 style = MaterialTheme.typography.bodyMedium.copy(textAlign = TextAlign.Center),
                 modifier = Modifier.padding(top = 6.dp),
                 maxLines = 2,

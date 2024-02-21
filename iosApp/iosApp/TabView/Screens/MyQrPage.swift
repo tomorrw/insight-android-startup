@@ -77,13 +77,13 @@ struct MyQrPage: View {
                         .padding(24)
                         
                         Button {
-                            withAnimation(.linear(duration: 0.6)) { ticketViewModel.getData() }
+                            withAnimation(.linear(duration: 0.6)) { self.ticketViewModel.getData() }
                         } label: {
                             Image(uiImage: qrImage)
                                 .resizable()
                                 .renderingMode(.template)
                                 .colorMultiply(Color("Primary"))
-                                .frame(width: 175, height: 175)
+                                .frame(width: 200, height: 200)
                                 .padding(.bottom, 24)
                         }
                         .buttonStyle(.plain)
@@ -135,15 +135,15 @@ struct MyQrPage: View {
                     }
                     .padding(.horizontal, 16)
                 } 
-                if let emptyTicketInfo = ticketViewModel.pageData as? EmptyTicketPresentationModel {
+                else if let emptyTicketInfo = ticketViewModel.pageData as? EmptyTicketPresentationModel {
                     Button {
-                        withAnimation(.linear(duration: 0.6)) { ticketViewModel.getData() }
+                        withAnimation(.linear(duration: 0.6)) { self.ticketViewModel.getData() }
                     } label: {
                         Image(uiImage: qrImage)
                             .resizable()
                             .renderingMode(.template)
                             .colorMultiply(Color("Primary"))
-                            .frame(width: 175, height: 175)
+                            .frame(width: 200, height: 200)
                             .padding(.bottom, 24)
                     }
                     .buttonStyle(.plain)
@@ -156,10 +156,25 @@ struct MyQrPage: View {
                         .padding(.horizontal, 26)
                         .padding(.bottom, 18)
                 }
+                else {
+                    Button {
+                        withAnimation(.linear(duration: 0.6)) { self.ticketViewModel.getData() }
+                    } label: {
+                        Image(uiImage: qrImage)
+                            .resizable()
+                            .renderingMode(.template)
+                            .colorMultiply(Color("Primary"))
+                            .frame(width: 200, height: 200)
+                            .padding(.bottom, 24)
+                    }
+                    .buttonStyle(.plain)
+                }
                 
                 Spacer()
                 
-                
+                    .onReceive(ticketViewModel.pageData.$qrCodeString) { qrString in
+                        qrImage = ticketViewModel.pageData.qrCodeString.qrImage
+                    }
                     .onReceive(ticketViewModel.$errorMessage, perform: { error in
                         guard error != nil && error != "" else {
                             isDisplayingError = false
@@ -167,9 +182,6 @@ struct MyQrPage: View {
                         }
                         isDisplayingError = true
                     })
-                    .onReceive(ticketViewModel.pageData.$qrCodeString) { qrString in
-                        qrImage = (qrString ?? "Not valid").qrImage
-                    }
             }
             .onReceive(ticketViewModel.$websocketMessage, perform: { newMsg in
                 guard !newMsg.isEmpty else {
@@ -191,8 +203,7 @@ struct MyQrPage: View {
                 }
             }
             .onReceive(timer, perform: { _ in
-                ticketViewModel.pageData.generateQrCode()
-                qrImage = (ticketViewModel.pageData.qrCodeString ?? "Not valid").qrImage
+                self.ticketViewModel.pageData.qrCodeString = self.ticketViewModel.pageData.user?.generateQrCodeString() ?? "Not validfds"
             })
             .onAppear{
                 ticketViewModel.startListening()
@@ -227,7 +238,7 @@ private extension String {
         
         
         if let outputImage =  qrFilter.outputImage?.transformed(by: qrTransform)  {
-            if let image = context.createCGImage(outputImage, from: outputImage.extent) {
+            if context.createCGImage(outputImage, from: outputImage.extent) != nil {
                 let maskFilter = CIFilter.blendWithMask()
                 maskFilter.maskImage = outputImage.applyingFilter("CIColorInvert")
                 maskFilter.inputImage = CIImage(

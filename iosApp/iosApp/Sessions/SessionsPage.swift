@@ -32,7 +32,7 @@ struct SessionsPage: View {
                         .frame(width: 56, height: 56)
                         .background(
                             RoundedRectangle(cornerRadius: 16)
-                                .foregroundColor(info.isEnabled ? Color("Default") : Color("Dark"))
+                                .foregroundColor(info.isEnabled ? Color("Default") : Color("Surface"))
                         )
                     }
                     .buttonStyle(.plain)

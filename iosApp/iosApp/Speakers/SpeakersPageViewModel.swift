@@ -46,7 +46,7 @@ class SpeakersViewModel: SearchViewModel {
         allData.map {
             SearchItem(
                 id: $0.id,
-                title: $0.getFullName(),
+                title: $0.fullName.getFormattedName(),
                 description: $0.title,
                 image: $0.image,
                 category: SearchCategory($0.nationality?.name ?? "", image: $0.nationality?.url)

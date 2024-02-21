@@ -5,7 +5,7 @@ import com.tomorrow.convenire.shared.domain.model.SpeakerDetail
 
 fun SpeakerDetail.toListDisplayItem() = ListDisplayItem(
     id = this.id,
-    title = this.getFullName(),
+    title = this.fullName.getFormattedName(),
     description = this.title,
     imageUrlString = this.image ?: "",
 )

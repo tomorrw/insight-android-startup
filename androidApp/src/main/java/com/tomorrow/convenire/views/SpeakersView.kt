@@ -76,7 +76,7 @@ fun SpeakersView() {
                                 ) {
                                     Text(
                                         it.key?.name ?: "",
-                                        style = MaterialTheme.typography.titleLarge.copy(
+                                        style = MaterialTheme.typography.titleMedium.copy(
                                             textAlign = TextAlign.Start
                                         ),
                                         modifier = Modifier

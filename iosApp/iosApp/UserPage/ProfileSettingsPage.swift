@@ -79,6 +79,7 @@ struct ProfileSettingsPage: View {
             isDisplayingError = true
         })
         .background(Color("Background"))
+        .modifier(FormHiddenBackground())
     }
     
 }
