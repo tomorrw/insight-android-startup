@@ -21,6 +21,8 @@ class MyQrPresentationModel{
     
     func load(user: User? = nil) {
         self.user = user
+        self.userName = self.user?.fullName.getFormattedName()
+        self.qrCodeString = self.user?.generateQrCodeString() ?? "Not Valid"
     }
 }
 

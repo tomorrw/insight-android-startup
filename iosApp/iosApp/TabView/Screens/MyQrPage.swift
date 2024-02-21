@@ -134,7 +134,7 @@ struct MyQrPage: View {
                     }
                     .padding(.horizontal, 16)
                 } 
-                if let emptyTicketInfo = ticketViewModel.pageData as? EmptyTicketPresentationModel {
+                else if let emptyTicketInfo = ticketViewModel.pageData as? EmptyTicketPresentationModel {
                     Button {
                         withAnimation(.linear(duration: 0.6)) { self.ticketViewModel.getData() }
                     } label: {
@@ -154,6 +154,19 @@ struct MyQrPage: View {
                         .frame(height: 40)
                         .padding(.horizontal, 26)
                         .padding(.bottom, 18)
+                }
+                else {
+                    Button {
+                        withAnimation(.linear(duration: 0.6)) { self.ticketViewModel.getData() }
+                    } label: {
+                        Image(uiImage: qrImage)
+                            .resizable()
+                            .renderingMode(.template)
+                            .colorMultiply(Color("Primary"))
+                            .frame(width: 200, height: 200)
+                            .padding(.bottom, 24)
+                    }
+                    .buttonStyle(.plain)
                 }
                 
                 Spacer()
