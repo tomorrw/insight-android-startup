@@ -126,7 +126,7 @@ fun ProfileView() {
                     Spacer(modifier = Modifier.height(16.dp))
 
                     user.actions.map {
-                        ActionButton(action = it)
+                        ActionButton(modifier= Modifier.padding(vertical = 4.dp),action = it)
                     }
                 }
             }
