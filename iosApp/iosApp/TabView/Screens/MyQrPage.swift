@@ -212,10 +212,9 @@ struct MyQrPage: View {
                 .padding(.horizontal)
                 .padding(.bottom)
                 .background(Color("Background"))
+                
                 if showPopUp{
-                    Button {
-                        withAnimation(.linear(duration: 0.6)) { self.showPopUp.toggle() }
-                    } label: {
+                    VStack{
                         Image(uiImage: qrImage)
                             .resizable()
                             .renderingMode(.template)
@@ -226,9 +225,9 @@ struct MyQrPage: View {
                             }
                             .frame(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.width)
                     }
-                    .buttonStyle(.plain)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .background(Color("Background").opacity(0.75))
+                    .onTapGesture { self.showPopUp.toggle() }
                 }
             }
         }
