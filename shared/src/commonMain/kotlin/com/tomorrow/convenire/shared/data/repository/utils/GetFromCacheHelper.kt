@@ -31,8 +31,7 @@ fun <Data> getFromCacheAndRevalidate(
                     DateTimeUnit.MINUTE,
                     TimeZone.currentSystemDefault()
                 )
-
-        if (cacheAge != null && cacheAge < minutesAgo && localDataFound) return@flow
+        if (cacheAge != null && cacheAge > minutesAgo && localDataFound) return@flow
 
         getFromApi().getOrThrow()?.let {
             emit(it)
