@@ -43,6 +43,7 @@ struct SessionDetailPage: View {
             },
             customBody: { VerticalDisplayView(pages: $vm.pages, actions: $vm.action) }
         )
+        .refreshable{ await self.vm.getData() }
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             Button {
