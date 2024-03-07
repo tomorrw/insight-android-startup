@@ -81,13 +81,17 @@ class RepositoryImplementation : CompanyRepository, SpeakerRepository, PostRepos
         refreshCompanies().map { companies -> companies.flatMap { it.categories }.distinct() }
 
 
-    override fun getPostById(id: String): Flow<Post> = flow {
-        localDatabase.getHomeResponse().getOrNull()?.posts?.find { it.id == id }?.let {
-            emit(postMapper.mapFromEntity(it))
-        }
-
-        apiService.getPost(id).getOrThrow().let { emit(postMapper.mapFromEntity(it)) }
-    }
+    override fun getPostById(id: String): Flow<Post> = getFromCacheAndRevalidate(
+    getFromCache = {
+        localDatabase.getHomeResponse().getOrNull()?.posts?.find { it.id == id }
+            ?.let { Result.success(it) }
+            ?: Result.failure(Exception("Post with id $id not found"))
+    },
+    getFromApi = { apiService.getPost(id) },
+    setInCache = {  },
+    cacheAge = localDatabase.lastUpdatedSessions(),
+    revalidateIfOlderThan = Duration.parse("0m")
+    ).map { post -> postMapper.mapFromEntity(post) }
 
     override suspend fun hitPostUrl(url: String): Result<String> = apiService.hitPostUrl(url)
 
@@ -100,7 +104,7 @@ class RepositoryImplementation : CompanyRepository, SpeakerRepository, PostRepos
         getFromApi = { apiService.getSession(id) },
         setInCache = { session -> localDatabase.replaceSession(session) },
         cacheAge = localDatabase.lastUpdatedSessions(),
-        revalidateIfOlderThan = Duration.parse("30m")
+        revalidateIfOlderThan = Duration.parse("0m")
     ).map { session -> sessionMapper.mapFromEntity(session) }
 
     @Throws(Throwable::class)
