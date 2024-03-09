@@ -17,7 +17,7 @@ class SessionDetailPageViewModel: DetailPageViewModel {
     @Published var location: String = ""
     @Published var date: String = ""
     @Published var canAskQuestions: Bool = false
-    @Published var attendees: String = ""
+    @Published var attendees: String? = nil
     @Published var action: [Action] = []
     @Published var hasAttended: Bool = false
 
@@ -45,8 +45,7 @@ class SessionDetailPageViewModel: DetailPageViewModel {
                 self.canAskQuestions = data.canAskQuestions
                 self.hasAttended = data.hasAttended
                 self.action = data.actions
-                let numberOfAttendees = [data.numberOfAttendees.getDataIfLoaded()?.description, data.numberOfSeats.getDataIfLoaded()?.description]
-                self.attendees = numberOfAttendees.compactMap { $0 }.joined(separator: " / ")
+                self.attendees = data.getAttendeesCount()
                 
                 
                 let dateFormatter = DateFormatter()

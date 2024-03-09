@@ -39,6 +39,18 @@ class Session(
         return (myStart > otherStart && myStart < otherEnd) || (myEnd > otherStart && myEnd < otherEnd) || (myStart < otherStart && myEnd > otherEnd) || (myStart == otherStart)
     }
 
+    fun getAttendeesCount(): String? {
+        val numberOfA = numberOfAttendees.getDataIfLoaded()
+        val numberOfS = numberOfSeats.getDataIfLoaded()
+        return if (numberOfA != null && numberOfS != null) {
+            if (numberOfS == 0)
+                "$numberOfA"
+            else
+                "$numberOfA / $numberOfS"
+        } else
+            null
+    }
+
     fun getDateString(): String {
         return this.startTime.date.toString()
     }
