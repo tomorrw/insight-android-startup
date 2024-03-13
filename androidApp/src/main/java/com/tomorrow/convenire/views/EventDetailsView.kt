@@ -192,14 +192,13 @@ fun EventDetailsView(id: String) {
                                     tint = MaterialTheme.colorScheme.primary
                                 )
 
-                                Text(
-                                    text = listOfNotNull(
-                                        it.numberOfAttendees.getDataIfLoaded(),
-                                        it.numberOfSeats.getDataIfLoaded()
-                                    ).joinToString(" / "),
-                                    style = MaterialTheme.typography.bodyLarge.copy(color = MaterialTheme.colorScheme.onSurfaceVariant),
-                                    modifier = Modifier
-                                )
+                                it.getAttendeesCount()?.let {attendees ->
+                                    Text(
+                                        text = attendees,
+                                        style = MaterialTheme.typography.bodyLarge.copy(color = MaterialTheme.colorScheme.onSurfaceVariant),
+                                        modifier = Modifier
+                                    )
+                                }
                             }
                         }
 
