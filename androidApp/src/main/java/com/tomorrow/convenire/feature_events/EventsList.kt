@@ -4,12 +4,9 @@ import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -19,9 +16,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.ExperimentalMaterialApi
@@ -165,7 +162,10 @@ private fun Header(
     selectedLocation: String,
     onSelectedLocation: (String) -> Unit,
 ) {
-    val scrollState = rememberScrollState()
+    val daysScrollState: LazyListState = rememberLazyListState()
+    LaunchedEffect(key1 = "") {
+        daysScrollState.scrollToItem(days.indexOf(selectedDay))
+    }
 
     CompositionLocalProvider(
         LocalDensity provides Density(LocalDensity.current.density, 1f)
@@ -205,16 +205,16 @@ private fun Header(
                 .offset(y = -headerOffset)
                 .background(MaterialTheme.colorScheme.surface)
         ) {
-            Row(
+            LazyRow(
                 Modifier
                     .fillMaxWidth()
-                    .horizontalScroll(scrollState)
                     .padding(bottom = 12.dp),
-                horizontalArrangement = Arrangement.SpaceEvenly
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                state = daysScrollState
             ) {
-                days.forEach {
+                items(days) { it ->
                     Column(Modifier
-                        .padding(end = if(days.count() > 5)  16.dp else 0.dp)
+                        .padding(end = if (days.count() > 5) 16.dp else 0.dp)
                         .clip(RoundedCornerShape(8.dp))
                         .background(
                             if (it == selectedDay) MaterialTheme.colorScheme.background else androidx.compose.material.MaterialTheme.colors.surface

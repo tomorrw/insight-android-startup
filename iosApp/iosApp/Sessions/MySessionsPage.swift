@@ -17,37 +17,45 @@ struct MySessionsPage: View {
     var body: some View {
         GeometryReader { geo in
             VStack(alignment: .leading, spacing: 8) {
-                ScrollView(.horizontal, showsIndicators: false){
-                    
-                    HStack {
-                        ForEach(vm.datesDisplayed.indices, id: \.self) { i in
-                            let info = vm.datesDisplayed[i]
-                            Button {
-                                withAnimation { vm.changeDate(info.date) }
-                            } label: {
-                                VStack {
-                                    Text("\(info.date.dayOfMonth)")
-                                        .font(.system(size: 16, weight: .medium))
-                                    Text(info.date.month.description().capitalized.prefix(3))
-                                        .font(.system(size: 14))
+                ScrollViewReader { proxy in
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack {
+                            ForEach(vm.datesDisplayed.indices, id: \.self) { i in
+                                let info = vm.datesDisplayed[i]
+                                Button {
+                                    withAnimation { vm.changeDate(info.date) }
+                                } label: {
+                                    VStack {
+                                        Text("\(info.date.dayOfMonth)")
+                                            .font(.system(size: 16, weight: .medium))
+                                        Text(info.date.month.description().capitalized.prefix(3))
+                                            .font(.system(size: 14))
+                                    }
+                                    .foregroundColor(info.isEnabled ? Color("Primary") : Color("OnSurface"))
+                                    .frame(width: 56, height: 56)
+                                    .background(
+                                        RoundedRectangle(cornerRadius: 16)
+                                            .foregroundColor(info.isEnabled ? Color("Default") : Color("Surface"))
+                                    )
+                                    .id(info.id)
+                                    
                                 }
-                                .foregroundColor(info.isEnabled ? Color("Primary") : Color("OnSurface"))
-                                .frame(width: 56, height: 56)
-                                .background(
-                                    RoundedRectangle(cornerRadius: 16)
-                                        .foregroundColor(info.isEnabled ? Color("Default") : Color("Surface"))
-                                )
+                                .buttonStyle(.plain)
+                                
+                                if vm.datesDisplayed.count - 1 != i { Spacer().frame(width: 20) }
                             }
-                            .buttonStyle(.plain)
-                            
-                            if vm.datesDisplayed.count - 1 != i { Spacer().frame(width: 20) }
+                        }
+                        .padding(.top)
+                        .frame(minWidth: self.dateSectionWidth, maxWidth: .infinity)
+                        .background(Color("Background"))
+                        .onReceive(vm.$appropriateDisplayDate) {date in
+                            guard let appDate = date else { return }
+                            DispatchQueue.main.async {
+                                proxy.scrollTo(appDate.id, anchor: .center)
+                            }
                         }
                     }
-                    .padding(.top)
-                    .frame(minWidth: self.dateSectionWidth, maxWidth: .infinity)
-                    .background(Color("Background"))
                 }
-                
                 if (vm.isLoading) {
                     VStack(spacing: 16) {
                         ForEach(0..<2, id:\.self) { _ in
