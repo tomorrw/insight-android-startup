@@ -21,11 +21,8 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathEffect
-<<<<<<< HEAD
 import androidx.compose.ui.platform.LocalContext
-=======
 import androidx.compose.ui.input.pointer.pointerInput
->>>>>>> develop
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -101,7 +98,6 @@ class MyQrViewModel : ReadViewModel<MyQrViewData>(
 @Composable
 fun MyQrView() {
     val viewModel: MyQrViewModel = koinViewModel()
-<<<<<<< HEAD
     val context = LocalContext.current
 
     LaunchedEffect(key1 = "") {
@@ -114,9 +110,7 @@ fun MyQrView() {
             Toast.makeText(context, viewModel.notificationMessage.value, Toast.LENGTH_LONG).show()
         }
     }
-=======
     val shouldPopup = remember { mutableStateOf(false) }
->>>>>>> develop
 
     DefaultReadView(viewModel = viewModel) { ticket ->
         val qrCode = remember {
