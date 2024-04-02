@@ -4,7 +4,11 @@ import com.tomorrow.convenire.shared.data.data_source.local.EncryptedStorage
 import com.tomorrow.convenire.shared.data.data_source.local.LocalDatabase
 import com.tomorrow.convenire.shared.data.data_source.mapper.*
 import com.tomorrow.convenire.shared.data.data_source.remote.ApiService
+<<<<<<< HEAD
 import com.tomorrow.convenire.shared.data.data_source.remote.WebSocketService
+=======
+import com.tomorrow.convenire.shared.data.data_source.utils.Loadable
+>>>>>>> develop
 import com.tomorrow.convenire.shared.data.repository.utils.getFromCacheAndRevalidate
 import com.tomorrow.convenire.shared.domain.model.*
 import com.tomorrow.convenire.shared.domain.repositories.*
@@ -16,6 +20,17 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+<<<<<<< HEAD
+=======
+import kotlinx.datetime.Clock
+import kotlinx.datetime.DateTimeUnit
+import kotlinx.datetime.Instant
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.LocalTime
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.minus
+>>>>>>> develop
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import kotlin.time.Duration
@@ -79,13 +94,17 @@ class RepositoryImplementation : LiveNotificationRepository, CompanyRepository, 
         refreshCompanies().map { companies -> companies.flatMap { it.categories }.distinct() }
 
 
-    override fun getPostById(id: String): Flow<Post> = flow {
-        localDatabase.getHomeResponse().getOrNull()?.posts?.find { it.id == id }?.let {
-            emit(postMapper.mapFromEntity(it))
-        }
-
-        apiService.getPost(id).getOrThrow().let { emit(postMapper.mapFromEntity(it)) }
-    }
+    override fun getPostById(id: String): Flow<Post> = getFromCacheAndRevalidate(
+    getFromCache = {
+        localDatabase.getHomeResponse().getOrNull()?.posts?.find { it.id == id }
+            ?.let { Result.success(it) }
+            ?: Result.failure(Exception("Post with id $id not found"))
+    },
+    getFromApi = { apiService.getPost(id) },
+    setInCache = {  },
+    cacheAge = localDatabase.lastUpdatedSessions(),
+    revalidateIfOlderThan = Duration.parse("0m")
+    ).map { post -> postMapper.mapFromEntity(post) }
 
     override suspend fun hitPostUrl(url: String): Result<String> = apiService.hitPostUrl(url)
 
@@ -98,7 +117,7 @@ class RepositoryImplementation : LiveNotificationRepository, CompanyRepository, 
         getFromApi = { apiService.getSession(id) },
         setInCache = { session -> localDatabase.replaceSession(session) },
         cacheAge = localDatabase.lastUpdatedSessions(),
-        revalidateIfOlderThan = Duration.parse("30m")
+        revalidateIfOlderThan = Duration.parse("0m")
     ).map { session -> sessionMapper.mapFromEntity(session) }
 
     @Throws(Throwable::class)

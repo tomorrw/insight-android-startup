@@ -28,6 +28,7 @@ class SessionsPageViewModel: ObservableObject {
     private var shouldFilterForCompanies: Bool
     private var currentSessions: [Session] = []
     private var currentDate: Kotlinx_datetimeLocalDate? = nil
+    @Published var appropriateDisplayDate: DateDisplayInfo? = nil
     
     private var allSessions: [Session] = []
 
@@ -65,7 +66,7 @@ class SessionsPageViewModel: ObservableObject {
                 guard let displayedDay = GetAppropriateDisplayedDayForEvent().getDay(events: self.allSessions) else {
                     return
                 }
-                changeDate(displayedDay)
+                changeDate(displayedDay, true)
             }
         } catch {
             isLoading = false
@@ -74,11 +75,14 @@ class SessionsPageViewModel: ObservableObject {
     }
     
     
-    func changeDate(_ displayedDay: Kotlinx_datetimeLocalDate) {
+    func changeDate(_ displayedDay: Kotlinx_datetimeLocalDate,_ changeAppropriateDate:Bool = false) {
         self.currentDate = displayedDay
         self.currentSessions = allSessions.filter { $0.startTime.date == displayedDay }
         self.datesDisplayed = GetDatesFromEventsUseCase().getDates(events: allSessions).map{ date in
             DateDisplayInfo(isEnabled: date == displayedDay, date: date)
+        }
+        if changeAppropriateDate {
+            self.appropriateDisplayDate = datesDisplayed.first(where: {$0.isEnabled})
         }
         
         self.displayedLocation = [defaultLocationFilter] + self.currentSessions.map { $0.location }.unique.sorted().reversed()

@@ -5,6 +5,7 @@ import android.widget.Toast
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -20,7 +21,11 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathEffect
+<<<<<<< HEAD
 import androidx.compose.ui.platform.LocalContext
+=======
+import androidx.compose.ui.input.pointer.pointerInput
+>>>>>>> develop
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -31,6 +36,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.ktx.messaging
 import com.tomorrow.convenire.R
 import com.tomorrow.convenire.common.PullToRefreshLayout
+import com.tomorrow.convenire.common.dialogs.FullScreenPopUp
 import com.tomorrow.convenire.common.headers.PageHeaderLayout
 import com.tomorrow.convenire.common.vibratePhone
 import com.tomorrow.convenire.common.view_models.DefaultReadView
@@ -95,6 +101,7 @@ class MyQrViewModel : ReadViewModel<MyQrViewData>(
 @Composable
 fun MyQrView() {
     val viewModel: MyQrViewModel = koinViewModel()
+<<<<<<< HEAD
     val context = LocalContext.current
 
     LaunchedEffect(key1 = "") {
@@ -107,15 +114,36 @@ fun MyQrView() {
             Toast.makeText(context, viewModel.notificationMessage.value, Toast.LENGTH_LONG).show()
         }
     }
+=======
+    val shouldPopup = remember { mutableStateOf(false) }
+>>>>>>> develop
 
     DefaultReadView(viewModel = viewModel) { ticket ->
+        val qrCode = remember {
+            mutableStateOf(ticket.user.generateQrCodeString())
+        }
+        FullScreenPopUp(shouldPopup) {
+            Column(
+                Modifier
+                    .clip(RoundedCornerShape(8.dp))
+                    .background(Color.White)
+                    .padding(4.dp)
+            ) {
+                Image(
+                    painter = rememberQrBitmapPainter(
+                        content = qrCode.value,
+                        size = 400.dp,
+                        color = Color(0xFF113F67),
+                        background = Color.Transparent
+                    ),
+                    contentDescription = "qr",
+                )
+            }
+        }
         PageHeaderLayout(
             title = "My QR", subtitle = "Welcome Back ${ticket.user.fullName.getFormattedName()}"
 
         ) {
-            val qrCode = remember {
-                mutableStateOf(ticket.user.generateQrCodeString())
-            }
             val eventDate: String? =
                 remember(key1 = ticket) { ticket.configurationData?.getFormattedDate() }
 
@@ -208,14 +236,27 @@ fun MyQrView() {
 
                                 Spacer(modifier = Modifier.height(36.dp))
 
-                                Image(
-                                    painter = rememberQrBitmapPainter(
-                                        content = qrCode.value,
-                                        size = 200.dp
-                                    ),
-                                    contentDescription = "qr",
-                                )
-
+                                Column(
+                                    Modifier
+                                        .clip(RoundedCornerShape(8.dp))
+                                        .background(Color.White)
+                                        .padding(4.dp)
+                                        .pointerInput(Unit) {
+                                            detectTapGestures(
+                                                onLongPress = { shouldPopup.value = true },
+                                            )
+                                        }
+                                ) {
+                                    Image(
+                                        painter = rememberQrBitmapPainter(
+                                            content = qrCode.value,
+                                            size = 200.dp,
+                                            color = Color(0xFF113F67),
+                                            background = Color.White
+                                        ),
+                                        contentDescription = "qr",
+                                    )
+                                }
                                 Spacer(modifier = Modifier.height(24.dp))
 
                                 Text(
@@ -254,14 +295,27 @@ fun MyQrView() {
                             horizontalAlignment = Alignment.CenterHorizontally,
                             verticalArrangement = Arrangement.Center,
                         ) {
-                            Image(
-                                painter = rememberQrBitmapPainter(
-                                    background = MaterialTheme.colorScheme.surface,
-                                    content = qrCode.value,
-                                    size = 200.dp
-                                ),
-                                contentDescription = "qr",
-                            )
+                            Column(
+                                Modifier
+                                    .clip(RoundedCornerShape(8.dp))
+                                    .background(Color.White)
+                                    .padding(4.dp)
+                                    .pointerInput(Unit) {
+                                        detectTapGestures(
+                                            onLongPress = { shouldPopup.value = true },
+                                        )
+                                    }
+                            ) {
+                                Image(
+                                    painter = rememberQrBitmapPainter(
+                                        content = qrCode.value,
+                                        size = 200.dp,
+                                        color = Color(0xFF113F67),
+                                        background = Color.White
+                                    ),
+                                    contentDescription = "qr",
+                                )
+                            }
                             Spacer(modifier = Modifier.height(16.dp))
                             Text(
                                 text = ticket.configurationData?.description

@@ -146,7 +146,7 @@ struct HomePage: View {
                     .cornerRadius(16, corners: .topRight)
                     .cornerRadius(16, corners: .topLeft)
                     .frame(maxHeight: .infinity)
-                    .task { await vm.getData() }
+                    .onAppear { Task { await vm.getData() }}
                 }
                 .alert("Load Failed.", isPresented: $isDisplayingError, actions: { }, message: {
                     Text(vm.errorMessage ?? "Something Went Wrong!")
