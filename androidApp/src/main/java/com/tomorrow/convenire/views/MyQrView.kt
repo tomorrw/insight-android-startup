@@ -108,6 +108,7 @@ fun MyQrView() {
         if (viewModel.notificationMessage.value.isNotEmpty()) {
             context.vibratePhone()
             Toast.makeText(context, viewModel.notificationMessage.value, Toast.LENGTH_LONG).show()
+            viewModel.notificationMessage.value = ""
         }
     }
     val shouldPopup = remember { mutableStateOf(false) }

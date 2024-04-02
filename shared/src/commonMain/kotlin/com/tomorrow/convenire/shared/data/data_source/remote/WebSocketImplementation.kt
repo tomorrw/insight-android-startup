@@ -12,8 +12,8 @@ class WebSocketServiceImplementation(
     counter = 0
 ) {
     override fun startListeningToQr(setMessage: (Result<String>) -> Unit) =
-        startListening(setMessage, baseUrl,"")
+        startListening(setMessage, baseUrl,"wss/v2/1/demo/")
 
-    override fun stopListeningToQr() = stopListening("")
+    override fun stopListeningToQr() = stopListening("wss/v2/1/demo/")
 
 }

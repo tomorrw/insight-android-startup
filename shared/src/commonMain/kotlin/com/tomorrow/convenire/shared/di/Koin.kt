@@ -82,7 +82,7 @@ private fun commonModule(enableNetworkLogs: Boolean) = module {
         WebSocketServiceImplementation(
             { get<BearerTokensContainer>().scope.get() },
 //            Constants.PRODUCTION_WEBSITE_BASE_URL // TODO: no
-            "free.blr2.piesocket.com" // TODO: change this, not secure!
+            "socketsbay.com" // TODO: change this, not secure!
         )
     }
 
