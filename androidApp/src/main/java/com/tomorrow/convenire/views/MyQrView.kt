@@ -1,6 +1,7 @@
 package com.tomorrow.convenire.views
 
 import android.util.Log
+import android.view.Gravity
 import android.widget.Toast
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
@@ -21,8 +22,9 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathEffect
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -86,7 +88,9 @@ class MyQrViewModel : ReadViewModel<MyQrViewData>(
 
         try {
             liveNotify.startListening {
-                liveNotify.getMessage().getOrThrow().let { notificationMessage.value = it }
+                it.getOrNull()?.let { notify ->
+                    notificationMessage.value = notify.message
+                }
             }
         } catch (e: Exception) {
             Log.e("LiveNotificationListenerUseCase", "Error startListening $e")
@@ -107,7 +111,10 @@ fun MyQrView() {
     LaunchedEffect(key1 = viewModel.notificationMessage.value) {
         if (viewModel.notificationMessage.value.isNotEmpty()) {
             context.vibratePhone()
-            Toast.makeText(context, viewModel.notificationMessage.value, Toast.LENGTH_LONG).show()
+            val newtoask =
+                Toast.makeText(context, viewModel.notificationMessage.value, Toast.LENGTH_LONG)
+            newtoask.setGravity(Gravity.TOP or Gravity.CENTER_HORIZONTAL, 0, 0)
+            newtoask.show()
             viewModel.notificationMessage.value = ""
         }
     }
@@ -385,4 +392,31 @@ private fun TicketSeparator() {
             )
         }
     }
+}
+
+
+@Composable
+fun CustomToast(
+    modifier: Modifier = Modifier,
+    icon: ImageVector,
+    message: String,
+    duration: Int = Toast.LENGTH_SHORT
+
+) {
+    return Row(
+        modifier = modifier
+            .background(Color.Black)
+            .padding(16.dp)
+            .clip(RoundedCornerShape(16.dp))
+    ) {
+        Icon(
+            imageVector = icon,
+            contentDescription = "icon",
+            tint = Color.White,
+            modifier = Modifier.size(24.dp)
+        )
+        Spacer(modifier = Modifier.width(8.dp))
+        Text(message)
+    }
+
 }

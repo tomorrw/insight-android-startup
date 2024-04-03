@@ -44,6 +44,7 @@ class RepositoryImplementation : LiveNotificationRepository, CompanyRepository, 
     private val speakerMapper = SpeakerDetailMapper()
     private val homeDataMapper = HomeDataMapper()
     private val userMapper = UserMapper()
+    private val notificationMapper = NotificationMapper()
     private val isAuthenticated = MutableStateFlow<Boolean?>(null)
     private val colorTheme = MutableStateFlow(encryptedStorage.colorTheme ?: ColorTheme.Auto)
     private val scope: CoroutineScope by inject()
@@ -309,8 +310,15 @@ class RepositoryImplementation : LiveNotificationRepository, CompanyRepository, 
         emit(offers)
     }
 
-    override fun startReceivingMessages(setMessage: (Result<String>) -> Unit) =
-        webSocketService.startListeningToQr(setMessage)
+    override fun startReceivingMessages(setMessage: (Result<Notification>) -> Unit) {
+        val interceptedSetMessage: (Result<Notification>) -> Unit = { result ->
+            if (result.isFailure) startReceivingMessages(setMessage)
+            setMessage(result)
+        }
+        return webSocketService.startListeningToQr(notificationMapper.mapToEntity(interceptedSetMessage) )
+
+    }
+
 
     override fun stopReceivingMessages() =
         webSocketService.stopListeningToQr()

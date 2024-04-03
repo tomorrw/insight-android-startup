@@ -2,40 +2,38 @@ package com.tomorrow.convenire.shared.data.data_source.utils
 
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.websocket.DefaultClientWebSocketSession
-import io.ktor.client.plugins.websocket.webSocket
-import io.ktor.client.plugins.websocket.webSocketSession
 import io.ktor.client.plugins.websocket.wss
-import io.ktor.client.request.HttpRequestBuilder
-import io.ktor.http.HttpMethod
 import io.ktor.websocket.Frame
 import io.ktor.websocket.close
 import io.ktor.websocket.readText
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import kotlinx.serialization.json.Json
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
 open class BaseWebSocketService(
-    private val clientProvider: () -> HttpClient,
-    private var counter: Int = 0
-
+    val clientProvider: () -> HttpClient,
 ) : KoinComponent {
     val scope: CoroutineScope by inject()
-    private var webSocketSession: HashMap<String, DefaultClientWebSocketSession> = HashMap()
-    fun startListening(setMessage: (Result<String>) -> Unit, baseUrl: String, path: String) {
+    val json: Json by inject()
+    var webSocketSession: HashMap<String, DefaultClientWebSocketSession> = HashMap()
+    inline fun <reified Model> startListening(
+        crossinline setMessage: (Result<Model>) -> Unit,
+        baseUrl: String,
+        path: String
+    ) {
         scope.launch {
             try {
                 clientProvider().wss(
                     host = baseUrl,
-                    path = path
+                    path = path,
                 ) {
                     val incomingMessages = launch { onReceive(setMessage) }
                     webSocketSession[path] = this
                     incomingMessages.join()
                 }
             } catch (e: Throwable) {
-                println("=============== Error while listening: ${e.message}")
-//                throw e
             }
         }
     }
@@ -46,16 +44,17 @@ open class BaseWebSocketService(
         }
     }
 
-    private suspend fun DefaultClientWebSocketSession.onReceive(setMessage: (Result<String>) -> Unit) {
+    suspend inline fun <reified Model> DefaultClientWebSocketSession.onReceive(setMessage: (Result<Model>) -> Unit) {
         try {
             for (message in incoming) {
-                counter += 1
-                if (counter == 5) return
                 message as? Frame.Text ?: continue
-                setMessage(Result.success(message.readText()))
+                val response = message.readText()
+                val model = json.decodeFromString<Model>(response)
+                setMessage(Result.success(model))
             }
         } catch (e: Throwable) {
-            println("=============== Error while receiving: ${e.message}")
+            setMessage(Result.failure(e))
+
         }
     }
 }
