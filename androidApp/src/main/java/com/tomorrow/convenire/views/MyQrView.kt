@@ -31,6 +31,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.ktx.messaging
 import com.tomorrow.convenire.R
@@ -85,11 +86,12 @@ class MyQrViewModel : ReadViewModel<MyQrViewData>(
 ) {
     val notificationStatus = mutableStateOf(true)
     val notificationMessage = mutableStateOf("")
-    fun startListening() {
+
+    fun startListening(id: String) {
         val liveNotify = LiveNotificationListenerUseCase()
 
         try {
-            liveNotify.startListening {
+            liveNotify.startListening(id) {
                 it.getOrNull()?.let { notify ->
                     notificationMessage.value = notify.message
                     notificationStatus.value = notify.result
@@ -107,9 +109,6 @@ fun MyQrView() {
     val viewModel: MyQrViewModel = koinViewModel()
     val context = LocalContext.current
 
-    LaunchedEffect(key1 = "") {
-        viewModel.startListening()
-    }
     val shouldNotify = remember { mutableStateOf(false) }
 
     LaunchedEffect(key1 = viewModel.notificationMessage.value) {
@@ -127,6 +126,9 @@ fun MyQrView() {
     val shouldPopup = remember { mutableStateOf(false) }
 
     DefaultReadView(viewModel = viewModel) { ticket ->
+        LaunchedEffect(key1 = "") {
+            viewModel.startListening(ticket.user.id)
+        }
         val qrCode = remember {
             mutableStateOf(ticket.user.generateQrCodeString())
         }
@@ -339,6 +341,7 @@ fun MyQrView() {
         }
 
         CustomToast(
+            modifier = Modifier.zIndex(11f),
             message = viewModel.notificationMessage.value,
             isShown = shouldNotify,
             duration = 5000,

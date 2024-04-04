@@ -5,7 +5,6 @@ import com.tomorrow.convenire.shared.data.data_source.local.LocalDatabase
 import com.tomorrow.convenire.shared.data.data_source.mapper.*
 import com.tomorrow.convenire.shared.data.data_source.remote.ApiService
 import com.tomorrow.convenire.shared.data.data_source.remote.WebSocketService
-import com.tomorrow.convenire.shared.data.data_source.utils.Loadable
 import com.tomorrow.convenire.shared.data.repository.utils.getFromCacheAndRevalidate
 import com.tomorrow.convenire.shared.domain.model.*
 import com.tomorrow.convenire.shared.domain.repositories.*
@@ -17,14 +16,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import kotlinx.datetime.Clock
-import kotlinx.datetime.DateTimeUnit
-import kotlinx.datetime.Instant
-import kotlinx.datetime.LocalDate
-import kotlinx.datetime.LocalDateTime
-import kotlinx.datetime.LocalTime
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.minus
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import kotlin.time.Duration
@@ -90,15 +81,15 @@ class RepositoryImplementation : LiveNotificationRepository, CompanyRepository, 
 
 
     override fun getPostById(id: String): Flow<Post> = getFromCacheAndRevalidate(
-    getFromCache = {
-        localDatabase.getHomeResponse().getOrNull()?.posts?.find { it.id == id }
-            ?.let { Result.success(it) }
-            ?: Result.failure(Exception("Post with id $id not found"))
-    },
-    getFromApi = { apiService.getPost(id) },
-    setInCache = {  },
-    cacheAge = localDatabase.lastUpdatedSessions(),
-    revalidateIfOlderThan = Duration.parse("0m")
+        getFromCache = {
+            localDatabase.getHomeResponse().getOrNull()?.posts?.find { it.id == id }
+                ?.let { Result.success(it) }
+                ?: Result.failure(Exception("Post with id $id not found"))
+        },
+        getFromApi = { apiService.getPost(id) },
+        setInCache = { },
+        cacheAge = localDatabase.lastUpdatedSessions(),
+        revalidateIfOlderThan = Duration.parse("0m")
     ).map { post -> postMapper.mapFromEntity(post) }
 
     override suspend fun hitPostUrl(url: String): Result<String> = apiService.hitPostUrl(url)
@@ -310,13 +301,13 @@ class RepositoryImplementation : LiveNotificationRepository, CompanyRepository, 
         emit(offers)
     }
 
-    override fun startReceivingMessages(setMessage: (Result<Notification>) -> Unit) {
-        val interceptedSetMessage: (Result<Notification>) -> Unit = { result ->
-            if (result.isFailure) startReceivingMessages(setMessage)
-            setMessage(result)
-        }
-        return webSocketService.startListeningToQr(notificationMapper.mapToEntity(interceptedSetMessage) )
-
+    override fun startReceivingMessages(id: String, setMessage: (Result<Notification>) -> Unit) {
+        return webSocketService.startListeningToQr(
+            id,
+            notificationMapper.mapToEntity(
+                setMessage
+            )
+        )
     }
 
 

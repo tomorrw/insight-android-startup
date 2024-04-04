@@ -80,9 +80,15 @@ private fun commonModule(enableNetworkLogs: Boolean) = module {
 
     single<WebSocketService> {
         WebSocketServiceImplementation(
-            { get<BearerTokensContainer>().scope.get() },
+            {
+                HttpClient() {
+                    install(WebSockets) {
+                        contentConverter = KotlinxWebsocketSerializationConverter(Json)
+                    }
+                }
+            },
 //            Constants.PRODUCTION_WEBSITE_BASE_URL // TODO: no
-            "socketsbay.com" // TODO: change this, not secure!
+            "192.168.8.41" // TODO: change this, not secure!
         )
     }
 

@@ -1,5 +1,6 @@
 package com.tomorrow.convenire.shared.domain.use_cases
 
+import com.tomorrow.convenire.shared.data.data_source.model.NotificationDTO
 import com.tomorrow.convenire.shared.domain.model.Notification
 import com.tomorrow.convenire.shared.domain.model.ResultIOS
 import com.tomorrow.convenire.shared.domain.model.toResultIOS
@@ -10,8 +11,8 @@ import org.koin.core.component.inject
 class LiveNotificationListenerUseCase : KoinComponent {
 
     private val liveNotificationRepository: LiveNotificationRepository by inject()
-    fun startListening(callback: (Result<Notification>) -> Unit) {
-        liveNotificationRepository.startReceivingMessages {
+    fun startListening(id: String, callback: (Result<Notification>) -> Unit) {
+        liveNotificationRepository.startReceivingMessages(id) {
             callback(it)
         }
     }
@@ -19,8 +20,8 @@ class LiveNotificationListenerUseCase : KoinComponent {
         liveNotificationRepository.stopReceivingMessages()
     }
 
-    fun startListeningIOS(callback: (ResultIOS<Notification, Throwable>) -> Unit) {
-        liveNotificationRepository.startReceivingMessages {
+    fun startListeningIOS(id: String, callback: (ResultIOS<Notification, Throwable>) -> Unit) {
+        liveNotificationRepository.startReceivingMessages(id) {
             callback(it.toResultIOS())
         }
     }

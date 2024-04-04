@@ -98,7 +98,9 @@ class TicketViewModel: ObservableObject {
     }
     
     @MainActor func startListening(){
-        self.usecase.startListeningIOS { res in
+        guard let id = self.user?.id else {return}
+
+        self.usecase.startListeningIOS(id: id) { res in
             self.listenToMessage(res)
         }
     }
