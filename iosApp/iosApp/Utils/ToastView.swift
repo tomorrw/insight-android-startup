@@ -27,9 +27,10 @@ struct ToastView: View {
                 
                 HStack {
                     if options.image != nil {
-                        options.image
+                        options.image!
+                            .resizable()
+                            .frame(width: 35, height: 35)
                             .padding([.leading, .top, .bottom])
-                            .imageScale(.large)
                     }
                     
                     VStack {

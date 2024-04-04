@@ -18,6 +18,7 @@ class TicketViewModel: ObservableObject {
     private var user: User? = nil
     private var usecase = shared.LiveNotificationListenerUseCase()
     @Published var websocketMessage: String = ""
+    @Published var websocketStatus: Bool = true
     
     init() {
         self.getData()
@@ -70,26 +71,22 @@ class TicketViewModel: ObservableObject {
             }
         }
     }
-    func listenToMessage() {
-        
-        guard let res = try? self.usecase.getMessageIOS() else{
-            return
-        }
+    func listenToMessage(_ res: ResultIOS<shared.Notification, KotlinThrowable>) {
         
         res.fold(
-            onSuccess: { [weak self] message in
+            onSuccess: { [weak self] notification in
                 guard let self = self,
-                      let msg = message as? String  else {
+                      let notif = notification as? shared.Notification  else {
                     return
                 }
-                DispatchQueue.main.async {
-                    self.websocketMessage = msg
+                DispatchQueue.main.async {   
+                    self.websocketMessage = notif.message
+                    self.websocketStatus = notif.result
                     self.vibrate()
                 }
             },
             onFailure: { [weak self] err in
-                guard let self = self else { return }
-                self.websocketMessage = err.toUserFriendlyError()
+                guard self != nil else { return }
             }
         )
         
@@ -101,7 +98,9 @@ class TicketViewModel: ObservableObject {
     }
     
     @MainActor func startListening(){
-        self.usecase.startListening(callback: self.listenToMessage)
+        self.usecase.startListeningIOS { res in
+            self.listenToMessage(res)
+        }
     }
     
     @MainActor func stopListening(){

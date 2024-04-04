@@ -1,7 +1,6 @@
 package com.tomorrow.convenire.views
 
 import android.util.Log
-import android.view.Gravity
 import android.widget.Toast
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
@@ -22,10 +21,11 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathEffect
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.ktx.messaging
 import com.tomorrow.convenire.R
+import com.tomorrow.convenire.common.CustomToast
 import com.tomorrow.convenire.common.PullToRefreshLayout
 import com.tomorrow.convenire.common.dialogs.FullScreenPopUp
 import com.tomorrow.convenire.common.headers.PageHeaderLayout
@@ -82,6 +83,7 @@ class MyQrViewModel : ReadViewModel<MyQrViewData>(
     onDismiss = { LiveNotificationListenerUseCase().stopListening() }
 
 ) {
+    val notificationStatus = mutableStateOf(true)
     val notificationMessage = mutableStateOf("")
     fun startListening() {
         val liveNotify = LiveNotificationListenerUseCase()
@@ -90,6 +92,7 @@ class MyQrViewModel : ReadViewModel<MyQrViewData>(
             liveNotify.startListening {
                 it.getOrNull()?.let { notify ->
                     notificationMessage.value = notify.message
+                    notificationStatus.value = notify.result
                 }
             }
         } catch (e: Exception) {
@@ -107,17 +110,20 @@ fun MyQrView() {
     LaunchedEffect(key1 = "") {
         viewModel.startListening()
     }
+    val shouldNotify = remember { mutableStateOf(false) }
 
     LaunchedEffect(key1 = viewModel.notificationMessage.value) {
         if (viewModel.notificationMessage.value.isNotEmpty()) {
             context.vibratePhone()
-            val newtoask =
-                Toast.makeText(context, viewModel.notificationMessage.value, Toast.LENGTH_LONG)
-            newtoask.setGravity(Gravity.TOP or Gravity.CENTER_HORIZONTAL, 0, 0)
-            newtoask.show()
+            shouldNotify.value = true
+        }
+    }
+    LaunchedEffect(key1 = shouldNotify.value) {
+        if (!shouldNotify.value) {
             viewModel.notificationMessage.value = ""
         }
     }
+
     val shouldPopup = remember { mutableStateOf(false) }
 
     DefaultReadView(viewModel = viewModel) { ticket ->
@@ -331,6 +337,16 @@ fun MyQrView() {
                 }
             }
         }
+
+        CustomToast(
+            message = viewModel.notificationMessage.value,
+            isShown = shouldNotify,
+            duration = 5000,
+            icon = if (viewModel.notificationStatus.value)
+                painterResource(id = R.drawable.waving_foreground)
+            else painterResource(id = R.drawable.cross_error_foreground),
+            iconColor = if (viewModel.notificationStatus.value) MaterialTheme.colorScheme.surfaceVariant else MaterialTheme.colorScheme.error,
+        )
     }
 }
 
@@ -392,31 +408,4 @@ private fun TicketSeparator() {
             )
         }
     }
-}
-
-
-@Composable
-fun CustomToast(
-    modifier: Modifier = Modifier,
-    icon: ImageVector,
-    message: String,
-    duration: Int = Toast.LENGTH_SHORT
-
-) {
-    return Row(
-        modifier = modifier
-            .background(Color.Black)
-            .padding(16.dp)
-            .clip(RoundedCornerShape(16.dp))
-    ) {
-        Icon(
-            imageVector = icon,
-            contentDescription = "icon",
-            tint = Color.White,
-            modifier = Modifier.size(24.dp)
-        )
-        Spacer(modifier = Modifier.width(8.dp))
-        Text(message)
-    }
-
 }

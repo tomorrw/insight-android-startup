@@ -13,10 +13,15 @@ class LiveNotificationListenerUseCase : KoinComponent {
     fun startListening(callback: (Result<Notification>) -> Unit) {
         liveNotificationRepository.startReceivingMessages {
             callback(it)
-            if (!it.isSuccess) startListening { callback(it) }
         }
     }
     fun stopListening() {
         liveNotificationRepository.stopReceivingMessages()
+    }
+
+    fun startListeningIOS(callback: (ResultIOS<Notification, Throwable>) -> Unit) {
+        liveNotificationRepository.startReceivingMessages {
+            callback(it.toResultIOS())
+        }
     }
 }
