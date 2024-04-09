@@ -96,9 +96,9 @@ private fun commonModule(enableNetworkLogs: Boolean) = module {
 
     single<WebSocketService> {
         WebSocketServiceImplementation(
-            {  get<BearerTokensContainer>().scope.get()  },
-//            Constants.PRODUCTION_WEBSITE_BASE_URL // TODO: no
-            "192.168.8.41" // TODO: change this, not secure!
+            {  get<BearerTokensContainer>().scope.get() },
+            "192.168.8.41", // TODO: change this, not secure!
+            6001
         )
     }
 
@@ -171,10 +171,6 @@ fun createHttpClient(
             logger = Logger.DEFAULT
             level = LogLevel.INFO
         }
-    }
-
-    install(WebSockets) {
-        contentConverter = KotlinxWebsocketSerializationConverter(Json)
     }
 }
 

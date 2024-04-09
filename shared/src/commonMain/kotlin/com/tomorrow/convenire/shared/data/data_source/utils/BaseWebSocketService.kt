@@ -6,6 +6,7 @@ import io.ktor.client.plugins.websocket.receiveDeserialized
 import io.ktor.client.plugins.websocket.sendSerialized
 import io.ktor.client.plugins.websocket.ws
 import io.ktor.client.plugins.websocket.wss
+import io.ktor.websocket.Frame
 import io.ktor.websocket.close
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.isActive
@@ -25,23 +26,18 @@ open class BaseWebSocketService(
         baseUrl: String,
         path: String,
         port: Int,
-        message: Message?,
+        message: Message? = null,
     ) {
         scope.launch {
             try {
-                clientProvider().wss(
+                clientProvider().ws(
                     host = baseUrl,
                     path = path,
-//                    port = port
+                    port = port
                 ) {
                     val incomingMessages = launch {
                         message?.let {
-                            sendMessage(
-                                message,
-                                baseUrl,
-                                path,
-                                port
-                            )
+                            sendSerialized(message)
                         }
                         onReceive(setMessage)
                     }
@@ -49,6 +45,7 @@ open class BaseWebSocketService(
                     incomingMessages.join()
                 }
             } catch (e: Throwable) {
+                println("Error: $e")
                 setMessage(Result.failure(e))
             }
         }
@@ -71,10 +68,10 @@ open class BaseWebSocketService(
                 if (webSocketSession[path]?.isActive == true) {
                     webSocketSession[path]?.sendSerialized(message)
                 } else
-                    clientProvider().wss(
+                    clientProvider().ws(
                         host = baseUrl,
                         path = path,
-//                        port = port
+                        port = port
                     ) {
                         launch {
                             sendSerialized(message)
@@ -82,6 +79,8 @@ open class BaseWebSocketService(
                     }
 
             } catch (e: Throwable) {
+                println("Errors: $e")
+
                 throw e
             }
         }
@@ -90,10 +89,14 @@ open class BaseWebSocketService(
     suspend inline fun <reified Model> DefaultClientWebSocketSession.onReceive(setMessage: (Result<Model>) -> Unit) {
         try {
             for (message in incoming) {
+                println("message: $message")
                 val s = this.receiveDeserialized<Model>()
+                println("model: $s")
                 setMessage(Result.success(s))
             }
         } catch (e: Throwable) {
+            println("Errors: $e")
+
             setMessage(Result.failure(e))
         }
     }
