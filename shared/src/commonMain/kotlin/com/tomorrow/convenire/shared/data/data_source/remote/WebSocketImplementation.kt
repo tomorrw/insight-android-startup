@@ -16,14 +16,14 @@ class WebSocketServiceImplementation(
     override fun startListeningToQr(id: String, setMessage: (Result<NotificationDTO>) -> Unit) {
         return startListening(
             setMessage,
-            baseUrl,
-            "app/98a90d17c40bd9afc57a",
+            "free.blr2.piesocket.com",
+            "v3/1?api_key=h2mgwfuVp3BC1lEqEzs0P8dvnaf3TwPfq2rcNPzO&notify_self=1",
             6001,
             SubscriptionDTO("pusher:subscribe", Channel("ticket-$id"))
         )
     }
 
-    override fun stopListeningToQr() = stopListening("app/98a90d17c40bd9afc57a")
+    override fun stopListeningToQr() = stopListening("v3/1?api_key=h2mgwfuVp3BC1lEqEzs0P8dvnaf3TwPfq2rcNPzO&notify_self=1")
 
 }
 

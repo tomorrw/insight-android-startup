@@ -30,7 +30,8 @@ struct ToastView: View {
                         options.image!
                             .resizable()
                             .frame(width: 35, height: 35)
-                            .padding([.leading, .top, .bottom])
+                            .padding(.leading)
+                            .padding([.top, .bottom], 10)
                     }
                     
                     VStack {

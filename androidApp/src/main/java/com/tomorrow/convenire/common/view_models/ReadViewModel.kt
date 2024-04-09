@@ -36,7 +36,8 @@ open class ReadViewModel<D>(
     var state by mutableStateOf(State<D>())
     val scope: CoroutineScope by inject()
 
-    constructor(suspendLoad: suspend () -> D) : this( // not used but useful
+    constructor(suspendLoad: suspend () -> D) : this(
+        // not used but useful
         load = { flow { emit(suspendLoad()) } },
         refresh = { flow { emit(suspendLoad()) } },
     )
@@ -57,7 +58,7 @@ open class ReadViewModel<D>(
                             state = state.copy(
                                 isLoading = false,
                                 isEmpty = emptyCheck(it),
-                                )
+                            )
                         }
                     } catch (e: Throwable) {
                         Log.e("Read View Model Error", "$e")
@@ -169,7 +170,7 @@ fun <D> DefaultReadView(
         }
     }
 
-    DisposableEffect(key1 = ""){
+    DisposableEffect(key1 = "") {
         onDispose { viewModel.on(ReadViewModel.Event.OnDismiss) }
     }
 

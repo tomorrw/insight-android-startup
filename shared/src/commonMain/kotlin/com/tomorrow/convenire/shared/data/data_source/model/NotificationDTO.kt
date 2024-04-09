@@ -10,12 +10,11 @@ data class NotificationDataDTO(
 
 @Serializable
 data class NotificationDTO(
-    val data: String? = null,
-    val event: String
+    val data: NotificationDataDTO? = null,
+    val event: String = "error"
 ) {
     enum class EventType(val value: String) {
         CHECK_IN("check_in"),
-        CHECK_OUT("check_out"),
         ERROR("error")
     }
 }
