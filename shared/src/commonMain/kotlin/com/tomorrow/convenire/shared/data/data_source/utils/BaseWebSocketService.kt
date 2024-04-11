@@ -1,16 +1,20 @@
 package com.tomorrow.convenire.shared.data.data_source.utils
 
+import com.tomorrow.convenire.shared.data.data_source.model.NotificationDTO
+import com.tomorrow.convenire.shared.data.data_source.model.NotificationDataDTO
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.websocket.DefaultClientWebSocketSession
 import io.ktor.client.plugins.websocket.receiveDeserialized
 import io.ktor.client.plugins.websocket.sendSerialized
 import io.ktor.client.plugins.websocket.ws
-import io.ktor.client.plugins.websocket.wss
 import io.ktor.websocket.Frame
 import io.ktor.websocket.close
+import io.ktor.websocket.readText
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -21,12 +25,11 @@ open class BaseWebSocketService(
     val scope: CoroutineScope by inject()
     val json: Json by inject()
     var webSocketSession: HashMap<String, DefaultClientWebSocketSession> = HashMap()
-    inline fun <reified Model, reified Message> startListening(
+    inline fun <reified Model> startListening(
         crossinline setMessage: (Result<Model>) -> Unit,
         baseUrl: String,
         path: String,
         port: Int,
-        message: Message? = null,
     ) {
         scope.launch {
             try {
@@ -36,9 +39,6 @@ open class BaseWebSocketService(
                     port = port
                 ) {
                     val incomingMessages = launch {
-                        message?.let {
-                            sendSerialized(message)
-                        }
                         onReceive(setMessage)
                     }
                     webSocketSession[path] = this
@@ -79,8 +79,6 @@ open class BaseWebSocketService(
                     }
 
             } catch (e: Throwable) {
-                println("Errors: $e")
-
                 throw e
             }
         }
@@ -89,14 +87,13 @@ open class BaseWebSocketService(
     suspend inline fun <reified Model> DefaultClientWebSocketSession.onReceive(setMessage: (Result<Model>) -> Unit) {
         try {
             for (message in incoming) {
-                println("message: $message")
-                val s = this.receiveDeserialized<Model>()
-                println("model: $s")
+                val incomingString = message as? Frame.Text ?: continue
+                val s =
+                    json.decodeFromString<Model>(incomingString.readText())
                 setMessage(Result.success(s))
             }
         } catch (e: Throwable) {
             println("Errors: $e")
-
             setMessage(Result.failure(e))
         }
     }

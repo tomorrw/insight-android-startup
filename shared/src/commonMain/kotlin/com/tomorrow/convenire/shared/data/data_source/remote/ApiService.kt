@@ -26,4 +26,5 @@ interface ApiService {
     suspend fun saveFCMToken(fcmToken: String): Result<Unit>
     suspend fun deleteFCMToken(fcmToken: String): Result<Unit>
     suspend fun addUnAuthenticatedInterceptor(intercept: suspend () -> Unit)
+    suspend fun sendAuthWebsocket(socket: String, userId: String): Result<ApiServiceImplementation.AuthWebsocketResponse>
 }

@@ -1,12 +1,17 @@
 package com.tomorrow.convenire.shared.data.data_source.mapper
 
 import com.tomorrow.convenire.shared.data.data_source.model.NotificationDTO
+import com.tomorrow.convenire.shared.data.data_source.model.NotificationDataDTO
 import com.tomorrow.convenire.shared.data.data_source.utils.EntityMapper
 import com.tomorrow.convenire.shared.domain.model.Notification
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.Json.Default.decodeFromString
 import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
 class NotificationMapper : KoinComponent,
     EntityMapper<(Result<Notification>) -> Unit, (Result<NotificationDTO>) -> Unit> {
+    val json: Json by inject()
     override fun mapFromEntity(entity: (Result<NotificationDTO>) -> Unit): (Result<Notification>) -> Unit {
         TODO()
     }
@@ -15,31 +20,33 @@ class NotificationMapper : KoinComponent,
         { result ->
             domainModel(
                 if (result.isSuccess) {
-                    when (result.getOrNull()?.event) {
-                        NotificationDTO.EventType.CHECK_IN.value -> Result.success(
+                    val data =
+                        json.decodeFromString<NotificationDataDTO>(result.getOrNull()?.data ?: "{}")
+                    when (data.type) {
+                        NotificationDataDTO.EventType.CHECK_IN.value -> Result.success(
                             Notification(
-                                result.getOrNull()?.data?.result ?: false,
-                                result.getOrNull()?.data?.message ?: "Error"
+                                data.result ?: false,
+                                data.message ?: "Error"
+                            )
+                        )
+                        NotificationDataDTO.EventType.CHECK_OUT.value -> Result.success(
+                            Notification(
+                                data.result ?: false,
+                                data.message ?: "Error"
                             )
                         )
 
-                        NotificationDTO.EventType.ERROR.value -> Result.success(
+                        NotificationDataDTO.EventType.ERROR.value -> Result.success(
                             Notification(
-                                result.getOrNull()?.data?.result ?: false,
-                                result.getOrNull()?.data?.message ?: "Error"
+                                false,
+                                data.message ?: "Error"
                             )
                         )
-
-                        else -> Result.failure(
-                            result.exceptionOrNull() ?: Exception("Unknown event type")
-                        )
-
+                        else -> Result.failure(Exception("Unknown error or event type"))
                     }
                 } else Result.failure(
                     result.exceptionOrNull() ?: Exception("Unknown error or event type")
                 )
-
-
             )
         }
 }

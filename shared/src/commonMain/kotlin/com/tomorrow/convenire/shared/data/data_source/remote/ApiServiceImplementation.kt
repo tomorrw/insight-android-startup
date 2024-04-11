@@ -7,15 +7,11 @@ import io.ktor.client.plugins.auth.*
 import io.ktor.client.plugins.auth.providers.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.HttpReceivePipeline
-import io.ktor.client.statement.HttpResponsePipeline
 import io.ktor.client.statement.request
 import io.ktor.http.HttpStatusCode
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.json.Json
 import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 
 
 class ApiServiceImplementation(
@@ -104,6 +100,31 @@ class ApiServiceImplementation(
                 intercept()
         }
     }
+
+    override suspend fun sendAuthWebsocket(socketId: String, userId: String) = post<AuthWebsocketResponse>(
+        "$baseUrl/broadcasting/auth"
+    ) {
+        setBody(
+            WebsocketAuthRequest(
+                socketId = socketId,
+                channelName = "private-App.Models.User.$userId"
+            )
+        )
+    }
+
+
+    @Serializable
+    private data class WebsocketAuthRequest(
+        @SerialName("socket_id")
+        val socketId: String,
+        @SerialName("channel_name")
+        val channelName: String,
+    )
+    @Serializable
+    data class AuthWebsocketResponse(
+        @SerialName("auth")
+        val authToken: String
+    )
 
     @Serializable
     private data class FCMTokensRequest(

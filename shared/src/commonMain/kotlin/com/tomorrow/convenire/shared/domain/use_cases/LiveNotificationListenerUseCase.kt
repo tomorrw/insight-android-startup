@@ -1,6 +1,5 @@
 package com.tomorrow.convenire.shared.domain.use_cases
 
-import com.tomorrow.convenire.shared.data.data_source.model.NotificationDTO
 import com.tomorrow.convenire.shared.domain.model.Notification
 import com.tomorrow.convenire.shared.domain.model.ResultIOS
 import com.tomorrow.convenire.shared.domain.model.toResultIOS
