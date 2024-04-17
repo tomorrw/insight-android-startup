@@ -7,4 +7,4 @@ class MultipleFieldValidationError(
 
 fun Throwable.toUserFriendlyError(): String = if (this is MultipleFieldValidationError) {
     this.errors.values.mapNotNull { it.firstOrNull() }.joinToString(", ")
-} else this.message.let { if (!it.isNullOrBlank() && it.length < 50) it else "Something went wrong!" }
+} else this.message.let { if (!it.isNullOrBlank() && it.length < 100) it else "Something went wrong!" }

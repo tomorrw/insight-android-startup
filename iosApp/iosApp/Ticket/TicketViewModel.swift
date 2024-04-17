@@ -98,6 +98,7 @@ class TicketViewModel: ObservableObject {
     }
     
     @MainActor func startListening(){
+        print("starteddd")
         guard let id = self.user?.id else {return}
         Task{
             try await self.usecase.startListeningIOS(id: id) { res in
@@ -107,6 +108,7 @@ class TicketViewModel: ObservableObject {
     }
     
     @MainActor func stopListening(){
+        print("stoped")
         Task{ try await self.usecase.stopListening() }
     }
 

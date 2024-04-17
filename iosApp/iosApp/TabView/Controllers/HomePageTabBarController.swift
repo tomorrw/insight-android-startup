@@ -7,10 +7,11 @@
 
 import UIKit
 import SwiftUI
-//import Resolver
+import Resolver
 
 class HomePageTabBarController: UITabBarController, UITabBarControllerDelegate {
     private var previousIndex = 0
+    @InjectedObject var ticketViewModel: TicketViewModel
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,6 +21,9 @@ class HomePageTabBarController: UITabBarController, UITabBarControllerDelegate {
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
         if tabBarController.selectedIndex == previousIndex{
             ViewModel.sharedVm.shouldPopThis()
+            if tabBarController.selectedIndex == 2 {
+                ticketViewModel.startListening()
+            }
         }
         if #available(iOS 16, *) {
             NavMethodsNew.shared.popToRoot()
