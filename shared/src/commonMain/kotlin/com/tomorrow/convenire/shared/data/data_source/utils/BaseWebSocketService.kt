@@ -27,6 +27,8 @@ open class BaseWebSocketService(
         port: Int,
     ) {
         try {
+            if (webSocketSession[path]?.isActive == true)
+                return
             clientProvider().ws(
                 host = baseUrl,
                 path = path,
