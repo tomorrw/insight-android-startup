@@ -301,7 +301,7 @@ class RepositoryImplementation : LiveNotificationRepository, CompanyRepository, 
         emit(offers)
     }
 
-    override fun startReceivingMessages(id: String, setMessage: (Result<Notification>) -> Unit) {
+    override suspend fun startReceivingMessages(id: String, setMessage: (Result<Notification>) -> Unit) {
         return webSocketService.startListeningToQr(
             id,
             notificationMapper.mapToEntity(
@@ -310,7 +310,6 @@ class RepositoryImplementation : LiveNotificationRepository, CompanyRepository, 
         )
     }
 
-
-    override fun stopReceivingMessages() =
+    override suspend fun stopReceivingMessages() =
         webSocketService.stopListeningToQr()
 }

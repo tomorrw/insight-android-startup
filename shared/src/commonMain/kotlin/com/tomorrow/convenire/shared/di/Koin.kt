@@ -97,8 +97,8 @@ private fun commonModule(enableNetworkLogs: Boolean) = module {
     single<WebSocketService> {
         WebSocketServiceImplementation(
             {  get<BearerTokensContainer>().scope.get() },
-            "192.168.8.41", // TODO: change this, not secure!
-            6001
+            "192.168.8.19", // TODO: change this, not secure!
+            443
         )
     }
 

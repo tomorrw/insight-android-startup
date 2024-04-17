@@ -10,16 +10,16 @@ import org.koin.core.component.inject
 class LiveNotificationListenerUseCase : KoinComponent {
 
     private val liveNotificationRepository: LiveNotificationRepository by inject()
-    fun startListening(id: String, callback: (Result<Notification>) -> Unit) {
+    suspend fun startListening(id: String, callback: (Result<Notification>) -> Unit) {
         liveNotificationRepository.startReceivingMessages(id) {
             callback(it)
         }
     }
-    fun stopListening() {
+    suspend fun stopListening() {
         liveNotificationRepository.stopReceivingMessages()
     }
 
-    fun startListeningIOS(id: String, callback: (ResultIOS<Notification, Throwable>) -> Unit) {
+    suspend fun startListeningIOS(id: String, callback: (ResultIOS<Notification, Throwable>) -> Unit) {
         liveNotificationRepository.startReceivingMessages(id) {
             callback(it.toResultIOS())
         }

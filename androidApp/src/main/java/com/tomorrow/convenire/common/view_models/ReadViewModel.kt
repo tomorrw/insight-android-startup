@@ -30,7 +30,7 @@ import org.koin.core.component.inject
 open class ReadViewModel<D>(
     internal val load: () -> Flow<D>,
     internal val refresh: () -> Flow<D> = load,
-    internal val onDismiss: () -> Unit = {},
+    internal val onDismiss: suspend () -> Unit = {},
     internal val emptyCheck: (D) -> Boolean = { false },
 ) : ViewModel(), KoinComponent {
     var state by mutableStateOf(State<D>())
@@ -104,7 +104,7 @@ open class ReadViewModel<D>(
                 }
             }
 
-            Event.OnDismiss -> onDismiss()
+            Event.OnDismiss -> scope.launch { onDismiss() }
         }
     }
 

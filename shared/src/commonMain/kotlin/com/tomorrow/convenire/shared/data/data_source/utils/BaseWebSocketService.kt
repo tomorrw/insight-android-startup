@@ -1,10 +1,7 @@
 package com.tomorrow.convenire.shared.data.data_source.utils
 
-import com.tomorrow.convenire.shared.data.data_source.model.NotificationDTO
-import com.tomorrow.convenire.shared.data.data_source.model.NotificationDataDTO
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.websocket.DefaultClientWebSocketSession
-import io.ktor.client.plugins.websocket.receiveDeserialized
 import io.ktor.client.plugins.websocket.sendSerialized
 import io.ktor.client.plugins.websocket.ws
 import io.ktor.websocket.Frame
@@ -13,8 +10,6 @@ import io.ktor.websocket.readText
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -25,62 +20,57 @@ open class BaseWebSocketService(
     val scope: CoroutineScope by inject()
     val json: Json by inject()
     var webSocketSession: HashMap<String, DefaultClientWebSocketSession> = HashMap()
-    inline fun <reified Model> startListening(
+    suspend inline fun <reified Model> startListening(
         crossinline setMessage: (Result<Model>) -> Unit,
         baseUrl: String,
         path: String,
         port: Int,
     ) {
-        scope.launch {
-            try {
-                clientProvider().ws(
-                    host = baseUrl,
-                    path = path,
-                    port = port
-                ) {
-                    val incomingMessages = launch {
-                        onReceive(setMessage)
-                    }
-                    webSocketSession[path] = this
-                    incomingMessages.join()
+        try {
+            clientProvider().ws(
+                host = baseUrl,
+                path = path,
+                port = port
+            ) {
+                val incomingMessages = launch {
+                    onReceive(setMessage)
                 }
-            } catch (e: Throwable) {
-                println("Error: $e")
-                setMessage(Result.failure(e))
+                webSocketSession[path] = this
+                incomingMessages.join()
             }
+        } catch (e: Throwable) {
+            println("Error: $e")
+            setMessage(Result.failure(e))
         }
+
     }
 
-    open fun stopListening(path: String) {
-        scope.launch {
-            webSocketSession[path]?.close()
-        }
+    open suspend fun stopListening(path: String) {
+        webSocketSession[path]?.close()
     }
 
-    inline fun <reified Model> sendMessage(
+    suspend inline fun <reified Model> sendMessage(
         message: Model,
         baseUrl: String,
         path: String,
         port: Int,
     ) {
-        scope.launch {
-            try {
-                if (webSocketSession[path]?.isActive == true) {
-                    webSocketSession[path]?.sendSerialized(message)
-                } else
-                    clientProvider().ws(
-                        host = baseUrl,
-                        path = path,
-                        port = port
-                    ) {
-                        launch {
-                            sendSerialized(message)
-                        }
+        try {
+            if (webSocketSession[path]?.isActive == true)
+                webSocketSession[path]?.sendSerialized(message)
+            else
+                clientProvider().ws(
+                    host = baseUrl,
+                    path = path,
+                    port = port
+                ) {
+                    launch {
+                        sendSerialized(message)
                     }
+                }
 
-            } catch (e: Throwable) {
-                throw e
-            }
+        } catch (e: Throwable) {
+            throw e
         }
     }
 

@@ -50,6 +50,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 import java.util.*
 
@@ -89,10 +90,12 @@ class MyQrViewModel : ReadViewModel<MyQrViewData>(
         val liveNotify = LiveNotificationListenerUseCase()
 
         try {
-            liveNotify.startListening(id) {
-                it.getOrNull()?.let { notify ->
-                    notificationMessage.value = notify.message
-                    notificationStatus.value = notify.result
+            scope.launch {
+                liveNotify.startListening(id) {
+                    it.getOrNull()?.let { notify ->
+                        notificationMessage.value = notify.message
+                        notificationStatus.value = notify.result
+                    }
                 }
             }
         } catch (e: Exception) {

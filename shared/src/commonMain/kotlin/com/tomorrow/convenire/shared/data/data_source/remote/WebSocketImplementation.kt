@@ -19,13 +19,16 @@ class WebSocketServiceImplementation(
     private val apiService: ApiService by inject()
     private var firstTime = true
 
-    override fun startListeningToQr(id: String, setMessage: (Result<NotificationDTO>) -> Unit) {
+    override suspend fun startListeningToQr(
+        id: String,
+        setMessage: (Result<NotificationDTO>) -> Unit
+    ) {
         firstTime = true
         return this.startListening(
             interceptToAuthenticate(
                 id,
                 setMessage,
-                onAuthentication = {authToken ->
+                onAuthentication = { authToken ->
                     sendMessage(
                         SubscriptionDTO(
                             "pusher:subscribe",
@@ -39,7 +42,7 @@ class WebSocketServiceImplementation(
                         port
                     )
                 }
-                ),
+            ),
             baseUrl,
             "app/98a90d17c40bd9afc57a",
             port
@@ -49,7 +52,7 @@ class WebSocketServiceImplementation(
     private fun interceptToAuthenticate(
         userId: String,
         setMessage: (Result<NotificationDTO>) -> Unit,
-        onAuthentication : (authToken: String) -> Unit,
+        onAuthentication: suspend (authToken: String) -> Unit,
     ): (Result<NotificationDTO>) -> Unit =
         { message ->
             message.onSuccess { msg ->
@@ -62,12 +65,13 @@ class WebSocketServiceImplementation(
                                 firstTime = false
                             }
                         }
+
                     }
                 } else setMessage(message)
             }
         }
 
-    override fun stopListeningToQr() = stopListening("app/98a90d17c40bd9afc57a")
+    override suspend fun stopListeningToQr() = stopListening("app/98a90d17c40bd9afc57a")
 
 }
 
