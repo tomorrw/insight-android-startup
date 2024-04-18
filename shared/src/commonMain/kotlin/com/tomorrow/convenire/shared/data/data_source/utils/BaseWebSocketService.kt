@@ -29,7 +29,7 @@ open class BaseWebSocketService(
     ) {
         try {
             if (webSocketSession[path]?.isActive == true)
-                return
+                webSocketSession[path]?.close()
             clientProvider().wss(
                 host = baseUrl,
                 path = path,
