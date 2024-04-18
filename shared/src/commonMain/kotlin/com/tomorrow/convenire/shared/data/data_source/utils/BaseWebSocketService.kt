@@ -4,6 +4,7 @@ import io.ktor.client.HttpClient
 import io.ktor.client.plugins.websocket.DefaultClientWebSocketSession
 import io.ktor.client.plugins.websocket.sendSerialized
 import io.ktor.client.plugins.websocket.ws
+import io.ktor.client.plugins.websocket.wss
 import io.ktor.websocket.Frame
 import io.ktor.websocket.close
 import io.ktor.websocket.readText
@@ -29,7 +30,7 @@ open class BaseWebSocketService(
         try {
             if (webSocketSession[path]?.isActive == true)
                 return
-            clientProvider().ws(
+            clientProvider().wss(
                 host = baseUrl,
                 path = path,
                 port = port
@@ -61,7 +62,7 @@ open class BaseWebSocketService(
             if (webSocketSession[path]?.isActive == true)
                 webSocketSession[path]?.sendSerialized(message)
             else
-                clientProvider().ws(
+                clientProvider().wss(
                     host = baseUrl,
                     path = path,
                     port = port
