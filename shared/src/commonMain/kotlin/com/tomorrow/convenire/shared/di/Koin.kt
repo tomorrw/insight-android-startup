@@ -83,6 +83,7 @@ private fun commonModule(enableNetworkLogs: Boolean) = module {
         SpeakerRepository::class,
         AppSettingsRepository::class,
         AuthenticationRepository::class,
+        UserRepository:: class,
         HomeRepository::class,
         OffersRepository::class,
     )

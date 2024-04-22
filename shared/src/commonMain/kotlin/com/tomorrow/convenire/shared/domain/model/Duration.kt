@@ -23,6 +23,19 @@ class Duration(val seconds: Int) {
             "$hours:$minutesPadded:$secondsPadded"
     }
 
+    fun toDurationFormatString(): String {
+        val hours = (seconds % 86400) / 3600
+        val minutes = ((seconds % 86400) % 3600) / 60
+
+
+        return if (hours == 0 && minutes == 0) "0m"
+        else if (minutes == 0)
+            "${hours}h"
+        else
+            "${hours}h:${minutes}m"
+    }
+
+
     fun convertTo(unit: Unit) = convert(Unit.Second, unit, seconds.toDouble())
 
     companion object {
@@ -35,6 +48,7 @@ class Duration(val seconds: Int) {
                     Unit.Hour -> value / 3600000  // 60 * 60 * 1000
                     Unit.Day -> value / 86400000 // 24 * 60 * 60 * 1000
                 }
+
                 Unit.Second -> when (targetUnit) {
                     Unit.Millisecond -> value * 1000
                     Unit.Second -> value
@@ -42,6 +56,7 @@ class Duration(val seconds: Int) {
                     Unit.Hour -> value / 3600 // 60 * 60
                     Unit.Day -> value / 86400 // 24 * 60 * 60
                 }
+
                 Unit.Minute -> when (targetUnit) {
                     Unit.Millisecond -> value * 60000 // 60 * 1000
                     Unit.Second -> value * 60
@@ -49,6 +64,7 @@ class Duration(val seconds: Int) {
                     Unit.Hour -> value / 60
                     Unit.Day -> value / 1440 // 24 * 60
                 }
+
                 Unit.Hour -> when (targetUnit) {
                     Unit.Millisecond -> value * 3600000 // 60 * 60 * 1000
                     Unit.Second -> value * 36000 // 60 * 60
@@ -56,6 +72,7 @@ class Duration(val seconds: Int) {
                     Unit.Hour -> value
                     Unit.Day -> value / 24
                 }
+
                 Unit.Day -> when (targetUnit) {
                     Unit.Millisecond -> value * 86400000 // 24 * 60 * 60 * 1000
                     Unit.Second -> value * 86400 // 24 * 60 * 60

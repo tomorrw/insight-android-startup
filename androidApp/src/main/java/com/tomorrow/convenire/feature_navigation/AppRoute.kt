@@ -20,6 +20,7 @@ import com.tomorrow.convenire.views.HomeView
 import com.tomorrow.convenire.views.LecturesView
 import com.tomorrow.convenire.views.LoginView
 import com.tomorrow.convenire.views.MyLecturesView
+import com.tomorrow.convenire.views.MyProgressView
 import com.tomorrow.convenire.views.MyQrView
 import com.tomorrow.convenire.views.OTPView
 import com.tomorrow.convenire.views.OffersAndDeals
@@ -206,6 +207,12 @@ sealed class AppRoute(
     object MyQr : AppRoute(
         path = "my-qr",
         component = { MyQrView() },
+        shouldDisplayBottomBar = true
+    )
+
+    object MyProgress : AppRoute(
+        path = "progress",
+        component = { MyProgressView() },
         shouldDisplayBottomBar = true
     )
 

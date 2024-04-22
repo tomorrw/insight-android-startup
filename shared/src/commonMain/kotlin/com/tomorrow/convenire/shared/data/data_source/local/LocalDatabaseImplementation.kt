@@ -2,6 +2,7 @@ package com.tomorrow.convenire.shared.data.data_source.local
 
 import com.tomorrow.convenire.shared.data.data_source.model.CompanyDTO
 import com.tomorrow.convenire.shared.data.data_source.model.HomeDataDTO
+import com.tomorrow.convenire.shared.data.data_source.model.ProgressReportDTO
 import com.tomorrow.convenire.shared.data.data_source.model.SessionDTO
 import com.tomorrow.convenire.shared.data.data_source.model.SpeakerDTO
 import io.realm.kotlin.Realm
@@ -17,7 +18,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.datetime.Instant
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
@@ -32,7 +32,8 @@ class LocalDatabaseImplementation(
                 RealmListSession::class,
                 RealmListCompany::class,
                 RealmHomeResponse::class,
-                ShouldNotify::class
+                ShouldNotify::class,
+                RealmProgressReport::class
             )
         ).build()
     }
@@ -76,6 +77,10 @@ class LocalDatabaseImplementation(
         realm.write { copyToRealm(apiResult.toRealm(), UpdatePolicy.ALL) }
     }
 
+    override suspend fun replaceProgressReport(apiResult: ProgressReportDTO) {
+        realm.write { copyToRealm(apiResult.toRealm(), UpdatePolicy.ALL) }
+    }
+
     override fun getSpeakers(): Result<List<SpeakerDTO>> =
         getRealmSpeakers().find()?.toDTO()?.let { Result.success(it) }
             ?: Result.failure(Exception("No Speakers found"))
@@ -84,6 +89,11 @@ class LocalDatabaseImplementation(
     override fun getSessions(): Result<List<SessionDTO>> =
         getRealmSessions().find()?.toDTO()?.let { Result.success(it) }
             ?: Result.failure(Exception("No Sessions found"))
+
+    override fun getProgressReport(): Result<ProgressReportDTO> =
+        getRealmProgressReport().find()?.toDTO()?.let { Result.success(it) } ?: Result.failure(
+            Exception("No Home Response found")
+        )
 
 
     override fun getCompanies(): Result<List<CompanyDTO>> =
@@ -140,6 +150,10 @@ class LocalDatabaseImplementation(
     override fun lastUpdatedHomeResponse(): Instant? =
         getRealmHomeResponse().find()?.updatedAt?.toInstant()
 
+    override fun lastUpdatedProgressReport(): Instant? =
+        getRealmProgressReport().find()?.updatedAt?.toInstant()
+
+
     override suspend fun clearData() = realm.write {
         delete(this.query<RealmListSpeaker>().find())
         delete(this.query<RealmListSession>().find())
@@ -162,6 +176,9 @@ class LocalDatabaseImplementation(
     private fun getRealmHomeResponse(): RealmSingleQuery<RealmHomeResponse> =
         realm.query<RealmHomeResponse>("uuid = $0", "RealmHomeResponse").first()
 
+    private fun getRealmProgressReport(): RealmSingleQuery<RealmProgressReport> =
+        realm.query<RealmProgressReport>("uuid = $0", "RealmProgressReport").first()
+
     private fun RealmListSpeaker.toDTO(): List<SpeakerDTO>? =
         this.payload?.let { json.decodeFromString(it) }
 
@@ -172,6 +189,9 @@ class LocalDatabaseImplementation(
         this.payload?.let { json.decodeFromString(it) }
 
     private fun RealmHomeResponse.toDTO(): HomeDataDTO? =
+        this.payload?.let { json.decodeFromString(it) }
+
+    private fun RealmProgressReport.toDTO(): ProgressReportDTO? =
         this.payload?.let { json.decodeFromString(it) }
 
     private fun List<SpeakerDTO>.toRealm(): RealmListSpeaker {
@@ -207,6 +227,15 @@ class LocalDatabaseImplementation(
         }
     }
 
+    private fun ProgressReportDTO.toRealm(): RealmHomeResponse {
+        val o = this
+        return RealmHomeResponse().apply {
+            uuid = "RealmProgressReport"
+            payload = json.encodeToString(o)
+        }
+    }
+
+
     private class ShouldNotify : RealmObject {
         @PrimaryKey
         var id: String = "1234"
@@ -237,6 +266,13 @@ class LocalDatabaseImplementation(
     private class RealmHomeResponse : RealmObject {
         @PrimaryKey
         var uuid: String = "RealmHomeResponse"
+        var payload: String? = null
+        var updatedAt: RealmInstant = RealmInstant.now()
+    }
+
+    private class RealmProgressReport : RealmObject {
+        @PrimaryKey
+        var uuid: String = "RealmProgressReport"
         var payload: String? = null
         var updatedAt: RealmInstant = RealmInstant.now()
     }

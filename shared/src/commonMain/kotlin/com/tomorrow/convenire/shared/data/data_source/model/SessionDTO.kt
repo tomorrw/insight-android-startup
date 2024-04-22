@@ -22,11 +22,15 @@ class SessionDTO(
     val speakers: List<SpeakerDTO>? = null,
     @SerialName("questions_allowed")
     val canAskQuestions: Int? = 0,
-    @SerialName("is_attended")
-    val hasAttended: Int? = 0,
     val actions: List<ActionDTO>? = listOf(),
     @SerialName("number_of_attendees")
     val numberOfAttendees: Int? = null,
     @SerialName("number_of_seats")
-    val numberOfSeats: Int? = null
+    val numberOfSeats: Int? = null,
+    @SerialName("is_attended")
+    val hasAttended: Int? = 0,
+    @SerialName("is_completed")
+    val isCompleted: Boolean? = null,
+    @SerialName("minutes_attended")
+    val minutesAttended: Int? = null
 )

@@ -2,6 +2,7 @@ package com.tomorrow.convenire.shared.data.data_source.local
 
 import com.tomorrow.convenire.shared.data.data_source.model.CompanyDTO
 import com.tomorrow.convenire.shared.data.data_source.model.HomeDataDTO
+import com.tomorrow.convenire.shared.data.data_source.model.ProgressReportDTO
 import com.tomorrow.convenire.shared.data.data_source.model.SessionDTO
 import com.tomorrow.convenire.shared.data.data_source.model.SpeakerDTO
 import kotlinx.coroutines.flow.Flow
@@ -24,9 +25,12 @@ interface LocalDatabase {
 
     @Throws(SerializationException::class, CancellationException::class)
     suspend fun replaceHomeResponse(apiResult: HomeDataDTO)
+    @Throws(SerializationException::class, CancellationException::class)
+    suspend fun replaceProgressReport(apiResult: ProgressReportDTO)
 
     fun getSpeakers(): Result<List<SpeakerDTO>>
     fun getSessions(): Result<List<SessionDTO>>
+    fun getProgressReport(): Result<ProgressReportDTO>
     fun getCompanies(): Result<List<CompanyDTO>>
     fun getHomeResponse(): Result<HomeDataDTO>
 
@@ -40,6 +44,7 @@ interface LocalDatabase {
     fun lastUpdatedSessions(): Instant?
     fun lastUpdatedCompanies(): Instant?
     fun lastUpdatedHomeResponse(): Instant?
+    fun lastUpdatedProgressReport(): Instant?
 
     suspend fun clearData()
 }

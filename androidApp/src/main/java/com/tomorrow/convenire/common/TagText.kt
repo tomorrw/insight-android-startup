@@ -12,12 +12,19 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun TagText(text: String) = Text(
-    modifier = Modifier
-        .clip(RoundedCornerShape(4.dp))
-        .background(MaterialTheme.colorScheme.outline.copy(0.6f))
-        .padding(horizontal = 8.dp)
-        .padding(vertical = 4.dp),
-    text = text,
-    style = MaterialTheme.typography.titleSmall.copy(color = MaterialTheme.colorScheme.surfaceVariant)
-)
+fun TagText(
+    text: String,
+    backgroundColor: Color? = null,
+    textColor: Color? = null,
+) =
+    Text(
+        modifier = Modifier
+            .clip(RoundedCornerShape(4.dp))
+            .background(backgroundColor ?: MaterialTheme.colorScheme.outline.copy(0.6f))
+            .padding(horizontal = 8.dp)
+            .padding(vertical = 4.dp),
+        text = text,
+        style = MaterialTheme.typography.titleSmall.copy(
+            color = textColor ?: MaterialTheme.colorScheme.surfaceVariant
+        )
+    )

@@ -1,21 +1,27 @@
 package com.tomorrow.convenire.shared.data.data_source.remote
 
-import com.tomorrow.convenire.shared.data.data_source.model.*
+import com.tomorrow.convenire.shared.data.data_source.model.AppPlatformDTO
+import com.tomorrow.convenire.shared.data.data_source.model.CompanyDTO
+import com.tomorrow.convenire.shared.data.data_source.model.ConfigurationDTO
+import com.tomorrow.convenire.shared.data.data_source.model.HomeDataDTO
+import com.tomorrow.convenire.shared.data.data_source.model.OfferDTO
+import com.tomorrow.convenire.shared.data.data_source.model.PostDTO
+import com.tomorrow.convenire.shared.data.data_source.model.ProgressReportDTO
+import com.tomorrow.convenire.shared.data.data_source.model.SessionDTO
+import com.tomorrow.convenire.shared.data.data_source.model.SpeakerDTO
+import com.tomorrow.convenire.shared.data.data_source.model.SpinnerDTO
+import com.tomorrow.convenire.shared.data.data_source.model.UpdateInfoDTO
+import com.tomorrow.convenire.shared.data.data_source.model.UserDTO
 import com.tomorrow.convenire.shared.data.data_source.utils.BaseApiService
-import io.ktor.client.*
-import io.ktor.client.plugins.auth.*
-import io.ktor.client.plugins.auth.providers.*
-import io.ktor.client.request.*
+import io.ktor.client.HttpClient
+import io.ktor.client.plugins.auth.providers.BearerTokens
+import io.ktor.client.request.setBody
 import io.ktor.client.statement.HttpReceivePipeline
-import io.ktor.client.statement.HttpResponsePipeline
 import io.ktor.client.statement.request
 import io.ktor.http.HttpStatusCode
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.json.Json
 import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 
 
 class ApiServiceImplementation(
@@ -26,6 +32,7 @@ class ApiServiceImplementation(
     override suspend fun getCompanies(): Result<List<CompanyDTO>> = get("$baseUrl/api/companies")
     override suspend fun getSessions(): Result<List<SessionDTO>> = get("$baseUrl/api/events")
     override suspend fun getHome(): Result<HomeDataDTO> = get("$baseUrl/api/home")
+    override suspend fun getProgressReport(): Result<ProgressReportDTO> = get("$baseUrl/api/progress-report")
 
     override suspend fun hitPostUrl(url: String): Result<String> =
         post<HitPostResponse>(url).map { it.message }
