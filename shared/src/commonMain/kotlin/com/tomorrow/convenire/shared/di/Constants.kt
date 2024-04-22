@@ -9,5 +9,5 @@ object Constants {
     const val PRODUCTION_API_BASE_URL = "https://api.convenire.app"
     const val TEST_API_BASE_URL = "https://usjfmd.tomorrow.services"
 
-    const val PRODUCTION_WEBSOCKET_BASE_URL = "api.convenire.app"
+    const val PRODUCTION_WEBSOCKET_BASE_URL = "sockets.convenire.app"
 }
