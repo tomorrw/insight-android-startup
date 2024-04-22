@@ -11,8 +11,10 @@
 		058557D9273AAEEB004C7B11 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */; };
 		2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2152FB032600AC8F00CF470E /* iOSApp.swift */; };
 		4C04C9822B7CED6C0030B9A8 /* FormHiddenBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C04C9812B7CED6C0030B9A8 /* FormHiddenBackground.swift */; };
+		4C06A6622B85F4DE002DBA15 /* ActionButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C06A6612B85F4DE002DBA15 /* ActionButtons.swift */; };
 		4C2562B62ABAE2BE00ACE03E /* OffersPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C2562B52ABAE2BE00ACE03E /* OffersPage.swift */; };
 		4C2562B82ABAE2FF00ACE03E /* OffersPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C2562B72ABAE2FF00ACE03E /* OffersPageViewModel.swift */; };
+		4C25CB492B60F5860011CFBE /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C25CB482B60F5860011CFBE /* ToastView.swift */; };
 		4C3637D02B445BC900D352D2 /* ClaimedOffersPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3637CF2B445BC900D352D2 /* ClaimedOffersPage.swift */; };
 		4C4F1EEF2B3EBEA90066AB31 /* AppstoreInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4F1EEE2B3EBEA80066AB31 /* AppstoreInfoViewModel.swift */; };
 		4C54826A2B7CC278005F9C96 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4C5482692B7CC278005F9C96 /* SplashScreen.storyboard */; };
@@ -35,7 +37,6 @@
 		4CBA63D22B6BA6FE003139BF /* MyQrPresentationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CBA63D12B6BA6FE003139BF /* MyQrPresentationModel.swift */; };
 		4CD5E1C22B4C3121006903AB /* ConfigViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CD5E1C12B4C3121006903AB /* ConfigViewModel.swift */; };
 		4CD5E1C52B4C3A69006903AB /* PageTabDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CD5E1C42B4C3A69006903AB /* PageTabDisplayView.swift */; };
-		4CF226D02ACAD9180044F623 /* ActionButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF226CF2ACAD9180044F623 /* ActionButtons.swift */; };
 		4CF226D22ACADFC30044F623 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF226D12ACADFC30044F623 /* Color.swift */; };
 		4CF226D82ACAE5D40044F623 /* ProfileSettingsPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF226D72ACAE5D40044F623 /* ProfileSettingsPage.swift */; };
 		4CF226E62ACAEA200044F623 /* HomePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF226DB2ACAEA200044F623 /* HomePage.swift */; };
@@ -145,8 +146,10 @@
 		2152FB032600AC8F00CF470E /* iOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSApp.swift; sourceTree = "<group>"; };
 		3B30F3472A407C2FDF9E352A /* Pods-iosApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iosApp.debug.xcconfig"; path = "Target Support Files/Pods-iosApp/Pods-iosApp.debug.xcconfig"; sourceTree = "<group>"; };
 		4C04C9812B7CED6C0030B9A8 /* FormHiddenBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormHiddenBackground.swift; sourceTree = "<group>"; };
+		4C06A6612B85F4DE002DBA15 /* ActionButtons.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionButtons.swift; sourceTree = "<group>"; };
 		4C2562B52ABAE2BE00ACE03E /* OffersPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OffersPage.swift; sourceTree = "<group>"; };
 		4C2562B72ABAE2FF00ACE03E /* OffersPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OffersPageViewModel.swift; sourceTree = "<group>"; };
+		4C25CB482B60F5860011CFBE /* ToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastView.swift; sourceTree = "<group>"; };
 		4C3637CF2B445BC900D352D2 /* ClaimedOffersPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaimedOffersPage.swift; sourceTree = "<group>"; };
 		4C4F1EEE2B3EBEA80066AB31 /* AppstoreInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppstoreInfoViewModel.swift; sourceTree = "<group>"; };
 		4C5482692B7CC278005F9C96 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = SplashScreen.storyboard; sourceTree = "<group>"; };
@@ -170,7 +173,6 @@
 		4CBA63D12B6BA6FE003139BF /* MyQrPresentationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyQrPresentationModel.swift; sourceTree = "<group>"; };
 		4CD5E1C12B4C3121006903AB /* ConfigViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigViewModel.swift; sourceTree = "<group>"; };
 		4CD5E1C42B4C3A69006903AB /* PageTabDisplayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageTabDisplayView.swift; sourceTree = "<group>"; };
-		4CF226CF2ACAD9180044F623 /* ActionButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionButtons.swift; sourceTree = "<group>"; };
 		4CF226D12ACADFC30044F623 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		4CF226D72ACAE5D40044F623 /* ProfileSettingsPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingsPage.swift; sourceTree = "<group>"; };
 		4CF226DB2ACAEA200044F623 /* HomePage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomePage.swift; sourceTree = "<group>"; };
@@ -451,8 +453,6 @@
 		4CF2B21A2B5817DB00A1A646 /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				4CF226CF2ACAD9180044F623 /* ActionButtons.swift */,
-				B556743A29FA7A5C001B7B79 /* CustomVideoPlayer.swift */,
 				B32B2E4C2A1385EF00C290F7 /* Carousel */,
 				B37D14D529CA04FC00BA4E39 /* Loader */,
 				B37D14D229CA047700BA4E39 /* Buttons */,
@@ -460,6 +460,8 @@
 				4C995C1F2ABB25740041C95D /* OffersCard */,
 				4C7A1D2D2A9C812E001EB91A /* DropDown */,
 				4CF2B21B2B58187300A1A646 /* TextTag.swift */,
+				B556743A29FA7A5C001B7B79 /* CustomVideoPlayer.swift */,
+				4C06A6612B85F4DE002DBA15 /* ActionButtons.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -580,6 +582,7 @@
 				B3C1438929C9DAEB00B988B6 /* Listing */,
 				B556743C29FA7A80001B7B79 /* Identifiable.swift */,
 				B556747429FB43AF001B7B79 /* NavigationLazyView.swift */,
+				4C25CB482B60F5860011CFBE /* ToastView.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1010,13 +1013,13 @@
 				B5AE032229F91B9A00F5FB8C /* SpeakerDetailPage.swift in Sources */,
 				4CF226EC2ACAEA200044F623 /* ProfilePage.swift in Sources */,
 				4C6ACE312AA5BFAF00DBBBF5 /* Switcher.swift in Sources */,
-				4CF226D02ACAD9180044F623 /* ActionButtons.swift in Sources */,
 				4CA347252B4D45C300FB12AE /* SectionDisplayPage.swift in Sources */,
 				4CA347212B4D430E00FB12AE /* EnvironmentValues.swift in Sources */,
 				B556746429FA9476001B7B79 /* FlatLinkStyle.swift in Sources */,
 				B556743929FA77F3001B7B79 /* SocialLinkMapper.swift in Sources */,
 				4C3637D02B445BC900D352D2 /* ClaimedOffersPage.swift in Sources */,
 				B37D14D729CA050F00BA4E39 /* CustomLoader.swift in Sources */,
+				4C25CB492B60F5860011CFBE /* ToastView.swift in Sources */,
 				4C64DE872B3D8380001E1B17 /* TicketViewModel.swift in Sources */,
 				B56AA30F29F7C4490021B12E /* CompaniesByCategoryPage.swift in Sources */,
 				B556747529FB43AF001B7B79 /* NavigationLazyView.swift in Sources */,
@@ -1076,6 +1079,7 @@
 				B556744D29FA7DE0001B7B79 /* CompanyPageViewModel.swift in Sources */,
 				B33C9CDF2A155BAE00BC7571 /* AskAQuestionPage.swift in Sources */,
 				4C2562B82ABAE2FF00ACE03E /* OffersPageViewModel.swift in Sources */,
+				4C06A6622B85F4DE002DBA15 /* ActionButtons.swift in Sources */,
 				B37D14D429CA048500BA4E39 /* MultifunctionalButton.swift in Sources */,
 				B3280CD12A1B715F00D4540A /* NavigationViewModel.swift in Sources */,
 				B5183E4F29F18CDD0097363D /* ErrorView.swift in Sources */,

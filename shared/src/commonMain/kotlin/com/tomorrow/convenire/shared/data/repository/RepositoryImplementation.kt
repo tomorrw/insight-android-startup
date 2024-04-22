@@ -4,7 +4,7 @@ import com.tomorrow.convenire.shared.data.data_source.local.EncryptedStorage
 import com.tomorrow.convenire.shared.data.data_source.local.LocalDatabase
 import com.tomorrow.convenire.shared.data.data_source.mapper.*
 import com.tomorrow.convenire.shared.data.data_source.remote.ApiService
-import com.tomorrow.convenire.shared.data.data_source.utils.Loadable
+import com.tomorrow.convenire.shared.data.data_source.remote.WebSocketService
 import com.tomorrow.convenire.shared.data.repository.utils.getFromCacheAndRevalidate
 import com.tomorrow.convenire.shared.domain.model.*
 import com.tomorrow.convenire.shared.domain.repositories.*
@@ -16,19 +16,12 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import kotlinx.datetime.Clock
-import kotlinx.datetime.DateTimeUnit
-import kotlinx.datetime.Instant
-import kotlinx.datetime.LocalDate
-import kotlinx.datetime.LocalDateTime
-import kotlinx.datetime.LocalTime
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.minus
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import kotlin.time.Duration
 
-class RepositoryImplementation : CompanyRepository, SpeakerRepository, PostRepository,
+class RepositoryImplementation : LiveNotificationRepository, CompanyRepository, SpeakerRepository,
+    PostRepository,
     SessionRepository, AppSettingsRepository, HomeRepository, AuthenticationRepository,
     OffersRepository,
     KoinComponent {
@@ -42,9 +35,11 @@ class RepositoryImplementation : CompanyRepository, SpeakerRepository, PostRepos
     private val speakerMapper = SpeakerDetailMapper()
     private val homeDataMapper = HomeDataMapper()
     private val userMapper = UserMapper()
+    private val notificationMapper = NotificationMapper()
     private val isAuthenticated = MutableStateFlow<Boolean?>(null)
     private val colorTheme = MutableStateFlow(encryptedStorage.colorTheme ?: ColorTheme.Auto)
     private val scope: CoroutineScope by inject()
+    private val webSocketService: WebSocketService by inject()
 
     init {
         scope.launch {
@@ -86,15 +81,15 @@ class RepositoryImplementation : CompanyRepository, SpeakerRepository, PostRepos
 
 
     override fun getPostById(id: String): Flow<Post> = getFromCacheAndRevalidate(
-    getFromCache = {
-        localDatabase.getHomeResponse().getOrNull()?.posts?.find { it.id == id }
-            ?.let { Result.success(it) }
-            ?: Result.failure(Exception("Post with id $id not found"))
-    },
-    getFromApi = { apiService.getPost(id) },
-    setInCache = {  },
-    cacheAge = localDatabase.lastUpdatedSessions(),
-    revalidateIfOlderThan = Duration.parse("0m")
+        getFromCache = {
+            localDatabase.getHomeResponse().getOrNull()?.posts?.find { it.id == id }
+                ?.let { Result.success(it) }
+                ?: Result.failure(Exception("Post with id $id not found"))
+        },
+        getFromApi = { apiService.getPost(id) },
+        setInCache = { },
+        cacheAge = localDatabase.lastUpdatedSessions(),
+        revalidateIfOlderThan = Duration.parse("0m")
     ).map { post -> postMapper.mapFromEntity(post) }
 
     override suspend fun hitPostUrl(url: String): Result<String> = apiService.hitPostUrl(url)
@@ -306,4 +301,15 @@ class RepositoryImplementation : CompanyRepository, SpeakerRepository, PostRepos
         emit(offers)
     }
 
+    override suspend fun startReceivingMessages(id: String, setMessage: (Result<Notification>) -> Unit) {
+        return webSocketService.startListeningToQr(
+            id,
+            notificationMapper.mapToEntity(
+                setMessage
+            )
+        )
+    }
+
+    override suspend fun stopReceivingMessages() =
+        webSocketService.stopListeningToQr()
 }

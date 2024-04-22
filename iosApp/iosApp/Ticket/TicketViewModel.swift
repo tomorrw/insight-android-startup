@@ -16,6 +16,9 @@ class TicketViewModel: ObservableObject {
     @Published var pageData: MyQrPresentationModel = MyQrPresentationModel()
     @Published var errorMessage: String? = ""
     private var user: User? = nil
+    private var usecase = shared.LiveNotificationListenerUseCase()
+    @Published var websocketMessage: String = ""
+    @Published var websocketStatus: Bool = true
     
     init() {
         self.getData()
@@ -68,4 +71,44 @@ class TicketViewModel: ObservableObject {
             }
         }
     }
+    func listenToMessage(_ res: ResultIOS<shared.Notification, KotlinThrowable>) {
+        
+        res.fold(
+            onSuccess: { [weak self] notification in
+                guard let self = self,
+                      let notif = notification as? shared.Notification  else {
+                    return
+                }
+                DispatchQueue.main.async {   
+                    self.websocketMessage = notif.message
+                    self.websocketStatus = notif.result
+                    self.vibrate()
+                }
+            },
+            onFailure: { [weak self] err in
+                guard self != nil else { return }
+            }
+        )
+        
+    }
+    
+    func vibrate() {
+        let impactMed = UIImpactFeedbackGenerator(style: .medium)
+        impactMed.impactOccurred()
+    }
+    
+    @MainActor func startListening(){
+        guard let id = self.user?.id else {return}
+        Task{
+            try await self.usecase.startListeningIOS(id: id) { res in
+                self.listenToMessage(res)
+            }
+        }
+    }
+    
+    @MainActor func stopListening(){
+        Task{ try await self.usecase.stopListening() }
+    }
+
+    
 }

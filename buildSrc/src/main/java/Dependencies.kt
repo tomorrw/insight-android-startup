@@ -123,9 +123,10 @@ object Deps {
         const val clientJson = "io.ktor:ktor-client-json:${Versions.ktor}"
         const val clientLogging = "io.ktor:ktor-client-logging:${Versions.ktor}"
         const val clientSerialization = "io.ktor:ktor-client-serialization:${Versions.ktor}"
-        const val clientAndroid = "io.ktor:ktor-client-android:${Versions.ktor}"
         const val clientDarwin = "io.ktor:ktor-client-darwin:${Versions.ktor}"
         const val clientJs = "io.ktor:ktor-client-js:${Versions.ktor}"
+        const val clientWebsocket = "io.ktor:ktor-client-websockets:${Versions.ktor}"
+        const val clientOkHttpEngine = "io.ktor:ktor-client-okhttp:${Versions.ktor}"
     }
 
     object Realm {

@@ -9,14 +9,13 @@
 /* Begin PBXAggregateTarget section */
 		8777C9F6889E59EFFD631D80AEE9048B /* shared */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 7329FC0278E780B546469E6E4485D459 /* Build configuration list for PBXAggregateTarget "shared" */;
+			buildConfigurationList = 3400C1F6E5A42D577692D3EB22F96D54 /* Build configuration list for PBXAggregateTarget "shared" */;
 			buildPhases = (
-				AEC59979357C49E6D042E88018F6E641 /* [CP-User] Build shared */,
-				6489526962367EFABFF6F0383C9D7BF6 /* [CP] Copy dSYMs */,
+				C034197C627CB69271173F81FC421A8C /* [CP-User] Build shared */,
 			);
 			dependencies = (
-				88C7B969EE1F9227E969F2F4C2C9523A /* PBXTargetDependency */,
-				06CBD71DD4EA9002C8157DBE9BC9332C /* PBXTargetDependency */,
+				554CC4B0A8C7152C0BE313049DD3D628 /* PBXTargetDependency */,
+				E798BBC4F2BA4A71471BD7AA493C809A /* PBXTargetDependency */,
 			);
 			name = shared;
 		};
@@ -97,21 +96,21 @@
 			remoteGlobalIDString = 8777C9F6889E59EFFD631D80AEE9048B;
 			remoteInfo = shared;
 		};
-		ACE335D76B3197B6E4B58A50C315A741 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = F91BAFE2F1386309176711630BA5305A;
-			remoteInfo = KMPNativeCoroutinesAsync;
-		};
-		B82CFF6A390D8499AFFEAECBE8EB7F1B /* PBXContainerItemProxy */ = {
+		C00B3CD5D25E6BE877418B145B3552F1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = BECD36891A8DC297700F9296F5634B97;
 			remoteInfo = "libPhoneNumber-iOS";
 		};
-		C00B3CD5D25E6BE877418B145B3552F1 /* PBXContainerItemProxy */ = {
+		C0E2522608B7ADF59B22867FE5277B24 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F91BAFE2F1386309176711630BA5305A;
+			remoteInfo = KMPNativeCoroutinesAsync;
+		};
+		D1DD6D56171B5B6A2B5FE52E6D239F99 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
@@ -121,7 +120,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		009069A386B0A5A8DB76D61AE1586630 /* shared.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = shared.debug.xcconfig; sourceTree = "<group>"; };
 		0187F135D5F61750CD24C3E04B6E8B64 /* Pods-iosApp-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-iosApp-frameworks.sh"; sourceTree = "<group>"; };
 		027D00F47DF91EB74948434327A0329F /* NBRegExMatcher.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = NBRegExMatcher.m; path = libPhoneNumber/Internal/NBRegExMatcher.m; sourceTree = "<group>"; };
 		06461AEBABCD6320BA840549AA7A6D53 /* KMPNativeCoroutinesAsync-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "KMPNativeCoroutinesAsync-Info.plist"; sourceTree = "<group>"; };
@@ -133,6 +131,7 @@
 		24778C6CD1BADC6C2FCB5C693B446475 /* NBPhoneNumberDesc.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = NBPhoneNumberDesc.h; path = libPhoneNumber/NBPhoneNumberDesc.h; sourceTree = "<group>"; };
 		264A13A4793BFE484DAF00B81EBDBB4E /* KMPNativeCoroutinesAsync-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "KMPNativeCoroutinesAsync-umbrella.h"; sourceTree = "<group>"; };
 		327B632BA502F4370E26DF73AEE3F71B /* AsyncSequence.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AsyncSequence.swift; path = KMPNativeCoroutinesAsync/AsyncSequence.swift; sourceTree = "<group>"; };
+		35548E3BD8DA30925E8FE97E67B84868 /* shared.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = shared.release.xcconfig; sourceTree = "<group>"; };
 		3CCC7A1DC8D71D6767204FA308A63975 /* NBGeneratedPhoneNumberMetaData.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = NBGeneratedPhoneNumberMetaData.h; path = libPhoneNumber/NBGeneratedPhoneNumberMetaData.h; sourceTree = "<group>"; };
 		3F64BADB16C311E9D09DAD0116F684F4 /* Pods-iosApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-iosApp.debug.xcconfig"; sourceTree = "<group>"; };
 		40BA6FCAB60C8257C1D49E3CBA15AB63 /* KMPNativeCoroutinesAsync-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "KMPNativeCoroutinesAsync-prefix.pch"; sourceTree = "<group>"; };
@@ -149,8 +148,7 @@
 		5E9C3FF9619212A1D3B950557AEAC1C7 /* KMPNativeCoroutinesCore-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "KMPNativeCoroutinesCore-umbrella.h"; sourceTree = "<group>"; };
 		66CCA4C9CA0E885EF2D2FCB32F2DCBFC /* KMPNativeCoroutinesAsync-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "KMPNativeCoroutinesAsync-dummy.m"; sourceTree = "<group>"; };
 		6D7737B7FCA6283D1CEDAA615C8C4647 /* libPhoneNumber-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "libPhoneNumber-iOS.debug.xcconfig"; sourceTree = "<group>"; };
-		70D6E483B23F0B0627D6EE7BD5E32B58 /* shared.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = shared.framework; path = build/cocoapods/framework/shared.framework; sourceTree = "<group>"; };
-		734A7EB7736A65B8A61B7858DBED0A43 /* shared.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; path = shared.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		73D4D08B8C9FAD17B10E8E5C0EB49A76 /* shared.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = shared.framework; path = build/cocoapods/framework/shared.framework; sourceTree = "<group>"; };
 		73F1CF7C451C0A85109ACCBDD2FDC9C8 /* NSArray+NBAdditions.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSArray+NBAdditions.h"; path = "libPhoneNumber/NSArray+NBAdditions.h"; sourceTree = "<group>"; };
 		75E11819FFEDB291F3F4F56D7E688E48 /* NBPhoneNumberDefines.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = NBPhoneNumberDefines.h; path = libPhoneNumber/NBPhoneNumberDefines.h; sourceTree = "<group>"; };
 		78C34B9D140F9C5D8126F2ED7CB6813E /* NativeCallback.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = NativeCallback.swift; path = KMPNativeCoroutinesCore/NativeCallback.swift; sourceTree = "<group>"; };
@@ -158,6 +156,7 @@
 		83133C636E184416D304861F5E1E95D3 /* libPhoneNumber-iOS-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "libPhoneNumber-iOS-Info.plist"; sourceTree = "<group>"; };
 		8B0CEB3CFDB6B23412C050C580215137 /* NativeFlow.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = NativeFlow.swift; path = KMPNativeCoroutinesCore/NativeFlow.swift; sourceTree = "<group>"; };
 		8B524AABE529FB8A2D151B05321336E0 /* Pods-iosApp.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-iosApp.modulemap"; sourceTree = "<group>"; };
+		95B09EA82E7AF9ACCCCAF3E55C859116 /* shared.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = shared.debug.xcconfig; sourceTree = "<group>"; };
 		97BE234878E5494E2BA76CA531A6CAFC /* NativeSuspend.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = NativeSuspend.swift; path = KMPNativeCoroutinesCore/NativeSuspend.swift; sourceTree = "<group>"; };
 		997B9B67BA3853A01B2FA6AE262C55F8 /* NBMetadataHelper.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = NBMetadataHelper.h; path = libPhoneNumber/NBMetadataHelper.h; sourceTree = "<group>"; };
 		9BB0B8B698D4C35D4F9A07EF70910170 /* Pods-iosApp-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-iosApp-acknowledgements.plist"; sourceTree = "<group>"; };
@@ -180,10 +179,8 @@
 		D1773CF13AA02FE1F7B248AC4962D9C6 /* NBPhoneNumberUtil.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = NBPhoneNumberUtil.h; path = libPhoneNumber/NBPhoneNumberUtil.h; sourceTree = "<group>"; };
 		DA5B9F528971DAF42013C431652DFE8A /* NBPhoneNumberUtil.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = NBPhoneNumberUtil.m; path = libPhoneNumber/NBPhoneNumberUtil.m; sourceTree = "<group>"; };
 		E0D9EB5EB423230A60DC5F7C184687E9 /* KMPNativeCoroutinesCore.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = KMPNativeCoroutinesCore.modulemap; sourceTree = "<group>"; };
-		E23ED8A03974E9F66764D2E6B0853DA2 /* shared.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = shared.release.xcconfig; sourceTree = "<group>"; };
 		E32954243B605448566BC0C0B0BCF70D /* KMPNativeCoroutinesCore */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = KMPNativeCoroutinesCore; path = KMPNativeCoroutinesCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E36AFB32CC8ED8ACB0F9EC4BE1A5B8A9 /* NSArray+NBAdditions.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSArray+NBAdditions.m"; path = "libPhoneNumber/NSArray+NBAdditions.m"; sourceTree = "<group>"; };
-		E65A04D83A11443156A141A6DC9578F0 /* shared-copy-dsyms.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "shared-copy-dsyms.sh"; sourceTree = "<group>"; };
 		E6B2B06F60FCF2AB582A448CEE1F55C2 /* NBPhoneNumberDesc.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = NBPhoneNumberDesc.m; path = libPhoneNumber/NBPhoneNumberDesc.m; sourceTree = "<group>"; };
 		E7BAD5C84213E58282A9D4E00CB58573 /* NBNumberFormat.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = NBNumberFormat.h; path = libPhoneNumber/NBNumberFormat.h; sourceTree = "<group>"; };
 		EBD5D534C40C30E33212D76ADDE2180D /* libPhoneNumber-iOS-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "libPhoneNumber-iOS-umbrella.h"; sourceTree = "<group>"; };
@@ -191,6 +188,7 @@
 		F6C9B8C39FED33611A7275F64E8233AE /* NBPhoneMetaData.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = NBPhoneMetaData.h; path = libPhoneNumber/NBPhoneMetaData.h; sourceTree = "<group>"; };
 		F7A35D6A258513E8B64D48D57ED64478 /* KMPNativeCoroutinesCore.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = KMPNativeCoroutinesCore.debug.xcconfig; sourceTree = "<group>"; };
 		F87A626222A8D9B26448A9FEB04FD0DF /* Pods-iosApp-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-iosApp-umbrella.h"; sourceTree = "<group>"; };
+		FB1BF8BE937671FB0F330C2D28634477 /* shared.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; path = shared.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		FB36617603B8B28D4167293F497D4160 /* AsyncResult.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AsyncResult.swift; path = KMPNativeCoroutinesAsync/AsyncResult.swift; sourceTree = "<group>"; };
 		FD5517AA9A99D7E9A7D1C4036ACE6D51 /* AsyncFunction.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AsyncFunction.swift; path = KMPNativeCoroutinesAsync/AsyncFunction.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -248,18 +246,10 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		301E7E01BDCE486E3B1785C9B8188C70 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				70D6E483B23F0B0627D6EE7BD5E32B58 /* shared.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		313FE5FE915A4A924C55AAC02A910D61 /* Development Pods */ = {
 			isa = PBXGroup;
 			children = (
-				D8A02EC6C8DF3366897E8E9AFF0F6E82 /* shared */,
+				EEF3277DCE2E4B31CF76A57AB68C2BA1 /* shared */,
 			);
 			name = "Development Pods";
 			sourceTree = "<group>";
@@ -326,12 +316,22 @@
 			path = "Target Support Files/Pods-iosApp";
 			sourceTree = "<group>";
 		};
-		58DAE3B502B145BFD26ADEF120E929E9 /* Pod */ = {
+		569B56E5B05425CAE32676C6049DC8CB /* Pod */ = {
 			isa = PBXGroup;
 			children = (
-				734A7EB7736A65B8A61B7858DBED0A43 /* shared.podspec */,
+				FB1BF8BE937671FB0F330C2D28634477 /* shared.podspec */,
 			);
 			name = Pod;
+			sourceTree = "<group>";
+		};
+		5CB66AAACA3977B45E9869C360E9F289 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				95B09EA82E7AF9ACCCCAF3E55C859116 /* shared.debug.xcconfig */,
+				35548E3BD8DA30925E8FE97E67B84868 /* shared.release.xcconfig */,
+			);
+			name = "Support Files";
+			path = "../iosApp/Pods/Target Support Files/shared";
 			sourceTree = "<group>";
 		};
 		6698E842F86218847B868151AC96E55C /* Pods */ = {
@@ -344,15 +344,12 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
-		956A655F6D8CFE14847D80D0455A890F /* Support Files */ = {
+		7DBF81461E18ACE1B4BD971BAC841CF7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				E65A04D83A11443156A141A6DC9578F0 /* shared-copy-dsyms.sh */,
-				009069A386B0A5A8DB76D61AE1586630 /* shared.debug.xcconfig */,
-				E23ED8A03974E9F66764D2E6B0853DA2 /* shared.release.xcconfig */,
+				73D4D08B8C9FAD17B10E8E5C0EB49A76 /* shared.framework */,
 			);
-			name = "Support Files";
-			path = "../iosApp/Pods/Target Support Files/shared";
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		9A948D16075C872653952B4F51BB4414 /* iOS */ = {
@@ -444,12 +441,12 @@
 			path = KMPNativeCoroutinesAsync;
 			sourceTree = "<group>";
 		};
-		D8A02EC6C8DF3366897E8E9AFF0F6E82 /* shared */ = {
+		EEF3277DCE2E4B31CF76A57AB68C2BA1 /* shared */ = {
 			isa = PBXGroup;
 			children = (
-				301E7E01BDCE486E3B1785C9B8188C70 /* Frameworks */,
-				58DAE3B502B145BFD26ADEF120E929E9 /* Pod */,
-				956A655F6D8CFE14847D80D0455A890F /* Support Files */,
+				7DBF81461E18ACE1B4BD971BAC841CF7 /* Frameworks */,
+				569B56E5B05425CAE32676C6049DC8CB /* Pod */,
+				5CB66AAACA3977B45E9869C360E9F289 /* Support Files */,
 			);
 			name = shared;
 			path = ../../shared;
@@ -645,24 +642,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		6489526962367EFABFF6F0383C9D7BF6 /* [CP] Copy dSYMs */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/shared/shared-copy-dsyms-input-files.xcfilelist",
-			);
-			name = "[CP] Copy dSYMs";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/shared/shared-copy-dsyms-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/shared/shared-copy-dsyms.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		AEC59979357C49E6D042E88018F6E641 /* [CP-User] Build shared */ = {
+		C034197C627CB69271173F81FC421A8C /* [CP-User] Build shared */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -728,23 +708,17 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		06CBD71DD4EA9002C8157DBE9BC9332C /* PBXTargetDependency */ = {
+		554CC4B0A8C7152C0BE313049DD3D628 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = "libPhoneNumber-iOS";
-			target = BECD36891A8DC297700F9296F5634B97 /* libPhoneNumber-iOS */;
-			targetProxy = B82CFF6A390D8499AFFEAECBE8EB7F1B /* PBXContainerItemProxy */;
+			name = KMPNativeCoroutinesAsync;
+			target = F91BAFE2F1386309176711630BA5305A /* KMPNativeCoroutinesAsync */;
+			targetProxy = C0E2522608B7ADF59B22867FE5277B24 /* PBXContainerItemProxy */;
 		};
 		861EB4A7382254F4432727B058CE02A4 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = KMPNativeCoroutinesAsync;
 			target = F91BAFE2F1386309176711630BA5305A /* KMPNativeCoroutinesAsync */;
 			targetProxy = 5936931594D271FF6562EF87F5B0DC35 /* PBXContainerItemProxy */;
-		};
-		88C7B969EE1F9227E969F2F4C2C9523A /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = KMPNativeCoroutinesAsync;
-			target = F91BAFE2F1386309176711630BA5305A /* KMPNativeCoroutinesAsync */;
-			targetProxy = ACE335D76B3197B6E4B58A50C315A741 /* PBXContainerItemProxy */;
 		};
 		954604FC03AFFBD031D7278CB532CBED /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -770,27 +744,15 @@
 			target = BECD36891A8DC297700F9296F5634B97 /* libPhoneNumber-iOS */;
 			targetProxy = C00B3CD5D25E6BE877418B145B3552F1 /* PBXContainerItemProxy */;
 		};
+		E798BBC4F2BA4A71471BD7AA493C809A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "libPhoneNumber-iOS";
+			target = BECD36891A8DC297700F9296F5634B97 /* libPhoneNumber-iOS */;
+			targetProxy = D1DD6D56171B5B6A2B5FE52E6D239F99 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		0FBD802BB6006B50A43054722CA3E78E /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = E23ED8A03974E9F66764D2E6B0853DA2 /* shared.release.xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
 		1D19F557204BB6181BE8D546CF9A9906 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 3F64BADB16C311E9D09DAD0116F684F4 /* Pods-iosApp.debug.xcconfig */;
@@ -825,6 +787,23 @@
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		4152E83253A4C8130E121FD81121791F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 95B09EA82E7AF9ACCCCAF3E55C859116 /* shared.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -1025,9 +1004,9 @@
 			};
 			name = Release;
 		};
-		AD4023538DFE94496F59F14F03F2E80F /* Debug */ = {
+		AE6BE31EC9963554532F758E9BE9A1C1 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 009069A386B0A5A8DB76D61AE1586630 /* shared.debug.xcconfig */;
+			baseConfigurationReference = 35548E3BD8DA30925E8FE97E67B84868 /* shared.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1039,8 +1018,9 @@
 				);
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
 			};
-			name = Debug;
+			name = Release;
 		};
 		D9EE8B2636323B2A80610DCBE8BF5073 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -1232,6 +1212,15 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		3400C1F6E5A42D577692D3EB22F96D54 /* Build configuration list for PBXAggregateTarget "shared" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4152E83253A4C8130E121FD81121791F /* Debug */,
+				AE6BE31EC9963554532F758E9BE9A1C1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1255,15 +1244,6 @@
 			buildConfigurations = (
 				F16BF70327BB02D275CDE3F9A3BA3258 /* Debug */,
 				DDF8B612D335AB2C1599762B3B726B06 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		7329FC0278E780B546469E6E4485D459 /* Build configuration list for PBXAggregateTarget "shared" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				AD4023538DFE94496F59F14F03F2E80F /* Debug */,
-				0FBD802BB6006B50A43054722CA3E78E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
