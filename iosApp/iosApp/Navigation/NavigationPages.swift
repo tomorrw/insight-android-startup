@@ -14,6 +14,7 @@ enum Route: Hashable {
     case event(id: String)
     case post(id: String)
     case speaker(id: String)
+    case progress
 }
 
 struct NavigationPages<Content: View>: View {
@@ -61,6 +62,11 @@ struct NavigationPages<Content: View>: View {
                             isActive: $deepLinkingViewModel.viewSpeakerPage
                         )
                     }
+                    NavigateToWithActive(
+                        destination: { MyProgressPage() },
+                        label: { EmptyView() },
+                        isActive: $deepLinkingViewModel.viewProgressPage
+                    )
                 }
             }
             .navigationViewStyle(.stack)
@@ -83,6 +89,7 @@ struct NavigationStackNew<Content: View>: View {
                     case .event(id: let id): SessionDetailPage(id: id)
                     case .post(id: let id): PostDetailPage(id: id)
                     case .speaker(id: let id): SpeakerDetailPage(id: id)
+                    case .progress: MyProgressPage()
                     }
                 }
         }

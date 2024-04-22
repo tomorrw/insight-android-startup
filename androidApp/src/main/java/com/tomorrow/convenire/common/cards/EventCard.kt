@@ -49,6 +49,8 @@ fun EventCard(
     speakers: List<EventSpeaker>,
     onClick: () -> Unit,
     tag: String? = null,
+    tagBackground: Color? = null,
+    tagTextColor: Color? = null,
     color: Color = Color.Transparent,
     rightIcon: @Composable () -> Unit = { Spacer(modifier = Modifier) }
 ) = Box(modifier = modifier
@@ -132,7 +134,6 @@ fun EventCard(
 
 
             if (speakers.isNotEmpty()) {
-
                 Column {
                     Spacer(Modifier.height(8.dp))
                     speakers.map {
@@ -174,6 +175,10 @@ fun EventCard(
     Column(
         modifier = Modifier.align(Alignment.BottomEnd)
     ) {
-        if (tag != null) TagText(text = tag) else Spacer(Modifier)
+        if (tag != null) TagText(
+            text = tag,
+            backgroundColor = tagBackground,
+            textColor = tagTextColor
+        ) else Spacer(Modifier)
     }
 }

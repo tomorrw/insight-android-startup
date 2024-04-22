@@ -2,18 +2,59 @@ package com.tomorrow.convenire.shared.data.repository
 
 import com.tomorrow.convenire.shared.data.data_source.local.EncryptedStorage
 import com.tomorrow.convenire.shared.data.data_source.local.LocalDatabase
-import com.tomorrow.convenire.shared.data.data_source.mapper.*
+import com.tomorrow.convenire.shared.data.data_source.mapper.AppPlatformMapper
+import com.tomorrow.convenire.shared.data.data_source.mapper.CompanyMapper
+import com.tomorrow.convenire.shared.data.data_source.mapper.ConfigurationDataMapper
+import com.tomorrow.convenire.shared.data.data_source.mapper.HomeDataMapper
+import com.tomorrow.convenire.shared.data.data_source.mapper.NotificationMapper
+import com.tomorrow.convenire.shared.data.data_source.mapper.OfferMapper
+import com.tomorrow.convenire.shared.data.data_source.mapper.PostMapper
+import com.tomorrow.convenire.shared.data.data_source.mapper.ProgressReportMapper
+import com.tomorrow.convenire.shared.data.data_source.mapper.SessionMapper
+import com.tomorrow.convenire.shared.data.data_source.mapper.SpeakerDetailMapper
+import com.tomorrow.convenire.shared.data.data_source.mapper.SpinnerMapper
+import com.tomorrow.convenire.shared.data.data_source.mapper.UpdateInfoMapper
+import com.tomorrow.convenire.shared.data.data_source.mapper.UserMapper
 import com.tomorrow.convenire.shared.data.data_source.remote.ApiService
 import com.tomorrow.convenire.shared.data.data_source.remote.WebSocketService
 import com.tomorrow.convenire.shared.data.repository.utils.getFromCacheAndRevalidate
-import com.tomorrow.convenire.shared.domain.model.*
-import com.tomorrow.convenire.shared.domain.repositories.*
+import com.tomorrow.convenire.shared.domain.model.AppPlatform
+import com.tomorrow.convenire.shared.domain.model.ColorTheme
+import com.tomorrow.convenire.shared.domain.model.Company
+import com.tomorrow.convenire.shared.domain.model.ConfigurationData
+import com.tomorrow.convenire.shared.domain.model.Email
+import com.tomorrow.convenire.shared.domain.model.HomeData
+import com.tomorrow.convenire.shared.domain.model.Notification
+import com.tomorrow.convenire.shared.domain.model.OTP
+import com.tomorrow.convenire.shared.domain.model.Offer
+import com.tomorrow.convenire.shared.domain.model.Post
+import com.tomorrow.convenire.shared.domain.model.ProgressReport
+import com.tomorrow.convenire.shared.domain.model.Session
+import com.tomorrow.convenire.shared.domain.model.SpeakerDetail
+import com.tomorrow.convenire.shared.domain.model.Spinner
+import com.tomorrow.convenire.shared.domain.model.UpdateInfo
+import com.tomorrow.convenire.shared.domain.model.User
+import com.tomorrow.convenire.shared.domain.repositories.AppSettingsRepository
+import com.tomorrow.convenire.shared.domain.repositories.AuthenticationRepository
+import com.tomorrow.convenire.shared.domain.repositories.CompanyRepository
+import com.tomorrow.convenire.shared.domain.repositories.HomeRepository
+import com.tomorrow.convenire.shared.domain.repositories.LiveNotificationRepository
+import com.tomorrow.convenire.shared.domain.repositories.OffersRepository
+import com.tomorrow.convenire.shared.domain.repositories.PostRepository
+import com.tomorrow.convenire.shared.domain.repositories.SessionRepository
+import com.tomorrow.convenire.shared.domain.repositories.SpeakerRepository
+import com.tomorrow.convenire.shared.domain.repositories.UserRepository
 import com.tomorrow.convenire.shared.domain.utils.PhoneNumber
 import com.tomorrow.convenire.shared.domain.utils.UUID
-import io.ktor.client.plugins.*
-import io.ktor.http.*
+import io.ktor.client.plugins.ClientRequestException
+import io.ktor.http.HttpStatusCode
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.koin.core.component.KoinComponent
@@ -23,6 +64,7 @@ import kotlin.time.Duration
 class RepositoryImplementation : LiveNotificationRepository, CompanyRepository, SpeakerRepository,
     PostRepository,
     SessionRepository, AppSettingsRepository, HomeRepository, AuthenticationRepository,
+    UserRepository,
     OffersRepository,
     KoinComponent {
 
@@ -33,6 +75,7 @@ class RepositoryImplementation : LiveNotificationRepository, CompanyRepository, 
     private val sessionMapper = SessionMapper()
     private val postMapper = PostMapper()
     private val speakerMapper = SpeakerDetailMapper()
+    private val reportMapper = ProgressReportMapper()
     private val homeDataMapper = HomeDataMapper()
     private val userMapper = UserMapper()
     private val notificationMapper = NotificationMapper()
@@ -167,6 +210,23 @@ class RepositoryImplementation : LiveNotificationRepository, CompanyRepository, 
 
         emit(speakers)
     }
+
+    override fun getProgressReport(): Flow<ProgressReport> = getFromCacheAndRevalidate(
+        getFromCache = { localDatabase.getProgressReport() },
+        getFromApi = { apiService.getProgressReport() },
+        setInCache = { speakers -> localDatabase.replaceProgressReport(speakers) },
+        cacheAge = localDatabase.lastUpdatedProgressReport(),
+        revalidateIfOlderThan = Duration.parse("0m")
+    ).map { reportMapper.mapFromEntity(it) }
+
+    override fun refreshProgressReport(): Flow<ProgressReport> = flow {
+        val report = apiService.getProgressReport().getOrThrow()
+            .also { localDatabase.replaceProgressReport(it) }
+            .let { reportMapper.mapFromEntity(it) }
+
+        emit(report)
+    }
+
 
     override suspend fun getUpdateInfo(appPlatform: AppPlatform): Result<UpdateInfo> =
         apiService.getUpdate(AppPlatformMapper().mapToEntity(appPlatform))

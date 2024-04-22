@@ -1,10 +1,11 @@
 package com.tomorrow.convenire.views
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.tomorrow.convenire.common.GeneralError
@@ -42,7 +43,7 @@ data class MyLecturesState(
             eventsByDay = sessions
                 .groupBy { it.startTime.toJavaLocalDateTime().toLocalDate() }
                 .mapValues {
-                    it.value.filter { s -> ShouldNotifyEventUseCase().shouldNotify(s.id) || s.hasAttended }
+                    it.value.filter { s -> ShouldNotifyEventUseCase().shouldNotify(s.id) }
                         .map { s -> s.toEvent() }
                 },
             displayedDay = GetAppropriateDisplayedDayForEvent().getDay(sessions)
@@ -81,7 +82,7 @@ class MyLecturesViewModel : ReadViewModel<MyLecturesState>(
                             .eventsByDay
                             .mapValues { entry ->
                                 entry.value
-                                    .filter { event -> isBookmarkedMap[event.id] == true || event.hasAttended }
+                                    .filter { event -> isBookmarkedMap[event.id] == true }
                             }
                         )
                     }

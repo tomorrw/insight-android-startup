@@ -25,7 +25,9 @@ fun LecturesView() {
     ) {
         Column(
             verticalArrangement = Arrangement.spacedBy(14.dp),
-            modifier = Modifier.verticalScroll(rememberScrollState()).padding(vertical = 24.dp)
+            modifier = Modifier
+                .verticalScroll(rememberScrollState())
+                .padding(vertical = 24.dp)
         ) {
             DefaultCardDisplay(
                 painter = painterResource(id = R.mipmap.ic_schedule_foreground),
@@ -40,6 +42,13 @@ fun LecturesView() {
                 onClick = { navController.navigate(AppRoute.MyLectures.generate()) },
                 title = "My Lectures",
                 subtitle = "Manage and access your bookmarked lectures",
+            )
+
+            DefaultCardDisplay(
+                painter = painterResource(id = R.mipmap.ic_progress_foreground),
+                onClick = { navController.navigate(AppRoute.MyProgress.generate()) },
+                title = "My Progress",
+                subtitle = "Checkout your progress throughout the conference",
             )
 
             DefaultCardDisplay(

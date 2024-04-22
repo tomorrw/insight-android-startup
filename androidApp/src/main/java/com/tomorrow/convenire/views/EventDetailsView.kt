@@ -22,8 +22,6 @@ import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonColors
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -94,8 +92,27 @@ fun EventDetailsView(id: String) {
                     Column(modifier = Modifier.padding(horizontal = 16.dp)) {
                         Spacer(Modifier.height(8.dp))
 
-                        if (it.isSessionHappeningNow()) TagText(text = "NOW")
-                        else if (it.hasAttended) TagText(text = "ATTENDED")
+                        it.getTag()?.let { tag ->
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.SpaceBetween
+                            ) {
+                                TagText(
+                                    text = tag.text,
+                                    textColor = Color(android.graphics.Color.parseColor(tag.color)),
+                                    backgroundColor = Color(android.graphics.Color.parseColor(tag.background))
+                                )
+
+                                if (it.minutesAttended != null) androidx.compose.material3.Text(
+                                    "${it.minutesAttended}m Attended",
+                                    style = MaterialTheme.typography.titleSmall.copy(
+                                        color = Color(android.graphics.Color.parseColor(tag.color))
+                                    )
+                                )
+                            }
+                        }
+
 
                         Text(
                             modifier = Modifier.padding(top = 10.dp),
@@ -192,7 +209,7 @@ fun EventDetailsView(id: String) {
                                     tint = MaterialTheme.colorScheme.primary
                                 )
 
-                                it.getAttendeesCount()?.let {attendees ->
+                                it.getAttendeesCount()?.let { attendees ->
                                     Text(
                                         text = attendees,
                                         style = MaterialTheme.typography.bodyLarge.copy(color = MaterialTheme.colorScheme.onSurfaceVariant),

@@ -45,8 +45,9 @@ class SessionMapper : EntityMapper<Session, SessionDTO> {
                 )
             } ?: page
         }),
-        canAskQuestions = entity.canAskQuestions == 1,
         hasAttended = entity.hasAttended == 1,
+        minutesAttended = entity.minutesAttended,
+        canAskQuestions = entity.canAskQuestions == 1,
         speakers = entity.speakers?.map { SpeakerMapper().mapFromEntity(it) } ?: listOf(),
         actions = entity.actions?.map { ActionMapper().mapFromEntity(it) } ?: listOf(),
         numberOfAttendees = Loadable.smartInit(entity.numberOfAttendees),

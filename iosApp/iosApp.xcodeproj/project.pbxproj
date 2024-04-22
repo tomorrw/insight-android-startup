@@ -136,6 +136,9 @@
 		B5AE032229F91B9A00F5FB8C /* SpeakerDetailPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AE032129F91B9A00F5FB8C /* SpeakerDetailPage.swift */; };
 		B5AE032429F91D6D00F5FB8C /* SessionsVerticalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AE032329F91D6D00F5FB8C /* SessionsVerticalView.swift */; };
 		B5AE032629F91E0D00F5FB8C /* SessionDetailPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AE032529F91E0D00F5FB8C /* SessionDetailPage.swift */; };
+		B5D2D3F02BD6EC8900CAE0CC /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D2D3EF2BD6EC8900CAE0CC /* Tag.swift */; };
+		B5D2D3F32BD6F6AC00CAE0CC /* MyProgressPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D2D3F22BD6F6AC00CAE0CC /* MyProgressPage.swift */; };
+		B5D2D3F52BD6F6F900CAE0CC /* MyProgressPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D2D3F42BD6F6F900CAE0CC /* MyProgressPageViewModel.swift */; };
 		E68C57202A1647F100700000 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = E68C571F2A1647F100700000 /* FirebaseMessaging */; };
 		E6C4A9092A16557000E836F1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6C4A9082A16557000E836F1 /* AppDelegate.swift */; };
 /* End PBXBuildFile section */
@@ -275,6 +278,9 @@
 		B5AE032129F91B9A00F5FB8C /* SpeakerDetailPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeakerDetailPage.swift; sourceTree = "<group>"; };
 		B5AE032329F91D6D00F5FB8C /* SessionsVerticalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionsVerticalView.swift; sourceTree = "<group>"; };
 		B5AE032529F91E0D00F5FB8C /* SessionDetailPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDetailPage.swift; sourceTree = "<group>"; };
+		B5D2D3EF2BD6EC8900CAE0CC /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
+		B5D2D3F22BD6F6AC00CAE0CC /* MyProgressPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProgressPage.swift; sourceTree = "<group>"; };
+		B5D2D3F42BD6F6F900CAE0CC /* MyProgressPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProgressPageViewModel.swift; sourceTree = "<group>"; };
 		E6C4A9082A16557000E836F1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -488,6 +494,7 @@
 		7555FF7D242A565900829871 /* iosApp */ = {
 			isa = PBXGroup;
 			children = (
+				B5D2D3F12BD6F69E00CAE0CC /* Progress */,
 				4C4F1EED2B3EBE7F0066AB31 /* AppStore */,
 				4CF226D42ACAE5980044F623 /* UserPage */,
 				4C2562B42ABAE28500ACE03E /* Offers */,
@@ -816,6 +823,7 @@
 				B3DC95FE2A140064009F38CE /* MySessionsPage.swift */,
 				B3DC96002A140073009F38CE /* MySessionsPageViewModel.swift */,
 				B3DC96022A141E0B009F38CE /* SessionCard.swift */,
+				B5D2D3EF2BD6EC8900CAE0CC /* Tag.swift */,
 			);
 			path = Sessions;
 			sourceTree = "<group>";
@@ -863,6 +871,15 @@
 				B58BDDB02A25F1F3003378FD /* Debouncer.swift */,
 			);
 			path = Debouncer;
+			sourceTree = "<group>";
+		};
+		B5D2D3F12BD6F69E00CAE0CC /* Progress */ = {
+			isa = PBXGroup;
+			children = (
+				B5D2D3F22BD6F6AC00CAE0CC /* MyProgressPage.swift */,
+				B5D2D3F42BD6F6F900CAE0CC /* MyProgressPageViewModel.swift */,
+			);
+			path = Progress;
 			sourceTree = "<group>";
 		};
 		D738931310F9E4C64175BB2A /* Pods */ = {
@@ -1005,6 +1022,7 @@
 				B37D14AD29C9DB2D00BA4E39 /* GridSection.swift in Sources */,
 				4CF226E82ACAEA200044F623 /* HomePageViewModel.swift in Sources */,
 				B556744929FA7D65001B7B79 /* CompaniesPageViewModel.swift in Sources */,
+				B5D2D3F52BD6F6F900CAE0CC /* MyProgressPageViewModel.swift in Sources */,
 				B32B2E502A13863100C290F7 /* IterableCarousel.swift in Sources */,
 				B5183E3429F16A690097363D /* DefaultCardBody.swift in Sources */,
 				B556745529FA7F29001B7B79 /* ToSearchItem.swift in Sources */,
@@ -1026,6 +1044,7 @@
 				B5922CEB2A1CF26B004705C0 /* EmptyStateNavLink.swift in Sources */,
 				4CF226D82ACAE5D40044F623 /* ProfileSettingsPage.swift in Sources */,
 				4CF2B21C2B58187300A1A646 /* TextTag.swift in Sources */,
+				B5D2D3F32BD6F6AC00CAE0CC /* MyProgressPage.swift in Sources */,
 				B556743B29FA7A5C001B7B79 /* CustomVideoPlayer.swift in Sources */,
 				B5183E2C29F00A470097363D /* OnBoarding.swift in Sources */,
 				4C9A5DDF2AC1C6ED00885F3D /* CompaniesByMapPageViewModel.swift in Sources */,
@@ -1096,6 +1115,7 @@
 				B5183E3229F157F20097363D /* PageHeader.swift in Sources */,
 				B556746D29FB3404001B7B79 /* PostDetailPageViewModel.swift in Sources */,
 				B556746F29FB341A001B7B79 /* PostDetailPage.swift in Sources */,
+				B5D2D3F02BD6EC8900CAE0CC /* Tag.swift in Sources */,
 				B56AA30B29F7C3990021B12E /* SpeakersPage.swift in Sources */,
 				B556746629FB1CE3001B7B79 /* CornerRadius.swift in Sources */,
 				B5183E3029F034410097363D /* AdaptsToKeyboardModifier.swift in Sources */,
