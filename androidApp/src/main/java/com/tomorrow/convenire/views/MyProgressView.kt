@@ -55,7 +55,7 @@ data class MyProgressState(
                 Pair(report.league.lecturesAttendedCount.toString(), "Lectures Attended"),
                 Pair(
                     report.totalAttendedDuration.toDurationFormatString(),
-                    "Time Spend in Session"
+                    "Time Spent in Session"
                 )
             ),
             progress = report.league.percentage,
@@ -83,97 +83,103 @@ fun MyProgressView() {
         onBackPress = { navController.popBackStack() }
     ) {
         val viewModel: MyProgressViewModel = koinViewModel()
-        DefaultReadView(viewModel = viewModel, loader = { EventsLoader() },
-            emptyState = {
-                GeneralError(
-                    message = "No Progress Yet.",
-                    description = "After attending lectures, you can assess your progress here."
-                )
-            }, error = {
-                GeneralError(
-                    message = it,
-                    description = "Please check your internet connection and try again.",
-                    onButtonClick = { viewModel.on(ReadViewModel.Event.OnRefresh) }
-                )
-            }) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clip(RoundedCornerShape(8.dp))
-                    .background(MaterialTheme.colorScheme.background)
-                    .padding(16.dp)
-            ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    modifier = Modifier.fillMaxWidth(),
-                ) {
-                    it.stats.forEachIndexed { index, data ->
+
+        PullToRefreshLayout(
+            state = rememberPullRefreshState(
+                refreshing = viewModel.state.isRefreshing,
+                onRefresh = { viewModel.on(ReadViewModel.Event.OnRefresh) }
+            ),
+            isRefreshing = viewModel.state.isRefreshing
+        ) {
+            DefaultReadView(viewModel = viewModel, loader = { EventsLoader() },
+                emptyState = {
+                    GeneralError(
+                        message = "No Progress Yet.",
+                        description = "After attending lectures, you can assess your progress here.",
+                        buttonText = "Reload",
+                        onButtonClick = { viewModel.on(ReadViewModel.Event.OnRefresh) }
+                    )
+                }, error = {
+                    GeneralError(
+                        message = it,
+                        description = "Please check your internet connection and try again.",
+                        onButtonClick = { viewModel.on(ReadViewModel.Event.OnRefresh) }
+                    )
+                }) {
+                Column {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clip(RoundedCornerShape(8.dp))
+                            .background(MaterialTheme.colorScheme.background)
+                            .padding(16.dp)
+                    ) {
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.spacedBy(14.dp)
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            modifier = Modifier.fillMaxWidth(),
                         ) {
-                            Text(data.first, style = MaterialTheme.typography.headlineSmall)
-                            Text(
-                                modifier = Modifier.widthIn(max = 70.dp),
-                                text = data.second,
-                                style = MaterialTheme.typography.bodyMedium.copy(color = MaterialTheme.colorScheme.onSurfaceVariant)
-                            )
+                            it.stats.forEachIndexed { index, data ->
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.spacedBy(14.dp)
+                                ) {
+                                    Text(data.first, style = MaterialTheme.typography.headlineSmall)
+                                    Text(
+                                        modifier = Modifier.widthIn(max = 70.dp),
+                                        text = data.second,
+                                        style = MaterialTheme.typography.bodyMedium.copy(color = MaterialTheme.colorScheme.onSurfaceVariant)
+                                    )
+                                }
+
+                                if (index != it.stats.size - 1) Spacer(
+                                    modifier = Modifier
+                                        .clip(MaterialTheme.shapes.small)
+                                        .height(height = 34.dp)
+                                        .width(width = 1.dp)
+                                        .background(MaterialTheme.colorScheme.onSurfaceVariant)
+                                )
+                            }
                         }
 
-                        if (index != it.stats.size - 1) Spacer(
-                            modifier = Modifier
-                                .clip(MaterialTheme.shapes.small)
-                                .height(height = 34.dp)
-                                .width(width = 1.dp)
-                                .background(MaterialTheme.colorScheme.onSurfaceVariant)
-                        )
+                        Spacer(Modifier.height(8.dp))
+
+                        Box(
+                            Modifier
+                                .clip(
+                                    RoundedCornerShape(4.dp)
+                                )
+                                .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.5f))
+                                .fillMaxWidth()
+                                .height(12.dp)
+                        ) {
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth(it.progress)
+                                    .fillMaxHeight()
+                                    .align(Alignment.CenterStart)
+                                    .background(Color(GraphicsColor.parseColor("#${it.progressColor}")))
+                            ) {}
+                        }
+
                     }
-                }
 
-                Spacer(Modifier.height(8.dp))
 
-                Box(
-                    Modifier
-                        .clip(
-                            RoundedCornerShape(4.dp)
-                        )
-                        .background(MaterialTheme.colorScheme.background)
-                        .fillMaxWidth()
-                        .height(12.dp)
-                ) {
-                    Row(
+                    LazyColumn(
                         modifier = Modifier
-                            .fillMaxWidth(it.progress)
-                            .fillMaxHeight()
-                            .align(Alignment.CenterStart)
-                            .background(Color(GraphicsColor.parseColor("#${it.progressColor}")))
-                    ) {}
-                }
-
-            }
-
-            PullToRefreshLayout(
-                state = rememberPullRefreshState(
-                    refreshing = viewModel.state.isRefreshing,
-                    onRefresh = { viewModel.on(ReadViewModel.Event.OnRefresh) }
-                ),
-                isRefreshing = viewModel.state.isRefreshing
-            ) {
-                LazyColumn(
-                    modifier = Modifier
-                        .padding(top = 16.dp)
-                        .clip(RoundedCornerShape(8.dp, 8.dp, 0.dp, 0.dp))
-                ) {
-                    item {
-                        SectionDisplay(
-                            contentPadding = PaddingValues(0.dp),
-                            section = Section.EventList(
-                                title = "Attended Lectures",
-                                events = it.events,
-                                shouldDisplayTitle = false,
+                            .padding(top = 16.dp)
+                            .clip(RoundedCornerShape(8.dp, 8.dp, 0.dp, 0.dp))
+                    ) {
+                        item {
+                            SectionDisplay(
+                                contentPadding = PaddingValues(0.dp),
+                                section = Section.EventList(
+                                    title = "Attended Lectures",
+                                    events = it.events,
+                                    shouldDisplayTitle = false,
+                                )
                             )
-                        )
+                        }
                     }
                 }
             }

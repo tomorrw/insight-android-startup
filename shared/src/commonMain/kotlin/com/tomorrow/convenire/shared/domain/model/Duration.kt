@@ -29,8 +29,8 @@ class Duration(val seconds: Int) {
 
 
         return if (hours == 0 && minutes == 0) "0m"
-        else if (minutes == 0)
-            "${hours}h"
+        else if (hours == 0)
+            "${minutes}m"
         else
             "${hours}h:${minutes}m"
     }

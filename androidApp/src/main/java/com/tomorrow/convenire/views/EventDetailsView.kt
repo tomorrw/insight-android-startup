@@ -92,13 +92,27 @@ fun EventDetailsView(id: String) {
                     Column(modifier = Modifier.padding(horizontal = 16.dp)) {
                         Spacer(Modifier.height(8.dp))
 
-                        it.getTag()?.let {
-                            TagText(
-                                text = it.text,
-                                textColor = Color(android.graphics.Color.parseColor(it.color)),
-                                backgroundColor = Color(android.graphics.Color.parseColor(it.background))
-                            )
+                        it.getTag()?.let { tag ->
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.SpaceBetween
+                            ) {
+                                TagText(
+                                    text = tag.text,
+                                    textColor = Color(android.graphics.Color.parseColor(tag.color)),
+                                    backgroundColor = Color(android.graphics.Color.parseColor(tag.background))
+                                )
+
+                                if (it.minutesAttended != null) androidx.compose.material3.Text(
+                                    "${it.minutesAttended}m Attended",
+                                    style = MaterialTheme.typography.titleSmall.copy(
+                                        color = Color(android.graphics.Color.parseColor(tag.color))
+                                    )
+                                )
+                            }
                         }
+
 
                         Text(
                             modifier = Modifier.padding(top = 10.dp),
