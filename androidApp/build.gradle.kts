@@ -10,7 +10,8 @@ android {
     compileSdk = Versions.androidCompileSdk
     buildFeatures { compose = true }
     composeOptions { kotlinCompilerExtensionVersion = Versions.composeCompiler }
-    val appVersionCode = System.getenv()["NEW_BUILD_NUMBER"]?.toInt() ?: 1
+    // val appVersionCode = System.getenv()["NEW_BUILD_NUMBER"]?.toInt() ?: 8
+    val appVersionCode = 8
 
     signingConfigs {
         create("release") {
@@ -33,7 +34,7 @@ android {
         minSdk = Versions.androidMinSdk
         targetSdk = Versions.androidTargetSdk
         compileSdk = Versions.androidCompileSdk
-        versionCode = 7
+        versionCode = appVersionCode
         versionName = Versions.applicationVersionName
         signingConfig = signingConfigs.getByName("release")
     }
