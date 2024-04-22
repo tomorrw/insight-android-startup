@@ -64,7 +64,7 @@ class LocalDatabaseImplementation(
             getRealmSessions().find { updatedAt = it?.updatedAt }
 
             copyToRealm(((getSessions().getOrNull()?.filter { it.id != session.id }
-                ?: listOf()) + session).toRealm(updatedAt), UpdatePolicy.ALL)
+                ?: listOf()) + session).sortedBy { it.start }.toRealm(updatedAt), UpdatePolicy.ALL)
         }
     }
 
