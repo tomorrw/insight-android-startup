@@ -112,6 +112,31 @@ class ApiServiceImplementation(
         }
     }
 
+    override suspend fun sendAuthWebsocket(socketId: String, userId: String) = post<AuthWebsocketResponse>(
+        "$baseUrl/broadcasting/auth"
+    ) {
+        setBody(
+            WebsocketAuthRequest(
+                socketId = socketId,
+                channelName = "private-App.Models.User.$userId"
+            )
+        )
+    }
+
+
+    @Serializable
+    private data class WebsocketAuthRequest(
+        @SerialName("socket_id")
+        val socketId: String,
+        @SerialName("channel_name")
+        val channelName: String,
+    )
+    @Serializable
+    data class AuthWebsocketResponse(
+        @SerialName("auth")
+        val authToken: String
+    )
+
     @Serializable
     private data class FCMTokensRequest(
         val token: String

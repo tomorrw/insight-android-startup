@@ -15,6 +15,7 @@ import com.tomorrow.convenire.shared.data.data_source.mapper.SpinnerMapper
 import com.tomorrow.convenire.shared.data.data_source.mapper.UpdateInfoMapper
 import com.tomorrow.convenire.shared.data.data_source.mapper.UserMapper
 import com.tomorrow.convenire.shared.data.data_source.remote.ApiService
+import com.tomorrow.convenire.shared.data.data_source.remote.WebSocketService
 import com.tomorrow.convenire.shared.data.repository.utils.getFromCacheAndRevalidate
 import com.tomorrow.convenire.shared.domain.model.AppPlatform
 import com.tomorrow.convenire.shared.domain.model.ColorTheme
@@ -57,7 +58,8 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import kotlin.time.Duration
 
-class RepositoryImplementation : CompanyRepository, SpeakerRepository, PostRepository,
+class RepositoryImplementation : LiveNotificationRepository, CompanyRepository, SpeakerRepository,
+    PostRepository,
     SessionRepository, AppSettingsRepository, HomeRepository, AuthenticationRepository,
     UserRepository,
     OffersRepository,
@@ -73,9 +75,11 @@ class RepositoryImplementation : CompanyRepository, SpeakerRepository, PostRepos
     private val reportMapper = ProgressReportMapper()
     private val homeDataMapper = HomeDataMapper()
     private val userMapper = UserMapper()
+    private val notificationMapper = NotificationMapper()
     private val isAuthenticated = MutableStateFlow<Boolean?>(null)
     private val colorTheme = MutableStateFlow(encryptedStorage.colorTheme ?: ColorTheme.Auto)
     private val scope: CoroutineScope by inject()
+    private val webSocketService: WebSocketService by inject()
 
     init {
         scope.launch {
@@ -353,4 +357,16 @@ class RepositoryImplementation : CompanyRepository, SpeakerRepository, PostRepos
             apiService.getClaimedOffers().getOrThrow().map { OfferMapper().mapFromEntity(it) }
         emit(offers)
     }
+
+    override suspend fun startReceivingMessages(id: String, setMessage: (Result<Notification>) -> Unit) {
+        return webSocketService.startListeningToQr(
+            id,
+            notificationMapper.mapToEntity(
+                setMessage
+            )
+        )
+    }
+
+    override suspend fun stopReceivingMessages() =
+        webSocketService.stopListeningToQr()
 }

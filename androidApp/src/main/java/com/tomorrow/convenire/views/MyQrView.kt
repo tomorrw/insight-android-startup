@@ -21,18 +21,23 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.ktx.messaging
 import com.tomorrow.convenire.R
+import com.tomorrow.convenire.common.CustomToast
 import com.tomorrow.convenire.common.PullToRefreshLayout
 import com.tomorrow.convenire.common.dialogs.FullScreenPopUp
 import com.tomorrow.convenire.common.headers.PageHeaderLayout
+import com.tomorrow.convenire.common.vibratePhone
 import com.tomorrow.convenire.common.view_models.DefaultReadView
 import com.tomorrow.convenire.common.view_models.ReadViewModel
 import com.tomorrow.convenire.feature_qr_code.rememberQrBitmapPainter
@@ -40,10 +45,12 @@ import com.tomorrow.convenire.shared.domain.model.ConfigurationData
 import com.tomorrow.convenire.shared.domain.model.User
 import com.tomorrow.convenire.shared.domain.use_cases.GetConfigurationUseCase
 import com.tomorrow.convenire.shared.domain.use_cases.GetUserUseCase
+import com.tomorrow.convenire.shared.domain.use_cases.LiveNotificationListenerUseCase
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 import java.util.*
 
@@ -66,16 +73,63 @@ class MyQrViewModel : ReadViewModel<MyQrViewData>(
                 }
                 MyQrViewData(user, configurationData)
             }
+    },
+    refresh = {
+        (GetConfigurationUseCase().getTicketInfo() as Flow<ConfigurationData?>).catch { emit(null) }
+            .combine(GetUserUseCase().getUser()) { configurationData, user ->
+                MyQrViewData(user, configurationData)
+            }
+    },
+    onDismiss = { LiveNotificationListenerUseCase().stopListening() }
+
+) {
+    val notificationStatus = mutableStateOf(true)
+    val notificationMessage = mutableStateOf("")
+
+    fun startListening(id: String) {
+        val liveNotify = LiveNotificationListenerUseCase()
+
+        try {
+            scope.launch {
+                liveNotify.startListening(id) {
+                    it.getOrNull()?.let { notify ->
+                        notificationMessage.value = notify.message
+                        notificationStatus.value = notify.result
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            Log.e("LiveNotificationListenerUseCase", "Error startListening $e")
+        }
     }
-)
+}
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun MyQrView() {
     val viewModel: MyQrViewModel = koinViewModel()
+    val context = LocalContext.current
+
+    val shouldNotify = remember { mutableStateOf(false) }
+
+    LaunchedEffect(key1 = viewModel.notificationMessage.value) {
+        if (viewModel.notificationMessage.value.isNotEmpty()) {
+            context.vibratePhone()
+            shouldNotify.value = true
+        }
+    }
+    LaunchedEffect(key1 = shouldNotify.value) {
+        if (!shouldNotify.value) {
+            viewModel.notificationMessage.value = ""
+        }
+    }
+
     val shouldPopup = remember { mutableStateOf(false) }
 
     DefaultReadView(viewModel = viewModel) { ticket ->
+        LaunchedEffect(key1 = "") {
+            viewModel.startListening(ticket.user.id)
+        }
         val qrCode = remember {
             mutableStateOf(ticket.user.generateQrCodeString())
         }
@@ -286,6 +340,17 @@ fun MyQrView() {
                 }
             }
         }
+
+        CustomToast(
+            modifier = Modifier.zIndex(11f),
+            message = viewModel.notificationMessage.value,
+            isShown = shouldNotify,
+            duration = 5000,
+            icon = if (viewModel.notificationStatus.value)
+                painterResource(id = R.drawable.waving_foreground)
+            else painterResource(id = R.drawable.cross_error_foreground),
+            iconColor = if (viewModel.notificationStatus.value) MaterialTheme.colorScheme.surfaceVariant else MaterialTheme.colorScheme.error,
+        )
     }
 }
 

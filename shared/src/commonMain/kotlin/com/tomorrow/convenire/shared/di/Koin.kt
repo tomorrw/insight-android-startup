@@ -4,20 +4,40 @@ import com.tomorrow.convenire.shared.data.data_source.local.LocalDatabase
 import com.tomorrow.convenire.shared.data.data_source.local.LocalDatabaseImplementation
 import com.tomorrow.convenire.shared.data.data_source.remote.ApiService
 import com.tomorrow.convenire.shared.data.data_source.remote.ApiServiceImplementation
+import com.tomorrow.convenire.shared.data.data_source.remote.WebSocketService
+import com.tomorrow.convenire.shared.data.data_source.remote.WebSocketServiceImplementation
 import com.tomorrow.convenire.shared.data.repository.RepositoryImplementation
 import com.tomorrow.convenire.shared.domain.model.MultipleFieldValidationError
-import com.tomorrow.convenire.shared.domain.repositories.*
-import io.ktor.client.*
-import io.ktor.client.call.*
-import io.ktor.client.engine.*
-import io.ktor.client.plugins.*
-import io.ktor.client.plugins.auth.*
-import io.ktor.client.plugins.auth.providers.*
-import io.ktor.client.plugins.contentnegotiation.*
-import io.ktor.client.plugins.logging.*
-import io.ktor.client.request.*
-import io.ktor.http.*
-import io.ktor.serialization.kotlinx.json.*
+import com.tomorrow.convenire.shared.domain.repositories.AppSettingsRepository
+import com.tomorrow.convenire.shared.domain.repositories.AuthenticationRepository
+import com.tomorrow.convenire.shared.domain.repositories.CompanyRepository
+import com.tomorrow.convenire.shared.domain.repositories.HomeRepository
+import com.tomorrow.convenire.shared.domain.repositories.LiveNotificationRepository
+import com.tomorrow.convenire.shared.domain.repositories.OffersRepository
+import com.tomorrow.convenire.shared.domain.repositories.PostRepository
+import com.tomorrow.convenire.shared.domain.repositories.SessionRepository
+import com.tomorrow.convenire.shared.domain.repositories.SpeakerRepository
+import io.ktor.client.HttpClient
+import io.ktor.client.call.body
+import io.ktor.client.engine.HttpClientEngine
+import io.ktor.client.plugins.ClientRequestException
+import io.ktor.client.plugins.HttpResponseValidator
+import io.ktor.client.plugins.auth.Auth
+import io.ktor.client.plugins.auth.providers.BearerTokens
+import io.ktor.client.plugins.auth.providers.bearer
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.client.plugins.defaultRequest
+import io.ktor.client.plugins.logging.DEFAULT
+import io.ktor.client.plugins.logging.LogLevel
+import io.ktor.client.plugins.logging.Logger
+import io.ktor.client.plugins.logging.Logging
+import io.ktor.client.plugins.websocket.WebSockets
+import io.ktor.client.request.HttpRequest
+import io.ktor.http.ContentType
+import io.ktor.http.HttpStatusCode
+import io.ktor.http.contentType
+import io.ktor.serialization.kotlinx.KotlinxWebsocketSerializationConverter
+import io.ktor.serialization.kotlinx.json.json
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -74,6 +94,15 @@ private fun commonModule(enableNetworkLogs: Boolean) = module {
         )
     }
 
+    single<WebSocketService> {
+        WebSocketServiceImplementation(
+            {  get<BearerTokensContainer>().scope.get() },
+            Constants.PRODUCTION_WEBSOCKET_BASE_URL,
+            443
+        )
+    }
+
+
     single<LocalDatabase> { LocalDatabaseImplementation(get()) }
 
     single { RepositoryImplementation() } binds arrayOf(
@@ -86,6 +115,7 @@ private fun commonModule(enableNetworkLogs: Boolean) = module {
         UserRepository:: class,
         HomeRepository::class,
         OffersRepository::class,
+        LiveNotificationRepository::class,
     )
 }
 
@@ -122,6 +152,8 @@ fun createHttpClient(
     HttpResponseValidator { handleResponseExceptionWithRequest(responseValidator) }
 
     install(ContentNegotiation) { json(json) }
+
+    install(WebSockets) { contentConverter = KotlinxWebsocketSerializationConverter(json) }
 
     install(Auth) {
         bearer {

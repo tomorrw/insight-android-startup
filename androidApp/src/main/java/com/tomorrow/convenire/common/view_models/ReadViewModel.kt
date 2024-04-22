@@ -4,6 +4,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -29,12 +30,14 @@ import org.koin.core.component.inject
 open class ReadViewModel<D>(
     internal val load: () -> Flow<D>,
     internal val refresh: () -> Flow<D> = load,
+    internal val onDismiss: suspend () -> Unit = {},
     internal val emptyCheck: (D) -> Boolean = { false },
 ) : ViewModel(), KoinComponent {
     var state by mutableStateOf(State<D>())
     val scope: CoroutineScope by inject()
 
-    constructor(suspendLoad: suspend () -> D) : this( // not used but useful
+    constructor(suspendLoad: suspend () -> D) : this(
+        // not used but useful
         load = { flow { emit(suspendLoad()) } },
         refresh = { flow { emit(suspendLoad()) } },
     )
@@ -55,7 +58,7 @@ open class ReadViewModel<D>(
                             state = state.copy(
                                 isLoading = false,
                                 isEmpty = emptyCheck(it),
-                                )
+                            )
                         }
                     } catch (e: Throwable) {
                         Log.e("Read View Model Error", "$e")
@@ -100,6 +103,8 @@ open class ReadViewModel<D>(
                     }
                 }
             }
+
+            Event.OnDismiss -> scope.launch { onDismiss() }
         }
     }
 
@@ -112,6 +117,7 @@ open class ReadViewModel<D>(
         data object Load : Event()
         data object ClearErrors : Event()
         data object LoadSilently : Event()
+        data object OnDismiss : Event()
     }
 
     data class State<D>(
@@ -162,6 +168,10 @@ fun <D> DefaultReadView(
         viewModel.state.error?.let {
             if (it.isNotEmpty()) Toast.makeText(context, it, Toast.LENGTH_LONG).show()
         }
+    }
+
+    DisposableEffect(key1 = "") {
+        onDispose { viewModel.on(ReadViewModel.Event.OnDismiss) }
     }
 
     val viewData = viewModel.state.viewData

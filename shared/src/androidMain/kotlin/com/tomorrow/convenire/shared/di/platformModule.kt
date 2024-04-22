@@ -5,17 +5,18 @@ import androidx.security.crypto.MasterKey
 import com.russhwolf.settings.ObservableSettings
 import com.russhwolf.settings.SharedPreferencesSettings
 import com.tomorrow.convenire.shared.data.data_source.local.EncryptedStorageImplementation
-import io.ktor.client.engine.android.*
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
+import io.ktor.client.engine.okhttp.*
 
 actual fun platformModule() = module {
-    single { Android.create() }
-    single<ObservableSettings>(named(com.tomorrow.convenire.shared.data.data_source.local.EncryptedStorageImplementation.SETTING_NAME)) {
+    single { OkHttp.create() }
+
+    single<ObservableSettings>(named(EncryptedStorageImplementation.SETTING_NAME)) {
         SharedPreferencesSettings(
             EncryptedSharedPreferences.create(
                 get(),
-                com.tomorrow.convenire.shared.data.data_source.local.EncryptedStorageImplementation.ENCRYPTED_DATABASE_NAME,
+                EncryptedStorageImplementation.ENCRYPTED_DATABASE_NAME,
                 MasterKey.Builder(get())
                     .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
                     .build(),
