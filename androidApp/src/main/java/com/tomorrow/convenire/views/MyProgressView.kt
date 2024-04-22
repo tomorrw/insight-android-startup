@@ -167,6 +167,7 @@ fun MyProgressView() {
 
                     LazyColumn(
                         modifier = Modifier
+                            .fillMaxHeight()
                             .padding(top = 16.dp)
                             .clip(RoundedCornerShape(8.dp, 8.dp, 0.dp, 0.dp))
                     ) {

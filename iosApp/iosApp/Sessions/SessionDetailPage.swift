@@ -29,16 +29,23 @@ struct SessionDetailPage: View {
         DetailPage(
             vm: vm,
             customHeader: {
-                if vm.hasAttended {
-                    Text("ATTENDED")
-                        .foregroundColor(Color("Secondary"))
-                        .font(.system(size: 14))
-                        .padding(5)
-                        .background(
-                            RoundedRectangle(cornerRadius: 8)
-                                .foregroundColor(.accentColor)
+                HStack {
+                    if let tag = vm.tag {
+                        TextTag(
+                            text: tag.text,
+                            colors: .init(textColor: tag.color, background: tag.background)
                         )
+                        
+                        Spacer()
+                        
+                        if let minutes = vm.minutesAttended {
+                            Text("\(minutes.description)m Attended")
+                                .foregroundColor(tag.color)
+                                .font(.system(size: 14))
+                        }
+                    }
                 }
+                
                 sessionHeader
             },
             customBody: { VerticalDisplayView(pages: $vm.pages, actions: $vm.action) }

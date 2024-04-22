@@ -6,6 +6,7 @@ import com.tomorrow.convenire.shared.data.data_source.mapper.AppPlatformMapper
 import com.tomorrow.convenire.shared.data.data_source.mapper.CompanyMapper
 import com.tomorrow.convenire.shared.data.data_source.mapper.ConfigurationDataMapper
 import com.tomorrow.convenire.shared.data.data_source.mapper.HomeDataMapper
+import com.tomorrow.convenire.shared.data.data_source.mapper.NotificationMapper
 import com.tomorrow.convenire.shared.data.data_source.mapper.OfferMapper
 import com.tomorrow.convenire.shared.data.data_source.mapper.PostMapper
 import com.tomorrow.convenire.shared.data.data_source.mapper.ProgressReportMapper
@@ -23,6 +24,7 @@ import com.tomorrow.convenire.shared.domain.model.Company
 import com.tomorrow.convenire.shared.domain.model.ConfigurationData
 import com.tomorrow.convenire.shared.domain.model.Email
 import com.tomorrow.convenire.shared.domain.model.HomeData
+import com.tomorrow.convenire.shared.domain.model.Notification
 import com.tomorrow.convenire.shared.domain.model.OTP
 import com.tomorrow.convenire.shared.domain.model.Offer
 import com.tomorrow.convenire.shared.domain.model.Post
@@ -36,6 +38,7 @@ import com.tomorrow.convenire.shared.domain.repositories.AppSettingsRepository
 import com.tomorrow.convenire.shared.domain.repositories.AuthenticationRepository
 import com.tomorrow.convenire.shared.domain.repositories.CompanyRepository
 import com.tomorrow.convenire.shared.domain.repositories.HomeRepository
+import com.tomorrow.convenire.shared.domain.repositories.LiveNotificationRepository
 import com.tomorrow.convenire.shared.domain.repositories.OffersRepository
 import com.tomorrow.convenire.shared.domain.repositories.PostRepository
 import com.tomorrow.convenire.shared.domain.repositories.SessionRepository

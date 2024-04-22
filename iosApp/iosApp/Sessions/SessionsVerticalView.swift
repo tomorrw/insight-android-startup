@@ -12,6 +12,12 @@ import KMPNativeCoroutinesAsync
 
 struct SessionsVerticalView: View {
     let sessions: [Session]
+    let isMinutesDisplayedOnCards: Bool
+    
+    init(sessions: [Session], isMinutesDisplayedOnCards: Bool = false) {
+        self.sessions = sessions
+        self.isMinutesDisplayedOnCards = isMinutesDisplayedOnCards
+    }
     
     var body: some View {
         LazyVStack(alignment: .leading, spacing: 16) {
@@ -21,7 +27,7 @@ struct SessionsVerticalView: View {
                 NavigateTo {
                     SessionDetailPage(id: session.id)
                 } label: {
-                    SessionCard(session: session)
+                    SessionCard(session: session, isMinutesAttendedDisplayed: isMinutesDisplayedOnCards)
                 }
                 .buttonStyle(FlatLinkStyle())
             }
@@ -35,6 +41,6 @@ struct SessionsVerticalView: View {
 
 struct SessionsVerticalView_Previews: PreviewProvider {
     static var previews: some View {
-        SessionsVerticalView(sessions: [])
+        SessionsVerticalView(sessions: [], isMinutesDisplayedOnCards: false)
     }
 }

@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct TextTagColor{
+struct TextTagColor {
     var textColor: Color = Color("Primary")
     var background: Color = Color("ColoredDefault")
 }

@@ -17,6 +17,7 @@ import com.tomorrow.convenire.shared.domain.repositories.OffersRepository
 import com.tomorrow.convenire.shared.domain.repositories.PostRepository
 import com.tomorrow.convenire.shared.domain.repositories.SessionRepository
 import com.tomorrow.convenire.shared.domain.repositories.SpeakerRepository
+import com.tomorrow.convenire.shared.domain.repositories.UserRepository
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.engine.HttpClientEngine

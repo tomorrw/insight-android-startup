@@ -51,6 +51,18 @@ struct LecturesPage: View {
                     }
                     
                     NavigateTo {
+                        NavigationLazyView(MyProgressPage())
+                    } label: {
+                        DefaultCard {
+                            DefaultCardBody(
+                                title: "My Progress",
+                                image: "progress",
+                                description: "Discover our diverse speakers"
+                            )
+                        }
+                    }
+                    
+                    NavigateTo {
                         NavigationLazyView(SpeakersPage())
                             .navigationTitle("Speakers")
                             .navigationBarTitleDisplayMode(.inline)

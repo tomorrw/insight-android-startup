@@ -29,6 +29,7 @@ class DeepLinkingViewModel: ObservableObject {
     @Published var viewEventPage: Bool = false
     @Published var viewPostPage: Bool = false
     @Published var viewSpeakerPage: Bool = false
+    @Published var viewProgressPage: Bool = false
     
     func checkDeepLink(_ string: String) {
         checkDeepLink(url: URL(string: string))
@@ -50,6 +51,8 @@ class DeepLinkingViewModel: ObservableObject {
             linkToPost(resourceId)
         } else if resourceType == "speaker" {
             linkToSpeaker(resourceId)
+        } else if resourceType == "progress" {
+            linkToProgress()
         } else {
             openURL(url)
         }
@@ -96,6 +99,14 @@ class DeepLinkingViewModel: ObservableObject {
         } else {
             speakerId = id
             viewSpeakerPage = true
+        }
+    }
+    
+    func linkToProgress() {
+        if #available(iOS 16, *) {
+            NavMethodsNew.shared.goTo(.progress)
+        } else {
+            viewProgressPage = true
         }
     }
 }
