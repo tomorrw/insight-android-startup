@@ -4,6 +4,7 @@ import cocoapods.libPhoneNumber_iOS.NBEPhoneNumberFormatINTERNATIONAL
 import cocoapods.libPhoneNumber_iOS.NBPhoneNumberUtil
 import kotlinx.cinterop.ExperimentalForeignApi
 
+@OptIn(ExperimentalForeignApi::class)
 actual class PhoneUtil {
     actual companion object {
         private val phoneUtil = NBPhoneNumberUtil()
