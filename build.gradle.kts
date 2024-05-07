@@ -2,10 +2,10 @@ plugins {
     //trick: for the same plugin versions in all sub-modules
     id("com.android.application").version("7.4.0").apply(false)
     id("com.android.library").version("7.4.0").apply(false)
-    kotlin("android").version("1.8.0").apply(false)
-    kotlin("multiplatform").version("1.8.0").apply(false)
-    id("com.google.devtools.ksp").version("1.8.0-1.0.8").apply(false)
-    id("com.rickclephas.kmp.nativecoroutines").version(Vegrsions.kmpNativeCoroutinesVersion)
+    kotlin("android").version("1.9.23").apply(false)
+    kotlin("multiplatform").version("1.9.23").apply(false)
+    id("com.google.devtools.ksp").version("1.9.23-1.0.20").apply(false)
+    id("com.rickclephas.kmp.nativecoroutines").version(Versions.kmpNativeCoroutinesVersion)
         .apply(false)
 }
 
@@ -20,7 +20,7 @@ buildscript {
 
     dependencies {
         // keeping this here to allow automatic updates
-        classpath("com.android.tools.build:gradle:7.4.2")
+        classpath("com.android.tools.build:gradle:8.3.2")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
         classpath("org.jetbrains.kotlin:kotlin-serialization:$kotlinVersion")
         classpath("com.google.firebase:firebase-crashlytics-gradle:2.9.7")

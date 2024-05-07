@@ -14,12 +14,12 @@ object Versions {
 
     const val kmpNativeCoroutinesVersion = "1.0.0-ALPHA-4"
 
-    const val compose = "1.5.3"
-    const val composeCompiler = "1.5.3"
+    const val compose = "1.6.7"
+    const val composeCompiler = "1.5.13"
     const val accompanist = "0.30.1"
 
-    const val material3 = "1.1.1"
-    const val material = "1.4.3"
+    const val material3 = "1.2.1"
+    const val material = "1.6.7"
     const val activityCompose = "1.7.2"
     const val lifecycleKtx = "2.6.1"
     const val lifecycleRuntimeKtx = lifecycleKtx
