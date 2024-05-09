@@ -6,6 +6,7 @@ import cocoapods.libPhoneNumber_iOS.NBPhoneNumberUtil
 import kotlinx.cinterop.ExperimentalForeignApi
 import platform.Foundation.NSNumber
 
+@OptIn(ExperimentalForeignApi::class)
 actual class PhoneNumber actual constructor(number: String?) {
     private val phoneUtil = NBPhoneNumberUtil()
     private var phoneNumber: NBPhoneNumber? = number?.toNBPhoneNumberOrNull()
