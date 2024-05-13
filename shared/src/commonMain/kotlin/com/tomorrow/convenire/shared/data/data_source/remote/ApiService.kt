@@ -25,6 +25,7 @@ interface ApiService {
     suspend fun getPost(id: String): Result<PostDTO>
     suspend fun askQuestion(eventId: String, question: String, isAnonymous: Boolean): Result<Unit>
     suspend fun getSession(id: String): Result<SessionDTO>
+    suspend fun getSpeaker(id: String): Result<SpeakerDTO>
     suspend fun getUpdate(appPlatform: AppPlatformDTO): Result<UpdateInfoDTO>
     suspend fun register(
         firstName: String,

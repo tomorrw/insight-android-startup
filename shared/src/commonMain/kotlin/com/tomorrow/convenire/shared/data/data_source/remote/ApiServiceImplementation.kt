@@ -47,6 +47,8 @@ class ApiServiceImplementation(
         setBody(LectureQuestionBody(content = question, isAnonymous = isAnonymous))
     }
 
+    override suspend fun getSpeaker(id: String): Result<SpeakerDTO> = get<SpeakerDTO>("$baseUrl/api/speakers/$id")
+
     override suspend fun getSession(id: String): Result<SessionDTO> = get("$baseUrl/api/events/$id")
     override suspend fun getUpdate(appPlatform: AppPlatformDTO): Result<UpdateInfoDTO> =
         get("$baseUrl/api/versions/${appPlatform.name}")

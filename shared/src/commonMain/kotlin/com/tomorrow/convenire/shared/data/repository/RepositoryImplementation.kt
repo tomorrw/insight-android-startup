@@ -187,10 +187,18 @@ class RepositoryImplementation : LiveNotificationRepository, CompanyRepository, 
         localDatabase.toggleShouldNotify(id)
     }
 
-    override fun getSpeakerById(id: String): Flow<SpeakerDetail> = getSpeakers()
-        .map { speakers ->
-            speakers.find { it.id == id } ?: throw Exception("Speaker with id $id not found")
-        }
+    override fun getSpeakerById(id: String): Flow<SpeakerDetail> = getFromCacheAndRevalidate(
+        getFromCache = {
+            localDatabase.getSpeakers().getOrNull()?.find { it.id == id  }
+                        ?.let { Result.success(it) }
+                        ?: Result.failure(Exception("Speaker with id $id not found"))
+        },
+        getFromApi = {
+            apiService.getSpeaker(id) },
+        setInCache = { localDatabase.replaceSpeaker(it)  },
+        cacheAge = localDatabase.lastUpdatedSpeakers(),
+        revalidateIfOlderThan = Duration.parse("30m")
+    ).map { speakerMapper.mapFromEntity(it) }
 
 
     override fun getSpeakers(): Flow<List<SpeakerDetail>> = getFromCacheAndRevalidate(
@@ -361,7 +369,10 @@ class RepositoryImplementation : LiveNotificationRepository, CompanyRepository, 
         emit(offers)
     }
 
-    override suspend fun startReceivingMessages(id: String, setMessage: (Result<Notification>) -> Unit) {
+    override suspend fun startReceivingMessages(
+        id: String,
+        setMessage: (Result<Notification>) -> Unit
+    ) {
         return webSocketService.startListeningToQr(
             id,
             notificationMapper.mapToEntity(

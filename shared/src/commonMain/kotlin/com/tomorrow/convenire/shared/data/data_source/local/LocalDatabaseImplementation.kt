@@ -55,6 +55,16 @@ class LocalDatabaseImplementation(
         realm.write { copyToRealm(apiResult.toRealm(), UpdatePolicy.ALL) }
     }
 
+    override suspend fun replaceSpeaker(speaker: SpeakerDTO) {
+        realm.write {
+            var updatedAt: RealmInstant? = null
+            getRealmSpeakers().find { updatedAt = it?.updatedAt }
+
+            copyToRealm(((getSpeakers().getOrNull()?.filter { it.id != speaker.id }
+                ?: listOf()) + speaker).toRealm(updatedAt), UpdatePolicy.ALL)
+        }
+    }
+
     override suspend fun replaceSessions(apiResult: List<SessionDTO>) {
         realm.write { copyToRealm(apiResult.toRealm(), UpdatePolicy.ALL) }
     }
@@ -194,11 +204,12 @@ class LocalDatabaseImplementation(
     private fun RealmProgressReport.toDTO(): ProgressReportDTO? =
         this.payload?.let { json.decodeFromString(it) }
 
-    private fun List<SpeakerDTO>.toRealm(): RealmListSpeaker {
+    private fun List<SpeakerDTO>.toRealm(updatedAt: RealmInstant? = RealmInstant.now()): RealmListSpeaker {
         val o = this
         return RealmListSpeaker().apply {
             uuid = "RealmListSpeaker"
             payload = json.encodeToString(o)
+            this.updatedAt = updatedAt
         }
     }
 
@@ -246,7 +257,7 @@ class LocalDatabaseImplementation(
         @PrimaryKey
         var uuid: String = "RealmListSpeaker"
         var payload: String? = null
-        var updatedAt: RealmInstant = RealmInstant.now()
+        var updatedAt: RealmInstant? = RealmInstant.now()
     }
 
     private class RealmListSession : RealmObject {

@@ -15,6 +15,9 @@ interface LocalDatabase {
     suspend fun replaceSpeakers(apiResult: List<SpeakerDTO>)
 
     @Throws(SerializationException::class, CancellationException::class)
+    suspend fun replaceSpeaker(speaker: SpeakerDTO)
+
+    @Throws(SerializationException::class, CancellationException::class)
     suspend fun replaceSessions(apiResult: List<SessionDTO>)
 
     @Throws(SerializationException::class, CancellationException::class)
