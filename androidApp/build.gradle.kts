@@ -11,7 +11,7 @@ android {
     buildFeatures { compose = true }
     composeOptions { kotlinCompilerExtensionVersion = Versions.composeCompiler }
     // val appVersionCode = System.getenv()["NEW_BUILD_NUMBER"]?.toInt() ?: 8
-    val appVersionCode = 11
+    val appVersionCode = 12
 
     signingConfigs {
         create("release") {

@@ -27,3 +27,4 @@
 -keep @io.realm.kotlin.types.** class *
 -keep class io.realm.internal.Keep
 -keep @io.realm.internal.Keep class *
+-dontwarn org.slf4j.impl.StaticLoggerBinder

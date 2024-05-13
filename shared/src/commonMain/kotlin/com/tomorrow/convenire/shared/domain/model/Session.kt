@@ -36,15 +36,27 @@ open class Session(
         "${startTime.time.toSimpleTime()} - ${endTime.time.toSimpleTime()}"
 
     fun overlapsWithOtherSession(session: Session): Boolean {
+
         val timeZone = TimeZone.currentSystemDefault()
-        val myStart = startTime.toInstant(timeZone)
-        val otherStart = session.startTime.toInstant(timeZone)
-        val otherEnd = session.endTime.toInstant(timeZone)
-        val myEnd = endTime.toInstant(timeZone)
+        val myStart = startTime.truncateToMinutes().toInstant(timeZone)
+        val otherStart = session.startTime.truncateToMinutes().toInstant(timeZone)
+        val otherEnd = session.endTime.truncateToMinutes().toInstant(timeZone)
+        val myEnd = endTime.truncateToMinutes().toInstant(timeZone)
 
         return (myStart > otherStart && myStart < otherEnd) || (myEnd > otherStart && myEnd < otherEnd) || (myStart < otherStart && myEnd > otherEnd) || (myStart == otherStart)
     }
 
+    private fun LocalDateTime.truncateToMinutes(): LocalDateTime {
+        return LocalDateTime(
+            year,
+            month,
+            dayOfMonth,
+            hour,
+            minute,
+            0,
+            0
+        )
+    }
     fun getAttendeesCount(): String? {
         val numberOfA = numberOfAttendees.getDataIfLoaded()
         val numberOfS = numberOfSeats.getDataIfLoaded()
