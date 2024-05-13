@@ -10,6 +10,7 @@ import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -60,7 +61,7 @@ fun SpeakersView() {
                     onButtonClick = { viewModel.on(ReadViewModel.Event.OnRefresh) },
                 )
             }) { speakerDetail ->
-            val mapData = remember {
+            val mapData = remember(speakerDetail) {
                 derivedStateOf {
                     speakerDetail.sortedBy { it.nationality?.name }.groupBy { it.nationality }
                         .mapValues {

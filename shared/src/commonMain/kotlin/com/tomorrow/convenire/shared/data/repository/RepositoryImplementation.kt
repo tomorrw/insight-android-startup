@@ -189,16 +189,15 @@ class RepositoryImplementation : LiveNotificationRepository, CompanyRepository, 
 
     override fun getSpeakerById(id: String): Flow<SpeakerDetail> = getFromCacheAndRevalidate(
         getFromCache = {
-            localDatabase.getSpeakers()
-                .map { speakers ->
-                    speakers.find { it.id == id }
-                        ?: throw Exception("Speaker with id $id not found")
-                }
+            localDatabase.getSpeakers().getOrNull()?.find { it.id == id  }
+                        ?.let { Result.success(it) }
+                        ?: Result.failure(Exception("Speaker with id $id not found"))
         },
-        getFromApi = { apiService.getSpeaker(id) },
-        setInCache = {  },
+        getFromApi = {
+            apiService.getSpeaker(id) },
+        setInCache = { localDatabase.replaceSpeaker(it)  },
         cacheAge = localDatabase.lastUpdatedSpeakers(),
-        revalidateIfOlderThan = Duration.parse("0m")
+        revalidateIfOlderThan = Duration.parse("30m")
     ).map { speakerMapper.mapFromEntity(it) }
 
 
