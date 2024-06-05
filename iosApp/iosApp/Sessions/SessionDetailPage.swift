@@ -28,17 +28,24 @@ struct SessionDetailPage: View {
     var body: some View {
         DetailPage(
             vm: vm,
-            customHeader: { 
-                if vm.hasAttended {
-                    Text("ATTENDED")
-                        .foregroundColor(Color("Secondary"))
-                        .font(.system(size: 14))
-                        .padding(5)
-                        .background(
-                            RoundedRectangle(cornerRadius: 8)
-                                .foregroundColor(.accentColor)
+            customHeader: {
+                HStack {
+                    if let tag = vm.tag {
+                        TextTag(
+                            text: tag.text,
+                            colors: .init(textColor: tag.color, background: tag.background)
                         )
+                        
+                        Spacer()
+                        
+                        if let minutes = vm.minutesAttended {
+                            Text("\(minutes.description)m Attended")
+                                .foregroundColor(tag.color)
+                                .font(.system(size: 14))
+                        }
+                    }
                 }
+                
                 sessionHeader
             },
             customBody: { VerticalDisplayView(pages: $vm.pages, actions: $vm.action) }
@@ -106,15 +113,15 @@ struct SessionDetailPage: View {
                 Image(systemName: "clock")
                     .foregroundColor(.accentColor)
             }
-            
-            Label(title: {
-                Text(vm.attendees)
-                    .foregroundColor(.gray)
-            }) {
-                Image(systemName: "person.fill")
-                    .foregroundColor(.accentColor)
+            if let attendees = vm.attendees{
+                Label(title: {
+                    Text(attendees)
+                        .foregroundColor(.gray)
+                }) {
+                    Image(systemName: "person.fill")
+                        .foregroundColor(.accentColor)
+                }
             }
-            .padding(.bottom, 5)
             
             
             
@@ -139,6 +146,8 @@ struct SessionDetailPage: View {
                         .padding(16)
                         .background(Color("Primary"))
                         .cornerRadius(16)
+                        .padding(.top, 5)
+                    
                 })
             }}
         .font(.system(size: 14))

@@ -16,6 +16,7 @@ import CoreImage.CIFilterBuiltins
 struct MyQrPage: View {
     @InjectedObject var ticketViewModel: TicketViewModel
     
+    @State private var isDisplayingToast = false
     @State private var isDisplayingError = false
     @State private var spinForward: CGFloat = 0
     @State private var qrImage: UIImage = UIImage(systemName: "xmark.circle") ?? UIImage()
@@ -78,8 +79,10 @@ struct MyQrPage: View {
                             Button { } label: {
                                 Image(uiImage: qrImage)
                                     .resizable()
-                                    .renderingMode(.template)
-                                    .colorMultiply(Color("Primary"))
+                                    .background {
+                                        RoundedRectangle(cornerRadius: 8)
+                                            .foregroundColor(Color.white)
+                                    }
                                     .frame(width: 200, height: 200)
                                     .padding(.bottom, 24)
                             }
@@ -148,8 +151,10 @@ struct MyQrPage: View {
                         Button { } label: {
                             Image(uiImage: qrImage)
                                 .resizable()
-                                .renderingMode(.template)
-                                .colorMultiply(Color("Primary"))
+                                .background {
+                                    RoundedRectangle(cornerRadius: 8)
+                                        .foregroundColor(Color.white)
+                                }
                                 .frame(width: 200, height: 200)
                                 .padding(.bottom, 24)
                         }
@@ -181,8 +186,10 @@ struct MyQrPage: View {
                         } label: {
                             Image(uiImage: qrImage)
                                 .resizable()
-                                .renderingMode(.template)
-                                .colorMultiply(Color("Primary"))
+                                .background {
+                                    RoundedRectangle(cornerRadius: 8)
+                                        .foregroundColor(Color.white)
+                                }
                                 .frame(width: 200, height: 200)
                                 .padding(.bottom, 24)
                         }
@@ -217,8 +224,6 @@ struct MyQrPage: View {
                     VStack{
                         Image(uiImage: qrImage)
                             .resizable()
-                            .renderingMode(.template)
-                            .colorMultiply(Color.black)
                             .background {
                                 RoundedRectangle(cornerRadius: 8)
                                     .foregroundColor(Color.white)
@@ -229,6 +234,27 @@ struct MyQrPage: View {
                     .background(Color("Background").opacity(0.75))
                     .onTapGesture { self.showPopUp.toggle() }
                 }
+            }
+            .onReceive(ticketViewModel.$websocketMessage, perform: { newMsg in
+                if !newMsg.isEmpty { isDisplayingToast = true }
+            })
+            .overlay {
+                if isDisplayingToast {
+                    ToastView(options: ToastOptions(
+                        image: ticketViewModel.websocketStatus ? Image("Waving") : Image("Cross") ,
+                        title: ticketViewModel.websocketMessage,
+                        position: ToastPosition.top,
+                        duration: 7,
+                        dismissible: true,
+                        onDismiss: { isDisplayingToast.toggle() })
+                    )
+                }
+            }
+            .onAppear{
+                ticketViewModel.startListening()
+            }
+            .onDisappear{
+                ticketViewModel.stopListening()
             }
         }
     }
@@ -254,7 +280,7 @@ private extension String {
                 let maskFilter = CIFilter.blendWithMask()
                 maskFilter.maskImage = outputImage.applyingFilter("CIColorInvert")
                 maskFilter.inputImage = CIImage(
-                    color: CIColor(color: .white))
+                    color: CIColor(color: UIColor(red: 0.067, green: 0.247, blue: 0.404, alpha: 1.0)))
                 
                 let ciImage = maskFilter.outputImage!
                 qrImage = context.createCGImage(ciImage, from: ciImage.extent).map(UIImage.init)!

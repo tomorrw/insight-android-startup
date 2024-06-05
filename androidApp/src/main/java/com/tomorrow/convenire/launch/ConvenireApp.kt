@@ -22,6 +22,7 @@ import com.tomorrow.convenire.views.ExhibitionsViewModel
 import com.tomorrow.convenire.views.HomeViewModel
 import com.tomorrow.convenire.views.MyLecturesViewModel
 import com.tomorrow.convenire.views.MyProfileViewModel
+import com.tomorrow.convenire.views.MyProgressViewModel
 import com.tomorrow.convenire.views.MyQrViewModel
 import com.tomorrow.convenire.views.NewsArticleViewModel
 import com.tomorrow.convenire.views.OffersAndDealsViewModel
@@ -69,6 +70,7 @@ class ConvenireApp : Application() {
             viewModel { ProductCategoriesViewModel() }
             viewModel { MyQrViewModel() }
             viewModel { ExhibitionsViewModel() }
+            viewModel { MyProgressViewModel() }
             viewModel { ClaimedOffersViewModel() }
             viewModel { OffersAndDealsViewModel() }
             viewModel { MyProfileViewModel() }

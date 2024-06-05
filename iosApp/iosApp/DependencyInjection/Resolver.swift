@@ -57,5 +57,10 @@ extension Resolver: ResolverRegistering {
             ConfigViewModel()
         }
         .scope(.application)
+        
+        register {
+            MyProgressPageViewModel()
+        }
+        .scope(.application)
     }
 }

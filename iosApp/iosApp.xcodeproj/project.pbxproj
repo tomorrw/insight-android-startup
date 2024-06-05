@@ -11,8 +11,10 @@
 		058557D9273AAEEB004C7B11 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */; };
 		2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2152FB032600AC8F00CF470E /* iOSApp.swift */; };
 		4C04C9822B7CED6C0030B9A8 /* FormHiddenBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C04C9812B7CED6C0030B9A8 /* FormHiddenBackground.swift */; };
+		4C06A6622B85F4DE002DBA15 /* ActionButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C06A6612B85F4DE002DBA15 /* ActionButtons.swift */; };
 		4C2562B62ABAE2BE00ACE03E /* OffersPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C2562B52ABAE2BE00ACE03E /* OffersPage.swift */; };
 		4C2562B82ABAE2FF00ACE03E /* OffersPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C2562B72ABAE2FF00ACE03E /* OffersPageViewModel.swift */; };
+		4C25CB492B60F5860011CFBE /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C25CB482B60F5860011CFBE /* ToastView.swift */; };
 		4C3637D02B445BC900D352D2 /* ClaimedOffersPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3637CF2B445BC900D352D2 /* ClaimedOffersPage.swift */; };
 		4C4F1EEF2B3EBEA90066AB31 /* AppstoreInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4F1EEE2B3EBEA80066AB31 /* AppstoreInfoViewModel.swift */; };
 		4C54826A2B7CC278005F9C96 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4C5482692B7CC278005F9C96 /* SplashScreen.storyboard */; };
@@ -35,7 +37,6 @@
 		4CBA63D22B6BA6FE003139BF /* MyQrPresentationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CBA63D12B6BA6FE003139BF /* MyQrPresentationModel.swift */; };
 		4CD5E1C22B4C3121006903AB /* ConfigViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CD5E1C12B4C3121006903AB /* ConfigViewModel.swift */; };
 		4CD5E1C52B4C3A69006903AB /* PageTabDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CD5E1C42B4C3A69006903AB /* PageTabDisplayView.swift */; };
-		4CF226D02ACAD9180044F623 /* ActionButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF226CF2ACAD9180044F623 /* ActionButtons.swift */; };
 		4CF226D22ACADFC30044F623 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF226D12ACADFC30044F623 /* Color.swift */; };
 		4CF226D82ACAE5D40044F623 /* ProfileSettingsPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF226D72ACAE5D40044F623 /* ProfileSettingsPage.swift */; };
 		4CF226E62ACAEA200044F623 /* HomePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF226DB2ACAEA200044F623 /* HomePage.swift */; };
@@ -135,6 +136,9 @@
 		B5AE032229F91B9A00F5FB8C /* SpeakerDetailPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AE032129F91B9A00F5FB8C /* SpeakerDetailPage.swift */; };
 		B5AE032429F91D6D00F5FB8C /* SessionsVerticalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AE032329F91D6D00F5FB8C /* SessionsVerticalView.swift */; };
 		B5AE032629F91E0D00F5FB8C /* SessionDetailPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AE032529F91E0D00F5FB8C /* SessionDetailPage.swift */; };
+		B5D2D3F02BD6EC8900CAE0CC /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D2D3EF2BD6EC8900CAE0CC /* Tag.swift */; };
+		B5D2D3F32BD6F6AC00CAE0CC /* MyProgressPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D2D3F22BD6F6AC00CAE0CC /* MyProgressPage.swift */; };
+		B5D2D3F52BD6F6F900CAE0CC /* MyProgressPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D2D3F42BD6F6F900CAE0CC /* MyProgressPageViewModel.swift */; };
 		E68C57202A1647F100700000 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = E68C571F2A1647F100700000 /* FirebaseMessaging */; };
 		E6C4A9092A16557000E836F1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6C4A9082A16557000E836F1 /* AppDelegate.swift */; };
 /* End PBXBuildFile section */
@@ -145,8 +149,10 @@
 		2152FB032600AC8F00CF470E /* iOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSApp.swift; sourceTree = "<group>"; };
 		3B30F3472A407C2FDF9E352A /* Pods-iosApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iosApp.debug.xcconfig"; path = "Target Support Files/Pods-iosApp/Pods-iosApp.debug.xcconfig"; sourceTree = "<group>"; };
 		4C04C9812B7CED6C0030B9A8 /* FormHiddenBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormHiddenBackground.swift; sourceTree = "<group>"; };
+		4C06A6612B85F4DE002DBA15 /* ActionButtons.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionButtons.swift; sourceTree = "<group>"; };
 		4C2562B52ABAE2BE00ACE03E /* OffersPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OffersPage.swift; sourceTree = "<group>"; };
 		4C2562B72ABAE2FF00ACE03E /* OffersPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OffersPageViewModel.swift; sourceTree = "<group>"; };
+		4C25CB482B60F5860011CFBE /* ToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastView.swift; sourceTree = "<group>"; };
 		4C3637CF2B445BC900D352D2 /* ClaimedOffersPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaimedOffersPage.swift; sourceTree = "<group>"; };
 		4C4F1EEE2B3EBEA80066AB31 /* AppstoreInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppstoreInfoViewModel.swift; sourceTree = "<group>"; };
 		4C5482692B7CC278005F9C96 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = SplashScreen.storyboard; sourceTree = "<group>"; };
@@ -154,6 +160,7 @@
 		4C64DE892B3DAEBC001E1B17 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		4C6ACE302AA5BFAF00DBBBF5 /* Switcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Switcher.swift; sourceTree = "<group>"; };
 		4C7A1D2E2A9C812E001EB91A /* DropDown.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DropDown.swift; sourceTree = "<group>"; };
+		4C8565502BBC089E00907FBE /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		4C9902322B459C5800F70B15 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		4C995C202ABB258F0041C95D /* HighlightedCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighlightedCard.swift; sourceTree = "<group>"; };
 		4C9A5DDC2AC1C6AB00885F3D /* CompaniesByMapPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompaniesByMapPage.swift; sourceTree = "<group>"; };
@@ -169,7 +176,6 @@
 		4CBA63D12B6BA6FE003139BF /* MyQrPresentationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyQrPresentationModel.swift; sourceTree = "<group>"; };
 		4CD5E1C12B4C3121006903AB /* ConfigViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigViewModel.swift; sourceTree = "<group>"; };
 		4CD5E1C42B4C3A69006903AB /* PageTabDisplayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageTabDisplayView.swift; sourceTree = "<group>"; };
-		4CF226CF2ACAD9180044F623 /* ActionButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionButtons.swift; sourceTree = "<group>"; };
 		4CF226D12ACADFC30044F623 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		4CF226D72ACAE5D40044F623 /* ProfileSettingsPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingsPage.swift; sourceTree = "<group>"; };
 		4CF226DB2ACAEA200044F623 /* HomePage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomePage.swift; sourceTree = "<group>"; };
@@ -272,6 +278,9 @@
 		B5AE032129F91B9A00F5FB8C /* SpeakerDetailPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeakerDetailPage.swift; sourceTree = "<group>"; };
 		B5AE032329F91D6D00F5FB8C /* SessionsVerticalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionsVerticalView.swift; sourceTree = "<group>"; };
 		B5AE032529F91E0D00F5FB8C /* SessionDetailPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDetailPage.swift; sourceTree = "<group>"; };
+		B5D2D3EF2BD6EC8900CAE0CC /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
+		B5D2D3F22BD6F6AC00CAE0CC /* MyProgressPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProgressPage.swift; sourceTree = "<group>"; };
+		B5D2D3F42BD6F6F900CAE0CC /* MyProgressPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProgressPageViewModel.swift; sourceTree = "<group>"; };
 		E6C4A9082A16557000E836F1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -450,8 +459,6 @@
 		4CF2B21A2B5817DB00A1A646 /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				4CF226CF2ACAD9180044F623 /* ActionButtons.swift */,
-				B556743A29FA7A5C001B7B79 /* CustomVideoPlayer.swift */,
 				B32B2E4C2A1385EF00C290F7 /* Carousel */,
 				B37D14D529CA04FC00BA4E39 /* Loader */,
 				B37D14D229CA047700BA4E39 /* Buttons */,
@@ -459,6 +466,8 @@
 				4C995C1F2ABB25740041C95D /* OffersCard */,
 				4C7A1D2D2A9C812E001EB91A /* DropDown */,
 				4CF2B21B2B58187300A1A646 /* TextTag.swift */,
+				B556743A29FA7A5C001B7B79 /* CustomVideoPlayer.swift */,
+				4C06A6612B85F4DE002DBA15 /* ActionButtons.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -466,6 +475,7 @@
 		7555FF72242A565900829871 = {
 			isa = PBXGroup;
 			children = (
+				4C8565502BBC089E00907FBE /* PrivacyInfo.xcprivacy */,
 				7555FF7D242A565900829871 /* iosApp */,
 				7555FF7C242A565900829871 /* Products */,
 				D738931310F9E4C64175BB2A /* Pods */,
@@ -484,6 +494,7 @@
 		7555FF7D242A565900829871 /* iosApp */ = {
 			isa = PBXGroup;
 			children = (
+				B5D2D3F12BD6F69E00CAE0CC /* Progress */,
 				4C4F1EED2B3EBE7F0066AB31 /* AppStore */,
 				4CF226D42ACAE5980044F623 /* UserPage */,
 				4C2562B42ABAE28500ACE03E /* Offers */,
@@ -578,6 +589,7 @@
 				B3C1438929C9DAEB00B988B6 /* Listing */,
 				B556743C29FA7A80001B7B79 /* Identifiable.swift */,
 				B556747429FB43AF001B7B79 /* NavigationLazyView.swift */,
+				4C25CB482B60F5860011CFBE /* ToastView.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -811,6 +823,7 @@
 				B3DC95FE2A140064009F38CE /* MySessionsPage.swift */,
 				B3DC96002A140073009F38CE /* MySessionsPageViewModel.swift */,
 				B3DC96022A141E0B009F38CE /* SessionCard.swift */,
+				B5D2D3EF2BD6EC8900CAE0CC /* Tag.swift */,
 			);
 			path = Sessions;
 			sourceTree = "<group>";
@@ -858,6 +871,15 @@
 				B58BDDB02A25F1F3003378FD /* Debouncer.swift */,
 			);
 			path = Debouncer;
+			sourceTree = "<group>";
+		};
+		B5D2D3F12BD6F69E00CAE0CC /* Progress */ = {
+			isa = PBXGroup;
+			children = (
+				B5D2D3F22BD6F6AC00CAE0CC /* MyProgressPage.swift */,
+				B5D2D3F42BD6F6F900CAE0CC /* MyProgressPageViewModel.swift */,
+			);
+			path = Progress;
 			sourceTree = "<group>";
 		};
 		D738931310F9E4C64175BB2A /* Pods */ = {
@@ -1000,6 +1022,7 @@
 				B37D14AD29C9DB2D00BA4E39 /* GridSection.swift in Sources */,
 				4CF226E82ACAEA200044F623 /* HomePageViewModel.swift in Sources */,
 				B556744929FA7D65001B7B79 /* CompaniesPageViewModel.swift in Sources */,
+				B5D2D3F52BD6F6F900CAE0CC /* MyProgressPageViewModel.swift in Sources */,
 				B32B2E502A13863100C290F7 /* IterableCarousel.swift in Sources */,
 				B5183E3429F16A690097363D /* DefaultCardBody.swift in Sources */,
 				B556745529FA7F29001B7B79 /* ToSearchItem.swift in Sources */,
@@ -1008,19 +1031,20 @@
 				B5AE032229F91B9A00F5FB8C /* SpeakerDetailPage.swift in Sources */,
 				4CF226EC2ACAEA200044F623 /* ProfilePage.swift in Sources */,
 				4C6ACE312AA5BFAF00DBBBF5 /* Switcher.swift in Sources */,
-				4CF226D02ACAD9180044F623 /* ActionButtons.swift in Sources */,
 				4CA347252B4D45C300FB12AE /* SectionDisplayPage.swift in Sources */,
 				4CA347212B4D430E00FB12AE /* EnvironmentValues.swift in Sources */,
 				B556746429FA9476001B7B79 /* FlatLinkStyle.swift in Sources */,
 				B556743929FA77F3001B7B79 /* SocialLinkMapper.swift in Sources */,
 				4C3637D02B445BC900D352D2 /* ClaimedOffersPage.swift in Sources */,
 				B37D14D729CA050F00BA4E39 /* CustomLoader.swift in Sources */,
+				4C25CB492B60F5860011CFBE /* ToastView.swift in Sources */,
 				4C64DE872B3D8380001E1B17 /* TicketViewModel.swift in Sources */,
 				B56AA30F29F7C4490021B12E /* CompaniesByCategoryPage.swift in Sources */,
 				B556747529FB43AF001B7B79 /* NavigationLazyView.swift in Sources */,
 				B5922CEB2A1CF26B004705C0 /* EmptyStateNavLink.swift in Sources */,
 				4CF226D82ACAE5D40044F623 /* ProfileSettingsPage.swift in Sources */,
 				4CF2B21C2B58187300A1A646 /* TextTag.swift in Sources */,
+				B5D2D3F32BD6F6AC00CAE0CC /* MyProgressPage.swift in Sources */,
 				B556743B29FA7A5C001B7B79 /* CustomVideoPlayer.swift in Sources */,
 				B5183E2C29F00A470097363D /* OnBoarding.swift in Sources */,
 				4C9A5DDF2AC1C6ED00885F3D /* CompaniesByMapPageViewModel.swift in Sources */,
@@ -1074,6 +1098,7 @@
 				B556744D29FA7DE0001B7B79 /* CompanyPageViewModel.swift in Sources */,
 				B33C9CDF2A155BAE00BC7571 /* AskAQuestionPage.swift in Sources */,
 				4C2562B82ABAE2FF00ACE03E /* OffersPageViewModel.swift in Sources */,
+				4C06A6622B85F4DE002DBA15 /* ActionButtons.swift in Sources */,
 				B37D14D429CA048500BA4E39 /* MultifunctionalButton.swift in Sources */,
 				B3280CD12A1B715F00D4540A /* NavigationViewModel.swift in Sources */,
 				B5183E4F29F18CDD0097363D /* ErrorView.swift in Sources */,
@@ -1090,6 +1115,7 @@
 				B5183E3229F157F20097363D /* PageHeader.swift in Sources */,
 				B556746D29FB3404001B7B79 /* PostDetailPageViewModel.swift in Sources */,
 				B556746F29FB341A001B7B79 /* PostDetailPage.swift in Sources */,
+				B5D2D3F02BD6EC8900CAE0CC /* Tag.swift in Sources */,
 				B56AA30B29F7C3990021B12E /* SpeakersPage.swift in Sources */,
 				B556746629FB1CE3001B7B79 /* CornerRadius.swift in Sources */,
 				B5183E3029F034410097363D /* AdaptsToKeyboardModifier.swift in Sources */,
@@ -1246,7 +1272,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_ENTITLEMENTS = iosApp/iosApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 17;
 				DEVELOPMENT_ASSET_PATHS = "\"iosApp/Preview Content\"";
 				DEVELOPMENT_TEAM = 33TJNDCEA8;
 				ENABLE_PREVIEWS = YES;
@@ -1259,7 +1285,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.24;
+				MARKETING_VERSION = 1.2.11;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tomorrow.convenire;
 				PRODUCT_NAME = Convenire;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1278,7 +1304,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_ENTITLEMENTS = iosApp/iosApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 17;
 				DEVELOPMENT_ASSET_PATHS = "\"iosApp/Preview Content\"";
 				DEVELOPMENT_TEAM = 33TJNDCEA8;
 				ENABLE_PREVIEWS = YES;
@@ -1291,7 +1317,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.24;
+				MARKETING_VERSION = 1.2.11;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tomorrow.convenire;
 				PRODUCT_NAME = Convenire;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

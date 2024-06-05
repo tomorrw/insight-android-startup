@@ -24,8 +24,9 @@ struct SessionCardColors{
 
 struct SessionCard: View {
     let session: Session
+    let isMinutesAttendedDisplayed: Bool
     var date: String = ""
-    
+    let tag: Tag?
     @State var isConfirmBookmarkDisplayed: Bool = false
     @State var shouldNotify: Bool = true
     @State var overlappingLectureName: String? = nil
@@ -39,8 +40,11 @@ struct SessionCard: View {
         }
     }
     
-    init(session: Session) {
+    init(session: Session, isMinutesAttendedDisplayed: Bool = false) {
         self.session = session
+        self.isMinutesAttendedDisplayed = isMinutesAttendedDisplayed
+        if let tag = session.getTag() { self.tag = Tag(tag: tag) }
+        else { self.tag = nil }
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
@@ -61,22 +65,30 @@ struct SessionCard: View {
                 
                 Spacer()
                 
-                Button {
-                    Task {
-                        if shouldNotify == false && doSessionOverlap() {
-                            isConfirmBookmarkDisplayed = true
-                        } else {
-                            await toggleShouldSendReminder()
+                if isMinutesAttendedDisplayed , let minutes = session.minutesAttended {
+                    Text("\(minutes.description)m Attended")
+                        .foregroundColor(tag?.color)
+                        .font(.system(size: 14))
+                        .padding(.horizontal)
+                        .padding(.top)
+                } else {
+                    Button {
+                        Task {
+                            if shouldNotify == false && doSessionOverlap() {
+                                isConfirmBookmarkDisplayed = true
+                            } else {
+                                await toggleShouldSendReminder()
+                            }
                         }
+                    } label: {
+                        Image(systemName: shouldNotify ? "bookmark.fill": "bookmark")
+                            .resizable()
+                            .frame(width: 14, height: 20)
+                            .foregroundColor(colors.icons)
                     }
-                } label: {
-                    Image(systemName: shouldNotify ? "bookmark.fill": "bookmark")
-                        .resizable()
-                        .frame(width: 14, height: 20)
-                        .foregroundColor(colors.icons)
+                    .frame(width: 50, height: 38)
+                    .padding(.top, 6)
                 }
-                .frame(width: 50, height: 38)
-                .padding(.top, 6)
             }
             .foregroundColor(.gray)
             
@@ -85,12 +97,7 @@ struct SessionCard: View {
                     .font(.system(size: 20, weight: .medium))
                     .multilineTextAlignment(.leading)
                     .padding(.bottom, 10)
-//                Text(session.topic)
-//                    .font(.system(size: 18, weight: .light))
-//                    .multilineTextAlignment(.leading)
-//                    .padding(.bottom, 10)
-//                    .foregroundColor(Color("HighlightNative"))
-                    
+                
                 
                 Group {
                     HStack {
@@ -107,8 +114,11 @@ struct SessionCard: View {
                         
                         Spacer()
                         
-                        if session.isSessionHappeningNow() && session.speakers.isEmpty {
-                            TextTag(text: "NOW", colors: colors.secondaryTag)
+                        if session.speakers.isEmpty, let tag = tag {
+                            TextTag(
+                                text: tag.text,
+                                colors: .init(textColor: tag.color, background: tag.background)
+                            )
                         }
                     }
                 }
@@ -135,12 +145,11 @@ struct SessionCard: View {
                             if session.speakers.last == speaker {
                                 Spacer()
                                 
-                                if session.hasAttended {
-                                    TextTag(text: "ATTENDED", colors: colors.firstTag)
-                                }
-                                
-                                if session.isSessionHappeningNow() {
-                                    TextTag(text: "NOW", colors: colors.secondaryTag)//color secondary
+                                if !session.speakers.isEmpty,  let tag = tag {
+                                    TextTag(
+                                        text: tag.text,
+                                        colors: .init(textColor: tag.color, background: tag.background)
+                                    )
                                 }
                             }
                         }
