@@ -42,14 +42,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.ktx.messaging
+import com.tomorrow.components.buttons.ColorThemeRadioButton
+import com.tomorrow.components.dialogs.CustomAlertDialog
+import com.tomorrow.components.headers.PageHeaderLayout
+import com.tomorrow.convenire.packageImplementation.mappers.ColorThemePresentationModelMapper
 import com.tomorrow.convenire.R
-import com.tomorrow.convenire.common.buttons.ColorThemeRadioButton
-import com.tomorrow.convenire.common.dialogs.CustomAlertDialog
-import com.tomorrow.convenire.common.headers.PageHeaderLayout
 import com.tomorrow.convenire.feature_navigation.AppRoute
 import com.tomorrow.convenire.launch.LocalNavController
 import com.tomorrow.convenire.shared.domain.model.ColorTheme
-import com.tomorrow.convenire.shared.domain.model.toUserFriendlyError
+import com.tomorrow.kmmProjectStartup.domain.model.toUserFriendlyError
 import com.tomorrow.convenire.shared.domain.use_cases.ColorThemeUseCase
 import com.tomorrow.convenire.shared.domain.use_cases.LogoutUseCase
 import kotlinx.coroutines.launch
@@ -80,10 +81,10 @@ fun SettingsView() {
             )
 
             ColorThemeRadioButton(
-                onSelectedTheme = uiTheme.value,
+                onSelectedTheme = ColorThemePresentationModelMapper().mapFromEntity(uiTheme.value),
                 onSelect = {
                     ColorThemeUseCase().setColorTheme(
-                        it
+                        ColorThemePresentationModelMapper().mapToEntity(it)
                     )
                 })
         }

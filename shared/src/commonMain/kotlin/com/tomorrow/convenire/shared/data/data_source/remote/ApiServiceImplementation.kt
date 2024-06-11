@@ -1,21 +1,11 @@
 package com.tomorrow.convenire.shared.data.data_source.remote
 
-import com.tomorrow.convenire.shared.data.data_source.model.AppPlatformDTO
-import com.tomorrow.convenire.shared.data.data_source.model.CompanyDTO
-import com.tomorrow.convenire.shared.data.data_source.model.ConfigurationDTO
-import com.tomorrow.convenire.shared.data.data_source.model.HomeDataDTO
-import com.tomorrow.convenire.shared.data.data_source.model.OfferDTO
-import com.tomorrow.convenire.shared.data.data_source.model.PostDTO
-import com.tomorrow.convenire.shared.data.data_source.model.ProgressReportDTO
-import com.tomorrow.convenire.shared.data.data_source.model.SessionDTO
-import com.tomorrow.convenire.shared.data.data_source.model.SpeakerDTO
-import com.tomorrow.convenire.shared.data.data_source.model.SpinnerDTO
-import com.tomorrow.convenire.shared.data.data_source.model.UpdateInfoDTO
-import com.tomorrow.convenire.shared.data.data_source.model.UserDTO
-import com.tomorrow.convenire.shared.data.data_source.utils.BaseApiService
-import io.ktor.client.HttpClient
-import io.ktor.client.plugins.auth.providers.BearerTokens
-import io.ktor.client.request.setBody
+import com.tomorrow.convenire.shared.data.data_source.model.*
+import com.tomorrow.kmmProjectStartup.data.utils.BaseApiService
+import io.ktor.client.*
+import io.ktor.client.plugins.auth.*
+import io.ktor.client.plugins.auth.providers.*
+import io.ktor.client.request.*
 import io.ktor.client.statement.HttpReceivePipeline
 import io.ktor.client.statement.request
 import io.ktor.http.HttpStatusCode

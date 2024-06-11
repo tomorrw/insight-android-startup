@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import UiComponents
 
 struct LecturesPage: View {
     var body: some View {
@@ -31,7 +32,10 @@ struct LecturesPage: View {
                                 title: "Lectures Schedule",
                                 image: "schedule",
                                 description: "Explore the complete schedule of lectures by day",
-                                isHighlighted: true
+                                cardColors: CardColors(
+                                    foreground: Color("Background"),
+                                    secondaryText: Color("Secondary")
+                                )
                             )
                         }
                     }
@@ -41,11 +45,12 @@ struct LecturesPage: View {
                             .navigationTitle("My Lectures")
                             .navigationBarTitleDisplayMode(.inline)
                     } label: {
-                        DefaultCard {
+                        DefaultCard(backgroundColor: Color("Default")) {
                             DefaultCardBody(
                                 title: "My Lectures",
                                 image: "bookmark",
-                                description: "Manage and access your bookmarked lectures"
+                                description: "Manage and access your bookmarked lectures",
+                                cardColors: DefaultColors.defaultCardBodyColor
                             )
                         }
                     }
@@ -53,11 +58,12 @@ struct LecturesPage: View {
                     NavigateTo {
                         NavigationLazyView(MyProgressPage())
                     } label: {
-                        DefaultCard {
+                        DefaultCard(backgroundColor: Color("Default")) {
                             DefaultCardBody(
                                 title: "My Progress",
                                 image: "progress",
-                                description: "Discover our diverse speakers"
+                                description: "Discover our diverse speakers",
+                                cardColors: DefaultColors.defaultCardBodyColor
                             )
                         }
                     }
@@ -67,11 +73,12 @@ struct LecturesPage: View {
                             .navigationTitle("Speakers")
                             .navigationBarTitleDisplayMode(.inline)
                     } label: {
-                        DefaultCard {
+                        DefaultCard(backgroundColor: Color("Default")) {
                             DefaultCardBody(
                                 title: "Speakers",
                                 image: "speaker",
-                                description: "Discover our diverse speakers"
+                                description: "Discover our diverse speakers",
+                                cardColors: DefaultColors.defaultCardBodyColor
                             )
                         }
                     }

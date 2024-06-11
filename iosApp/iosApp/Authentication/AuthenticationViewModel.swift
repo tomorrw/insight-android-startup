@@ -11,6 +11,7 @@ import shared
 import Combine
 import KMPNativeCoroutinesAsync
 import Firebase
+import UiComponents
 
 class AuthenticationViewModel: ObservableObject {
     @Published var isAuthenticated: Bool? = nil

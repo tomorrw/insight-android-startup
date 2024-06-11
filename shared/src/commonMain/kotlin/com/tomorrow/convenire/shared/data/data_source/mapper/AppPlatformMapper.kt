@@ -1,8 +1,8 @@
 package com.tomorrow.convenire.shared.data.data_source.mapper
 
 import com.tomorrow.convenire.shared.data.data_source.model.AppPlatformDTO
-import com.tomorrow.convenire.shared.data.data_source.utils.EntityMapper
-import com.tomorrow.convenire.shared.domain.model.AppPlatform
+import com.tomorrow.kmmProjectStartup.data.utils.EntityMapper
+import com.tomorrow.kmmProjectStartup.domain.model.AppPlatform
 
 class AppPlatformMapper : EntityMapper<AppPlatform, AppPlatformDTO> {
     override fun mapFromEntity(entity: AppPlatformDTO) = when (entity) {

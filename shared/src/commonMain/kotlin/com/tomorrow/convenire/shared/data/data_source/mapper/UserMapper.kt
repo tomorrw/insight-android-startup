@@ -1,13 +1,13 @@
 package com.tomorrow.convenire.shared.data.data_source.mapper
 
 import com.tomorrow.convenire.shared.data.data_source.model.UserDTO
-import com.tomorrow.convenire.shared.data.data_source.utils.EntityMapper
-import com.tomorrow.convenire.shared.domain.model.Email
-import com.tomorrow.convenire.shared.domain.model.FullName
+import com.tomorrow.kmmProjectStartup.data.utils.EntityMapper
+import com.tomorrow.kmmProjectStartup.domain.model.Email
+import com.tomorrow.kmmProjectStartup.domain.model.FullName
 import com.tomorrow.convenire.shared.domain.model.League
-import com.tomorrow.convenire.shared.domain.model.Salutation
+import com.tomorrow.kmmProjectStartup.domain.model.Salutation
 import com.tomorrow.convenire.shared.domain.model.User
-import com.tomorrow.convenire.shared.domain.utils.PhoneNumber
+import com.tomorrow.kmmProjectStartup.domain.utils.PhoneNumber
 
 class UserMapper : EntityMapper<User, UserDTO> {
     override fun mapFromEntity(entity: UserDTO) = User(

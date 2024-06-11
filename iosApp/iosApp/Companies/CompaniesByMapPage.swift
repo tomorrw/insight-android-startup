@@ -8,6 +8,8 @@
 
 import SwiftUI
 import Resolver
+import UiComponents
+import ImageCaching
 
 struct CompaniesByMapPage: View {
     @InjectedObject private var vm: CompanyByMapPageViewModel
@@ -18,7 +20,7 @@ struct CompaniesByMapPage: View {
     
     var body: some View {
         VStack(spacing: 0){
-            if vm.isLoading && vm.data.isEmpty {
+            if vm.isLoading && $vm.data.isEmpty {
                 CustomLoader()
             } else {
                 VStack {
@@ -45,7 +47,12 @@ struct CompaniesByMapPage: View {
                                         NavigateTo {
                                             CompanyPage(id: company.id)
                                         } label: {
-                                            PlainListCard(image: company.image, title: company.title, description: company.objectsClause)
+                                            PlainListCard(
+                                                image: company.image,
+                                                title: company.title,
+                                                description: company.objectsClause,
+                                                cardColors: CardColors(secondaryText: Color("Secondary"))
+                                            )
                                                 .padding(.horizontal, 15)
                                         }
                                         .onChange(of: itemFrame) { newItemFrame in

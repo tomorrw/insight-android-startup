@@ -8,10 +8,34 @@
 
 import SwiftUI
 import Resolver
+import UiComponents
+
+
+public struct SessionCardColors{
+    var primaryText: Color
+    var secondaryText: Color
+    var highlightedText: Color
+    var icons: Color
+    var background: Color
+    
+    public  init(
+        primaryText: Color = .primary,
+        secondaryText: Color = .secondary,
+        highlightedText: Color = .primary,
+        icons: Color = .primary,
+        background: Color = .clear
+    ) {
+        self.primaryText = primaryText
+        self.secondaryText = secondaryText
+        self.highlightedText = highlightedText
+        self.icons = icons
+        self.background = background
+    }
+}
 
 struct MyProgressPage: View {
     @InjectedObject var vm: MyProgressPageViewModel
-    @Environment(\.sessionCardColors) var colors: SessionCardColors
+    var colors: SessionCardColors = SessionCardColors()
     @State private var isDisplayingError = false
     
     var body: some View {
@@ -61,7 +85,7 @@ struct MyProgressPage: View {
             
             ScrollView {
                 if let sessions = vm.data?.attendedSessions, !sessions.isEmpty {
-                    SessionsVerticalView(sessions: sessions, isMinutesDisplayedOnCards: true)
+                    SessionsVerticalView(sessions: sessions.toSessionPresentationModel(), isMinutesDisplayedOnCards: true)
                         .padding(.vertical, 10)
                 } else if (vm.isLoading) {
                     VStack(spacing: 16) {
@@ -77,14 +101,18 @@ struct MyProgressPage: View {
                     .frame(maxHeight: .infinity)
                     .padding(.vertical, 24)
                 } else {
-                    EmptyStateView (
-                        title: "No Progress Yet.",
-                        text: "After attending lectures, you can assess your progress here.",
-                        buttonText: "Reload",
-                        buttonAction: {
-                            Task { await vm.refresh() }
-                        }
-                    )
+                        EmptyStateView (
+                            title: "No Progress Yet.",
+                            text: "After attending lectures, you can assess your progress here.",
+                            buttonText: "Reload",
+                            colors: .init(
+                                button: DefaultColors.buttonColor
+                            ),
+                            buttonAction: {
+                                Task { await vm.refresh() }
+                            }
+                        )
+                    
                 }
             }
             .refreshable { Task{ await vm.refresh() }}

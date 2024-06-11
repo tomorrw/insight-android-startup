@@ -9,12 +9,12 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.tomorrow.components.others.keyboardVisibilityState
 import com.tomorrow.convenire.R
 import com.tomorrow.convenire.feature_navigation.AppRoute
 import com.tomorrow.convenire.launch.LocalNavController

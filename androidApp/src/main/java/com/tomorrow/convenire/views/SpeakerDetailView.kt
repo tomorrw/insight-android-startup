@@ -8,24 +8,21 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCompositionContext
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.tomorrow.convenire.common.GeneralError
+import com.tomorrow.components.headers.EntityDetailHeaderLayout
+import com.tomorrow.components.others.GeneralError
+import com.tomorrow.components.others.SocialLink
+import com.tomorrow.convenire.packageImplementation.mappers.toSocialPlatform
 import com.tomorrow.convenire.common.PageTabDisplay
-import com.tomorrow.convenire.common.SocialLink
-import com.tomorrow.convenire.common.SocialPlatform
-import com.tomorrow.convenire.common.ensureSize
-import com.tomorrow.convenire.common.headers.EntityDetailHeaderLayout
-import com.tomorrow.convenire.common.view_models.DefaultReadView
-import com.tomorrow.convenire.common.view_models.ReadViewModel
+import com.tomorrow.convenire.common.mappers.toPageUi
 import com.tomorrow.convenire.launch.LocalNavController
-import com.tomorrow.convenire.mappers.toPageUi
 import com.tomorrow.convenire.shared.domain.model.SpeakerDetail
 import com.tomorrow.convenire.shared.domain.use_cases.GetSpeakerByIdUseCase
+import com.tomorrow.readviewmodel.DefaultReadView
+import com.tomorrow.readviewmodel.ReadViewModel
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -38,6 +35,7 @@ class SpeakerDetailViewModel(id: String) :
 @Composable
 fun SpeakerDetailView(id: String) {
     val viewModel: SpeakerDetailViewModel = getViewModel { parametersOf(id) }
+    val navController = LocalNavController.current
 
     DefaultReadView(viewModel = viewModel, error = {
         GeneralError(
@@ -45,16 +43,15 @@ fun SpeakerDetailView(id: String) {
             message = it,
             description = "Please check your internet connection and try again.",
             onButtonClick = { viewModel.on(ReadViewModel.Event.OnRefresh) },
-            hasBackButton = true
+            onBackClick = { navController.popBackStack() }
         )
     }) { speakerDetail ->
-        val navController = LocalNavController.current
         EntityDetailHeaderLayout(
             title = speakerDetail.fullName.getFormattedName(),
             subtitle = "${speakerDetail.title}${speakerDetail.nationality?.name?.let { " | $it" } ?: ""}",
             image = speakerDetail.image ?: "",
             socialLinks = speakerDetail.socialLinks.map {
-                SocialLink(SocialPlatform.fromDomain(it), it.url)
+                SocialLink(it.platform.toSocialPlatform(), it.url)
             }.take(5),
             onBack = { navController.popBackStack() },
             shareLink = "",

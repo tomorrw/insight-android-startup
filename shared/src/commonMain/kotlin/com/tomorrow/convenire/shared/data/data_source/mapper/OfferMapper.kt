@@ -1,7 +1,7 @@
 package com.tomorrow.convenire.shared.data.data_source.mapper
 
 import com.tomorrow.convenire.shared.data.data_source.model.OfferDTO
-import com.tomorrow.convenire.shared.data.data_source.utils.EntityMapper
+import com.tomorrow.kmmProjectStartup.data.utils.EntityMapper
 import com.tomorrow.convenire.shared.domain.model.Offer
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone

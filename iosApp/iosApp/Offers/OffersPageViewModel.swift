@@ -9,6 +9,7 @@
 import Foundation
 import shared
 import KMPNativeCoroutinesAsync
+import SearchableList
 
 class OfferSearchItem: SearchItem{
     var postId: String?
@@ -26,7 +27,7 @@ class OfferSearchItem: SearchItem{
     }
 }
 
-class OffersPageViewModel: SearchViewModel{
+class OffersPageViewModel: SearchViewModelImplementation{
 
     
     init() {

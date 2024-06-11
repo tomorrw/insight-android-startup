@@ -8,6 +8,7 @@
 
 import Foundation
 import shared
+import SearchableList
 
 extension Array where Element == Company {
     func mapToSearchItems() -> [SearchItem] {

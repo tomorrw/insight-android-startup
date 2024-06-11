@@ -30,22 +30,25 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import androidx.lifecycle.viewModelScope
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.ktx.messaging
+import com.tomorrow.components.dialogs.FullScreenPopUp
+import com.tomorrow.components.headers.PageHeaderLayout
+import com.tomorrow.components.others.PullToRefreshLayout
 import com.tomorrow.convenire.R
 import com.tomorrow.convenire.common.CustomToast
-import com.tomorrow.convenire.common.PullToRefreshLayout
-import com.tomorrow.convenire.common.dialogs.FullScreenPopUp
-import com.tomorrow.convenire.common.headers.PageHeaderLayout
 import com.tomorrow.convenire.common.vibratePhone
-import com.tomorrow.convenire.common.view_models.DefaultReadView
-import com.tomorrow.convenire.common.view_models.ReadViewModel
-import com.tomorrow.convenire.feature_qr_code.rememberQrBitmapPainter
 import com.tomorrow.convenire.shared.domain.model.ConfigurationData
 import com.tomorrow.convenire.shared.domain.model.User
 import com.tomorrow.convenire.shared.domain.use_cases.GetConfigurationUseCase
 import com.tomorrow.convenire.shared.domain.use_cases.GetUserUseCase
+import com.tomorrow.qrcode.rememberQrBitmapPainter
+import com.tomorrow.readviewmodel.DefaultReadView
+import com.tomorrow.readviewmodel.ReadViewModel
 import com.tomorrow.convenire.shared.domain.use_cases.LiveNotificationListenerUseCase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -90,7 +93,7 @@ class MyQrViewModel : ReadViewModel<MyQrViewData>(
         val liveNotify = LiveNotificationListenerUseCase()
 
         try {
-            scope.launch {
+            viewModelScope.launch {
                 liveNotify.startListening(id) {
                     it.getOrNull()?.let { notify ->
                         notificationMessage.value = notify.message

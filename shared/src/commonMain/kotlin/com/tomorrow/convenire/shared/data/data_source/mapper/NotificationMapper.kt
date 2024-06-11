@@ -2,10 +2,9 @@ package com.tomorrow.convenire.shared.data.data_source.mapper
 
 import com.tomorrow.convenire.shared.data.data_source.model.NotificationDTO
 import com.tomorrow.convenire.shared.data.data_source.model.NotificationDataDTO
-import com.tomorrow.convenire.shared.data.data_source.utils.EntityMapper
 import com.tomorrow.convenire.shared.domain.model.Notification
+import com.tomorrow.kmmProjectStartup.data.utils.EntityMapper
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.Json.Default.decodeFromString
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 

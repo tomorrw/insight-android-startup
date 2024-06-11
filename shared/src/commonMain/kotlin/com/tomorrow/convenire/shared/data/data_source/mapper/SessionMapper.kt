@@ -1,14 +1,14 @@
 package com.tomorrow.convenire.shared.data.data_source.mapper
 
 import com.tomorrow.convenire.shared.data.data_source.model.SessionDTO
-import com.tomorrow.convenire.shared.data.data_source.utils.EntityMapper
-import com.tomorrow.convenire.shared.data.data_source.utils.Loadable
-import com.tomorrow.convenire.shared.data.data_source.utils.Loaded
-import com.tomorrow.convenire.shared.data.data_source.utils.fromApiFormatToDate
+import com.tomorrow.kmmProjectStartup.data.utils.EntityMapper
+import com.tomorrow.kmmProjectStartup.data.utils.Loadable
+import com.tomorrow.kmmProjectStartup.data.utils.Loaded
+import com.tomorrow.kmmProjectStartup.data.utils.fromApiFormatToDate
 import com.tomorrow.convenire.shared.domain.model.Page
 import com.tomorrow.convenire.shared.domain.model.Session
-import com.tomorrow.convenire.shared.domain.utils.ImageShape
-import com.tomorrow.convenire.shared.domain.utils.ThumbnailUrlHelper
+import com.tomorrow.kmmProjectStartup.domain.utils.ImageShape
+import com.tomorrow.kmmProjectStartup.domain.utils.ThumbnailUrlHelper
 
 class SessionMapper : EntityMapper<Session, SessionDTO> {
     override fun mapFromEntity(entity: SessionDTO) = Session(

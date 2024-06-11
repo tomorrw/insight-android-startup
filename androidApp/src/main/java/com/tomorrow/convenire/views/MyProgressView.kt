@@ -25,19 +25,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.tomorrow.convenire.common.GeneralError
-import com.tomorrow.convenire.common.PullToRefreshLayout
+import com.tomorrow.components.headers.PageHeaderLayout
+import com.tomorrow.components.others.GeneralError
+import com.tomorrow.components.others.PullToRefreshLayout
 import com.tomorrow.convenire.common.Section
 import com.tomorrow.convenire.common.SectionDisplay
-import com.tomorrow.convenire.common.headers.PageHeaderLayout
-import com.tomorrow.convenire.common.view_models.DefaultReadView
-import com.tomorrow.convenire.common.view_models.ReadViewModel
-import com.tomorrow.convenire.feature_events.Event
-import com.tomorrow.convenire.feature_events.EventsLoader
 import com.tomorrow.convenire.launch.LocalNavController
-import com.tomorrow.convenire.mappers.toEvent
+import com.tomorrow.convenire.packageImplementation.mappers.toEvent
+import com.tomorrow.convenire.packageImplementation.models.Event
 import com.tomorrow.convenire.shared.domain.model.ProgressReport
 import com.tomorrow.convenire.shared.domain.use_cases.GetProgressReportUseCase
+import com.tomorrow.eventlisting.EventsLoader
+import com.tomorrow.readviewmodel.DefaultReadView
+import com.tomorrow.readviewmodel.ReadViewModel
 import kotlinx.coroutines.flow.map
 import org.koin.androidx.compose.koinViewModel
 import android.graphics.Color as GraphicsColor
@@ -50,7 +50,7 @@ data class MyProgressState(
 ) {
     companion object {
         fun fromProgressReport(report: ProgressReport) = MyProgressState(
-            events = report.attendedSessions.map { it.toEvent().copy(isMinutesDisplayed = true) },
+            events = report.attendedSessions.map { it.toEvent().copy(isMinutesDisplayed = true, minutesAttended = it.minutesAttended) },
             stats = listOf(
                 Pair(report.league.lecturesAttendedCount.toString(), "Lectures Attended"),
                 Pair(

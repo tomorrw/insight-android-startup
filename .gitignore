@@ -51,6 +51,8 @@ Thumbs.db
 *.mov
 *.wmv
 
+.env
+
 *.iml
 .gradle
 .idea
@@ -115,3 +117,5 @@ iosApp/Package.resolved
 .build/
 
 androidApp/release/*
+
+*.env

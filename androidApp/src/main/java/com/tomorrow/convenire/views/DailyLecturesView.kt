@@ -7,20 +7,23 @@ import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.tomorrow.convenire.common.GeneralError
-import com.tomorrow.convenire.common.headers.PageHeaderLayout
-import com.tomorrow.convenire.common.rememberForeverLazyListState
-import com.tomorrow.convenire.common.view_models.DefaultReadView
-import com.tomorrow.convenire.common.view_models.ReadViewModel
-import com.tomorrow.convenire.feature_events.Event
-import com.tomorrow.convenire.feature_events.EventsList
-import com.tomorrow.convenire.feature_events.EventsLoader
+import com.tomorrow.components.headers.PageHeaderLayout
+import com.tomorrow.components.others.GeneralError
+import com.tomorrow.components.others.rememberForeverLazyListState
+import com.tomorrow.convenire.common.SpeakersTagList
+import com.tomorrow.convenire.packageImplementation.mappers.toEvent
+import com.tomorrow.convenire.common.buttons.BookmarkEventButton
+import com.tomorrow.convenire.feature_navigation.AppRoute
 import com.tomorrow.convenire.launch.LocalNavController
-import com.tomorrow.convenire.mappers.toEvent
-import com.tomorrow.convenire.shared.data.data_source.utils.Loaded
+import com.tomorrow.convenire.packageImplementation.models.Event
 import com.tomorrow.convenire.shared.domain.model.Session
 import com.tomorrow.convenire.shared.domain.use_cases.GetAppropriateDisplayedDayForEvent
 import com.tomorrow.convenire.shared.domain.use_cases.GetSessionsUseCase
+import com.tomorrow.eventlisting.EventCard
+import com.tomorrow.eventlisting.EventsList
+import com.tomorrow.eventlisting.EventsLoader
+import com.tomorrow.readviewmodel.DefaultReadView
+import com.tomorrow.readviewmodel.ReadViewModel
 import kotlinx.coroutines.flow.map
 import kotlinx.datetime.toJavaLocalDate
 import org.koin.androidx.compose.koinViewModel
@@ -32,7 +35,8 @@ data class DailyLecturesState(
 ) {
     companion object {
         fun fromSessions(sessions: List<Session>) = DailyLecturesState(
-            eventsByDay = sessions.map { it.toEvent() }.groupBy { it.startDate.toLocalDate() },
+            eventsByDay = sessions.map { it.toEvent() }
+                .groupBy { it.startDate.toLocalDate() },
             displayedDay = GetAppropriateDisplayedDayForEvent().getDay(sessions)?.toJavaLocalDate()
         )
     }
@@ -98,7 +102,24 @@ fun DailyLecturesView(
                 lazyListState = listStates[it.displayedDay] ?: rememberLazyListState(),
                 days = it.eventsByDay.keys.toList(),
                 selectedDay = it.displayedDay,
-                onDaySelected = { day -> viewModel.changeSelectedDay(day) }
+                onDaySelected = { day -> viewModel.changeSelectedDay(day) },
+                eventCard = { event ->
+                    EventCard(
+                        event = event.toEvent().copy(
+                            onClick = { id ->
+                                navController.navigate(
+                                    AppRoute.EventDetail.generateExplicit(id)
+                                )
+                            }),
+                        cardFooter = {
+                            if (event is Event){
+                                SpeakersTagList(speakers = event.speakers)
+                            }
+                        },
+                        rightIcon = { id ->
+                                BookmarkEventButton(id = id)
+                        })
+                }
             )
         }
     }

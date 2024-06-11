@@ -27,17 +27,17 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.tomorrow.convenire.common.GradientProgressIndicator
-import com.tomorrow.convenire.common.PullToRefreshLayout
+import com.tomorrow.components.cards.InlineHighlightedCard
+import com.tomorrow.components.headers.PageHeaderLayout
+import com.tomorrow.components.others.GradientProgressIndicator
+import com.tomorrow.components.others.PullToRefreshLayout
 import com.tomorrow.convenire.common.buttons.ActionButton
-import com.tomorrow.convenire.common.cards.InlineHighlightedCard
-import com.tomorrow.convenire.common.headers.PageHeaderLayout
-import com.tomorrow.convenire.common.view_models.DefaultReadView
-import com.tomorrow.convenire.common.view_models.ReadViewModel
 import com.tomorrow.convenire.feature_navigation.AppRoute
 import com.tomorrow.convenire.launch.LocalNavController
 import com.tomorrow.convenire.shared.domain.model.User
 import com.tomorrow.convenire.shared.domain.use_cases.GetUserUseCase
+import com.tomorrow.readviewmodel.DefaultReadView
+import com.tomorrow.readviewmodel.ReadViewModel
 import org.koin.androidx.compose.koinViewModel
 import android.graphics.Color as GraphicsColor
 

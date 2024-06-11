@@ -12,6 +12,7 @@ import SwiftUI
 import shared
 import Resolver
 import CoreImage.CIFilterBuiltins
+import UiComponents
 
 struct MyQrPage: View {
     @InjectedObject var ticketViewModel: TicketViewModel
@@ -26,6 +27,7 @@ struct MyQrPage: View {
     var body: some View {
         NavigationPages() {
             ZStack{
+                
                 VStack {
                     HStack {
                         VStack(alignment: .leading) {
@@ -38,115 +40,41 @@ struct MyQrPage: View {
                     }
                     .padding(.top, 8)
                     
+                    
                     Spacer()
                     
                     if let ticket = ticketViewModel.pageData as? TicketPresentationModel {
-                        VStack(spacing: 0) {
-                            VStack(spacing: 0) {
-                                HStack(spacing: 0) {
-                                    Text(ticket.leftTitle)
-                                        .font(.custom("SF-Mono", size: ticket.rightTitle != nil ? 16 : 20))
-                                        .kerning(4)
-                                    
-                                    if let rightTitle = ticket.rightTitle {
-                                        Spacer()
-                                        Text("\(String(rightTitle.dropLast()))")
-                                            .font(.custom("SF-Mono", size: 16))
-                                            .kerning(4)
-                                        
-                                        Text(String(rightTitle.last!))
-                                            .font(.custom("SF-Mono", size: 16))
-                                    }
-                                }
-                                .foregroundColor(Color("HighlightPrimary"))
-                                
-                                if let subTitle = ticket.subText {
-                                    HStack {
-                                        ForEach(subTitle.indices, id: \.self) { item in
-                                            if item != 0 {
-                                                Spacer()
-                                            }
-                                            
-                                            Text(subTitle[item])
-                                                .foregroundColor(Color("Secondary"))
-                                                .font(.system(size: 16))
+                        TicketView(
+                            ticket: TicketModel(
+                                title: ticket.leftTitle,
+                                rightTitle: ticket.rightTitle,
+                                subTitle: ticket.subText,
+                                qrImage: {
+                                    Image(uiImage: qrImage)
+                                        .resizable()
+                                        .background {
+                                            RoundedRectangle(cornerRadius: 8)
+                                                .foregroundColor(Color.white)
                                         }
-                                    }
-                                }
-                            }
-                            .padding(24)
-                            
-                            Button { } label: {
-                                Image(uiImage: qrImage)
-                                    .resizable()
-                                    .background {
-                                        RoundedRectangle(cornerRadius: 8)
-                                            .foregroundColor(Color.white)
-                                    }
-                                    .frame(width: 200, height: 200)
-                                    .padding(.bottom, 24)
-                            }
-                            .simultaneousGesture(
-                                LongPressGesture()
-                                    .onEnded { _ in
-                                        self.showPopUp.toggle()
-                                    }
+                                },
+                                buttonAction: { self.ticketViewModel.getData() },
+                                longPressAction: { self.showPopUp.toggle() },
+                                holder: ticketViewModel.pageData.userName,
+                                status: ticket.ticketStatus,
+                                description: ticket.description
+                            ),
+                            style: TicketStyle(
+                                titleFont: "IBMPlexMono-Regular",
+                                foregroundColor: Color("Primary"),
+                                titleColor: Color("HighlightPrimary"),
+                                subTitleColor: Color("Secondary"),
+                                StatusColor: Color("HighlightPrimary"),
+                                backgroundColor: Color("Background"),
+                                ticketColor: Color("Default")
                             )
-                            .highPriorityGesture(
-                                TapGesture()
-                                    .onEnded { _ in
-                                        self.ticketViewModel.getData()
-                                    }
-                            )
-                            .buttonStyle(.plain)
-                            
-                            VStack(spacing: 4) {
-                                Text("\(ticketViewModel.pageData.userName ?? "")")
-                                    .font(.system(size: 20))
-                                if let status = ticket.ticketStatus {
-                                    Text(status)
-                                        .font(.custom("IBMPlexMono-Regular", size: 20))
-                                        .kerning(5)
-                                        .foregroundColor(Color("HighlightPrimary"))
-                                }
-                            }
-                            .padding(.horizontal, 24)
-                            .padding(.bottom, 18)
-                            
-                            HStack {
-                                Circle()
-                                    .frame(width: 30, height: 30)
-                                    .foregroundColor(Color("Background"))
-                                    .offset(x: -15)
-                                
-                                Image("QRCodeDashedLines")
-                                    .resizable()
-                                    .frame(height: 2)
-                                    .frame(maxWidth: .infinity)
-                                
-                                Circle()
-                                    .frame(width: 30, height: 30)
-                                    .foregroundColor(Color("Background"))
-                                    .offset(x: 15)
-                            }
-                            .frame(maxWidth: .infinity)
-                            .padding(.bottom, 8)
-                            
-                            Text(ticket.description)
-                                .font(.system(size: 14))
-                                .lineLimit(3)
-                                .multilineTextAlignment(.center)
-                                .frame(height: 40)
-                                .padding(.horizontal, 26)
-                                .padding(.bottom, 18)
-                            
-                        }
-                        .background {
-                            RoundedRectangle(cornerRadius: 8)
-                                .foregroundColor(Color("Default"))
-                        }
-                        .padding(.horizontal, 16)
+                        )
                     }
+                    
                     else if let emptyTicketInfo = ticketViewModel.pageData as? EmptyTicketPresentationModel {
                         Button { } label: {
                             Image(uiImage: qrImage)
@@ -180,9 +108,9 @@ struct MyQrPage: View {
                             .padding(.horizontal, 26)
                             .padding(.bottom, 18)
                     }
-                    else {
+                    else{
                         Button {
-                            withAnimation(.linear(duration: 0.6)) { self.ticketViewModel.getData() }
+                            withAnimation(.linear(duration: 0.6)) {}
                         } label: {
                             Image(uiImage: qrImage)
                                 .resizable()
@@ -193,11 +121,22 @@ struct MyQrPage: View {
                                 .frame(width: 200, height: 200)
                                 .padding(.bottom, 24)
                         }
+                        .simultaneousGesture(
+                            LongPressGesture()
+                                .onEnded { _ in
+                                    self.showPopUp.toggle()
+                                }
+                        )
+                        .highPriorityGesture(
+                            TapGesture()
+                                .onEnded { _ in
+                                    self.ticketViewModel.getData()
+                                }
+                        )
                         .buttonStyle(.plain)
                     }
                     
                     Spacer()
-                    
                         .onReceive(ticketViewModel.pageData.$qrCodeString) { qrString in
                             qrImage = ticketViewModel.pageData.qrCodeString.qrImage
                         }
@@ -210,7 +149,7 @@ struct MyQrPage: View {
                         })
                 }
                 .onReceive(timer, perform: { _ in
-                    self.ticketViewModel.pageData.qrCodeString = self.ticketViewModel.pageData.user?.generateQrCodeString() ?? "Not validfds"
+                    self.ticketViewModel.pageData.qrCodeString = self.ticketViewModel.pageData.user?.generateQrCodeString() ?? "Not valid"
                 })
                 .onAppear{ ticketViewModel.getData() }
                 .navigationTitle("My QR")

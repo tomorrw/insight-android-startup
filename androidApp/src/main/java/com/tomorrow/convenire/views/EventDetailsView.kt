@@ -30,21 +30,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import com.tomorrow.components.headers.SecondaryEntityDetailHeaderLayout
+import com.tomorrow.components.others.GeneralError
+import com.tomorrow.components.others.Loader
+import com.tomorrow.components.others.PullToRefreshLayout
+import com.tomorrow.components.others.TagText
 import com.tomorrow.convenire.R
-import com.tomorrow.convenire.common.GeneralError
-import com.tomorrow.convenire.common.Loader
-import com.tomorrow.convenire.common.PullToRefreshLayout
 import com.tomorrow.convenire.common.SectionDisplay
-import com.tomorrow.convenire.common.TagText
-import com.tomorrow.convenire.common.headers.SecondaryEntityDetailHeaderLayout
-import com.tomorrow.convenire.common.view_models.DefaultReadView
-import com.tomorrow.convenire.common.view_models.ReadViewModel
-import com.tomorrow.convenire.feature_events.BookmarkEventButton
+import com.tomorrow.convenire.common.buttons.BookmarkEventButton
+import com.tomorrow.convenire.common.mappers.toPageUi
 import com.tomorrow.convenire.feature_navigation.AppRoute
 import com.tomorrow.convenire.launch.LocalNavController
-import com.tomorrow.convenire.mappers.toPageUi
 import com.tomorrow.convenire.shared.domain.model.Session
 import com.tomorrow.convenire.shared.domain.use_cases.GetSessionByIdUseCase
+import com.tomorrow.readviewmodel.DefaultReadView
+import com.tomorrow.readviewmodel.ReadViewModel
 import kotlinx.datetime.toJavaLocalDateTime
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
@@ -62,6 +62,7 @@ private val dayFormatter = DateTimeFormatter.ofPattern("EEEE, MMMM d")
 @Composable
 fun EventDetailsView(id: String) {
     val viewModel: EventDetailsViewModel = getViewModel { parametersOf(id) }
+    val navController = LocalNavController.current
 
     DefaultReadView(viewModel = viewModel, error = {
         GeneralError(
@@ -69,10 +70,9 @@ fun EventDetailsView(id: String) {
             message = it,
             description = "Please check your internet connection and try again.",
             onButtonClick = { viewModel.on(ReadViewModel.Event.OnRefresh) },
-            hasBackButton = true
+            onBackClick = { navController.popBackStack() }
         )
     }) {
-        val navController = LocalNavController.current
         PullToRefreshLayout(
             state = rememberPullRefreshState(
                 refreshing = viewModel.state.isRefreshing,
@@ -100,7 +100,7 @@ fun EventDetailsView(id: String) {
                             ) {
                                 TagText(
                                     text = tag.text,
-                                    textColor = Color(android.graphics.Color.parseColor(tag.color)),
+                                    textStyle = MaterialTheme.typography.titleSmall.copy(color = Color(android.graphics.Color.parseColor(tag.color))),
                                     backgroundColor = Color(android.graphics.Color.parseColor(tag.background))
                                 )
 

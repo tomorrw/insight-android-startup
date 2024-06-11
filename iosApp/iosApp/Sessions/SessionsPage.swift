@@ -8,6 +8,7 @@
 
 import SwiftUI
 import shared
+import UiComponents
 
 struct SessionsPage: View {
     @StateObject var vm: SessionsPageViewModel = SessionsPageViewModel()
@@ -39,7 +40,6 @@ struct SessionsPage: View {
                                             .foregroundColor(info.isEnabled ? Color("Default") : Color("Surface"))
                                     )
                                     .id(info.id)
-                                    
                                 }
                                 .buttonStyle(.plain)
                                 
@@ -61,10 +61,9 @@ struct SessionsPage: View {
                                 proxy.scrollTo(appDate.id, anchor: .center)
                             }
                         }
-                    }
-                    
+                        
+                    }//End Scroll View
                 }
-                
                 
                 if (vm.isLoading) {
                     VStack(spacing: 16) {
@@ -91,15 +90,19 @@ struct SessionsPage: View {
                 } else {
                     ScrollView {
                         HStack{
-                            DropDown(choices: vm.displayedLocation, choiceMade: vm.locationChoice){text in
+                            DropDown(
+                                choices: vm.displayedLocation,
+                                choiceMade: vm.locationChoice,
+                                backgroundColor: Color("Default"),
+                                foregroundColor: Color("Primary")
+                            ) { text in
                                 vm.filterLocation(location: text)
                             }
                         }
                         
-                        SessionsVerticalView(sessions: vm.sessionsDisplayed)
+                        SessionsVerticalView(sessions: vm.sessionsDisplayed.toSessionPresentationModel())
                             .padding(.vertical, 10)
                             .onAppear { self.dateSectionWidth = geo.size.width - 20 } // -20 bcz of the padding
-                        
                     }
                     .refreshable { Task{ await vm.refresh() }}
                     .id(vm.sessionsDisplayed.hashValue)
@@ -123,8 +126,7 @@ struct SessionsPage: View {
             .background(Color("Background"))
         }
     }
+    
 }
-
-
 
 

@@ -1,5 +1,8 @@
 package com.tomorrow.convenire.shared.domain.model
 
+import com.tomorrow.kmmProjectStartup.domain.model.FullName
+import com.tomorrow.kmmProjectStartup.domain.model.SocialLink
+
 open class Speaker(
     val id: String,
     val fullName: FullName,

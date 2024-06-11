@@ -9,6 +9,7 @@
 import SwiftUI
 import Resolver
 import shared
+import UiComponents
 
 struct ActionButtons: View {
     @InjectedObject var deepLinkingViewModel: DeepLinkingViewModel

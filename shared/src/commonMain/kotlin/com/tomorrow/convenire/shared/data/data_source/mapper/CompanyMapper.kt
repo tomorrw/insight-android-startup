@@ -1,12 +1,12 @@
 package com.tomorrow.convenire.shared.data.data_source.mapper
 
 import com.tomorrow.convenire.shared.data.data_source.model.CompanyDTO
-import com.tomorrow.convenire.shared.data.data_source.utils.EntityMapper
-import com.tomorrow.convenire.shared.data.data_source.utils.Loadable
+import com.tomorrow.kmmProjectStartup.data.utils.EntityMapper
+import com.tomorrow.kmmProjectStartup.data.utils.Loadable
 import com.tomorrow.convenire.shared.domain.model.Company
 import com.tomorrow.convenire.shared.domain.model.Page
-import com.tomorrow.convenire.shared.domain.utils.ImageShape
-import com.tomorrow.convenire.shared.domain.utils.ThumbnailUrlHelper
+import com.tomorrow.kmmProjectStartup.domain.utils.ImageShape
+import com.tomorrow.kmmProjectStartup.domain.utils.ThumbnailUrlHelper
 
 class CompanyMapper : EntityMapper<Company, CompanyDTO> {
     override fun mapFromEntity(entity: CompanyDTO) = Company(

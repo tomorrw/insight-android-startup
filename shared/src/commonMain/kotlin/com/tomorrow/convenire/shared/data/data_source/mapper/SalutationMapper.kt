@@ -1,8 +1,8 @@
 package com.tomorrow.convenire.shared.data.data_source.mapper
 
 import com.tomorrow.convenire.shared.data.data_source.model.SalutationDTO
-import com.tomorrow.convenire.shared.data.data_source.utils.EntityMapper
-import com.tomorrow.convenire.shared.domain.model.Salutation
+import com.tomorrow.kmmProjectStartup.data.utils.EntityMapper
+import com.tomorrow.kmmProjectStartup.domain.model.Salutation
 
 class SalutationMapper : EntityMapper<Salutation, SalutationDTO> {
     override fun mapFromEntity(entity: SalutationDTO) = when (entity) {

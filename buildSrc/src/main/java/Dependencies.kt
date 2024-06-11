@@ -2,7 +2,7 @@ object Versions {
     const val androidMinSdk = 26
     const val androidCompileSdk = 34
     const val androidTargetSdk = androidCompileSdk
-    const val applicationVersionName = "1.2.11"
+    const val applicationVersionName = "1.2.24"
 
     const val kotlinCoroutines = "1.6.4"
     const val koin = "3.4.3"
@@ -27,9 +27,31 @@ object Versions {
 
     const val navigation = "2.5.3"
     const val multiplatformSettings = "1.0.0"
+
+    const val tomorrwProjectStartup = "1.0.11"
+    const val tomorrwUIComponent = "1.0.9"
 }
 
 object Deps {
+    object Tomorrow {
+        object UIComponents {
+            const val Components = "com.tomorrow.uiComponents:components:${Versions.tomorrwUIComponent}"
+            const val EventListing = "com.tomorrow.uiComponents:eventlisting:${Versions.tomorrwUIComponent}"
+            const val ListDisplay = "com.tomorrow.uiComponents:listdisplay:${Versions.tomorrwUIComponent}"
+            const val Carousel = "com.tomorrow.uiComponents:carousel:${Versions.tomorrwUIComponent}"
+            const val QrCode = "com.tomorrow.uiComponents:qrcode:${Versions.tomorrwUIComponent}"
+            const val VideoPlayer = "com.tomorrow.uiComponents:videoplayer:${Versions.tomorrwUIComponent}"
+        }
+
+        object ProjectStartup {
+            const val InternetConnectivity = "com.tomorrow.projectStartup:internetconnectivity:${Versions.tomorrwProjectStartup}"
+            const val Navigation = "com.tomorrow.projectStartup:navigation:${Versions.tomorrwProjectStartup}"
+            const val AppUpdate = "com.tomorrow.projectStartup:appupdate:${Versions.tomorrwProjectStartup}"
+            const val ReadViewModel = "com.tomorrow.projectStartup:readviewmodel:${Versions.tomorrwProjectStartup}"
+            const val RequestPermission = "com.tomorrow.projectStartup:requestpermission:${Versions.tomorrwProjectStartup}"
+        }
+    }
+
     object MultiplatformSettings {
         const val core = "com.russhwolf:multiplatform-settings:${Versions.multiplatformSettings}"
     }

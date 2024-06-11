@@ -3,6 +3,16 @@
     {
       "filename" : "Image Placeholder (1).png",
       "idiom" : "universal"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "Slide 16_9 - 1.svg",
+      "idiom" : "universal"
     }
   ],
   "info" : {

@@ -1,6 +1,8 @@
 package com.tomorrow.convenire.shared.domain.model
 
-import com.tomorrow.convenire.shared.domain.utils.PhoneNumber
+import com.tomorrow.kmmProjectStartup.domain.model.Email
+import com.tomorrow.kmmProjectStartup.domain.model.FullName
+import com.tomorrow.kmmProjectStartup.domain.utils.PhoneNumber
 import kotlinx.datetime.Clock
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

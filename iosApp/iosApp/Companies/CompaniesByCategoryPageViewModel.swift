@@ -10,12 +10,12 @@ import Foundation
 import shared
 import KMPNativeCoroutinesAsync
 
-class CompaniesByCategoryPageViewModel: SearchViewModel {
+class CompaniesByCategoryPageViewModel: SearchViewModelImplementation {
     private let categoryId: String
     
     init(categoryId: String) {
         self.categoryId = categoryId
-        super.init(list: [], searchText: "")
+        super.init()
         Task { await getCompanies() }
     }
     

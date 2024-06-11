@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import DetailPage
 
 struct CompanyPage: View {
     @StateObject private var vm: CompanyPageViewModel
@@ -19,7 +20,10 @@ struct CompanyPage: View {
         DetailPage(
             vm: vm,
             customHeader: { SocialLinksDisplay(socialLinks: vm.socialLinks) },
-            customBody: { PageTabDisplayView(pages: $vm.pages) }
+            customBody: { PageTabDisplayView(
+                pages: $vm.pages,
+                colors: DefaultColors.pageTabDisplayColor) { SectionDisplayViewImplementation(section: $0) }
+            }
         )
         .navigationBarTitleDisplayMode(.inline)
         .background(Color("Background"))

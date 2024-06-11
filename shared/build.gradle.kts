@@ -41,6 +41,7 @@ kotlin {
 
         val commonMain by getting {
             dependencies {
+                implementation("com.tomorrow.kmmProjectStartup:shared:1.0.0")
                 with(Deps.Ktor) {
                     implementation(clientCore)
                     implementation(clientJson)

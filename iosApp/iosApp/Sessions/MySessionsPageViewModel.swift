@@ -9,6 +9,7 @@
 import SwiftUI
 import shared
 import KMPNativeCoroutinesAsync
+import UiComponents
 
 private let defaultLocationFilter = "All Locations"
 

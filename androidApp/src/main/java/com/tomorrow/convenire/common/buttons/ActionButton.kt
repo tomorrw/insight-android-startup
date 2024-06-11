@@ -13,14 +13,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.tomorrow.convenire.common.handleLink
 import com.tomorrow.convenire.launch.LocalNavController
 import com.tomorrow.convenire.shared.domain.model.Action
-import com.tomorrow.convenire.shared.domain.model.toUserFriendlyError
+import com.tomorrow.kmmProjectStartup.domain.model.toUserFriendlyError
 import com.tomorrow.convenire.shared.domain.use_cases.PostActionUseCase
 import kotlinx.coroutines.launch
 

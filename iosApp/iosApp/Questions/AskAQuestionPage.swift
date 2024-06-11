@@ -9,6 +9,8 @@
 import SwiftUI
 import shared
 import KMPNativeCoroutinesAsync
+import UiComponents
+import ios_project_startup
 
 struct AskAQuestionPage: View {
     @State var question: String = ""
@@ -20,7 +22,7 @@ struct AskAQuestionPage: View {
     
     var subjectId: String
     var title: String?
-    var speakers: [Speaker]?
+    var speakersFullName: [String]?
     
     @FocusState private var isFocused: Bool
     
@@ -32,9 +34,9 @@ struct AskAQuestionPage: View {
                     .foregroundColor(Color("Primary"))
             }
             
-            if let speakers = speakers {
+            if let speakers = speakersFullName {
                 ForEach(speakers, id: \.self) { speaker in
-                    Text("\(speakers.firstIndex(of: speaker) == 0 ? "": ", ") \(speaker.fullName.getFormattedName())")
+                    Text("\(speakers.firstIndex(of: speaker) == 0 ? "": ", ") \(speaker)")
                         .foregroundColor(Color("Secondary"))
                 }
                 .padding(.bottom, 20)
@@ -70,7 +72,7 @@ struct AskAQuestionPage: View {
                     
                     Spacer()
                     
-                    Text("\(question.length) / 260")
+                    Text("\(question.count) / 260")
                         .font(.system(size: 12))
                         .foregroundColor(Color("Secondary"))
                 }
@@ -78,7 +80,7 @@ struct AskAQuestionPage: View {
             }
             
             HStack {
-                CheckBoxView(checked: $isAnonymous)
+                CheckBoxView(checked: $isAnonymous, color: Color("Primary"))
                 Text("Ask Anonymously")
                     .font(.system(size: 14))
                     .onTapGesture {
@@ -90,6 +92,7 @@ struct AskAQuestionPage: View {
             MultifunctionalButton(
                 action: { Task { await askAQuestion() } },
                 label: "Submit",
+                colors: DefaultColors.buttonColor,
                 isLoading: loading
             )
             

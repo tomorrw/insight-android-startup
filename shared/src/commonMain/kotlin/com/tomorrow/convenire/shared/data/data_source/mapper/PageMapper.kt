@@ -1,7 +1,7 @@
 package com.tomorrow.convenire.shared.data.data_source.mapper
 
 import com.tomorrow.convenire.shared.data.data_source.model.DetailPageDTO
-import com.tomorrow.convenire.shared.data.data_source.utils.EntityMapper
+import com.tomorrow.kmmProjectStartup.data.utils.EntityMapper
 import com.tomorrow.convenire.shared.domain.model.Page
 
 class PageMapper : EntityMapper<Page, DetailPageDTO> {

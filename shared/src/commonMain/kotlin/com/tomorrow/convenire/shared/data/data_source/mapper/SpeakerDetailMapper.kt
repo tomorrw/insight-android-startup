@@ -1,16 +1,15 @@
 package com.tomorrow.convenire.shared.data.data_source.mapper
 
 import com.tomorrow.convenire.shared.data.data_source.model.SpeakerDTO
-import com.tomorrow.convenire.shared.data.data_source.utils.EntityMapper
-import com.tomorrow.convenire.shared.data.data_source.utils.Loadable
-import com.tomorrow.convenire.shared.domain.model.FullName
+import com.tomorrow.kmmProjectStartup.data.utils.EntityMapper
+import com.tomorrow.kmmProjectStartup.data.utils.Loadable
+import com.tomorrow.kmmProjectStartup.domain.model.FullName
 import com.tomorrow.convenire.shared.domain.model.Page
-import com.tomorrow.convenire.shared.domain.model.Salutation
-import com.tomorrow.convenire.shared.domain.model.SocialLink
+import com.tomorrow.kmmProjectStartup.domain.model.Salutation
 import com.tomorrow.convenire.shared.domain.model.Speaker
 import com.tomorrow.convenire.shared.domain.model.SpeakerDetail
-import com.tomorrow.convenire.shared.domain.utils.ImageShape
-import com.tomorrow.convenire.shared.domain.utils.ThumbnailUrlHelper
+import com.tomorrow.kmmProjectStartup.domain.utils.ImageShape
+import com.tomorrow.kmmProjectStartup.domain.utils.ThumbnailUrlHelper
 
 class SpeakerDetailMapper : EntityMapper<SpeakerDetail, SpeakerDTO> {
 

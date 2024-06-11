@@ -19,18 +19,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.tomorrow.convenire.common.GeneralError
-import com.tomorrow.convenire.common.Loader
+import com.tomorrow.components.headers.SecondaryEntityDetailHeaderLayout
+import com.tomorrow.components.others.GeneralError
+import com.tomorrow.components.others.Loader
 import com.tomorrow.convenire.common.SectionDisplay
 import com.tomorrow.convenire.common.buttons.ActionButton
-import com.tomorrow.convenire.common.headers.SecondaryEntityDetailHeaderLayout
-import com.tomorrow.convenire.common.view_models.DefaultReadView
-import com.tomorrow.convenire.common.view_models.ReadViewModel
+import com.tomorrow.convenire.common.mappers.toPageUi
 import com.tomorrow.convenire.feature_navigation.AppRoute
 import com.tomorrow.convenire.launch.LocalNavController
-import com.tomorrow.convenire.mappers.toPageUi
 import com.tomorrow.convenire.shared.domain.model.Post
 import com.tomorrow.convenire.shared.domain.use_cases.GetPostByIdUseCase
+import com.tomorrow.readviewmodel.DefaultReadView
+import com.tomorrow.readviewmodel.ReadViewModel
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -48,7 +48,7 @@ fun PostView(id: String) {
             message = it,
             description = "Please check your internet connection and try again.",
             onButtonClick = { viewModel.on(ReadViewModel.Event.OnRefresh) },
-            hasBackButton = true
+            onBackClick = { navController.popBackStack() }
         )
     }) { d ->
         SecondaryEntityDetailHeaderLayout(

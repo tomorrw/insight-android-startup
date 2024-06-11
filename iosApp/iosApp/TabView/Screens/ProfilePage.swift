@@ -8,7 +8,7 @@
 
 import SwiftUI
 import Resolver
-
+import UiComponents
 
 struct ProfilePage: View {
     @InjectedObject var authViewModel: AuthenticationViewModel
@@ -39,26 +39,23 @@ struct ProfilePage: View {
                             HighlightedCard(
                                 image: "",
                                 title: authViewModel.user?.fullName.getFormattedName() ?? "User",
-                                description: authViewModel.user?.phoneNumber.number ?? ""
+                                description: authViewModel.user?.phoneNumber.number ?? "",
+                                cardColor: DefaultColors.defaultCardColor
                             )
                         }
                         .padding(.top, 10)
                         
-                        CircularProgressView(progress: Double((authViewModel.user?.league.percentage) == 0 ? 0.01 : authViewModel.user?.league.percentage ?? 0), color: Color(hex: "\(authViewModel.user?.league.color ?? "Default")"))
-                            .padding(.all, 25)
-                            .overlay(alignment: .center) {
-                                VStack {
-                                    Text("\(authViewModel.user?.league.lecturesAttendedCount.description ?? "")/\(authViewModel.user?.league.totalNumberOfLectures.description ?? "")")
-                                        .font(.system(size: 70))
-                                        .multilineTextAlignment(.center)
-                                    
-                                    Text("LECTURES ATTENDED")
-                                        .font(.title3)
-                                        .multilineTextAlignment(.center)
-                                }
-                            }
-                            .background { Circle().fill(Color("Default")) }
-                            .frame(width: 320, height: 320)
+                        CircularProgressView(
+                            progress: Double((authViewModel.user?.league.percentage) == 0 ? 0.01 : authViewModel.user?.league.percentage ?? 0),
+                            style: CircularProgressViewStyle(
+                                progressBarColor: Color(hex: "\(authViewModel.user?.league.color ?? "Default")"),
+                                background: Color("Default"),
+                                foreground: Color("Primary")
+                                ),
+                            title: "\(authViewModel.user?.league.lecturesAttendedCount.description ?? "")/\(authViewModel.user?.league.totalNumberOfLectures.description ?? "")",
+                            subTitle: "LECTURES ATTENDED"
+                        )
+
                             .padding(.top,20)
                         
                         if let leagueName = authViewModel.user?.league.name {
@@ -86,33 +83,6 @@ struct ProfilePage: View {
         }
     }
 }
-
-struct CircularProgressView: View {
-    let progress: Double
-    let color: Color
-    
-    var body: some View {
-        ZStack {
-            Circle()
-                .stroke(
-                    color.opacity(0),
-                    lineWidth: 24
-                )
-            Circle()
-                .trim(from: 0, to: progress)
-                .stroke(
-                    color,
-                    style: StrokeStyle(
-                        lineWidth: 24,
-                        lineCap: .round
-                    )
-                )
-                .rotationEffect(.degrees(-90))
-                .animation(.easeOut, value: progress)
-        }
-    }
-}
-
 
 struct ProfilePage_Previews: PreviewProvider {
     static var previews: some View {

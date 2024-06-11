@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.backend.wasm.lower.excludeDeclarationsFromCodegen
+
 plugins {
     id("com.android.application")
     id("com.google.gms.google-services")
@@ -11,7 +13,7 @@ android {
     buildFeatures { compose = true }
     composeOptions { kotlinCompilerExtensionVersion = Versions.composeCompiler }
     // val appVersionCode = System.getenv()["NEW_BUILD_NUMBER"]?.toInt() ?: 8
-    val appVersionCode = 12
+    val appVersionCode = 13
 
     signingConfigs {
         create("release") {
@@ -70,8 +72,6 @@ dependencies {
     with(Deps.Android) {
         implementation(googlePlayUpdate)
         implementation(googlePlayUpdateKtx)
-        implementation(exoPlayer)
-        implementation(barcodeEncodingDecoding)
         implementation(systemUiController)
     }
     with(Deps.AndroidX) {
@@ -89,6 +89,24 @@ dependencies {
         implementation(crashlytics)
         implementation(analytics)
     }
-    implementation("dev.chrisbanes.snapper:snapper:0.3.0")
+    implementation("com.tomorrow.kmmProjectStartup:shared-android:1.0.0")
     implementation(kotlin("reflect"))
+
+    //TOMORROW'S DEPENDENCIES
+    with(Deps.Tomorrow.UIComponents) {
+        implementation(Components)
+        implementation(EventListing)
+        implementation(ListDisplay)
+        implementation(Carousel)
+        implementation(QrCode)
+        implementation(VideoPlayer)
+    }
+
+    with(Deps.Tomorrow.ProjectStartup) {
+        implementation(InternetConnectivity)
+        implementation(Navigation)
+        implementation(AppUpdate)
+        implementation(ReadViewModel)
+        implementation(RequestPermission)
+    }
 }

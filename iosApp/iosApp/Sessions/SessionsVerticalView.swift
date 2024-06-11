@@ -7,36 +7,35 @@
 //
 
 import SwiftUI
-import shared
-import KMPNativeCoroutinesAsync
+import UiComponents
+import ImageCaching
 
 struct SessionsVerticalView: View {
-    let sessions: [Session]
-    let isMinutesDisplayedOnCards: Bool
+    let sessions: [EventModel]
+    let cardColors: EventCardColors
+    var isMinutesDisplayedOnCards = false
     
-    init(sessions: [Session], isMinutesDisplayedOnCards: Bool = false) {
+    init(sessions: [EventModel], cardColors: EventCardColors = DefaultColors.sessionCardColor, isMinutesDisplayedOnCards: Bool = false) {
         self.sessions = sessions
         self.isMinutesDisplayedOnCards = isMinutesDisplayedOnCards
+        self.cardColors = cardColors
     }
     
     var body: some View {
-        LazyVStack(alignment: .leading, spacing: 16) {
-            ForEach(sessions.indices, id: \.self) { i in
-                let session = sessions[i]
-                
+        //A Lazy Vstack is not loading the bookmark states correctly
+        ScrollView() {
+            ForEach(sessions, id: \.self) { session in
                 NavigateTo {
                     SessionDetailPage(id: session.id)
                 } label: {
-                    SessionCard(session: session, isMinutesAttendedDisplayed: isMinutesDisplayedOnCards)
+                    SessionCardImplementation(isMinutesAttendedDisplayed: isMinutesDisplayedOnCards, session: session, cardColors: cardColors)
                 }
                 .buttonStyle(FlatLinkStyle())
+                .padding(.vertical, 4)
             }
         }
     }
-    
-    @MainActor func toggleShouldSendReminder(id: String) async {
-        let _ = await asyncResult(for: ToggleShouldNotifyEventUseCase().toggleShouldNotify(id: id))
-    }
+
 }
 
 struct SessionsVerticalView_Previews: PreviewProvider {

@@ -1,11 +1,26 @@
 import SwiftUI
 import shared
-
+import UiComponents
+import ios_project_startup
 
 @main
 struct iOSApp: App {
     // register app delegate for Firebase setup
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+        @AppStorage("selectedColorTheme") private var selectedColorTheme = "Auto"
+    
+    func decideTheme() -> UIUserInterfaceStyle {
+        switch selectedColorTheme {
+        case "Auto":
+            return .unspecified
+        case "Light":
+            return .light
+        case "Dark":
+            return .dark
+        default:
+            return .unspecified
+        }
+    }
     
     var body: some Scene {
         WindowGroup {
@@ -23,7 +38,14 @@ struct iOSApp: App {
                     UINavigationBar.appearance().titleTextAttributes = [.font : UIFont.systemFont(ofSize: 20.0)]
                     UIScrollView.appearance().keyboardDismissMode = .interactive
                 }
-                .defaultTheme()
+                .defaultTheme(
+                    colorTheme: decideTheme(),
+                    themeColor: ThemeColor(
+                        foreground: Color("Primary"),
+                        background: Color("Background"),
+                        tint: Color("Primary"),
+                        accentColor: Color("Background")
+                    ))
         }
     }
 }

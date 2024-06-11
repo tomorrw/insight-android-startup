@@ -20,19 +20,20 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.imageLoader
 import coil.request.ImageRequest
+import com.tomorrow.components.cards.InlineCardDisplay
+import com.tomorrow.components.headers.PageHeaderLayout
+import com.tomorrow.components.others.rememberForeverLazyListState
 import com.tomorrow.convenire.R
-import com.tomorrow.convenire.common.cards.InlineCardDisplay
-import com.tomorrow.convenire.common.headers.PageHeaderLayout
-import com.tomorrow.convenire.common.rememberForeverLazyListState
-import com.tomorrow.convenire.common.view_models.DefaultReadView
-import com.tomorrow.convenire.common.view_models.ReadViewModel
-import com.tomorrow.convenire.feature_listing.ListDisplay
-import com.tomorrow.convenire.feature_listing.ListDisplayItemInterface
-import com.tomorrow.convenire.feature_listing.ListLoader
 import com.tomorrow.convenire.feature_navigation.AppRoute
 import com.tomorrow.convenire.launch.LocalNavController
 import com.tomorrow.convenire.shared.domain.model.Company
 import com.tomorrow.convenire.shared.domain.use_cases.GetCompaniesUseCase
+import com.tomorrow.kmmProjectStartup.domain.use_cases.CompareStringsUseCase
+import com.tomorrow.listdisplay.ListDisplay
+import com.tomorrow.listdisplay.ListDisplayItemInterface
+import com.tomorrow.listdisplay.ListLoader
+import com.tomorrow.readviewmodel.DefaultReadView
+import com.tomorrow.readviewmodel.ReadViewModel
 import kotlinx.coroutines.flow.map
 import org.koin.androidx.compose.getViewModel
 import java.util.UUID
@@ -170,6 +171,9 @@ fun CompaniesByMap() {
                     }
                 },
                 isScrollableToLastElement = true,
+                searchAlgorithm = { query, items ->
+                    CompareStringsUseCase.findSimilarity(query, items)
+                }
             )
 
             LaunchedEffect(companies) {

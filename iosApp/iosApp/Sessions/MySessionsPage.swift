@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import UiComponents
 
 struct MySessionsPage: View {
     @Environment(\.presentationMode) var presentationMode
@@ -16,6 +17,7 @@ struct MySessionsPage: View {
 
     var body: some View {
         GeometryReader { geo in
+            
             VStack(alignment: .leading, spacing: 8) {
                 ScrollViewReader { proxy in
                     ScrollView(.horizontal, showsIndicators: false) {
@@ -38,7 +40,6 @@ struct MySessionsPage: View {
                                             .foregroundColor(info.isEnabled ? Color("Default") : Color("Surface"))
                                     )
                                     .id(info.id)
-                                    
                                 }
                                 .buttonStyle(.plain)
                                 
@@ -56,6 +57,7 @@ struct MySessionsPage: View {
                         }
                     }
                 }
+                
                 if (vm.isLoading) {
                     VStack(spacing: 16) {
                         ForEach(0..<2, id:\.self) { _ in
@@ -71,26 +73,36 @@ struct MySessionsPage: View {
                     .padding(.vertical, 24)
                 } else if vm.sessionsDisplayed.isEmpty {
                     VStack{
-                        FilterComponent
                         EmptyStateNavLink (
                             title: "No Bookmarked Lectures",
                             text: "Start bookmarking lectures that interest you to keep track of your preferred events. Simply browse the daily lectures schedule and click on the bookmark icon next to the lecture you wish to save. Happy exploring!",
-                            destinationView: SessionsPage(startingDisplayDate: vm.currentDate)
-                                .navigationTitle("Lectures")
-                                .navigationBarTitleDisplayMode(.inline)
-                                .onDisappear {
-                                    Task {
-                                        await vm.refresh(keepCurrentDate: true)
-                                    }
-                                },
-                            navLinkText: "Go to Lectures"
+                            customNavigationButton: {
+                                NavigateTo {
+                                    SessionsPage(startingDisplayDate: vm.currentDate)
+                                        .navigationTitle("Lectures")
+                                        .navigationBarTitleDisplayMode(.inline)
+                                        .onDisappear {
+                                            Task {
+                                                await vm.refresh(keepCurrentDate: true)
+                                            }
+                                        }
+                                } label: {
+                                    Text("Go to Lectures")
+                                        .foregroundColor(Color("Default"))
+                                        .font(.system(size: 16))
+                                        .frame(maxWidth: .infinity)
+                                        .padding(16)
+                                        .background(Color("Primary"))
+                                        .cornerRadius(16)
+                                }
+                            }
                         )
                     }
                 } else {
                     ScrollView {
                         FilterComponent
-                        SessionsVerticalView(sessions: vm.sessionsDisplayed)
-                            .padding(.vertical, 24)
+                        SessionsVerticalView(sessions: vm.sessionsDisplayed.toSessionPresentationModel())
+                            .padding(.vertical, 10)
                             .onAppear { self.dateSectionWidth = geo.size.width - 20 } // -20 bcz of the padding
 
                     }
@@ -119,11 +131,16 @@ struct MySessionsPage: View {
     
     var FilterComponent: some View{
         HStack{
-            DropDown(choices: vm.displayedLocation, choiceMade: vm.locationChoice){text in
+            DropDown(
+                choices: vm.displayedLocation,
+                choiceMade: vm.locationChoice,
+                backgroundColor: Color("Default"),
+                foregroundColor: Color("Primary")
+            ){text in
                 vm.filterLocation(location: text)
             }
         }
         .frame(maxHeight: 70)
     }
-        
 }
+

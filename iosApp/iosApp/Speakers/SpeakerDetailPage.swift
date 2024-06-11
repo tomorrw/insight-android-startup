@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import DetailPage
 
 struct SpeakerDetailPage: View {
     @StateObject private var vm: SpeakerDetailPageViewModel
@@ -19,9 +20,14 @@ struct SpeakerDetailPage: View {
         DetailPage(
             vm: vm,
             customHeader: { SocialLinksDisplay(socialLinks: vm.socialLinks) },
-            customBody: { PageTabDisplayView(pages: $vm.pages) }
+            customBody: { PageTabDisplayView(
+                pages: $vm.pages,
+                colors: DefaultColors.pageTabDisplayColor) {
+                    SectionDisplayViewImplementation(section: $0, sessionCardColor: DefaultColors.sessionCardColorVariation)
+                }
+            }
         )
-            .navigationBarTitleDisplayMode(.inline)
-            .background(Color("Background"))
+        .navigationBarTitleDisplayMode(.inline)
+        .background(Color("Background"))
     }
 }

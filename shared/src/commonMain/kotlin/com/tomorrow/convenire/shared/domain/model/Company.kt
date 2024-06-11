@@ -1,7 +1,8 @@
 package com.tomorrow.convenire.shared.domain.model
 
-import com.tomorrow.convenire.shared.data.data_source.utils.Loadable
-import com.tomorrow.convenire.shared.data.data_source.utils.NotLoaded
+import com.tomorrow.kmmProjectStartup.data.utils.Loadable
+import com.tomorrow.kmmProjectStartup.data.utils.NotLoaded
+import com.tomorrow.kmmProjectStartup.domain.model.SocialLink
 
 data class Company(
     val id: String,

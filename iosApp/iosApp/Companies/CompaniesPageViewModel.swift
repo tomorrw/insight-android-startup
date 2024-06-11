@@ -10,9 +10,9 @@ import Foundation
 import shared
 import KMPNativeCoroutinesAsync
 
-class CompaniesPageViewModel: SearchViewModel {
+class CompaniesPageViewModel: SearchViewModelImplementation {
     init() {
-        super.init(list: [], searchText: "")
+        super.init()
         Task { await getCompanies() }
     }
     

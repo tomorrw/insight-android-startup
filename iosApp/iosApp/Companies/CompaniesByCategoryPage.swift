@@ -7,6 +7,8 @@
 //
 
 import SwiftUI
+import SearchableList
+import UiComponents
 
 struct CompaniesByCategoryPage: View {
     @StateObject private var vm: CompaniesByCategoryPageViewModel
@@ -16,10 +18,16 @@ struct CompaniesByCategoryPage: View {
     }
     
     var body: some View {
-        SearchableList(vm: vm) { item in
-            CompanyPage(id: item.id)
-        }
+        SearchableList(
+            vm: vm,
+            rowView: { item in
+                NavigateTo {
+                    CompanyPage(id: item.id)
+                } label: {
+                    DefaultListItem(item: item)
+                }
+            }
+        )
         .navigationBarTitleDisplayMode(.large)
     }
 }
-

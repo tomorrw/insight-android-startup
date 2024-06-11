@@ -5,28 +5,23 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import com.tomorrow.components.cards.CardStyle
+import com.tomorrow.components.cards.DefaultCardDisplay
+import com.tomorrow.components.headers.PageHeaderLayout
 import com.tomorrow.convenire.R
-import com.tomorrow.convenire.common.cards.DefaultCardDisplay
-import com.tomorrow.convenire.common.headers.PageHeaderLayout
-import com.tomorrow.convenire.common.view_models.DefaultReadView
-import com.tomorrow.convenire.common.view_models.ReadViewModel
 import com.tomorrow.convenire.feature_navigation.AppRoute
 import com.tomorrow.convenire.launch.LocalNavController
 import com.tomorrow.convenire.shared.domain.model.ConfigurationData
 import com.tomorrow.convenire.shared.domain.use_cases.GetConfigurationUseCase
-import com.tomorrow.convenire.shared.domain.use_cases.GetUserUseCase
+import com.tomorrow.readviewmodel.DefaultReadView
+import com.tomorrow.readviewmodel.ReadViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.conflate
-import kotlinx.coroutines.flow.firstOrNull
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.singleOrNull
-import kotlinx.coroutines.flow.transform
 import org.koin.androidx.compose.koinViewModel
 
 class ExhibitionsViewModel : ReadViewModel<ConfigurationData?>(
@@ -54,7 +49,12 @@ fun ExhibitionsView() = PageHeaderLayout(
                     onClick = { navController.navigate(AppRoute.CompaniesByMap.generate()) },
                     title = "Exhibition Map",
                     subtitle = "Explore venue layout",
-                    isHighlighted = true,
+                    style = CardStyle(
+                        backgroundColor = MaterialTheme.colorScheme.primary,
+                        titleStyle = MaterialTheme.typography.titleLarge.copy(color = MaterialTheme.colorScheme.onPrimary),
+                        descriptionStyle = MaterialTheme.typography.titleMedium.copy(color = MaterialTheme.colorScheme.secondary),
+                        imageBackgroundColor = MaterialTheme.colorScheme.surface,
+                    )
                 )
             }
             DefaultCardDisplay(
@@ -62,7 +62,12 @@ fun ExhibitionsView() = PageHeaderLayout(
                 onClick = { navController.navigate(AppRoute.Companies.generate()) },
                 title = "Companies",
                 subtitle = "Get to know the companies at the heart of our event",
-                isHighlighted = configuration?.showExhibitionMap != true,
+                style = CardStyle(
+                    backgroundColor = if(configuration?.showExhibitionMap == true)  MaterialTheme.colorScheme.background else MaterialTheme.colorScheme.primary,
+                    titleStyle = MaterialTheme.typography.titleLarge.copy(color =  if(configuration?.showExhibitionMap == true) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onPrimary),
+                    descriptionStyle = MaterialTheme.typography.titleMedium.copy(color = MaterialTheme.colorScheme.secondary),
+                    imageBackgroundColor = MaterialTheme.colorScheme.surface,
+                ),
             )
 
             DefaultCardDisplay(

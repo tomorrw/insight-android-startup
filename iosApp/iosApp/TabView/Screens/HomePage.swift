@@ -9,6 +9,7 @@
 import SwiftUI
 import shared
 import Resolver
+import UiComponents
 
 struct HomePage: View {
     @InjectedObject var vm: HomePageViewModel
@@ -57,7 +58,7 @@ struct HomePage: View {
                                 PostsView(posts: [highlightedPost])
                             }
                             
-                            if let todaysSpeaker = vm.data?.todaySpeakers.getDataIfLoaded() as? [Speaker],
+                            if let todaysSpeaker = vm.data?.todaySpeakers.getDataIfLoaded() as? [shared.Speaker],
                                todaysSpeaker.isEmpty == false {
                                 VStack(alignment: .leading, spacing: 16) {
                                     HStack {
@@ -68,7 +69,7 @@ struct HomePage: View {
                                             .foregroundColor(Color("HighlightPrimary"))
                                             .font(.system(size: 14))
                                     }
-                                    SpeakersHorizontalView(speakers: todaysSpeaker)
+                                    SpeakersHorizontalView(todaysSpeaker.toEntitiesPresentationModel())
                                 }
                             }
                             
@@ -77,15 +78,20 @@ struct HomePage: View {
                                 !ads.isEmpty
                             {
                                 VStack(alignment: .leading, spacing: 16) {
-                                    IterableCarousel(ads, itemWidth: $adWidth) { ad in
-                                        CarouselItem(
-                                            item: CarouselItemModel(
-                                                imageUrl: ad.image,
-                                                ctaUrl: ad.url
-                                            ),
-                                            width: adWidth
-                                        )
-                                    }
+                                    IterableCarousel(
+                                        ads,
+                                        itemWidth: $adWidth,
+                                        indicatorColors: PageIndicatorColors(selected: Color("Primary"), indicator: Color ("Secondary"))
+                                        ){ ad in
+                                            CarouselItem(
+                                                item: CarouselItemModel(
+                                                    imageUrl: ad.image,
+                                                    ctaUrl: ad.url
+                                                ),
+                                                width: adWidth
+                                            )
+                                            
+                                        }
                                 }
                                 .frame(maxWidth: .infinity)
                             }
@@ -105,7 +111,7 @@ struct HomePage: View {
                                         .foregroundColor(Color("HighlightPrimary"))
                                         .font(.system(size: 14))
                                     }
-                                    SessionsVerticalView(sessions: sessions)
+                                    SessionsVerticalView(sessions: sessions.toSessionPresentationModel())
                                 }
                                 
                                 if
@@ -113,15 +119,20 @@ struct HomePage: View {
                                     !ads.isEmpty
                                 {
                                     VStack(alignment: .leading, spacing: 16) {
-                                        IterableCarousel(ads.reversed(), itemWidth: $adWidth) { ad in
-                                            CarouselItem(
-                                                item: CarouselItemModel(
-                                                    imageUrl: ad.image,
-                                                    ctaUrl: ad.url
-                                                ),
-                                                width: adWidth
-                                            )
-                                        }
+                                        IterableCarousel(
+                                            ads.reversed(),
+                                            itemWidth: $adWidth,
+                                            indicatorColors: PageIndicatorColors(selected: Color("Primary"), indicator: Color ("Secondary"))
+                                            ){ ad in
+                                                CarouselItem(
+                                                    item: CarouselItemModel(
+                                                        imageUrl: ad.image,
+                                                        ctaUrl: ad.url
+                                                    ),
+                                                    width: adWidth
+                                                )
+                                                
+                                            }
                                     }
                                     .frame(maxWidth: .infinity)
                                 }

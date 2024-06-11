@@ -1,8 +1,8 @@
 package com.tomorrow.convenire.shared.data.data_source.mapper
 
 import com.tomorrow.convenire.shared.data.data_source.model.ConfigurationDTO
-import com.tomorrow.convenire.shared.data.data_source.utils.EntityMapper
-import com.tomorrow.convenire.shared.data.data_source.utils.fromApiFormatToDate
+import com.tomorrow.kmmProjectStartup.data.utils.EntityMapper
+import com.tomorrow.kmmProjectStartup.data.utils.fromApiFormatToDate
 import com.tomorrow.convenire.shared.domain.model.ConfigurationData
 
 class ConfigurationDataMapper : EntityMapper<ConfigurationData, ConfigurationDTO> {

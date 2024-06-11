@@ -25,19 +25,28 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
-import com.tomorrow.convenire.feature_events.Event
-import com.tomorrow.convenire.feature_events.EventCard
-import com.tomorrow.convenire.feature_speakers.SpeakerDisplay
-import com.tomorrow.convenire.feature_video.VideoPlayer
+import com.tomorrow.components.others.PersonDisplay
+import com.tomorrow.convenire.packageImplementation.mappers.toEvent
+import com.tomorrow.convenire.packageImplementation.mappers.toPersonPresentationModel
+import com.tomorrow.convenire.common.buttons.BookmarkEventButton
+import com.tomorrow.convenire.feature_navigation.AppRoute
+import com.tomorrow.convenire.launch.LocalNavController
+import com.tomorrow.convenire.packageImplementation.models.Event
 import com.tomorrow.convenire.shared.domain.model.Speaker
+import com.tomorrow.eventlisting.EventCard
+import com.tomorrow.eventlisting.presentationModel.EventCardModel
+import com.tomorrow.videoplayer.VideoPlayer
+import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun SectionDisplay(
     modifier: Modifier = Modifier,
     section: Section,
     contentPadding: PaddingValues = PaddingValues(horizontal = 16.dp),
-    onShowAll: (() -> Unit)? = null
+    onShowAll: (() -> Unit)? = null,
+    navController: NavHostController = LocalNavController.current
 ) = when (section) {
     is Section.EventList -> {
         Column(modifier.padding(contentPadding)) {
@@ -71,7 +80,26 @@ fun SectionDisplay(
                 Spacer(Modifier.size(16.dp))
             }
             section.events.forEach {
-                EventCard(event = it)
+                EventCard(
+                    event = it.toEvent().copy(onClick = { id ->
+                        navController.navigate(
+                            AppRoute.EventDetail.generateExplicit(id)
+                        )
+                    }),
+                    cardFooter = {
+                        if (it is Event) {
+                            SpeakersTagList(speakers = it.speakers)
+                        }
+                    },
+                    rightIcon = { id ->
+                        if (it is Event && it.isMinutesDisplayed && it.minutesAttended != null)
+                            Text(
+                                text = "${it.minutesAttended}m",
+                                style = MaterialTheme.typography.bodyMedium.copy(color = MaterialTheme.colorScheme.onSurfaceVariant)
+                            )
+                        else
+                            BookmarkEventButton(id = id)
+                    })
                 Spacer(Modifier.size(16.dp))
             }
         }
@@ -139,7 +167,15 @@ fun SectionDisplay(
             LazyRow(
                 contentPadding = contentPadding,
                 horizontalArrangement = Arrangement.spacedBy(24.dp)
-            ) { items(section.speakers) { SpeakerDisplay(it) } }
+            ) {
+                items(section.speakers) {
+                    PersonDisplay(person = it.toPersonPresentationModel { id ->
+                        navController.navigate(
+                            AppRoute.Speaker.generateExplicit(id)
+                        )
+                    })
+                }
+            }
         }
     }
 
@@ -150,7 +186,9 @@ fun SectionDisplay(
                     .clip(RoundedCornerShape(8.dp))
                     .aspectRatio(16f / 9f)
                     .fillMaxSize(),
-                videoUrl = section.videoUrl
+                videoUrl = section.videoUrl,
+                viewModel = getViewModel(),
+                fullScreenViewModel = getViewModel()
             )
 
             Spacer(Modifier.size(16.dp))
@@ -182,7 +220,7 @@ sealed class Section {
 
     class EventList(
         override val title: String,
-        val events: List<Event>,
+        val events: List<EventCardModel>,
         val shouldDisplayTitle: Boolean = true
     ) : Section()
 

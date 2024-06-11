@@ -9,7 +9,7 @@
 import SwiftUI
 import shared
 import KMPNativeCoroutinesAsync
-
+import DetailPage
 
 class SpeakerDetailPageViewModel: DetailPageViewModel {
     let id: String

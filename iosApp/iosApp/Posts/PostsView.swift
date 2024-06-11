@@ -8,6 +8,9 @@
 
 import SwiftUI
 import shared
+import UiComponents
+import ImageCaching
+
 struct PostsView: View {
     let posts: [Post]
     
@@ -54,7 +57,7 @@ struct PostsView: View {
                     .background(Color("Default"))
                     .clipShape(RoundedRectangle(cornerRadius: 16))
                 }
-                .buttonStyle(FlatLinkStyle())
+                .buttonStyle(FlatLinkStyle()) 
             }
         }
     }

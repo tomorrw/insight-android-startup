@@ -1,11 +1,11 @@
 package com.tomorrow.convenire.shared.data.data_source.mapper
 
 import com.tomorrow.convenire.shared.data.data_source.model.PostDTO
-import com.tomorrow.convenire.shared.data.data_source.utils.EntityMapper
-import com.tomorrow.convenire.shared.data.data_source.utils.Loadable
+import com.tomorrow.kmmProjectStartup.data.utils.EntityMapper
+import com.tomorrow.kmmProjectStartup.data.utils.Loadable
 import com.tomorrow.convenire.shared.domain.model.Post
-import com.tomorrow.convenire.shared.domain.utils.ImageShape
-import com.tomorrow.convenire.shared.domain.utils.ThumbnailUrlHelper
+import com.tomorrow.kmmProjectStartup.domain.utils.ImageShape
+import com.tomorrow.kmmProjectStartup.domain.utils.ThumbnailUrlHelper
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime

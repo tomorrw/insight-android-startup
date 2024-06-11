@@ -1,8 +1,8 @@
 package com.tomorrow.convenire.shared.data.data_source.mapper
 
 import com.tomorrow.convenire.shared.data.data_source.model.HomeDataDTO
-import com.tomorrow.convenire.shared.data.data_source.utils.EntityMapper
-import com.tomorrow.convenire.shared.data.data_source.utils.Loadable
+import com.tomorrow.kmmProjectStartup.data.utils.EntityMapper
+import com.tomorrow.kmmProjectStartup.data.utils.Loadable
 import com.tomorrow.convenire.shared.domain.model.HomeData
 
 class HomeDataMapper : EntityMapper<HomeData, HomeDataDTO> {

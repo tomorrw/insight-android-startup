@@ -2,9 +2,9 @@ package com.tomorrow.convenire.shared.di
 
 import com.russhwolf.settings.NSUserDefaultsSettings
 import com.russhwolf.settings.ObservableSettings
-import com.tomorrow.convenire.shared.domain.model.AppConfig
-import com.tomorrow.convenire.shared.domain.model.AppPlatform
-import com.tomorrow.convenire.shared.domain.utils.AppStoreHelper
+import com.tomorrow.kmmProjectStartup.domain.model.AppConfig
+import com.tomorrow.kmmProjectStartup.domain.model.AppPlatform
+import com.tomorrow.kmmProjectStartup.domain.utils.AppStoreHelper
 import io.ktor.client.engine.darwin.*
 import kotlinx.coroutines.runBlocking
 import org.koin.core.qualifier.named
@@ -18,7 +18,10 @@ actual fun platformModule() = module {
 
     single(createdAtStart = false) {
         runBlocking {
-            val iosAppConfig = AppStoreHelper().getAppNameAndUpdateUrl(
+            val iosAppConfig = AppStoreHelper(
+                engine = get(),
+                json = get()
+            ).getAppNameAndUpdateUrl(
                 bundleId = NSBundle.mainBundle.infoDictionary?.get("CFBundleIdentifier" as NSString)
                     .toString()
             )

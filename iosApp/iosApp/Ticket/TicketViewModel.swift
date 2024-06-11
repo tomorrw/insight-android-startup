@@ -71,7 +71,7 @@ class TicketViewModel: ObservableObject {
             }
         }
     }
-    func listenToMessage(_ res: ResultIOS<shared.Notification, KotlinThrowable>) {
+    func listenToMessage(_ res: SharedResultIOS<shared.Notification, KotlinThrowable>) {
         
         res.fold(
             onSuccess: { [weak self] notification in

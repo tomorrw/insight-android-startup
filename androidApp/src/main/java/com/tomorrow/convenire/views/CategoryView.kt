@@ -4,17 +4,18 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.tomorrow.convenire.common.GeneralError
-import com.tomorrow.convenire.common.view_models.DefaultReadView
-import com.tomorrow.convenire.common.view_models.ReadViewModel
-import com.tomorrow.convenire.feature_listing.ListDisplayItem
-import com.tomorrow.convenire.feature_listing.ListDisplayPage
+import com.tomorrow.components.others.GeneralError
+import com.tomorrow.convenire.packageImplementation.ListDisplayReadViewModelImplementation
+import com.tomorrow.convenire.packageImplementation.mappers.toListDisplayItem
 import com.tomorrow.convenire.feature_navigation.AppRoute
 import com.tomorrow.convenire.launch.LocalNavController
-import com.tomorrow.convenire.mappers.toListDisplayItem
 import com.tomorrow.convenire.shared.domain.model.Company
 import com.tomorrow.convenire.shared.domain.use_cases.GetCategoriesUseCase
 import com.tomorrow.convenire.shared.domain.use_cases.GetCompaniesByCategoryUseCase
+import com.tomorrow.listdisplay.ListDisplayItem
+import com.tomorrow.listdisplay.ListDisplayPage
+import com.tomorrow.readviewmodel.DefaultReadView
+import com.tomorrow.readviewmodel.ReadViewModel
 import kotlinx.coroutines.flow.map
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
@@ -23,7 +24,7 @@ class CategoryViewModel(id: String) : ReadViewModel<Company.Category?>(
     load = { GetCategoriesUseCase().getCategories().map { it.firstOrNull { cat -> cat.id == id } } }
 )
 
-class CompaniesByCategoryViewModel(categoryId: String) : ReadViewModel<List<ListDisplayItem>>(
+class CompaniesByCategoryViewModel(categoryId: String) : ListDisplayReadViewModelImplementation<ListDisplayItem>(
     load = {
         GetCompaniesByCategoryUseCase().getCompanies(categoryId)
             .map { companies -> companies.map { it.toListDisplayItem() } }

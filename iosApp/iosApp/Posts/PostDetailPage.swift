@@ -6,8 +6,7 @@
 //  Copyright © 2023 tomorrowSARL. All rights reserved.
 //
 
-import Foundation
-
+import DetailPage
 import SwiftUI
 
 struct PostDetailPage: View {
@@ -21,7 +20,15 @@ struct PostDetailPage: View {
         DetailPage(
             vm: vm,
             customHeader: { Text(vm.date).foregroundColor(Color("Secondary")) },
-            customBody: { VerticalDisplayView(pages: $vm.pages, actions: $vm.action) }
+            customBody: {
+                if vm.pages.first != nil {
+                    VerticalSectionsView(
+                        sections: $vm.pages.first!.sections,
+                        SectionDisplayView: { SectionDisplayViewImplementation(section: $0) },
+                        customFooter: { ActionButtons(actions: vm.action) }
+                    )
+                }
+            }
         )
         .navigationBarTitleDisplayMode(.inline)
         .background(Color("Background"))

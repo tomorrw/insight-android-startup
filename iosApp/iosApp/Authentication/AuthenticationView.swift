@@ -9,6 +9,8 @@
 import SwiftUI
 import Resolver
 import shared
+import UiComponents
+import ios_project_startup
 
 fileprivate func getCountryFlag(_ isoCode: String) -> String {
     let base : UInt32 = 127397
@@ -35,7 +37,7 @@ struct AuthenticationView: View {
     
     @State private var otp = ""
     @State private var isDisplayingError = false
-    @State var phone = PhoneNumber(number: nil)
+    @State var phone = SharedPhoneNumber(number: nil)
     @State var email : String = ""
     @State private var isLogin: Bool = true
     @State var isLoginViaEmail: Bool = false
@@ -93,7 +95,7 @@ struct AuthenticationView: View {
                         }
                         .padding(.bottom, 8)
                         
-                        OtpTextField(maxLength: 4, otp: $otp)
+                        OtpTextField(maxLength: 4, otp: $otp, highlightedColor: Color("HighlightPrimary"))
                             .onChange(of: otp) { newOtp in
                                 if newOtp.count == 4 {
                                     authViewModel.verify(otp: newOtp, phoneNumber: isLoginViaEmail ? nil : phone.number, email: isLoginViaEmail ? email : nil)
@@ -177,7 +179,8 @@ struct AuthenticationView: View {
                         placeholderText: signUpFormData.fieldLabel(for: "firstName"),
                         showPlaceholder: signUpFormData.isFieldEmpty("firstName"),
                         hasError: signUpFormData.hasErrors,
-                        error: signUpFormData.fieldError(for: "firstName")
+                        error: signUpFormData.fieldError(for: "firstName"),
+                        color: CustomTextFieldColors()
                     )
                     .focused($focusedField, equals: .firstName)
                     .textContentType(.givenName)
@@ -230,6 +233,7 @@ struct AuthenticationView: View {
                     MultifunctionalButton(
                         action: { authViewModel.register(signUpFormData) },
                         label: "Register",
+                        colors: DefaultColors.buttonColor,
                         isLoading: authViewModel.isLoading
                     )
                     .alert("Registration Failed", isPresented: $isDisplayingError, actions: { }, message: {
@@ -322,6 +326,7 @@ struct AuthenticationView: View {
             MultifunctionalButton(
                 action: { authViewModel.login(signInFormData , isLogingViaEmail: isLoginViaEmail) },
                 label: "Login",
+                colors: DefaultColors.buttonColor,
                 isLoading: authViewModel.isLoading
             )
             .alert("Registration Failed", isPresented: $isDisplayingError, actions: { }, message: {

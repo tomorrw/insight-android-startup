@@ -6,18 +6,17 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.tomorrow.convenire.common.GeneralError
+import com.tomorrow.components.headers.EntityDetailHeaderLayout
+import com.tomorrow.components.others.GeneralError
+import com.tomorrow.components.others.SocialLink
+import com.tomorrow.convenire.packageImplementation.mappers.toSocialPlatform
 import com.tomorrow.convenire.common.PageTabDisplay
-import com.tomorrow.convenire.common.SocialLink
-import com.tomorrow.convenire.common.SocialPlatform
-import com.tomorrow.convenire.common.ensureSize
-import com.tomorrow.convenire.common.headers.EntityDetailHeaderLayout
-import com.tomorrow.convenire.common.view_models.DefaultReadView
-import com.tomorrow.convenire.common.view_models.ReadViewModel
+import com.tomorrow.convenire.common.mappers.toPageUi
 import com.tomorrow.convenire.launch.LocalNavController
-import com.tomorrow.convenire.mappers.toPageUi
 import com.tomorrow.convenire.shared.domain.model.Company
 import com.tomorrow.convenire.shared.domain.use_cases.GetCompanyByIdUseCase
+import com.tomorrow.readviewmodel.DefaultReadView
+import com.tomorrow.readviewmodel.ReadViewModel
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -38,7 +37,7 @@ fun CompanyView(id: String) {
             subtitle = it.boothDescription,
             image = it.image ?: "",
             socialLinks = it.socialLinks.map {
-                SocialLink(SocialPlatform.fromDomain(it), it.url)
+                SocialLink( it.platform.toSocialPlatform(), it.url)
             }.take(5),
             onBack = { navController.popBackStack() },
             shareLink = ""

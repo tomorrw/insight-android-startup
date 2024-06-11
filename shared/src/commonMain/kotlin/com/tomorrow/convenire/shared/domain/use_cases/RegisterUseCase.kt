@@ -1,17 +1,17 @@
 package com.tomorrow.convenire.shared.domain.use_cases
 
-import com.tomorrow.convenire.shared.domain.model.Email
-import com.tomorrow.convenire.shared.domain.model.ResultIOS
-import com.tomorrow.convenire.shared.domain.model.toResultIOS
+import com.tomorrow.kmmProjectStartup.domain.model.Email
+import com.tomorrow.kmmProjectStartup.domain.model.ResultIOS
+import com.tomorrow.kmmProjectStartup.domain.model.toResultIOS
 import com.tomorrow.convenire.shared.domain.repositories.AuthenticationRepository
-import com.tomorrow.convenire.shared.domain.utils.UUID
-import com.tomorrow.convenire.shared.domain.utils.validator.models.Field
-import com.tomorrow.convenire.shared.domain.utils.validator.models.getErrors
-import com.tomorrow.convenire.shared.domain.utils.validator.models.getTransformed
-import com.tomorrow.convenire.shared.domain.utils.validator.models.getTransformedOrNull
-import com.tomorrow.convenire.shared.domain.utils.validator.models.rules.EmailRule
-import com.tomorrow.convenire.shared.domain.utils.validator.models.rules.PhoneNumberRule
-import com.tomorrow.convenire.shared.domain.utils.validator.models.rules.RequiredRule
+import com.tomorrow.kmmProjectStartup.domain.utils.UUID
+import com.tomorrow.kmmProjectStartup.domain.utils.validator.models.Field
+import com.tomorrow.kmmProjectStartup.domain.utils.validator.models.getErrors
+import com.tomorrow.kmmProjectStartup.domain.utils.validator.models.getTransformed
+import com.tomorrow.kmmProjectStartup.domain.utils.validator.models.getTransformedOrNull
+import com.tomorrow.kmmProjectStartup.domain.utils.validator.models.rules.EmailRule
+import com.tomorrow.kmmProjectStartup.domain.utils.validator.models.rules.PhoneNumberRule
+import com.tomorrow.kmmProjectStartup.domain.utils.validator.models.rules.RequiredRule
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 

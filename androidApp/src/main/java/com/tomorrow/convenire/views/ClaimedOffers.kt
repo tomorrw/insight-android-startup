@@ -5,19 +5,20 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.tomorrow.convenire.common.GeneralError
-import com.tomorrow.convenire.common.cards.InlineHighlightedCard
-import com.tomorrow.convenire.common.view_models.ReadViewModel
-import com.tomorrow.convenire.feature_listing.ListDisplayPage
+import com.tomorrow.components.cards.InlineHighlightedCard
+import com.tomorrow.components.others.GeneralError
+import com.tomorrow.convenire.packageImplementation.ListDisplayReadViewModelImplementation
+import com.tomorrow.convenire.packageImplementation.mappers.toOfferDisplayItem
+import com.tomorrow.convenire.packageImplementation.models.OfferDisplayItem
 import com.tomorrow.convenire.feature_navigation.AppRoute
-import com.tomorrow.convenire.feature_offers.OfferDisplayItem
 import com.tomorrow.convenire.launch.LocalNavController
-import com.tomorrow.convenire.mappers.toOfferDisplayItem
 import com.tomorrow.convenire.shared.domain.use_cases.GetOffersUseCase
+import com.tomorrow.listdisplay.ListDisplayPage
+import com.tomorrow.readviewmodel.ReadViewModel
 import kotlinx.coroutines.flow.map
 import org.koin.androidx.compose.getViewModel
 
-class ClaimedOffersViewModel : ReadViewModel<List<OfferDisplayItem>>(
+class ClaimedOffersViewModel : ListDisplayReadViewModelImplementation<OfferDisplayItem>(
     load = {
         GetOffersUseCase().getClaimedOffers().map {
             it.mapNotNull { item -> item.toOfferDisplayItem() }

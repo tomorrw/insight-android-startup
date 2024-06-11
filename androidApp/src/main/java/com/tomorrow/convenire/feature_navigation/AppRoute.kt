@@ -5,7 +5,7 @@ import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
-import com.tomorrow.convenire.common.Loader
+import com.tomorrow.components.others.Loader
 import com.tomorrow.convenire.shared.di.Constants
 import com.tomorrow.convenire.views.AskLectureQuestionView
 import com.tomorrow.convenire.views.CategoryView
@@ -32,6 +32,7 @@ import com.tomorrow.convenire.views.RegisterView
 import com.tomorrow.convenire.views.SettingsView
 import com.tomorrow.convenire.views.SpeakerDetailView
 import com.tomorrow.convenire.views.SpeakersView
+import com.tomorrow.navigation.Route
 import kotlinx.datetime.toJavaLocalDate
 import kotlinx.datetime.toLocalDate
 

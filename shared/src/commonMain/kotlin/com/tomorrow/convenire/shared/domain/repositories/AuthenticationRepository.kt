@@ -1,12 +1,12 @@
 package com.tomorrow.convenire.shared.domain.repositories
 
 import com.tomorrow.convenire.shared.domain.model.ColorTheme
-import com.tomorrow.convenire.shared.domain.model.Email
-import com.tomorrow.convenire.shared.domain.model.OTP
+import com.tomorrow.kmmProjectStartup.domain.model.Email
+import com.tomorrow.kmmProjectStartup.domain.model.OTP
 import com.tomorrow.convenire.shared.domain.model.ConfigurationData
 import com.tomorrow.convenire.shared.domain.model.User
-import com.tomorrow.convenire.shared.domain.utils.PhoneNumber
-import com.tomorrow.convenire.shared.domain.utils.UUID
+import com.tomorrow.kmmProjectStartup.domain.utils.PhoneNumber
+import com.tomorrow.kmmProjectStartup.domain.utils.UUID
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 

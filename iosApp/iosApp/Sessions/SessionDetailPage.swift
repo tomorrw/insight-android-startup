@@ -10,6 +10,8 @@ import SwiftUI
 import shared
 import Firebase
 import KMPNativeCoroutinesAsync
+import DetailPage
+import UiComponents
 
 struct SessionDetailPage: View {
     @StateObject private var vm: SessionDetailPageViewModel
@@ -33,7 +35,7 @@ struct SessionDetailPage: View {
                     if let tag = vm.tag {
                         TextTag(
                             text: tag.text,
-                            colors: .init(textColor: tag.color, background: tag.background)
+                            colors: .init(foreground: tag.color, background: tag.background)
                         )
                         
                         Spacer()
@@ -48,7 +50,17 @@ struct SessionDetailPage: View {
                 
                 sessionHeader
             },
-            customBody: { VerticalDisplayView(pages: $vm.pages, actions: $vm.action) }
+            customBody: {
+                if vm.pages.first != nil {
+                    VerticalSectionsView(
+                        sections: $vm.pages.first!.sections,
+                        SectionDisplayView: {
+                            SectionDisplayViewImplementation(section: $0, sessionCardColor: DefaultColors.sessionCardColorVariation)
+                        },
+                        customFooter: { ActionButtons(actions: vm.action) }
+                    )
+                }
+            }
         )
         .refreshable{ await self.vm.getData() }
         .navigationBarTitleDisplayMode(.inline)
@@ -130,12 +142,7 @@ struct SessionDetailPage: View {
                     AskAQuestionPage(
                         subjectId: vm.subjectId,
                         title: vm.title,
-                        speakers: (vm.pages.mapToSectionDisplayInfo().first(where: { section in
-                            switch section {
-                            case .speakers(_): return true
-                            default: return false
-                            }
-                        })?.getInfo() as? SpeakersContent)?.speakers
+                        speakersFullName: vm.speakers.compactMap{ $0.name }
                     )
                     .navigationTitle("Post Your Question")
                 }, label: {
@@ -149,7 +156,8 @@ struct SessionDetailPage: View {
                         .padding(.top, 5)
                     
                 })
-            }}
+            }
+        }
         .font(.system(size: 14))
     }
     
@@ -178,7 +186,7 @@ struct SessionDetailPage: View {
     }
     
     func doSessionOverlap() -> Bool {
-        let overlappingSession: Session? = OverlappingSessionUseCase().getOverlapping(id: sessionId) as Session?
+        let overlappingSession: shared.Session? = OverlappingSessionUseCase().getOverlapping(id: sessionId) as shared.Session?
         
         overlappingLectureName = overlappingSession?.title
         

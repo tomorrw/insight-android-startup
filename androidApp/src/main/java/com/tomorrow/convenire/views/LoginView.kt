@@ -36,12 +36,13 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
-import com.tomorrow.convenire.common.Loader
-import com.tomorrow.convenire.common.fields.AppTextField
-import com.tomorrow.convenire.common.fields.PhoneVisualTransformation
+import com.tomorrow.components.fields.AppTextField
+import com.tomorrow.components.fields.PhoneVisualTransformation
+import com.tomorrow.components.others.Loader
 import com.tomorrow.convenire.feature_navigation.AppRoute
 import com.tomorrow.convenire.launch.LocalNavController
-import com.tomorrow.convenire.permissions.RequestNotificationPermission
+import com.tomorrow.kmmProjectStartup.domain.utils.PhoneNumber
+import com.tomorrow.requestpermission.RequestNotificationPermission
 import org.koin.androidx.compose.getViewModel
 
 
@@ -111,8 +112,7 @@ fun LoginView() = Column(
                                 AppRoute.OTP.generate()
                             )
                         }))
-                    }),
-                    visualTransformation = PhoneVisualTransformation
+                    })
                 )
             } else {
                 AppTextField(
@@ -141,7 +141,10 @@ fun LoginView() = Column(
                             )
                         }))
                     }),
-                    visualTransformation = PhoneVisualTransformation
+                    visualTransformation = PhoneVisualTransformation(formatPhoneNumber = {
+                        val phone = PhoneNumber(it)
+                        phone.getFormattedNumberInOriginalFormat()
+                    })
                 )
             }
 

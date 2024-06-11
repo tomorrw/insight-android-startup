@@ -10,17 +10,20 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.tomorrow.carousel.AdCarousel
+import com.tomorrow.components.cards.HighlightedCard
+import com.tomorrow.components.headers.PageHeaderLayout
+import com.tomorrow.components.others.GeneralError
+import com.tomorrow.components.others.PullToRefreshLayout
+import com.tomorrow.convenire.packageImplementation.mappers.AdPresentationModelMapper
+import com.tomorrow.convenire.packageImplementation.mappers.toEvent
 import com.tomorrow.convenire.common.*
-import com.tomorrow.convenire.common.cards.HighlightedCard
-import com.tomorrow.convenire.common.headers.PageHeaderLayout
-import com.tomorrow.convenire.common.view_models.DefaultReadView
-import com.tomorrow.convenire.common.view_models.ReadViewModel
-import com.tomorrow.convenire.feature_ads.AdCarousel
 import com.tomorrow.convenire.feature_navigation.AppRoute
 import com.tomorrow.convenire.launch.LocalNavController
-import com.tomorrow.convenire.mappers.toEvent
 import com.tomorrow.convenire.shared.domain.model.HomeData
 import com.tomorrow.convenire.shared.domain.use_cases.GetHomeDataUseCase
+import com.tomorrow.readviewmodel.DefaultReadView
+import com.tomorrow.readviewmodel.ReadViewModel
 import org.koin.androidx.compose.getViewModel
 
 class HomeViewModel : ReadViewModel<HomeData>(
@@ -103,7 +106,12 @@ fun HomeView() = PageHeaderLayout(
                     .getDataIfLoaded()
                     ?.let {
                         if (it.isNotEmpty())
-                            AdCarousel(items = it)
+                            AdCarousel(
+                                items = it.map { ad -> AdPresentationModelMapper().mapFromEntity(ad) },
+                                onClick = { url, context ->
+                                    handleLink(url, navController, context)
+                                },
+                            )
                     }
 
                 it.upcomingSessions
@@ -113,7 +121,13 @@ fun HomeView() = PageHeaderLayout(
                             SectionDisplay(
                                 section = Section.EventList(
                                     "Upcoming Lectures",
-                                    sessions.map { it.toEvent() }
+                                    sessions.map {
+                                        it.toEvent(onClick = { id ->
+                                            navController.navigate(
+                                                AppRoute.EventDetail.generateExplicit(id)
+                                            )
+                                        })
+                                    }
                                 ),
                                 onShowAll = { navController.navigate(AppRoute.DailyLectures.generate()) }
                             )
@@ -121,7 +135,16 @@ fun HomeView() = PageHeaderLayout(
                             it.ads
                                 .getDataIfLoaded()
                                 ?.let {
-                                    AdCarousel(items = it.reversed())
+                                    AdCarousel(
+                                        items = it.map { ad ->
+                                            AdPresentationModelMapper().mapFromEntity(
+                                                ad
+                                            )
+                                        },
+                                        onClick = { url, context ->
+                                            handleLink(url, navController, context)
+                                        },
+                                    )
                                 }
                         }
                     }

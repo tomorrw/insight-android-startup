@@ -9,6 +9,7 @@
 import Foundation
 import shared
 import KMPNativeCoroutinesAsync
+import DetailPage
 
 class PostDetailPageViewModel: DetailPageViewModel {
     let id: String

@@ -9,8 +9,9 @@
 import Foundation
 import shared
 import KMPNativeCoroutinesAsync
+import DetailPage
 import SwiftUI
-
+import UiComponents
 class SessionDetailPageViewModel: DetailPageViewModel {
     let id: String
     var subjectId: String = ""
@@ -22,6 +23,7 @@ class SessionDetailPageViewModel: DetailPageViewModel {
     @Published var action: [Action] = []
     @Published var tag: Tag? = nil
     @Published var minutesAttended: Int? = nil
+    @Published var speakers: [EntityModel] = []
     
     init(id: String) {
         self.id = id
@@ -45,11 +47,11 @@ class SessionDetailPageViewModel: DetailPageViewModel {
                 self.pages = [data.detailPage.getDataIfLoaded()].compactMap{ $0 }.mapToPagePresentationModel()
                 self.timeInterval = data.getTimeInterval()
                 self.canAskQuestions = data.canAskQuestions
-                if let tag = data.getTag() { self.tag = Tag(tag: tag) }
+                if let tag = data.getTag() { self.tag = tag.toPresentationModel() }
                 if let minutes = data.minutesAttended { self.minutesAttended = Int(truncating: minutes) }
                 self.action = data.actions
                 self.attendees = data.getAttendeesCount()
-                
+                self.speakers = data.speakers.toEntitiesPresentationModel()
                 
                 let dateFormatter = DateFormatter()
                 dateFormatter.dateFormat = "yyyy-MM-dd"

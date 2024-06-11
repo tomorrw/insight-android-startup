@@ -1,8 +1,8 @@
 package com.tomorrow.convenire.shared.domain.use_cases
 
-import com.tomorrow.convenire.shared.domain.model.AppConfig
-import com.tomorrow.convenire.shared.domain.model.Version
+import com.tomorrow.kmmProjectStartup.domain.model.AppConfig
 import com.tomorrow.convenire.shared.domain.repositories.AppSettingsRepository
+import com.tomorrow.kmmProjectStartup.domain.model.Version
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime

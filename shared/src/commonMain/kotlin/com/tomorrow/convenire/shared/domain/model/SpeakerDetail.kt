@@ -1,7 +1,9 @@
 package com.tomorrow.convenire.shared.domain.model
 
-import com.tomorrow.convenire.shared.data.data_source.utils.Loadable
-import com.tomorrow.convenire.shared.data.data_source.utils.NotLoaded
+import com.tomorrow.kmmProjectStartup.data.utils.Loadable
+import com.tomorrow.kmmProjectStartup.data.utils.NotLoaded
+import com.tomorrow.kmmProjectStartup.domain.model.FullName
+import com.tomorrow.kmmProjectStartup.domain.model.SocialLink
 
 class SpeakerDetail(
     id: String,

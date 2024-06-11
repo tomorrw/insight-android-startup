@@ -5,13 +5,15 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import com.tomorrow.components.cards.CardStyle
+import com.tomorrow.components.cards.DefaultCardDisplay
+import com.tomorrow.components.headers.PageHeaderLayout
 import com.tomorrow.convenire.R
-import com.tomorrow.convenire.common.cards.DefaultCardDisplay
-import com.tomorrow.convenire.common.headers.PageHeaderLayout
 import com.tomorrow.convenire.feature_navigation.AppRoute
 import com.tomorrow.convenire.launch.LocalNavController
 
@@ -34,7 +36,12 @@ fun LecturesView() {
                 onClick = { navController.navigate(AppRoute.DailyLectures.generate()) },
                 title = "Lectures Schedule",
                 subtitle = "Explore the complete schedule of lectures by day",
-                isHighlighted = true
+                style = CardStyle(
+                    backgroundColor = MaterialTheme.colorScheme.primary,
+                    titleStyle = MaterialTheme.typography.titleLarge.copy(color = MaterialTheme.colorScheme.onPrimary),
+                    descriptionStyle = MaterialTheme.typography.titleMedium.copy(color = MaterialTheme.colorScheme.secondary),
+                    imageBackgroundColor = MaterialTheme.colorScheme.surface,
+                )
             )
 
             DefaultCardDisplay(

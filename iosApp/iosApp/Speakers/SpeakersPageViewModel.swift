@@ -8,10 +8,11 @@
 
 import shared
 import KMPNativeCoroutinesAsync
+import SearchableList
 
-class SpeakersViewModel: SearchViewModel {
+class SpeakersViewModel: SearchViewModelImplementation {
     init() {
-        super.init(list: [], categorize: true, searchText: "")
+        super.init(categorize: true)
         Task { await getSpeakers() }
     }
     

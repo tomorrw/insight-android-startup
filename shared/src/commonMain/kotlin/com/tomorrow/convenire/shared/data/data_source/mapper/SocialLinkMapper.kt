@@ -1,8 +1,8 @@
 package com.tomorrow.convenire.shared.data.data_source.mapper
 
 import com.tomorrow.convenire.shared.data.data_source.model.SocialLinkDTO
-import com.tomorrow.convenire.shared.data.data_source.utils.EntityMapper
-import com.tomorrow.convenire.shared.domain.model.SocialLink
+import com.tomorrow.kmmProjectStartup.data.utils.EntityMapper
+import com.tomorrow.kmmProjectStartup.domain.model.SocialLink
 
 class SocialLinkMapper : EntityMapper<SocialLink, SocialLinkDTO> {
     override fun mapFromEntity(entity: SocialLinkDTO) = SocialLink(

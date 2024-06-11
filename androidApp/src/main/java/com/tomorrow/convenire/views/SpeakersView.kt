@@ -20,18 +20,19 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
-import com.tomorrow.convenire.common.GeneralError
-import com.tomorrow.convenire.common.headers.PageHeaderLayout
-import com.tomorrow.convenire.common.view_models.DefaultReadView
-import com.tomorrow.convenire.common.view_models.ReadViewModel
-import com.tomorrow.convenire.feature_listing.ListDisplay
-import com.tomorrow.convenire.feature_listing.ListHeader
-import com.tomorrow.convenire.feature_listing.ListLoader
+import com.tomorrow.components.headers.PageHeaderLayout
+import com.tomorrow.components.others.GeneralError
+import com.tomorrow.convenire.packageImplementation.mappers.toListDisplayItem
 import com.tomorrow.convenire.feature_navigation.AppRoute
 import com.tomorrow.convenire.launch.LocalNavController
-import com.tomorrow.convenire.mappers.toListDisplayItem
 import com.tomorrow.convenire.shared.domain.model.SpeakerDetail
 import com.tomorrow.convenire.shared.domain.use_cases.GetSpeakersUseCase
+import com.tomorrow.kmmProjectStartup.domain.use_cases.CompareStringsUseCase
+import com.tomorrow.listdisplay.ListDisplay
+import com.tomorrow.listdisplay.ListHeader
+import com.tomorrow.listdisplay.ListLoader
+import com.tomorrow.readviewmodel.DefaultReadView
+import com.tomorrow.readviewmodel.ReadViewModel
 import org.koin.androidx.compose.getViewModel
 
 class SpeakersViewModel :
@@ -122,6 +123,9 @@ fun SpeakersView() {
                     onRefresh = { viewModel.on(ReadViewModel.Event.OnRefresh) }),
                 isRefreshing = viewModel.state.isRefreshing,
                 listState = rememberLazyListState(),
+                searchAlgorithm = { query, items ->
+                    CompareStringsUseCase.findSimilarity(query, items)
+                }
             )
         }
     }

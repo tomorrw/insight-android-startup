@@ -8,14 +8,26 @@
 
 import SwiftUI
 import Resolver
+import UiComponents
+import SearchableList
+
 struct SpeakersPage: View {
     @InjectedObject private var vm: SpeakersViewModel
     
     var body: some View {
-        SearchableList(vm: vm, searchPlaceholder: "Countries are sorted alphabetically") { item in
-            SpeakerDetailPage(id: item.id)
-        }
-        .task { await vm.getSpeakers() } 
+        SearchableList(
+            vm: vm,
+            searchPlaceholder: "Countries are sorted alphabetically",
+            rowView: { item in
+                NavigateTo {
+                    SpeakerDetailPage(id: item.id)
+                } label: {
+                    DefaultListItem(item: item)
+                }
+                
+            }
+        )
+        .task { await vm.getSpeakers() }
         .navigationTitle("Speakers")
         .navigationBarTitleDisplayMode(.inline)
         .background(Color("Background"))

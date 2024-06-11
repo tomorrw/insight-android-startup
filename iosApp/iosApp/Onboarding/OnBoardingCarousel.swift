@@ -9,8 +9,7 @@
 import SwiftUI
 import Resolver
 import shared
-
-
+import UiComponents
 
 struct OnBoardingInfo: Identifiable {
     var id: UUID = UUID()
@@ -67,7 +66,8 @@ struct OnBoardingCarousel: View {
                 
                 PageIndicator(
                     pagesCount: infoArray.count,
-                    backgroundOffset: backgroundOffset
+                    backgroundOffset: backgroundOffset,
+                    colors: PageIndicatorColors(selected: Color("Primary"), indicator: Color ("Secondary"))
                 )
             }
             .frame(height: 180)
@@ -77,7 +77,11 @@ struct OnBoardingCarousel: View {
             
             VStack {
                 if Int(backgroundOffset) == infoArray.count - 1 {
-                    MultifunctionalButton(action: goToSignUp, label: "Get Started")
+                    MultifunctionalButton(
+                        action: goToSignUp,
+                        label: "Get Started",
+                        colors: DefaultColors.buttonColor
+                    )
                 } else {
                     MultifunctionalButton(
                         action: {
@@ -85,7 +89,9 @@ struct OnBoardingCarousel: View {
                                 backgroundOffset += 1
                             }
                         }
-                        , label: "Next"
+                        , 
+                        label: "Next",
+                        colors: DefaultColors.buttonColor
                     )
                 }
             }

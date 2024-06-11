@@ -1,13 +1,8 @@
 package com.tomorrow.convenire.shared.domain.model
 
-import com.tomorrow.convenire.shared.data.data_source.utils.Loadable
-import com.tomorrow.convenire.shared.data.data_source.utils.NotLoaded
-import kotlinx.datetime.Clock
-import kotlinx.datetime.LocalDateTime
-import kotlinx.datetime.LocalTime
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toInstant
-import kotlinx.datetime.toLocalDateTime
+import com.tomorrow.kmmProjectStartup.data.utils.Loadable
+import com.tomorrow.kmmProjectStartup.data.utils.NotLoaded
+import kotlinx.datetime.*
 
 open class Session(
     val id: String,
@@ -81,12 +76,12 @@ open class Session(
         return if (this.isSessionHappeningNow() && this.minutesAttended !== null) Tag(
             "In Session",
             "#46BFD3",
-            "$959EAD",
+            "#959EAD",
         )
         else if (this.isSessionHappeningNow()) Tag(
             "Now",
             "#46BFD3",
-            "$959EAD",
+            "#959EAD",
         )
         else if (this.minutesAttended != null && !this.hasAttended) Tag(
             "Incomplete",

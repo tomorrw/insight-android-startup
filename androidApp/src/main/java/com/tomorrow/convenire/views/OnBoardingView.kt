@@ -17,9 +17,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.tomorrow.carousel.OnBoardingCarousel
+import com.tomorrow.carousel.OnBoardingItem
 import com.tomorrow.convenire.feature_navigation.AppRoute
-import com.tomorrow.convenire.feature_on_boarding.OnBoardingCarousel
-import com.tomorrow.convenire.feature_on_boarding.OnBoardingItem
 import com.tomorrow.convenire.launch.LocalNavController
 import kotlinx.coroutines.launch
 

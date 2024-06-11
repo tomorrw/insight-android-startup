@@ -8,16 +8,26 @@
 
 import SwiftUI
 import Resolver
+import UiComponents
+import SearchableList
 
 struct CompaniesPage: View {
     @InjectedObject private var vm: CompaniesPageViewModel
     
     var body: some View {
-        SearchableList(vm: vm) { item in
-            CompanyPage(id: item.id)
-        }
+        SearchableList(
+            vm: vm,
+            rowView: { item in
+                NavigateTo {
+                    CompanyPage(id: item.id)
+                } label: {
+                    DefaultListItem(item: item)
+                }
+                
+            })
         .task { await vm.getCompanies() }
         .navigationTitle("Companies")
         .navigationBarTitleDisplayMode(.inline)
+        .background(Color("Background"))
     }
 }

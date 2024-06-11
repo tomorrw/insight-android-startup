@@ -7,18 +7,28 @@
 //
 
 import SwiftUI
+import SearchableList
+import UiComponents
 
 struct CategoriesPage: View {
     @StateObject private var vm: SearchViewModel = CategoriesViewModel()
     
     var body: some View {
-        SearchableList(vm: vm) { item in
-            CompaniesByCategoryPage(id: item.id)
-                .navigationTitle(item.title)
-                .navigationBarTitleDisplayMode(.inline)
-        }
+        SearchableList(
+            vm: vm,
+            rowView: { item in
+                NavigateTo {
+                    CompaniesByCategoryPage(id: item.id)
+                        .navigationTitle(item.title)
+                        .navigationBarTitleDisplayMode(.inline)
+                } label: {
+                    DefaultListItem(item: item)
+                }
+                
+            }
+        )
         .navigationTitle("Categories")
         .navigationBarTitleDisplayMode(.inline)
+        .background(Color("Background"))
     }
 }
-

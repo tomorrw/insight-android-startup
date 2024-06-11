@@ -1,9 +1,9 @@
 package com.tomorrow.convenire.shared.data.data_source.mapper
 
 import com.tomorrow.convenire.shared.data.data_source.model.ProgressReportDTO
-import com.tomorrow.convenire.shared.data.data_source.utils.EntityMapper
-import com.tomorrow.convenire.shared.domain.model.Duration
 import com.tomorrow.convenire.shared.domain.model.ProgressReport
+import com.tomorrow.kmmProjectStartup.data.utils.EntityMapper
+import com.tomorrow.kmmProjectStartup.domain.model.Duration
 
 class ProgressReportMapper : EntityMapper<ProgressReport, ProgressReportDTO> {
     override fun mapFromEntity(entity: ProgressReportDTO) = ProgressReport(

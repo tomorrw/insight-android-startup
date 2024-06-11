@@ -37,9 +37,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.tomorrow.convenire.common.Loader
-import com.tomorrow.convenire.common.fields.AppTextField
-import com.tomorrow.convenire.common.headers.PageHeaderLayout
+import com.tomorrow.components.fields.AppTextField
+import com.tomorrow.components.headers.PageHeaderLayout
+import com.tomorrow.components.others.Loader
 import com.tomorrow.convenire.launch.LocalNavController
 import com.tomorrow.convenire.shared.domain.model.Speaker
 import com.tomorrow.convenire.shared.domain.use_cases.AskQuestionUseCase

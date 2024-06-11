@@ -10,6 +10,7 @@ import SwiftUI
 import shared
 import KMPNativeCoroutinesAsync
 import Resolver
+import UiComponents
 
 struct ExhibitionsPage: View {
     @InjectedObject var vm: ConfigViewModel
@@ -32,7 +33,10 @@ struct ExhibitionsPage: View {
                                     title: "Exhibitions Map",
                                     image: "map",
                                     description: "Get to know the Floor map of our event",
-                                    isHighlighted: true
+                                    cardColors: CardColors(
+                                        foreground: Color("Background"),
+                                        secondaryText: Color("Secondary")
+                                    )
                                 )
                             }
                         })
@@ -43,27 +47,32 @@ struct ExhibitionsPage: View {
                                 title: "Companies",
                                 image: "office-building",
                                 description: "Get to know the companies at the heart of our event",
-                                isHighlighted: !vm.showExhibitionMap
+                                cardColors: vm.showExhibitionMap == true ? DefaultColors.defaultCardBodyColor : CardColors(
+                                    foreground: Color("Background"),
+                                    secondaryText: Color("Secondary")
+                                )
                             )
                         }
                     })
                     
                     NavigateTo(destination: {NavigationLazyView(CategoriesPage())}, label: {
-                        DefaultCard {
+                        DefaultCard(backgroundColor: Color("Default")) {
                             DefaultCardBody(
                                 title: "Product Categories",
                                 image: "application",
-                                description: "Explore the diversity of products at our conference"
+                                description: "Explore the diversity of products at our conference",
+                                cardColors: DefaultColors.defaultCardBodyColor
                             )
                         }
                     })
                     if vm.showOffers {
                         NavigateTo(destination: {NavigationLazyView(OffersPage())}, label: {
-                            DefaultCard {
+                            DefaultCard(backgroundColor: Color("Default")) {
                                 DefaultCardBody(
                                     title: "Offers & Deals",
                                     image: "offers",
-                                    description: "Find the best exclusive deals"
+                                    description: "Find the best exclusive deals",
+                                    cardColors: DefaultColors.defaultCardBodyColor
                                 )
                             }
                         })

@@ -2,13 +2,10 @@ package com.tomorrow.convenire.launch
 
 import android.app.Application
 import android.content.Context
-import android.content.Intent
-import androidx.core.net.toUri
 import com.tomorrow.convenire.BuildConfig
-import com.tomorrow.convenire.feature_video.VideoPlayerViewModel
 import com.tomorrow.convenire.shared.di.initKoin
-import com.tomorrow.convenire.shared.domain.model.AppConfig
-import com.tomorrow.convenire.shared.domain.model.AppPlatform
+import com.tomorrow.kmmProjectStartup.domain.model.AppConfig
+import com.tomorrow.kmmProjectStartup.domain.model.AppPlatform
 import com.tomorrow.convenire.views.AskLectureQuestionViewModel
 import com.tomorrow.convenire.views.CategoryViewModel
 import com.tomorrow.convenire.views.ClaimedOffersViewModel
@@ -30,6 +27,8 @@ import com.tomorrow.convenire.views.ProductCategoriesViewModel
 import com.tomorrow.convenire.views.RegisterViewModel
 import com.tomorrow.convenire.views.SpeakerDetailViewModel
 import com.tomorrow.convenire.views.SpeakersViewModel
+import com.tomorrow.videoplayer.FullScreenViewModel
+import com.tomorrow.videoplayer.VideoPlayerViewModel
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger

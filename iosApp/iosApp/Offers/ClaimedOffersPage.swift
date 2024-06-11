@@ -7,29 +7,17 @@
 //
 
 import SwiftUI
+import UiComponents
+import SearchableList
 
 struct ClaimedOffersPage: View {
     @StateObject var vm = ClaimedOffersPageViewModel()
-    @State private var hasNoPostId = false
+    @State private var isShowingOfferAlert = false
 
     var body: some View {
         SearchableList(
             vm: vm,
             showSeperators: false,
-            itemDetailPage: { item in
-                VStack{
-                    if let offerPost = item as? OfferSearchItem,
-                       let postId = offerPost.postId
-                    {
-                        PostDetailPage(id: postId)
-                    }
-                    else {
-                        EmptyView()
-                            .onAppear{
-                                hasNoPostId = true
-                            }
-                    }
-                }},
             emptyListView: {
                 VStack(spacing: 14) {
                     Image(systemName: "exclamationmark.circle")
@@ -48,14 +36,36 @@ struct ClaimedOffersPage: View {
                 }
                 .padding()
             },
-            listView: { item in
-                HighlightedCard(image: item.image, title: item.title, description: item.description)
-            }
+            rowView: { item in
+                NavigateTo {
+                    VStack{
+                        if let offerPost = item as? OfferSearchItem,
+                           let postId = offerPost.postId
+                        {
+                            PostDetailPage(id: postId)
+                        }
+                        else {
+                            EmptyView()
+                                .onAppear{
+                                    isShowingOfferAlert = true
+                                }
+                        }
+                    }
+                } label: {
+                    HighlightedCard(
+                        image: item.image,
+                        title: item.title,
+                        description: item.description,
+                        cardColor: DefaultColors.defaultCardColor
+                    )
+                }
+                
+            }            
         )
         .task { await vm.getOffers() }
         .navigationTitle("Offers & Deals")
         .navigationBarTitleDisplayMode(.inline)
-        .alert("Offer Not Found!", isPresented: $hasNoPostId, actions: { }, message: {
+        .alert("Offer Not Found!", isPresented: $isShowingOfferAlert, actions: { }, message: {
             Text("This offer is currently unavailable!")
         })
     }

@@ -45,17 +45,18 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.ktx.messaging
-import com.tomorrow.convenire.common.Loader
-import com.tomorrow.convenire.common.fields.AppTextField
-import com.tomorrow.convenire.common.fields.PhoneVisualTransformation
+import com.tomorrow.components.fields.AppTextField
+import com.tomorrow.components.fields.PhoneVisualTransformation
+import com.tomorrow.components.others.Loader
 import com.tomorrow.convenire.feature_navigation.AppRoute
 import com.tomorrow.convenire.launch.LocalNavController
-import com.tomorrow.convenire.permissions.RequestNotificationPermission
-import com.tomorrow.convenire.shared.domain.model.toUserFriendlyError
+import com.tomorrow.kmmProjectStartup.domain.model.toUserFriendlyError
 import com.tomorrow.convenire.shared.domain.use_cases.LoginUseCase
 import com.tomorrow.convenire.shared.domain.use_cases.RegisterUseCase
 import com.tomorrow.convenire.shared.domain.use_cases.VerifyOTPUseCase
-import com.tomorrow.convenire.shared.domain.utils.UUID
+import com.tomorrow.kmmProjectStartup.domain.utils.PhoneNumber
+import com.tomorrow.kmmProjectStartup.domain.utils.UUID
+import com.tomorrow.requestpermission.RequestNotificationPermission
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -312,7 +313,10 @@ fun RegisterView(focusPhoneNumber: Boolean? = null) = Column(
                     imeAction = ImeAction.Next,
                     keyboardType = KeyboardType.Phone
                 ),
-                visualTransformation = PhoneVisualTransformation
+                visualTransformation = PhoneVisualTransformation(formatPhoneNumber = {
+                    val phone = PhoneNumber(it)
+                    phone.getFormattedNumberInOriginalFormat()
+                })
             )
             AppTextField(
                 modifier = Modifier.fillMaxWidth(),

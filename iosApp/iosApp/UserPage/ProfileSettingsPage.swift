@@ -9,6 +9,8 @@
 import SwiftUI
 import Resolver
 import shared
+import UiComponents
+import ios_project_startup
 
 struct ProfileSettingsPage: View {
     @InjectedObject var authViewModel: AuthenticationViewModel
@@ -79,7 +81,7 @@ struct ProfileSettingsPage: View {
             isDisplayingError = true
         })
         .background(Color("Background"))
-        .modifier(FormHiddenBackground())
+        .modifier(ios_project_startup.FormHiddenBackground())
     }
     
 }

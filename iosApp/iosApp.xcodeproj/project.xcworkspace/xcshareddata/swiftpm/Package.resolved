@@ -1,4 +1,5 @@
 {
+  "originHash" : "a406b66f29dbb2e0dcd65947ac30009bae2ce73e7b66883352f1bc69fe4c9bc4",
   "pins" : [
     {
       "identity" : "abseil-cpp-swiftpm",
@@ -73,6 +74,24 @@
       }
     },
     {
+      "identity" : "ios-project-startup",
+      "kind" : "remoteSourceControl",
+      "location" : "https://Marc_Jalkh@bitbucket.org/tomorrow-services/ios-project-startup.git",
+      "state" : {
+        "branch" : "master",
+        "revision" : "35f776da8fc78dea4577687d46fd2e48e3c5f364"
+      }
+    },
+    {
+      "identity" : "ios-ui-component",
+      "kind" : "remoteSourceControl",
+      "location" : "https://Marc_Jalkh@bitbucket.org/tomorrow-services/ios-ui-component.git",
+      "state" : {
+        "branch" : "feature/fixing-abstraction",
+        "revision" : "21ed9b46ce32bd068270dd304fd17989bd8d132b"
+      }
+    },
+    {
       "identity" : "leveldb",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/firebase/leveldb.git",
@@ -118,5 +137,5 @@
       }
     }
   ],
-  "version" : 2
+  "version" : 3
 }
