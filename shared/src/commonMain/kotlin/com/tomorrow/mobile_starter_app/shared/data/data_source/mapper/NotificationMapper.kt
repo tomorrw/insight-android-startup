@@ -1,0 +1,51 @@
+package com.tomorrow.mobile_starter_app.shared.data.data_source.mapper
+
+import com.tomorrow.mobile_starter_app.shared.data.data_source.model.NotificationDTO
+import com.tomorrow.mobile_starter_app.shared.data.data_source.model.NotificationDataDTO
+import com.tomorrow.mobile_starter_app.shared.domain.model.Notification
+import com.tomorrow.kmmProjectStartup.data.utils.EntityMapper
+import kotlinx.serialization.json.Json
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
+
+class NotificationMapper : KoinComponent,
+    EntityMapper<(Result<Notification>) -> Unit, (Result<NotificationDTO>) -> Unit> {
+    val json: Json by inject()
+    override fun mapFromEntity(entity: (Result<NotificationDTO>) -> Unit): (Result<Notification>) -> Unit {
+        TODO()
+    }
+
+    override fun mapToEntity(domainModel: (Result<Notification>) -> Unit): (Result<NotificationDTO>) -> Unit =
+        { result ->
+            domainModel(
+                if (result.isSuccess) {
+                    val data =
+                        json.decodeFromString<NotificationDataDTO>(result.getOrNull()?.data ?: "{}")
+                    when (data.type) {
+                        NotificationDataDTO.EventType.CHECK_IN.value -> Result.success(
+                            Notification(
+                                data.result ?: false,
+                                data.message ?: "Error"
+                            )
+                        )
+                        NotificationDataDTO.EventType.CHECK_OUT.value -> Result.success(
+                            Notification(
+                                data.result ?: false,
+                                data.message ?: "Error"
+                            )
+                        )
+
+                        NotificationDataDTO.EventType.ERROR.value -> Result.success(
+                            Notification(
+                                false,
+                                data.message ?: "Error"
+                            )
+                        )
+                        else -> Result.failure(Exception("Unknown error or event type"))
+                    }
+                } else Result.failure(
+                    result.exceptionOrNull() ?: Exception("Unknown error or event type")
+                )
+            )
+        }
+}

@@ -881,7 +881,8 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.2.11;
-				PRODUCT_BUNDLE_IDENTIFIER = com.tomorrow.convenire;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tomorrow.mobile_starter_app
+;
 				PRODUCT_NAME = Convenire;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -913,7 +914,8 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.2.11;
-				PRODUCT_BUNDLE_IDENTIFIER = com.tomorrow.convenire;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tomorrow.mobile_starter_app
+;
 				PRODUCT_NAME = Convenire;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;

@@ -13,6 +13,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Convenire"
+rootProject.name = "mobile-starter-app"
 include(":androidApp")
 include(":shared")
