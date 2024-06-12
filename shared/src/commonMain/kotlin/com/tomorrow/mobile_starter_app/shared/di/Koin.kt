@@ -88,16 +88,9 @@ private fun commonModule(enableNetworkLogs: Boolean) = module {
     single<LocalDatabase> { LocalDatabaseImplementation(get()) }
 
     single { RepositoryImplementation() } binds arrayOf(
-        PostRepository::class,
-        SessionRepository::class,
-        CompanyRepository::class,
-        SpeakerRepository::class,
         AppSettingsRepository::class,
         AuthenticationRepository::class,
-        UserRepository:: class,
-        HomeRepository::class,
-        OffersRepository::class,
-        LiveNotificationRepository::class,
+        //add other repositories interfaces here
     )
 }
 

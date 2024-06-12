@@ -15,10 +15,6 @@ data class User(
     var fullName: FullName,
     val email: Email?,
     val phoneNumber: PhoneNumber,
-    val hasPaid: Boolean = false,
-    val league: League,
-    val nextLeagueName: String,
-    val actions: List<Action>,
     val notificationTopics: List<String> = listOf(),
 ) {
 

@@ -51,9 +51,9 @@ import com.tomorrow.components.others.Loader
 import com.tomorrow.mobile_starter_app.feature_navigation.AppRoute
 import com.tomorrow.mobile_starter_app.launch.LocalNavController
 import com.tomorrow.kmmProjectStartup.domain.model.toUserFriendlyError
-import com.tomorrow.mobile_starter_app.shared.domain.use_cases.LoginUseCase
-import com.tomorrow.mobile_starter_app.shared.domain.use_cases.RegisterUseCase
-import com.tomorrow.mobile_starter_app.shared.domain.use_cases.VerifyOTPUseCase
+import com.tomorrow.mobile_starter_app.shared.domain.use_cases.authentication.LoginUseCase
+import com.tomorrow.mobile_starter_app.shared.domain.use_cases.authentication.RegisterUseCase
+import com.tomorrow.mobile_starter_app.shared.domain.use_cases.authentication.VerifyOTPUseCase
 import com.tomorrow.kmmProjectStartup.domain.utils.PhoneNumber
 import com.tomorrow.kmmProjectStartup.domain.utils.UUID
 import com.tomorrow.requestpermission.RequestNotificationPermission

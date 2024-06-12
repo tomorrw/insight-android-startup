@@ -3,7 +3,6 @@ package com.tomorrow.mobile_starter_app.shared.domain.repositories
 import com.tomorrow.mobile_starter_app.shared.domain.model.ColorTheme
 import com.tomorrow.kmmProjectStartup.domain.model.Email
 import com.tomorrow.kmmProjectStartup.domain.model.OTP
-import com.tomorrow.mobile_starter_app.shared.domain.model.ConfigurationData
 import com.tomorrow.mobile_starter_app.shared.domain.model.User
 import com.tomorrow.kmmProjectStartup.domain.utils.PhoneNumber
 import com.tomorrow.kmmProjectStartup.domain.utils.UUID
@@ -19,8 +18,4 @@ interface AuthenticationRepository {
     fun getLoggedInUser(): Flow<User>
     fun isAuthenticated(): StateFlow<Boolean?>
     suspend fun logout(): Result<Unit>
-    fun getConfiguration(): Flow<ConfigurationData>
-    fun getColorTheme(): StateFlow<ColorTheme>
-    fun setColorTheme(colorTheme: ColorTheme): Result<String>
-    fun saveFCMToken(fcmToken: String?): Result<String>
 }

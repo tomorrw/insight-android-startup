@@ -7,7 +7,7 @@
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
-        android:name=".launch.ConvenireApp"
+        android:name=".launch.MobileStarterApp"
         android:allowBackup="false"
         android:configChanges="keyboardHidden|orientation|screenSize|layoutDirection"
         android:icon="@mipmap/ic_launcher"

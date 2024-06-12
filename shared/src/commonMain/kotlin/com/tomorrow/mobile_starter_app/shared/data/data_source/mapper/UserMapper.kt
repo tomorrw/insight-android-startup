@@ -4,7 +4,6 @@ import com.tomorrow.mobile_starter_app.shared.data.data_source.model.UserDTO
 import com.tomorrow.kmmProjectStartup.data.utils.EntityMapper
 import com.tomorrow.kmmProjectStartup.domain.model.Email
 import com.tomorrow.kmmProjectStartup.domain.model.FullName
-import com.tomorrow.mobile_starter_app.shared.domain.model.League
 import com.tomorrow.kmmProjectStartup.domain.model.Salutation
 import com.tomorrow.mobile_starter_app.shared.domain.model.User
 import com.tomorrow.kmmProjectStartup.domain.utils.PhoneNumber
@@ -20,16 +19,6 @@ class UserMapper : EntityMapper<User, UserDTO> {
         ),
         email = entity.email?.let { Email(it) },
         phoneNumber = PhoneNumber(entity.phoneNumber),
-        hasPaid = entity.hasPaid == true,
-        nextLeagueName = entity.nextLeagueName ?: "Silver",
-        league = if (entity.league != null) LeagueMapper().mapFromEntity(entity.league) else League(
-            name = "Bronze League",
-            lecturesAttendedCount = 0,
-            lecturesRemaining = 5,
-            percentage = 0f,
-            color = "BE8D69"
-        ),
-        actions = entity.actions.map { ActionMapper().mapFromEntity(it) },
         notificationTopics = entity.notificationTopics ?: listOf()
     )
 

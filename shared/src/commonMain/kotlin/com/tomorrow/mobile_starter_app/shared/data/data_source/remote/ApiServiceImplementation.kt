@@ -18,28 +18,6 @@ class ApiServiceImplementation(
     clientProvider: () -> HttpClient,
     private val baseUrl: String,
 ) : KoinComponent, ApiService, BaseApiService(clientProvider) {
-    override suspend fun getSpeakers(): Result<List<SpeakerDTO>> = get("$baseUrl/api/speakers")
-    override suspend fun getCompanies(): Result<List<CompanyDTO>> = get("$baseUrl/api/companies")
-    override suspend fun getSessions(): Result<List<SessionDTO>> = get("$baseUrl/api/events")
-    override suspend fun getHome(): Result<HomeDataDTO> = get("$baseUrl/api/home")
-    override suspend fun getProgressReport(): Result<ProgressReportDTO> = get("$baseUrl/api/progress-report")
-
-    override suspend fun hitPostUrl(url: String): Result<String> =
-        post<HitPostResponse>(url).map { it.message }
-
-    override suspend fun getPost(id: String): Result<PostDTO> = get("$baseUrl/api/posts/$id")
-
-    override suspend fun askQuestion(
-        eventId: String,
-        question: String,
-        isAnonymous: Boolean
-    ): Result<Unit> = post("$baseUrl/api/events/$eventId/questions") {
-        setBody(LectureQuestionBody(content = question, isAnonymous = isAnonymous))
-    }
-
-    override suspend fun getSpeaker(id: String): Result<SpeakerDTO> = get<SpeakerDTO>("$baseUrl/api/speakers/$id")
-
-    override suspend fun getSession(id: String): Result<SessionDTO> = get("$baseUrl/api/events/$id")
     override suspend fun getUpdate(appPlatform: AppPlatformDTO): Result<UpdateInfoDTO> =
         get("$baseUrl/api/versions/${appPlatform.name}")
 
@@ -79,12 +57,6 @@ class ApiServiceImplementation(
     val logoutUrl = "$baseUrl/api/logout"
     override suspend fun logout(): Result<Unit> = post(logoutUrl)
     override suspend fun getUser(): Result<UserDTO> = get("$baseUrl/api/users")
-    override suspend fun getSpinners(): Result<List<SpinnerDTO>> = get("$baseUrl/api/spinners")
-    override suspend fun getOffers(): Result<List<OfferDTO>> = get("$baseUrl/api/offers")
-    override suspend fun getClaimedOffers(): Result<List<OfferDTO>> =
-        get("$baseUrl/api/offers/claimed")
-
-    override suspend fun getConfig(): Result<ConfigurationDTO> = get("$baseUrl/api/configuration")
     override suspend fun saveFCMToken(fcmToken: String): Result<Unit> =
         post("$baseUrl/api/fcm-tokens") {
             setBody(FCMTokensRequest(fcmToken))
@@ -140,11 +112,6 @@ class ApiServiceImplementation(
     )
 
     @Serializable
-    private data class ResendOTPRequest(
-        val uuid: String,
-    )
-
-    @Serializable
     private data class LoginRequest(
         @SerialName("phone_number")
         val phoneNumber: String,
@@ -181,20 +148,7 @@ class ApiServiceImplementation(
     )
 
     @Serializable
-    data class LectureQuestionBody(
-        @SerialName("content")
-        val content: String,
-        @SerialName("is_anonymous")
-        val isAnonymous: Boolean
-    )
-
-    @Serializable
     data class RegisterResponse(
         val uuid: String,
-    )
-
-    @Serializable
-    data class HitPostResponse(
-        val message: String,
     )
 }

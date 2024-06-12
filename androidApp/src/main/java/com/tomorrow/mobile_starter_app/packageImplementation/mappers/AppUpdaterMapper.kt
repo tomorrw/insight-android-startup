@@ -5,7 +5,7 @@ import com.tomorrow.kmmProjectStartup.data.utils.EntityMapper
 import com.tomorrow.kmmProjectStartup.domain.model.AppConfig as AppConfigDomainModel
 import com.tomorrow.appupdate.StoreInfo as StoreInfoPresentationModel
 import com.tomorrow.appupdate.UpdateType as UpdatePresentationModel
-import com.tomorrow.mobile_starter_app.shared.domain.use_cases.GetUpdateTypeUseCase.UpdateType as UpdateDomainModel
+import com.tomorrow.mobile_starter_app.shared.domain.use_cases.appSettings.GetUpdateTypeUseCase.UpdateType as UpdateDomainModel
 
 class AppUpdaterMapper: EntityMapper<UpdateDomainModel, UpdatePresentationModel> {
     override fun mapFromEntity(entity: UpdateType): UpdateDomainModel {

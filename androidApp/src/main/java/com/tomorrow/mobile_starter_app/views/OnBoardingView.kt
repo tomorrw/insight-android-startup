@@ -41,36 +41,8 @@ fun OnBoardingView() {
             listState = listState,
             items = listOf(
                 OnBoardingItem(
-                    "Your Gateway to Continuous Medical Education! \uD83C\uDF93",
-                    "Convenire brings you the medical conferences to the palm of your hands, with a wide range of features to help you get the most out of your conference experience!"
-                ) {
-                    Button(
-                        onClick = { scope.launch { listState.animateScrollToItem(itemIndex.value + 1) } },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .heightIn(min = 50.dp),
-                        shape = RoundedCornerShape(8.dp),
-                    ) {
-                        Text("Next", style = MaterialTheme.typography.titleMedium)
-                    }
-                },
-                OnBoardingItem(
-                    "Discover & Join verified conferences and workshops \uD83C\uDF10",
-                    "Register to conferences and be notified of new workshops! Attend and claim your digital certificates!"
-                ) {
-                    Button(
-                        onClick = { scope.launch { listState.animateScrollToItem(itemIndex.value + 1) } },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .heightIn(min = 50.dp),
-                        shape = RoundedCornerShape(8.dp),
-                    ) {
-                        Text("Next", style = MaterialTheme.typography.titleMedium)
-                    }
-                },
-                OnBoardingItem(
-                    "Exhibitions, Deals,\n and a lot more... \uD83D\uDD14",
-                    "Browse exhibitions, Develop connections, checkout posts & updates from organizers, and claim exclusive offers & promotions!"
+                    "Demo OnBoarding",
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
                 ) {
                     Button(
                         onClick = { navController.navigate(AppRoute.Login.generate()) },

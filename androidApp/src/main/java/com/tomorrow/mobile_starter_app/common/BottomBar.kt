@@ -25,26 +25,6 @@ private val screens: List<BottomBarItem> = listOf(
         icon = R.drawable.ic_home,
         path = AppRoute.Home.path
     ),
-    BottomBarItem(
-        title = "Lectures",
-        icon = R.drawable.ic_library_books,
-        path = AppRoute.Lectures.path
-    ),
-    BottomBarItem(
-        title = "My QR",
-        icon = R.drawable.ic_qr_code,
-        path = AppRoute.MyQr.path
-    ),
-    BottomBarItem(
-        title = "Exhibitions",
-        icon = R.drawable.ic_menu_book,
-        path = AppRoute.Exhibitions.path
-    ),
-    BottomBarItem(
-        title = "Profile",
-        icon = R.drawable.ic_person,
-        path = AppRoute.Profile.path
-    ),
 )
 
 @Composable

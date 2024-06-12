@@ -20,7 +20,6 @@ import com.tomorrow.mobile_starter_app.common.handleLink
 import com.tomorrow.mobile_starter_app.launch.LocalNavController
 import com.tomorrow.mobile_starter_app.shared.domain.model.Action
 import com.tomorrow.kmmProjectStartup.domain.model.toUserFriendlyError
-import com.tomorrow.mobile_starter_app.shared.domain.use_cases.PostActionUseCase
 import kotlinx.coroutines.launch
 
 @Composable
@@ -40,9 +39,7 @@ fun ActionButton(modifier: Modifier = Modifier, action: Action) {
                 var message = ""
 
                 try {
-                    PostActionUseCase().handle(action)
-                        .onSuccess { message = it }
-                        .onFailure { message = it.toUserFriendlyError() }
+                   //api use case ( getPost(), getComments() etc)
 
                 } catch (e: Exception) {
                     message = "Something Went Wrong."

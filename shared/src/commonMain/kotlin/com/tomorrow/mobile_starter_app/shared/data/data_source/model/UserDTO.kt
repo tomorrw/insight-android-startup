@@ -16,13 +16,6 @@ data class UserDTO(
     val email: String?,
     @SerialName("phone_number")
     val phoneNumber: String,
-    @SerialName("has_paid")
-    val hasPaid: Boolean? = false,
-    val league: LeagueDTO? = null,
-    @SerialName("next_league_name")
-    val nextLeagueName: String? = null,
-    @SerialName("actions")
-    val actions: List<ActionDTO> = listOf(),
     @SerialName("notification_topics")
     val notificationTopics: List<String>? = null,
 )

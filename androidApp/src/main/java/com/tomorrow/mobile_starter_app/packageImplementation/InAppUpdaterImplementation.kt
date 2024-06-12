@@ -13,8 +13,8 @@ import com.tomorrow.appupdate.StoreInfo
 import com.tomorrow.appupdate.UpdateType
 import com.tomorrow.mobile_starter_app.packageImplementation.mappers.AppUpdaterMapper
 import com.tomorrow.mobile_starter_app.packageImplementation.mappers.StoreInfoMapper
-import com.tomorrow.mobile_starter_app.shared.domain.use_cases.GetAppConfigUseCase
-import com.tomorrow.mobile_starter_app.shared.domain.use_cases.GetUpdateTypeUseCase
+import com.tomorrow.mobile_starter_app.shared.domain.use_cases.appSettings.GetAppConfigUseCase
+import com.tomorrow.mobile_starter_app.shared.domain.use_cases.appSettings.GetUpdateTypeUseCase
 import kotlinx.coroutines.launch
 
 @Composable

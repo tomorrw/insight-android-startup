@@ -11,7 +11,7 @@ import UiComponents
 struct AnotherPage: View {
     var body: some View {
         NavigationPages() {
-            PageHeader("Another Page", background: Color("Background")) {
+            VStack(alignment: .leading){
                 HStack {
                     VStack(alignment: .leading) {
                         Text("Home")
@@ -22,9 +22,13 @@ struct AnotherPage: View {
                     Spacer()
                 }
                 .padding(.top, 8)
-            } content: {
                 Spacer()
             }
+            .padding(.horizontal)
+            .frame(maxWidth: .infinity)
+            .navigationBarHidden(true)
+            .navigationTitle("Home")
+            .background(Color("Background"))
         }
     }
 }

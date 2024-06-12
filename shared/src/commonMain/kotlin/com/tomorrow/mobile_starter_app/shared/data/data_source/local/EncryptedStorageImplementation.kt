@@ -15,28 +15,28 @@ import org.koin.core.component.inject
 class EncryptedStorageImplementation(
     private val encryptedSettings: ObservableSettings,
     private val json: Json,
-) : com.tomorrow.mobile_starter_app.shared.data.data_source.local.EncryptedStorage, KoinComponent {
+) : EncryptedStorage, KoinComponent {
     private val tokensContainer: BearerTokensContainer by inject()
     override var bearerTokens: BearerTokens?
-        get() = encryptedSettings.getStringOrNull(com.tomorrow.mobile_starter_app.shared.data.data_source.local.EncryptedStorageImplementation.Companion.TOKEN_NAME).toBearerTokens()
+        get() = encryptedSettings.getStringOrNull(TOKEN_NAME).toBearerTokens()
         set(value) {
-            encryptedSettings[com.tomorrow.mobile_starter_app.shared.data.data_source.local.EncryptedStorageImplementation.Companion.TOKEN_NAME] = json.encodeToString(value?.toBearerTokenSerializable())
+            encryptedSettings[TOKEN_NAME] = json.encodeToString(value?.toBearerTokenSerializable())
             tokensContainer.scope.close()
         }
 
     override var user: UserDTO?
-        get() = encryptedSettings.getStringOrNull(com.tomorrow.mobile_starter_app.shared.data.data_source.local.EncryptedStorageImplementation.Companion.USER).toUserDTO()
+        get() = encryptedSettings.getStringOrNull(USER).toUserDTO()
         set(value) {
-            encryptedSettings[com.tomorrow.mobile_starter_app.shared.data.data_source.local.EncryptedStorageImplementation.Companion.USER] = json.encodeToString(value)
+            encryptedSettings[USER] = json.encodeToString(value)
         }
 
     override var colorTheme: ColorTheme?
-        get() = encryptedSettings.getStringOrNull(com.tomorrow.mobile_starter_app.shared.data.data_source.local.EncryptedStorageImplementation.Companion.COLOR_THEME).toColorTheme()
-        set(value) { encryptedSettings[com.tomorrow.mobile_starter_app.shared.data.data_source.local.EncryptedStorageImplementation.Companion.COLOR_THEME] = value.toString() }
+        get() = encryptedSettings.getStringOrNull(COLOR_THEME).toColorTheme()
+        set(value) { encryptedSettings[COLOR_THEME] = value.toString() }
 
     override var fcmToken: String?
-        get() = encryptedSettings.getStringOrNull(com.tomorrow.mobile_starter_app.shared.data.data_source.local.EncryptedStorageImplementation.Companion.FCM_TOKEN)
-        set(value) { encryptedSettings[com.tomorrow.mobile_starter_app.shared.data.data_source.local.EncryptedStorageImplementation.Companion.FCM_TOKEN] = value ?: "" }
+        get() = encryptedSettings.getStringOrNull(FCM_TOKEN)
+        set(value) { encryptedSettings[FCM_TOKEN] = value ?: "" }
 
     @Serializable
     private class BearerTokenSerializable(val token: String, val refreshToken: String) {
@@ -44,7 +44,7 @@ class EncryptedStorageImplementation(
     }
 
     private fun BearerTokens.toBearerTokenSerializable() =
-        com.tomorrow.mobile_starter_app.shared.data.data_source.local.EncryptedStorageImplementation.BearerTokenSerializable(
+        BearerTokenSerializable(
             this.accessToken,
             this.refreshToken
         )
@@ -63,7 +63,7 @@ class EncryptedStorageImplementation(
 
     private fun String?.toBearerTokens(): BearerTokens? =
         if (!this.isNullOrBlank()) try {
-            json.decodeFromString<com.tomorrow.mobile_starter_app.shared.data.data_source.local.EncryptedStorageImplementation.BearerTokenSerializable>(this).toBearerTokens()
+            json.decodeFromString<BearerTokenSerializable>(this).toBearerTokens()
         } catch (e: Exception) {
             null
         } else null

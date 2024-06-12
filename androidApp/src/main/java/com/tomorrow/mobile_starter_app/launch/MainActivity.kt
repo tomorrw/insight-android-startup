@@ -12,8 +12,8 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.messaging.FirebaseMessaging
-import com.tomorrow.mobile_starter_app.shared.domain.use_cases.IsAuthenticatedUseCase
-import com.tomorrow.mobile_starter_app.shared.domain.use_cases.SaveFCMToken
+import com.tomorrow.mobile_starter_app.shared.domain.use_cases.authentication.IsAuthenticatedUseCase
+import com.tomorrow.mobile_starter_app.shared.domain.use_cases.appSettings.SaveFCMToken
 
 class MainActivity : ComponentActivity() {
     private lateinit var firebaseAnalytics: FirebaseAnalytics

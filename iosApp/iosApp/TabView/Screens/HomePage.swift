@@ -12,9 +12,11 @@ import Resolver
 import UiComponents
 
 struct HomePage: View {
+    @InjectedObject var authViewModel: AuthenticationViewModel
+
     var body: some View {
         NavigationPages(content: {
-            PageHeader("Home", background: Color("Background")) {
+            VStack(alignment: .leading){
                 HStack {
                     VStack(alignment: .leading) {
                         Text("Home")
@@ -25,9 +27,22 @@ struct HomePage: View {
                     Spacer()
                 }
                 .padding(.top, 8)
-            } content: {
+                
+                MultifunctionalButton(
+                    action: {
+                        authViewModel.logout()
+                    },
+                    label: "Logout",
+                    colors: DefaultColors.buttonColor
+                )
+                
                 Spacer()
             }
+            .padding(.horizontal)
+            .frame(maxWidth: .infinity)
+            .navigationBarHidden(true)
+            .navigationTitle("Home")
+            .background(Color("Background"))
         })
     }
 }

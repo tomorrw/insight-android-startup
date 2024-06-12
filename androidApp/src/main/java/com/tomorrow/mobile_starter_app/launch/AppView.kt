@@ -16,8 +16,8 @@ import com.tomorrow.components.others.Loader
 import com.tomorrow.mobile_starter_app.packageImplementation.InAppUpdaterImplementation
 import com.tomorrow.mobile_starter_app.common.BottomBar
 import com.tomorrow.mobile_starter_app.feature_navigation.AppRoute
-import com.tomorrow.mobile_starter_app.shared.domain.use_cases.ColorThemeUseCase
-import com.tomorrow.mobile_starter_app.shared.domain.use_cases.IsAuthenticatedUseCase
+import com.tomorrow.mobile_starter_app.shared.domain.use_cases.appSettings.ColorThemeUseCase
+import com.tomorrow.mobile_starter_app.shared.domain.use_cases.authentication.IsAuthenticatedUseCase
 import com.tomorrow.internetconnectivity.ConnectivityStatusWrapper
 import com.tomorrow.navigation.setUp
 import com.tomorrow.videoplayer.FullScreenViewModel
