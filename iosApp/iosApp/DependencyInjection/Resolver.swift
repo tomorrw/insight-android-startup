@@ -16,21 +16,6 @@ extension Resolver: ResolverRegistering {
         }
         .scope(.application)
         
-        register {
-            SpeakersViewModel()
-        }
-        .scope(.application)
-        
-        register {
-            CompaniesPageViewModel()
-        }
-        .scope(.application)
-        
-        register {
-            HomePageViewModel()
-        }
-        .scope(.application)
-        
         if #available(iOS 16, *) {
             register {
                 NavigationViewModelNew()
@@ -42,25 +27,7 @@ extension Resolver: ResolverRegistering {
             DeepLinkingViewModel()
         }
         .scope(.application)
-        
-        register {
-            CompanyByMapPageViewModel()
-        }
-        .scope(.application)
-        
-        register {
-            TicketViewModel()
-        }
-        .scope(.application)
 
-        register {
-            ConfigViewModel()
-        }
-        .scope(.application)
-        
-        register {
-            MyProgressPageViewModel()
-        }
-        .scope(.application)
+    
     }
 }

@@ -10,11 +10,8 @@ import SwiftUI
 import Resolver
 
 enum Route: Hashable {
-    case company(id: String)
-    case event(id: String)
-    case post(id: String)
-    case speaker(id: String)
-    case progress
+//    case company(id: String)
+//    case progress
 }
 
 struct NavigationPages<Content: View>: View {
@@ -34,39 +31,18 @@ struct NavigationPages<Content: View>: View {
                     content
                         .navigationBarHidden(true)
                     
-                    if let companyId = deepLinkingViewModel.companyId {
-                        NavigateToWithActive(
-                            destination: { CompanyPage(id: companyId) },
-                            label: { EmptyView() },
-                            isActive: $deepLinkingViewModel.viewCompanyPage
-                        )
-                    }
-                    if let eventId = deepLinkingViewModel.eventId {
-                        NavigateToWithActive(
-                            destination: { SessionDetailPage(id: eventId) },
-                            label: { EmptyView() },
-                            isActive: $deepLinkingViewModel.viewEventPage
-                        )
-                    }
-                    if let postId = deepLinkingViewModel.postId {
-                        NavigateToWithActive(
-                            destination: { PostDetailPage(id: postId) },
-                            label: { EmptyView() },
-                            isActive: $deepLinkingViewModel.viewPostPage
-                        )
-                    }
-                    if let speakerId = deepLinkingViewModel.speakerId {
-                        NavigateToWithActive(
-                            destination: { SpeakerDetailPage(id: speakerId) },
-                            label: { EmptyView() },
-                            isActive: $deepLinkingViewModel.viewSpeakerPage
-                        )
-                    }
-                    NavigateToWithActive(
-                        destination: { MyProgressPage() },
-                        label: { EmptyView() },
-                        isActive: $deepLinkingViewModel.viewProgressPage
-                    )
+//                    if let companyId = deepLinkingViewModel.companyId {
+//                        NavigateToWithActive(
+//                            destination: { CompanyPage(id: companyId) },
+//                            label: { EmptyView() },
+//                            isActive: $deepLinkingViewModel.viewCompanyPage
+//                        )
+//                    }
+//                    NavigateToWithActive(
+//                        destination: { MyProgressPage() },
+//                        label: { EmptyView() },
+//                        isActive: $deepLinkingViewModel.viewProgressPage
+//                    )
                 }
             }
             .navigationViewStyle(.stack)
@@ -85,11 +61,9 @@ struct NavigationStackNew<Content: View>: View {
             content
                 .navigationDestination(for: Route.self) { route in
                     switch route {
-                    case .company(id: let id): CompanyPage(id: id)
-                    case .event(id: let id): SessionDetailPage(id: id)
-                    case .post(id: let id): PostDetailPage(id: id)
-                    case .speaker(id: let id): SpeakerDetailPage(id: id)
-                    case .progress: MyProgressPage()
+                    default: HomePage()
+//                    case .company(id: let id): CompanyPage(id: id)
+//                    case .progress: MyProgressPage()
                     }
                 }
         }

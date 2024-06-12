@@ -68,7 +68,7 @@ class DeepLinkingViewModel: ObservableObject {
     
     func linkToCompany(_ id: String) {
         if #available(iOS 16, *) {
-            NavMethodsNew.shared.goTo(.company(id: id))
+//            NavMethodsNew.shared.goTo(.company(id: id))
         } else {
             companyId = id
             viewCompanyPage = true
@@ -77,7 +77,7 @@ class DeepLinkingViewModel: ObservableObject {
     
     func linkToEvent(_ id: String) {
         if #available(iOS 16, *) {
-            NavMethodsNew.shared.goTo(.event(id: id))
+//            NavMethodsNew.shared.goTo(.event(id: id))
         } else {
             eventId = id
             viewEventPage = true
@@ -86,7 +86,7 @@ class DeepLinkingViewModel: ObservableObject {
     
     func linkToPost(_ id: String) {
         if #available(iOS 16, *) {
-            NavMethodsNew.shared.goTo(.post(id: id))
+//            NavMethodsNew.shared.goTo(.post(id: id))
         } else {
             postId = id
             viewPostPage = true
@@ -95,7 +95,7 @@ class DeepLinkingViewModel: ObservableObject {
     
     func linkToSpeaker(_ id: String) {
         if #available(iOS 16, *) {
-            NavMethodsNew.shared.goTo(.speaker(id: id))
+//            NavMethodsNew.shared.goTo(.speaker(id: id))
         } else {
             speakerId = id
             viewSpeakerPage = true
@@ -104,7 +104,7 @@ class DeepLinkingViewModel: ObservableObject {
     
     func linkToProgress() {
         if #available(iOS 16, *) {
-            NavMethodsNew.shared.goTo(.progress)
+//            NavMethodsNew.shared.goTo(.progress)
         } else {
             viewProgressPage = true
         }

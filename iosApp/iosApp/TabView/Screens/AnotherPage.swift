@@ -1,20 +1,17 @@
 //
-//  HomePage.swift
+//  MyQrPage.swift
 //  iosApp
 //
 //  Created by Said on 21/03/2023.
 //  Copyright © 2023 orgName. All rights reserved.
 //
-
 import SwiftUI
-import shared
-import Resolver
 import UiComponents
 
-struct HomePage: View {
+struct AnotherPage: View {
     var body: some View {
-        NavigationPages(content: {
-            PageHeader("Home", background: Color("Background")) {
+        NavigationPages() {
+            PageHeader("Another Page", background: Color("Background")) {
                 HStack {
                     VStack(alignment: .leading) {
                         Text("Home")
@@ -28,12 +25,12 @@ struct HomePage: View {
             } content: {
                 Spacer()
             }
-        })
+        }
     }
 }
 
-struct HomePage_Previews: PreviewProvider {
+struct MyQrPage_Previews: PreviewProvider {
     static var previews: some View {
-        HomePage()
+        AnotherPage()
     }
 }

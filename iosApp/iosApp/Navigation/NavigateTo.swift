@@ -7,6 +7,10 @@
 //
 import SwiftUI
 
+/*============================================
+ ! This Navigation method is a temporary fix !
+ ===========================================*/
+
 //Replaces NavigationLink(destination:View,label:View)
 struct NavigateTo<Label: View, Destination: View>: View {
     internal init(destination: @escaping () -> Destination, label: @escaping () -> Label) {
