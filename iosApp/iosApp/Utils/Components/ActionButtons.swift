@@ -35,25 +35,7 @@ struct ActionButtons: View {
                         isLoading = true
                         actionFailedMessage = ""
                         
-                        guard let res = try? await PostActionUseCase().handleIos(action: action) else {
-                            actionFailed = true
-                            actionFailedMessage = "Something Went Wrong!"
-                            return
-                        }
-                        
-                        res.fold(
-                            onSuccess: { successMessage in
-                                guard let message = successMessage as? String  else {
-                                    return
-                                }
-                                actionSuccess = true
-                                actionSuccessMessage = message
-                            },
-                            onFailure: { err in
-                                actionFailed = true
-                                actionFailedMessage = err.toUserFriendlyError()
-                            }
-                        )
+                        actionSuccess = true
                     }
                 }
             } label: {

@@ -11,7 +11,6 @@ import Resolver
 
 class HomePageTabBarController: UITabBarController, UITabBarControllerDelegate {
     private var previousIndex = 0
-    @InjectedObject var ticketViewModel: TicketViewModel
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,9 +20,10 @@ class HomePageTabBarController: UITabBarController, UITabBarControllerDelegate {
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
         if tabBarController.selectedIndex == previousIndex{
             ViewModel.sharedVm.shouldPopThis()
-            if tabBarController.selectedIndex == 2 {
-                ticketViewModel.startListening()
-            }
+//// example of functionality that could be done here:
+//            if tabBarController.selectedIndex == 2 {
+//
+//            }
         }
         if #available(iOS 16, *) {
             NavMethodsNew.shared.popToRoot()
@@ -38,26 +38,12 @@ class HomeViewHostingController: UIHostingController<HomePage> {
     }
 }
 
-class LecturesViewHostingController: UIHostingController<LecturesPage> {
+
+
+
+class MyQrViewHostingController: UIHostingController<AnotherPage> {
     required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder, rootView: LecturesPage())
+        super.init(coder: aDecoder, rootView: AnotherPage())
     }
 }
 
-class ExhibitionsViewHostingController: UIHostingController<ExhibitionsPage> {
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder, rootView: ExhibitionsPage())
-    }
-}
-
-class MyQrViewHostingController: UIHostingController<MyQrPage> {
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder, rootView: MyQrPage())
-    }
-}
-
-class ProfileHostingController: UIHostingController<ProfilePage> {
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder, rootView: ProfilePage())
-    }
-}

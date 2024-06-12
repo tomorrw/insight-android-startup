@@ -87,8 +87,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://Marc_Jalkh@bitbucket.org/tomorrow-services/ios-ui-component.git",
       "state" : {
-        "branch" : "feature/fixing-abstraction",
-        "revision" : "21ed9b46ce32bd068270dd304fd17989bd8d132b"
+        "branch" : "master",
+        "revision" : "ddd4c6b245f2730e7f265c89aacf5c367ead8b3a"
       }
     },
     {

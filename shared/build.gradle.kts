@@ -112,7 +112,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.tomorrow.convenire.shared"
+    namespace = "com.tomorrow.mobile_starter_app.shared"
     compileSdk = Versions.androidTargetSdk
     defaultConfig {
         minSdk = Versions.androidMinSdk

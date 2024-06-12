@@ -1,4 +1,5 @@
-package com.tomorrow.convenire.shared.di
+package com.tomorrow.mobile_starter_app
+.shared.di
 
 import com.russhwolf.settings.NSUserDefaultsSettings
 import com.russhwolf.settings.ObservableSettings
@@ -35,9 +36,9 @@ actual fun platformModule() = module {
         }
     }
 
-    single<ObservableSettings>(named(com.tomorrow.convenire.shared.data.data_source.local.EncryptedStorageImplementation.SETTING_NAME)) {
+    single<ObservableSettings>(named(com.tomorrow.mobile_starter_app.shared.data.data_source.local.EncryptedStorageImplementation.SETTING_NAME)) {
         NSUserDefaultsSettings(
-            delegate = NSUserDefaults(suiteName = com.tomorrow.convenire.shared.data.data_source.local.EncryptedStorageImplementation.ENCRYPTED_DATABASE_NAME)
+            delegate = NSUserDefaults(suiteName = com.tomorrow.mobile_starter_app.shared.data.data_source.local.EncryptedStorageImplementation.ENCRYPTED_DATABASE_NAME)
         )
     }
 }

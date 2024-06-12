@@ -40,24 +40,6 @@ class AuthenticationViewModel: ObservableObject {
         }
     }
     
-    @MainActor func getUser(firstTime: Bool = false) {
-        getUserTask?.cancel()
-        getUserTask = Task {
-            do {
-                let result = asyncSequence(for: GetUserUseCase().getUser())
-                
-                for try await userResult in result {
-                    self.user = userResult
-                    try await Messaging.messaging().subscribe(toTopic: "user_\(userResult.id)")
-                    try await Messaging.messaging().subscribe(toTopic: "user_registered")
-                }
-                
-            } catch {
-                print(error)
-            }
-        }
-    }
-    
     @MainActor func getIsAuthenticated() {
         getIsAuthenticatedTask?.cancel()
         getIsAuthenticatedTask = Task {
@@ -66,7 +48,6 @@ class AuthenticationViewModel: ObservableObject {
                 
                 for try await isAuthenticatedResult in result {
                     self.isAuthenticated = isAuthenticatedResult as? Bool
-                    self.getUser() // TODO: scary stuff, take another look
                 }
             } catch {
                 print(error)

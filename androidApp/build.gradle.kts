@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.backend.wasm.lower.excludeDeclarationsFromCodegen
-
 plugins {
     id("com.android.application")
     id("com.google.gms.google-services")
@@ -8,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.tomorrow.convenire"
+    namespace = "com.tomorrow.mobile_starter_app"
     compileSdk = Versions.androidCompileSdk
     buildFeatures { compose = true }
     composeOptions { kotlinCompilerExtensionVersion = Versions.composeCompiler }
